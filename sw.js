@@ -8,6 +8,7 @@ var CACHE = 'feuvert-v1';
 var SHELL = [
   './', './index.html', './manifest.webmanifest',
   './css/style.css', './assets/icon.svg',
+  './js/icons.js',
   './js/data/themes.js',
   './js/data/questions-signalisation.js',
   './js/data/questions-circulation.js',

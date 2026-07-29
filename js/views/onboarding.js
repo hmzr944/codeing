@@ -44,9 +44,9 @@ window.Onboarding = (function () {
         '</p>' +
 
         '<div class="card quiet stack g12">' +
-          point('🔁', 'Répétition espacée', 'Ce que tu rates revient vite, ce que tu maîtrises s’espace.') +
-          point('⏱️', 'Conditions réelles', '40 questions, 20 secondes chacune, seuil à 35 sur 40.') +
-          point('🔥', 'Une série à tenir', 'Un objectif par jour, et un joker quand la vie s’en mêle.') +
+          point('parcours', 'Répétition espacée', 'Ce que tu rates revient vite, ce que tu maîtrises s’espace.') +
+          point('examen', 'Conditions réelles', '40 questions, 20 secondes chacune, seuil à 35 sur 40.') +
+          point('serie', 'Une série à tenir', 'Un objectif par jour, et un joker quand la vie s’en mêle.') +
         '</div>' +
       '</div>' +
       '<div class="stack g12" style="padding-bottom:calc(20px + env(safe-area-inset-bottom))">' +
@@ -57,8 +57,8 @@ window.Onboarding = (function () {
     UI.on('[data-next]', 'click', function () { step = 1; render(); });
   }
 
-  function point(e, t, s) {
-    return '<div class="row top g12"><span style="font-size:19px" aria-hidden="true">' + e + '</span>' +
+  function point(ico, t, s) {
+    return '<div class="row top g12"><span class="pt-ico">' + Icons.svg(ico, 19) + '</span>' +
       '<div class="grow"><div style="font-weight:700;font-size:14px">' + t + '</div>' +
       '<div class="tiny dim" style="margin-top:2px">' + s + '</div></div></div>';
   }
@@ -135,7 +135,7 @@ window.Onboarding = (function () {
     document.body.classList.remove('no-tabbar');
     document.getElementById('tabbar').hidden = false;
     App.go('home');
-    UI.toast((P.name ? P.name + ', b' : 'B') + 'ienvenue. Première série quand tu veux.', '🚦');
+    UI.toast((P.name ? P.name + ', b' : 'B') + 'ienvenue. Première série quand tu veux.', 'valide');
   }
 
   return { view: view };

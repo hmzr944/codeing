@@ -204,9 +204,34 @@ sw.js                  service worker (hors ligne)
 tools/check.mjs        contrôle d'intégrité de la banque de questions
 tools/lisibilite.mjs   audit du vocabulaire et de la longueur des phrases
 tools/shots.mjs        captures d'écran de contrôle (Playwright)
+tools/responsive.mjs   débordements et cibles tactiles de 320 à 430 px
+tools/build-icons.mjs  extrait les icônes Phosphor dans js/icons.js
 tools/build-single.mjs génère la version en un seul fichier
 tools/build-artifact.mjs génère la version pour page publiée
 ```
+
+### Icônes
+
+Les icônes viennent de **Phosphor Icons** (MIT), en graisse *light* pour un
+trait fin et régulier. Elles ne sont pas dessinées à la main : `tools/build-icons.mjs`
+extrait les 64 icônes utilisées du paquet `@phosphor-icons/core` et les intègre
+dans `js/icons.js`. L'application reste donc utilisable hors ligne, sans requête
+réseau ni police d'icônes.
+
+Les tracés utilisent `currentColor` : une icône prend la couleur du texte qui
+l'entoure, sans réglage supplémentaire.
+
+```bash
+npm install --no-save @phosphor-icons/core
+node tools/build-icons.mjs
+```
+
+La graisse *fill* est réservée à ce qui doit se lire d'un coup d'œil à petite
+taille : les vies du mode survie, la flamme de la série, les étoiles de palier.
+
+Les emoji ont disparu de l'interface. Les médailles 🥉🥈🥇 ont laissé place à un
+système de **une à trois étoiles** (Découvert, Solide, Maîtrisé) : plus lisible,
+et compatible avec la règle d'un seul accent de couleur.
 
 ### Notes de design
 
@@ -230,6 +255,7 @@ volontairement simplifiés.
 ```bash
 node tools/check.mjs       # syntaxe, ids uniques, index de réponses, quotas d'examen
 node tools/lisibilite.mjs  # jargon, sigles non expliqués, phrases trop longues
+node tools/responsive.mjs  # débordements, champs étirés, cibles tactiles trop petites
 node tools/shots.mjs       # parcours complet dans Chromium, détecte les erreurs JS
 ```
 

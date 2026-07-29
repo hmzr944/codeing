@@ -20,7 +20,7 @@ window.Exam = (function () {
             '<div class="tiny dim">' + UI.dateFR(e.d) + '</div></div>' +
             '<span class="pill ' + (e.ok ? 'ok' : 'ko') + '">' + (e.ok ? 'Validé' : 'Échoué') + '</span></div>';
         }).join('')
-      : UI.empty('📋', 'Aucun examen blanc', 'Le premier sert de photographie de ton niveau. Il est normal qu’il soit bas.');
+      : UI.empty('examen', 'Aucun examen blanc', 'Le premier sert de photographie de ton niveau. Il est normal qu’il soit bas.');
 
     var readiness = '';
     if (last5.length >= 3) {
@@ -73,7 +73,7 @@ window.Exam = (function () {
 
   function rule(t, s) {
     return '<div class="row top g10">' +
-      '<span style="color:var(--accent);font-weight:800;margin-top:1px" aria-hidden="true">•</span>' +
+      '<span style="color:var(--accent);display:flex;margin-top:1px">' + Icons.svg('valide', 15) + '</span>' +
       '<div class="grow"><div style="font-weight:700;font-size:14px">' + UI.esc(t) + '</div>' +
       '<div class="tiny dim" style="margin-top:2px">' + UI.esc(s) + '</div></div></div>';
   }
@@ -132,7 +132,8 @@ window.Survie = (function () {
       UI.topbar('Survie', 'Trois erreurs et la partie s’arrête') +
       '<div class="stack g16">' +
         '<section class="card stack g14">' +
-          '<div class="row g8" style="font-size:26px" aria-hidden="true">♥ ♥ ♥</div>' +
+          '<div class="row g6" style="color:var(--ko)">' +
+            Icons.svg('survie', 26) + Icons.svg('survie', 26) + Icons.svg('survieContour', 26) + '</div>' +
           '<h2>Jusqu’où peux-tu aller ?</h2>' +
           '<p class="small muted">Les questions s’enchaînent sans fin, 15 secondes chacune. ' +
           'Chaque erreur coûte une vie. Les bonnes réponses consécutives font monter un multiplicateur : ' +

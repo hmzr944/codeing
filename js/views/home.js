@@ -3,6 +3,14 @@
    ============================================================ */
 window.Home = (function () {
 
+  /* Une pastille « n étoiles » : plus lisible qu'une médaille de
+     couleur, et compatible avec l'accent unique de l'application. */
+  function etoiles(n, valeur) {
+    var s = '';
+    for (var i = 0; i < n; i++) s += Icons.svg('etoile', 12);
+    return '<span class="pill">' + s + ' <span class="num">' + valeur + '</span></span>';
+  }
+
   function greeting() {
     var h = new Date().getHours();
     if (h < 6)  return 'Il est tard';
@@ -42,7 +50,7 @@ window.Home = (function () {
     /* --- bandeau semaine --- */
     var week = Store.week().map(function (d) {
       return '<div class="d"><div class="dot' + (d.done ? ' done' : '') + (d.today ? ' today' : '') + '">' +
-        (d.done ? '✓' : (d.count > 0 ? '<span class="num" style="font-size:10px">' + d.count + '</span>' : '')) +
+        (d.done ? Icons.svg('valide', 14) : (d.count > 0 ? '<span class="num" style="font-size:10px">' + d.count + '</span>' : '')) +
         '</div>' + d.label + '</div>';
     }).join('');
 
@@ -74,7 +82,7 @@ window.Home = (function () {
           '<div style="font-weight:800;font-size:16px;letter-spacing:-.02em">' +
             UI.esc(j.fini ? 'Prête pour le jour J' : j.etape.n) + '</div>' +
           '<div class="small muted">' + UI.esc(j.fini
-            ? 'Tous les thèmes sont médaillés. Continue à entretenir, et passe l’examen sereinement.'
+            ? 'Tous les thèmes sont étoilés. Continue à entretenir, et passe l’examen sereinement.'
             : j.etape.d) + '</div>' +
         '</div>' +
         '<div class="steps" aria-hidden="true">' +
@@ -92,32 +100,31 @@ window.Home = (function () {
     var chestBlock = Store.chestReady()
       ? '<button class="card accent chest row between" data-chest>' +
           '<div class="row g12">' +
-            '<span class="chest-ico" aria-hidden="true">🎁</span>' +
+            '<span class="chest-ico">' + Icons.svg('coffre', 25) + '</span>' +
             '<span class="stack g4" style="text-align:left">' +
               '<span style="font-weight:800;font-size:15.5px;letter-spacing:-.02em">Coffre du jour</span>' +
               '<span class="tiny dim">Objectif atteint, il est à toi</span>' +
             '</span>' +
           '</div>' +
-          '<span class="dim" aria-hidden="true">›</span>' +
+          '<span class="dim">' + Icons.svg('suivant', 14) + '</span>' +
         '</button>'
       : '';
 
-    /* --- avancement de la collection de médailles --- */
+    /* --- avancement de la collection d'étoiles --- */
     var med = Store.medalCount();
     var nTh = window.THEMES.length;
     var medalBlock =
       '<button class="card stack g10" data-go="train" style="width:100%;text-align:left">' +
-        '<div class="row between"><div class="sec-t">Collection de médailles</div>' +
+        '<div class="row between"><div class="sec-t">Collection d’étoiles</div>' +
         '<div class="tiny dim num">' + (med.bronze + med.argent + med.or) + ' / ' + nTh + '</div></div>' +
-        '<div class="row g10">' +
-          '<span class="pill">🥉 <span class="num">' + med.bronze + '</span></span>' +
-          '<span class="pill">🥈 <span class="num">' + med.argent + '</span></span>' +
-          '<span class="pill">🥇 <span class="num">' + med.or + '</span></span>' +
-          '<span class="pill">★ <span class="num">' + med.boss + '</span></span>' +
+        '<div class="row wrap g8">' +
+          etoiles(1, med.bronze) + etoiles(2, med.argent) + etoiles(3, med.or) +
+          '<span class="pill">' + Icons.svg('defiReussi', 14) +
+            ' <span class="num">' + med.boss + '</span></span>' +
         '</div>' +
         '<div class="tiny dim">' +
-          (med.or === nTh ? 'Tous les thèmes en or. Il ne reste plus qu’à passer l’examen.'
-                          : 'Chaque thème donne une médaille selon les questions vraiment ancrées.') +
+          (med.or === nTh ? 'Les seize thèmes sont maîtrisés. Il ne reste plus qu’à passer l’examen.'
+                          : 'Chaque thème rapporte jusqu’à trois étoiles, selon les questions vraiment ancrées.') +
         '</div>' +
       '</button>';
 
@@ -147,7 +154,8 @@ window.Home = (function () {
         '<div class="brand grow"><div class="brand-mark" aria-hidden="true">FV</div>' +
         '<div><div class="brand-name">Feu Vert</div>' +
         '<div class="brand-sub">Code de la route 2026</div></div></div>' +
-        '<button class="back" data-go="settings" aria-label="Réglages">⚙</button>' +
+        '<button class="back" data-go="settings" aria-label="Réglages">' +
+          Icons.svg('reglages', 19) + '</button>' +
       '</header>' +
 
       '<div class="stack g16">' +
@@ -159,7 +167,7 @@ window.Home = (function () {
               '<div class="hero-greet">' + greeting() + (name ? ', ' + UI.esc(name) : '') + '</div>' +
               '<div class="hero-h">' + UI.esc(line(streak, doneToday, goal)) + '</div>' +
             '</div>' +
-            '<div class="streak"><span aria-hidden="true">🔥</span>' +
+            '<div class="streak">' + Icons.svg('serie', 17) +
             '<span class="n num">' + streak + '</span></div>' +
           '</div>' +
           '<div class="week">' + week + '</div>' +
@@ -189,22 +197,22 @@ window.Home = (function () {
         /* Accès rapides */
         '<div class="tiles">' +
           '<button class="tile" data-exam>' +
-            '<span class="ico" aria-hidden="true">⏱️</span>' +
+            '<span class="ico">' + Icons.svg('examen', 22) + '</span>' +
             '<div><div class="n">Examen blanc</div><div class="s">40 questions, 20 s chacune</div></div>' +
           '</button>' +
           '<button class="tile" data-survie>' +
-            '<span class="ico" aria-hidden="true">♥</span>' +
+            '<span class="ico">' + Icons.svg('survieContour', 22) + '</span>' +
             '<div><div class="n">Survie</div><div class="s">' +
               (S.survivalBest ? 'Record : ' + S.survivalBest : 'Trois vies, sans limite') + '</div></div>' +
           '</button>' +
           '<button class="tile" data-errors' + (errors ? '' : ' disabled') + '>' +
             (errors ? '<span class="count num">' + errors + '</span>' : '') +
-            '<span class="ico" aria-hidden="true">🩹</span>' +
+            '<span class="ico">' + Icons.svg('erreurs', 22) + '</span>' +
             '<div><div class="n">Mes erreurs</div><div class="s">' +
               (errors ? 'Rattraper ce qui bloque' : 'Rien à rattraper') + '</div></div>' +
           '</button>' +
           '<button class="tile" data-sprint>' +
-            '<span class="ico" aria-hidden="true">🏎️</span>' +
+            '<span class="ico">' + Icons.svg('sprint', 22) + '</span>' +
             '<div><div class="n">Sprint 60 s</div><div class="s">Le maximum en une minute</div></div>' +
           '</button>' +
         '</div>' +
@@ -240,9 +248,9 @@ window.Home = (function () {
       var bonus = Store.openChest();
       if (!bonus) return;
       this.classList.add('opened');
-      this.querySelector('.chest-ico').textContent = '🎉';
+      this.querySelector('.chest-ico').innerHTML = Icons.svg('etoile', 25);
       UI.confetti();
-      UI.toast('Coffre ouvert : ' + bonus + ' XP', '🎁', true);
+      UI.toast('Coffre ouvert : ' + bonus + ' XP', 'coffre', true);
       UI.celebrate(Store.checkBadges());
       setTimeout(function () { Home.view(); }, 1400);
     });

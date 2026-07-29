@@ -33,17 +33,18 @@ window.UI = (function () {
 
   function topbar(title, sub, onBack) {
     return '<header class="topbar">' +
-      (onBack !== false ? '<button class="back" data-back aria-label="Retour">‹</button>' : '') +
+      (onBack !== false ? '<button class="back" data-back aria-label="Retour">' +
+        Icons.svg('retour', 18) + '</button>' : '') +
       '<div class="grow"><div class="ttl">' + esc(title) + '</div>' +
       (sub ? '<div class="sub">' + esc(sub) + '</div>' : '') + '</div></header>';
   }
 
   /* ---------- toasts ---------- */
-  function toast(msg, emoji, win) {
+  function toast(msg, icone, win) {
     toaster = toaster || document.getElementById('toaster');
     var n = document.createElement('div');
     n.className = 'toast' + (win ? ' win' : '');
-    n.innerHTML = (emoji ? '<span class="e" aria-hidden="true">' + emoji + '</span>' : '') +
+    n.innerHTML = (icone ? '<span class="e">' + Icons.svg(icone, 19) + '</span>' : '') +
       '<span>' + esc(msg) + '</span>';
     toaster.appendChild(n);
     setTimeout(function () {
@@ -58,7 +59,7 @@ window.UI = (function () {
   function celebrate(badges) {
     if (!badges || !badges.length) return;
     badges.forEach(function (b, i) {
-      setTimeout(function () { toast('Succès débloqué : ' + b.n, b.e, true); }, i * 900);
+      setTimeout(function () { toast('Succès débloqué : ' + b.n, b.i, true); }, i * 900);
     });
   }
 
@@ -86,8 +87,8 @@ window.UI = (function () {
   }
 
   /* ---------- états vides ---------- */
-  function empty(emoji, title, text) {
-    return '<div class="empty"><span class="e" aria-hidden="true">' + emoji + '</span>' +
+  function empty(icone, title, text) {
+    return '<div class="empty"><span class="e">' + Icons.svg(icone, 30) + '</span>' +
       '<div class="t">' + esc(title) + '</div>' + esc(text) + '</div>';
   }
 

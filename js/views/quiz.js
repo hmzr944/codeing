@@ -105,7 +105,7 @@ window.Quiz = (function () {
     if (!Q.conf.lives) return '';
     var o = '';
     for (var i = 0; i < Q.conf.lives; i++) {
-      o += '<span class="heart' + (i < Q.lives ? '' : ' out') + '" aria-hidden="true">♥</span>';
+      o += '<span class="heart' + (i < Q.lives ? '' : ' out') + '">' + Icons.svg('survie', 15) + '</span>';
     }
     return '<span class="lives" role="status" aria-label="' + Q.lives + ' vies restantes">' + o + '</span>';
   }
@@ -130,11 +130,13 @@ window.Quiz = (function () {
     var head =
       '<div class="quiz-top stack g10">' +
         '<div class="row between">' +
-          '<button class="back" data-quit aria-label="Quitter la session">‹</button>' +
+          '<button class="back" data-quit aria-label="Quitter la session">' +
+            Icons.svg('retour', 18) + '</button>' +
           '<div class="row g8">' +
             hearts() + comboTag() + counter() +
             ((Q.tPerQ || Q.tTotal)
-              ? '<span class="timer num" id="timer">⏱ <span>' + (Q.tTotal ? Q.tTotalLeft : Q.tLeft) + ' s</span></span>'
+              ? '<span class="timer num" id="timer">' + Icons.svg('chrono', 14) +
+                '<span>' + (Q.tTotal ? Q.tTotalLeft : Q.tLeft) + ' s</span></span>'
               : '') +
           '</div>' +
         '</div>' + pips() +
@@ -237,9 +239,9 @@ window.Quiz = (function () {
     }
 
     var head = timedOut ? 'Temps écoulé' : (correct ? 'Bonne réponse' : 'Réponse incorrecte');
-    var emo = timedOut ? '⏱' : (correct ? '✅' : '❌');
+    var ico = timedOut ? 'chrono' : (correct ? 'valide' : 'fermer');
     var fb = '<div class="fb ' + (correct ? 'ok' : 'ko') + ' rise"><div class="stack g10">' +
-      '<div class="fb-h"><span aria-hidden="true">' + emo + '</span>' + head + '</div>' +
+      '<div class="fb-h">' + Icons.svg(ico, 19) + head + '</div>' +
       '<p class="fb-b">' + UI.esc(q.e) + '</p>' +
       (q.tip ? '<div class="tip"><b>Astuce mémo.</b> ' + UI.esc(q.tip) + '</div>' : '') +
       /* Sortie de secours quand l'explication ne suffit pas : la
@@ -370,7 +372,7 @@ window.Results = (function () {
             UI.esc(x.q.a.map(function (i) { return x.q.o[i]; }).join(' + ')) + '<br>' +
             UI.esc(x.q.e) + '</div></div>';
         }).join('')
-      : UI.empty('🎯', 'Aucune erreur', 'Rien à revoir sur cette série.');
+      : UI.empty('cible', 'Aucune erreur', 'Rien à revoir sur cette série.');
 
     var lvl = Store.level();
 

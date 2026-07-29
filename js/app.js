@@ -100,7 +100,7 @@ window.App = (function () {
        rafraîchissement : autant le dire tout de suite. */
     if (!Store.persistant) {
       setTimeout(function () {
-        UI.toast('Ce navigateur bloque la sauvegarde : la progression ne sera pas conservée.', '⚠️');
+        UI.toast('Ce navigateur bloque la sauvegarde : la progression ne sera pas conservée.', 'alerte');
       }, 1200);
     }
 
@@ -109,7 +109,7 @@ window.App = (function () {
     var s = Store.liveStreak();
     if (s >= 3 && !Store.goalReached(SRS.today())) {
       setTimeout(function () {
-        UI.toast('Série de ' + s + ' jours en cours', '🔥');
+        UI.toast('Série de ' + s + ' jours en cours', 'serie');
       }, 900);
     }
 

@@ -3,7 +3,7 @@
    ============================================================ */
 window.LESSONS = [
 
-{k:'memo', n:'Les chiffres à connaître par cœur', e:'🔢', star:true, html:
+{k:'memo', n:'Les chiffres à connaître par cœur', i:'chiffres', star:true, html:
 `<p>Si tu ne devais retenir qu’une fiche, c’est celle-là. Ces chiffres tombent dans presque tous les examens.</p>
 <span class="key"><b>Alcool</b> : 0,5 g/L de sang (0,25 mg/L d’air expiré). Permis probatoire et transport en commun : <b>0,2 g/L</b>. Délit à partir de <b>0,8 g/L</b>.</span>
 <h4>Vitesses (temps sec)</h4>
@@ -40,7 +40,7 @@ window.LESSONS = [
 <li>Examen : <b>35 bonnes réponses sur 40</b></li>
 </ul>`},
 
-{k:'lexique', n:'Le lexique, en mots simples', e:'💬', html:
+{k:'lexique', n:'Le lexique, en mots simples', i:'lexique', html:
 `<p>Le code emploie des mots qu’on n’utilise jamais dans la vie courante. Les voici traduits une bonne fois pour toutes.</p>
 
 <h4>Les mots de la route</h4>
@@ -96,7 +96,7 @@ window.LESSONS = [
 <li><b>Permis probatoire</b> : les premières années après l’obtention, avec 6 points seulement.</li>
 </ul>`},
 
-{k:'nouveautes', n:'Ce qui a changé récemment', e:'🆕', html:
+{k:'nouveautes', n:'Ce qui a changé récemment', i:'nouveautes', html:
 `<p>Ces changements sont récents : ils tombent souvent, et un cours un peu ancien peut encore enseigner le contraire.</p>
 
 <h4>2024</h4>
@@ -120,7 +120,7 @@ window.LESSONS = [
 
 <span class="key">Les <b>zones à faibles émissions</b> se déploient dans les grandes agglomérations. Les règles changent d’une ville à l’autre : on se renseigne avant d’y aller, pas devant le panneau.</span>`},
 
-{k:'signalisation', n:'Signalisation', e:'🚸', html:
+{k:'signalisation', n:'Signalisation', i:'signalisation', html:
 `<h4>Lire un panneau à sa forme</h4>
 <ul>
 <li><b>Triangle rouge pointe en haut</b> → danger (j’anticipe)</li>
@@ -144,7 +144,7 @@ window.LESSONS = [
 <li>C’est toujours la <b>ligne de mon côté</b> qui compte</li>
 </ul>`},
 
-{k:'priorites', n:'Priorités & intersections', e:'🔀', html:
+{k:'priorites', n:'Priorités & intersections', i:'priorites', html:
 `<h4>La règle de base</h4>
 <p>Sans aucune signalisation : <b>priorité à droite</b>. La largeur ou l’importance apparente de la route ne change rien.</p>
 <h4>Qui cède toujours le passage ?</h4>
@@ -166,7 +166,7 @@ window.LESSONS = [
 <h4>Giratoire : le clignotant</h4>
 <p>Pas de clignotant à l’entrée si je sors à la première sortie. Sinon, <b>clignotant droit</b> juste après avoir dépassé la sortie précédant la mienne.</p>`},
 
-{k:'vitesse', n:'Vitesses & distances', e:'⚡', html:
+{k:'vitesse', n:'Vitesses & distances', i:'vitesse', html:
 `<h4>La vitesse est un maximum, pas un objectif</h4>
 <p>Le code impose de <b>réduire</b> dans une liste de situations : virages, sommets de côte, croisements étroits, passages piétons, écoles, chantiers, mauvais temps, trafic dense.</p>
 <h4>Distance de sécurité</h4>
@@ -187,7 +187,7 @@ window.LESSONS = [
 <li>40 à 49 : 4 points</li><li>≥ 50 : <b>6 points</b>, 1 500 €, suspension possible</li>
 </ul>`},
 
-{k:'manoeuvres', n:'Dépassement & manœuvres', e:'↔️', html:
+{k:'manoeuvres', n:'Dépassement & manœuvres', i:'manoeuvres', html:
 `<h4>La séquence du dépassement</h4>
 <p><b>Rétroviseurs → angle mort → clignotant → déboîtement → dépassement → rétroviseur intérieur → rabattement.</b></p>
 <p>Je me rabats quand je vois le véhicule dépassé <b>en entier</b> dans mon rétroviseur intérieur.</p>
@@ -206,7 +206,7 @@ window.LESSONS = [
 <h4>Ouvrir sa portière</h4>
 <p>Technique « du Néerlandais » : ouvrir avec la <b>main opposée</b> à la portière. Le corps pivote tout seul et le regard balaie l’arrière. C’est ce qui évite d’ouvrir sa portière dans un cycliste.</p>`},
 
-{k:'autoroute', n:'Autoroute & voies rapides', e:'🛣️', html:
+{k:'autoroute', n:'Autoroute & voies rapides', i:'autoroute', html:
 `<h4>S’insérer</h4>
 <p>La voie d’insertion sert à <b>prendre de la vitesse</b>, pas à hésiter. Je n’ai aucune priorité : j’adapte ma vitesse au trafic et je m’insère dans un espace suffisant. S’arrêter en bout de voie est très dangereux.</p>
 <h4>Circuler</h4>
@@ -224,7 +224,7 @@ window.LESSONS = [
 <h4>Fatigue</h4>
 <p>Pause de 15 à 20 minutes <b>toutes les 2 heures</b>. La somnolence est la première cause d’accident mortel sur autoroute.</p>`},
 
-{k:'stationnement', n:'Arrêt & stationnement', e:'🅿️', html:
+{k:'stationnement', n:'Arrêt & stationnement', i:'stationnement', html:
 `<h4>Arrêt ou stationnement ?</h4>
 <ul>
 <li><b>Arrêt</b> : immobilisation brève, conducteur au volant (déposer quelqu’un, charger)</li>
@@ -247,7 +247,7 @@ window.LESSONS = [
 <li>En pente : frein de stationnement, rapport engagé, <b>roues braquées</b> vers le trottoir</li>
 </ul>`},
 
-{k:'conducteur', n:'Le conducteur', e:'🧠', html:
+{k:'conducteur', n:'Le conducteur', i:'conducteur', html:
 `<h4>Alcool</h4>
 <ul>
 <li>0,5 g/L de sang = 0,25 mg/L d’air expiré (règle : <b>sang ÷ 2 = air</b>)</li>
@@ -272,7 +272,7 @@ window.LESSONS = [
 <li>0 point → permis invalidé, à repasser après 6 mois</li>
 </ul>`},
 
-{k:'usagers', n:'Les autres usagers', e:'🚴', html:
+{k:'usagers', n:'Les autres usagers', i:'usagers', html:
 `<h4>Vulnérabilité</h4>
 <p>Un piéton renversé à <b>30 km/h</b> a environ 10 % de risque de décès ; à <b>50 km/h</b>, près de 50 %. C’est toute la raison d’être des zones 30.</p>
 <h4>Poids lourds</h4>
@@ -290,7 +290,7 @@ window.LESSONS = [
 <h4>Piétons</h4>
 <p>Je cède le passage au piéton engagé <b>ou</b> qui manifeste son intention de traverser (4 points + 135 € sinon). Hors passage protégé, le piéton peut traverser s’il n’y a pas de passage à moins de <b>50 m</b>.</p>`},
 
-{k:'vehicule', n:'Véhicule & équipements', e:'🔧', html:
+{k:'vehicule', n:'Véhicule & équipements', i:'vehicule', html:
 `<h4>Obligatoire à bord</h4>
 <p><b>Gilet</b> (accessible depuis l’habitacle) et <b>triangle</b>. L’éthylotest n’est plus obligatoire depuis 2020, mais reste conseillé.</p>
 <h4>Pneus</h4>
@@ -311,7 +311,7 @@ window.LESSONS = [
 <h4>Aides électroniques</h4>
 <p>L’<b>ABS</b> empêche le blocage des roues : il permet de <b>diriger</b> en freinant fort, il ne raccourcit pas toujours la distance. L’<b>ESP</b> corrige un début de dérapage, mais aucune électronique ne recrée de l’adhérence.</p>`},
 
-{k:'conditions', n:'Conditions difficiles', e:'🌧️', html:
+{k:'conditions', n:'Conditions difficiles', i:'conditions', html:
 `<h4>Pluie</h4>
 <p>Vitesses réduites (130→110, 110→100, 90→80, 80→70), distances augmentées, feux de croisement allumés. Les <b>10 premières minutes</b> de pluie après une période sèche sont les plus glissantes.</p>
 <h4>Aquaplaning</h4>
@@ -325,7 +325,7 @@ window.LESSONS = [
 <h4>Tunnel</h4>
 <p>Feux de croisement, lunettes de soleil retirées, distances respectées. En cas d’incendie : je coupe le moteur, <b>je laisse les clés</b> et je rejoins l’issue de secours <b>à pied</b>. La fumée tue avant les flammes.</p>`},
 
-{k:'secours', n:'Premiers secours', e:'🚑', html:
+{k:'secours', n:'Premiers secours', i:'secours', html:
 `<h4>P.A.S.</h4>
 <p><b>Protéger → Alerter → Secourir.</b> Dans cet ordre : se précipiter sans protéger crée souvent une victime supplémentaire.</p>
 <h4>Protéger</h4>
@@ -347,7 +347,7 @@ window.LESSONS = [
 </ul>
 <span class="key">La non-assistance à personne en danger est un délit. Mais appeler le 112 est déjà porter secours : personne n’est obligé de prendre un risque vital.</span>`},
 
-{k:'environnement', n:'Éco-conduite & environnement', e:'🌱', html:
+{k:'environnement', n:'Éco-conduite & environnement', i:'environnement', html:
 `<h4>Conduire souple, c’est conduire sûr</h4>
 <p>Anticiper permet de moins freiner, donc de moins accélérer : <b>10 à 15 % d’économie</b> de carburant, et une conduite plus sereine.</p>
 <ul>
@@ -360,7 +360,7 @@ window.LESSONS = [
 <h4>Crit’Air et ZFE</h4>
 <p>Vignette de <b>0</b> (électrique) à <b>5</b> (diesel ancien), définitive. Les <b>zones à faibles émissions</b> peuvent en restreindre l’accès, en permanence ou lors des pics de pollution.</p>`},
 
-{k:'admin', n:'Papiers & réglementation', e:'📄', html:
+{k:'admin', n:'Papiers & réglementation', i:'admin', html:
 `<h4>À présenter en cas de contrôle</h4>
 <p>Permis de conduire, certificat d’immatriculation, preuve d’assurance en cours.</p>
 <span class="key">Depuis avril 2024, la <b>vignette verte d’assurance a disparu</b> : les forces de l’ordre consultent le Fichier des Véhicules Assurés. L’assurance reste évidemment obligatoire.</span>

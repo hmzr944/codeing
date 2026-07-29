@@ -220,7 +220,7 @@ window.Store = (function () {
     return window.THEMES.map(function (t) { return themeStat(t.k); });
   }
 
-  /* Nombre de médailles obtenues, tous thèmes confondus */
+  /* Nombre d'étoiles obtenues, tous thèmes confondus */
   function medalCount() {
     var n = { bronze: 0, argent: 0, or: 0, boss: 0 };
     allThemeStats().forEach(function (s) {
@@ -428,7 +428,7 @@ window.Store = (function () {
         d: 'Lire 5 fiches de cours',
         cur: Math.min(fiches, 5), goal: 5, action: 'lessons', cta: 'Ouvrir les fiches' },
       { k: 'ancrer', n: 'Ancrer les thèmes',
-        d: 'Décrocher 4 médailles',
+        d: 'Décrocher 4 étoiles',
         cur: Math.min(medailles, 4), goal: 4, action: 'train', cta: 'Voir le parcours' },
       { k: 'tester', n: 'Se tester en vrai',
         d: 'Passer un premier examen blanc',
@@ -437,7 +437,7 @@ window.Store = (function () {
         d: 'Valider 3 examens blancs',
         cur: Math.min(s.examsPassed, 3), goal: 3, action: 'exam', cta: 'Refaire un examen blanc' },
       { k: 'prete', n: 'Prête pour le jour J',
-        d: 'Une médaille sur chacun des ' + nbThemes + ' thèmes',
+        d: 'Au moins une étoile sur chacun des ' + nbThemes + ' thèmes',
         cur: medailles, goal: nbThemes, action: 'train', cta: 'Compléter la collection' }
     ];
 

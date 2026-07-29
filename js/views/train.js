@@ -1,14 +1,25 @@
 /* ============================================================
    Parcours - les thèmes vus comme une collection à compléter.
-   Chaque thème donne une médaille selon les questions réellement
-   ancrées, et une étoile si son défi est remporté. C'est ce qui
-   pousse à couvrir TOUS les thèmes plutôt que ses préférés.
+   Chaque thème rapporte jusqu'à trois étoiles selon les questions
+   réellement ancrées, plus un sceau si son défi est remporté. C'est
+   ce qui pousse à couvrir TOUS les thèmes plutôt que ses préférés.
    ============================================================ */
 window.Train = (function () {
 
   var length = 15;
-  var MEDALS = ['', '🥉', '🥈', '🥇'];
-  var MEDAL_NAMES = ['', 'Bronze', 'Argent', 'Or'];
+  /* Trois paliers, montrés par des étoiles plutôt que par des
+     médailles de couleur : une seule couleur d'accent dans toute
+     l'application, et un niveau lisible d'un coup d'œil. */
+  var PALIERS = ['', 'Découvert', 'Solide', 'Maîtrisé'];
+
+  function etoiles(n, taille) {
+    var s = '';
+    for (var i = 1; i <= 3; i++) {
+      s += '<span class="et' + (i <= n ? '' : ' vide') + '">' +
+        Icons.svg(i <= n ? 'etoile' : 'etoileVide', taille || 13) + '</span>';
+    }
+    return '<span class="etoiles">' + s + '</span>';
+  }
 
   function view() {
     var stats = Store.allThemeStats();
@@ -28,13 +39,15 @@ window.Train = (function () {
 
       return '<article class="theme' + (s.boss ? ' cleared' : '') + '">' +
         '<div class="row top g12">' +
-          '<span class="theme-ico" aria-hidden="true">' + t.e + '</span>' +
+          '<span class="theme-ico">' + Icons.svg(t.i, 22) + '</span>' +
           '<div class="grow stack g6">' +
             '<div class="row between g8">' +
               '<span class="theme-n">' + UI.esc(t.n) + '</span>' +
-              '<span class="theme-medal">' +
-                (s.boss ? '<span class="star" title="Défi remporté">★</span>' : '') +
-                (s.medal ? '<span title="Médaille ' + MEDAL_NAMES[s.medal] + '">' + MEDALS[s.medal] + '</span>' : '') +
+              '<span class="theme-medal" title="' +
+                (s.medal ? PALIERS[s.medal] : 'Pas encore commencé') +
+                (s.boss ? ' · défi remporté' : '') + '">' +
+                etoiles(s.medal) +
+                (s.boss ? '<span class="sceau">' + Icons.svg('defiReussi', 15) + '</span>' : '') +
               '</span>' +
             '</div>' +
             '<div class="gauge thin' + (s.medal === 3 ? ' ok' : '') + '"><i style="width:' + pct + '%"></i></div>' +
@@ -57,13 +70,13 @@ window.Train = (function () {
     /* Le message d'objectif suit la progression : annoncer d'emblée
        « l'or sur 16 thèmes » à quelqu'un qui débute est décourageant. */
     var nextGoal;
-    if (done === 0)          nextGoal = 'Première étape : ancrer 40 % d’un thème pour décrocher le bronze.';
-    else if (m.or === total) nextGoal = 'Tous les thèmes en or. Il ne reste plus qu’à passer l’examen.';
-    else if (done < total)   nextGoal = 'Encore ' + (total - done) + ' thème' + (total - done > 1 ? 's' : '') + ' sans médaille.';
-    else                     nextGoal = 'Tous les thèmes médaillés. Vise l’or sur les ' + (total - m.or) + ' derniers.';
+    if (done === 0)          nextGoal = 'Première étape : ancrer 40 % d’un thème pour gagner une étoile.';
+    else if (m.or === total) nextGoal = 'Les seize thèmes sont maîtrisés. Il ne reste plus qu’à passer l’examen.';
+    else if (done < total)   nextGoal = 'Encore ' + (total - done) + ' thème' + (total - done > 1 ? 's' : '') + ' sans étoile.';
+    else                     nextGoal = 'Tous les thèmes étoilés. Vise les trois étoiles sur les ' + (total - m.or) + ' derniers.';
 
     var html =
-      UI.topbar('Parcours', 'Une médaille par thème, seize à collectionner', false) +
+      UI.topbar('Parcours', 'Jusqu’à trois étoiles par thème, seize à décrocher', false) +
       '<div class="stack g16">' +
 
         '<section class="card stack g12">' +
@@ -72,10 +85,10 @@ window.Train = (function () {
             '<div class="tiny dim num">' + done + ' / ' + total + '</div>' +
           '</div>' +
           '<div class="medal-row">' +
-            medalBox('🥉', m.bronze, 'Bronze', '40 % ancrées') +
-            medalBox('🥈', m.argent, 'Argent', '70 % ancrées') +
-            medalBox('🥇', m.or, 'Or', '90 % ancrées') +
-            medalBox('★', m.boss, 'Défis', '9 sur 10') +
+            palier(1, m.bronze, 'Découvert', '40 % ancrées') +
+            palier(2, m.argent, 'Solide', '70 % ancrées') +
+            palier(3, m.or, 'Maîtrisé', '90 % ancrées') +
+            palier(0, m.boss, 'Défis', '9 sur 10') +
           '</div>' +
           '<div class="tiny dim">' + UI.esc(nextGoal) + '</div>' +
         '</section>' +
@@ -116,12 +129,12 @@ window.Train = (function () {
     });
   }
 
-  function medalBox(sym, n, name, rule) {
+  function palier(niveau, n, nom, regle) {
     return '<div class="medal-box' + (n ? ' on' : '') + '">' +
-      '<div class="s" aria-hidden="true">' + sym + '</div>' +
+      '<div class="s">' + (niveau ? etoiles(niveau, 11) : Icons.svg('defiReussi', 17)) + '</div>' +
       '<div class="n num">' + n + '</div>' +
-      '<div class="l">' + name + '</div>' +
-      '<div class="r">' + rule + '</div></div>';
+      '<div class="l">' + nom + '</div>' +
+      '<div class="r">' + regle + '</div></div>';
   }
 
   return { view: view };

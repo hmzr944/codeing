@@ -40,12 +40,12 @@ window.Fiches = (function () {
 
         '<section class="card stack g12">' +
           '<div class="chercher">' +
-            '<span class="chercher-ico" aria-hidden="true">🔎</span>' +
+            '<span class="chercher-ico">' + Icons.svg('chercher', 17) + '</span>' +
             '<input id="q" type="search" autocomplete="off" ' +
               'placeholder="« alcool jeune permis », « distance de sécurité »…" ' +
               'value="' + UI.esc(requete) + '" aria-label="Poser une question">' +
             '<button class="chercher-x" id="vider" aria-label="Effacer"' +
-              (requete ? '' : ' hidden') + '>✕</button>' +
+              (requete ? '' : ' hidden') + '>' + Icons.svg('effacer', 13) + '</button>' +
           '</div>' +
           '<div class="row wrap g8" id="suggestions">' +
             Recherche.suggestions.slice(0, 6).map(function (s) {
@@ -90,7 +90,7 @@ window.Fiches = (function () {
       out += '<section class="stack g10"><div class="sec-t">Dans le cours</div>' +
         res.fiches.map(function (f) {
           return '<div class="card stack g8">' +
-            '<div class="row g8"><span aria-hidden="true">' + f.fiche.e + '</span>' +
+            '<div class="row g8">' + Icons.svg(f.fiche.i, 18) +
             '<span style="font-weight:750;font-size:14px">' + UI.esc(f.titre) + '</span></div>' +
             '<div class="fiche"><div class="body" style="padding:0">' + f.html + '</div></div>' +
           '</div>';
@@ -102,9 +102,9 @@ window.Fiches = (function () {
         '<div class="sec-t">Questions sur ce sujet</div>' +
         res.questions.map(function (q) {
           return '<details class="fiche">' +
-            '<summary><span class="ico" aria-hidden="true">' + window.themeByKey(q.t).e + '</span>' +
+            '<summary>' + Icons.svg(window.themeByKey(q.t).i, 18) +
             '<span class="grow" style="font-weight:700;font-size:13.5px;line-height:1.35">' +
-            UI.esc(q.q) + '</span><span class="arw" aria-hidden="true">›</span></summary>' +
+            UI.esc(q.q) + '</span><span class="arw">' + Icons.svg('suivant', 13) + '</span></summary>' +
             '<div class="body">' +
               '<p style="color:var(--txt)"><b>Réponse : </b>' +
               UI.esc(q.a.map(function (i) { return q.o[i]; }).join(' + ')) + '</p>' +
@@ -115,7 +115,7 @@ window.Fiches = (function () {
     }
 
     if (!res.fiches.length && !res.questions.length) {
-      out += UI.empty('🤔', 'Rien trouvé sur ce sujet',
+      out += UI.empty('question', 'Rien trouvé sur ce sujet',
         'Essaie avec d’autres mots, ou demande directement à Claude ci-dessous.');
     }
 
@@ -139,10 +139,10 @@ window.Fiches = (function () {
       var lue = !!Store.s.lessons[l.k];
       return '<details class="fiche' + (lue ? ' read' : '') + '" data-k="' + l.k + '"' +
         (l.star ? ' open' : '') + '>' +
-        '<summary><span class="ico" aria-hidden="true">' + l.e + '</span>' +
+        '<summary>' + Icons.svg(l.i, 18) +
         '<span class="grow">' + UI.esc(l.n) + '</span>' +
         (lue ? '<span class="tiny dim" style="margin-right:6px">lue</span>' : '') +
-        '<span class="arw" aria-hidden="true">›</span></summary>' +
+        '<span class="arw">' + Icons.svg('suivant', 13) + '</span></summary>' +
         '<div class="body">' + l.html + '</div></details>';
     }).join('');
 

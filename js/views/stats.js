@@ -43,13 +43,13 @@ window.Stats = (function () {
             '<i style="width:' + r.p + '%"></i></div></div>' +
             '<div class="v num">' + r.p + ' %</div></div>';
         }).join('')
-      : UI.empty('📊', 'Pas encore de données', 'Fais une première série pour voir tes points forts apparaître.');
+      : UI.empty('graphique', 'Pas encore de données', 'Fais une première série pour voir tes points forts apparaître.');
 
     /* --- succès --- */
     var badges = window.BADGES.map(function (b) {
       var on = !!S.badges[b.k];
       return '<div class="bdg' + (on ? ' on' : '') + '">' +
-        '<div class="e" aria-hidden="true">' + b.e + '</div>' +
+        '<div class="e">' + Icons.svg(b.i, 22) + '</div>' +
         '<div class="n">' + UI.esc(b.n) + '</div>' +
         '<div class="d">' + UI.esc(b.d) + '</div></div>';
     }).join('');

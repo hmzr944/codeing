@@ -85,6 +85,12 @@ html[data-theme="jour"]{
 }
 
 *,*::before,*::after{box-sizing:border-box}
+
+/* ---------- icônes (Phosphor, intégrées dans js/icons.js) ----------
+   Elles héritent de la couleur du texte : aucune règle de couleur
+   à écrire au cas par cas. */
+svg.ico{display:block;flex:0 0 auto}
+.row > svg.ico,.fiche > summary > svg.ico{margin-top:1px}
 html,body{margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 
@@ -115,7 +121,7 @@ p{margin:0}
 
 /* ---------- utilitaires ---------- */
 .stack{display:flex;flex-direction:column}
-.g4{gap:4px}.g8{gap:8px}.g10{gap:10px}.g12{gap:12px}.g16{gap:16px}.g20{gap:20px}.g28{gap:28px}
+.g4{gap:4px}.g6{gap:6px}.g8{gap:8px}.g10{gap:10px}.g12{gap:12px}.g16{gap:16px}.g20{gap:20px}.g28{gap:28px}
 .row{display:flex;align-items:center;gap:10px}
 .row.between{justify-content:space-between}
 .row.wrap{flex-wrap:wrap}
@@ -136,13 +142,15 @@ p{margin:0}
   padding:calc(13px + env(safe-area-inset-top)) 0 12px;
   position:sticky;top:0;z-index:30;background:var(--bg);
 }
-.topbar .back{
-  width:38px;height:38px;flex:0 0 38px;border-radius:var(--r-ctl);
+/* Classe autonome : ce bouton sert aussi hors de .topbar (quiz),
+   où il n'héritait d'aucune taille et tombait à 26 px de haut. */
+.back{
+  width:40px;height:40px;flex:0 0 40px;border-radius:var(--r-ctl);
   background:var(--surface-2);border:1px solid var(--line);
-  display:grid;place-items:center;font-size:15px;
+  display:grid;place-items:center;color:var(--txt-2);
   transition:background .15s var(--ease);
 }
-.topbar .back:active{background:var(--surface-3)}
+.back:active{background:var(--surface-3)}
 .topbar .ttl{font-size:15px;font-weight:750;letter-spacing:-.015em}
 .topbar .sub{font-size:12px;color:var(--txt-3);margin-top:1px}
 
@@ -176,7 +184,9 @@ p{margin:0}
   padding:15px 20px;border-radius:var(--r-ctl);
   font-weight:750;font-size:15.5px;letter-spacing:-.015em;
   background:var(--surface-2);border:1px solid var(--line);color:var(--txt);
-  white-space:nowrap;
+  /* le libellé doit pouvoir passer à la ligne : à 320 px, « Ajouter le
+     rappel à mon calendrier » débordait de son conteneur */
+  text-wrap:balance;line-height:1.3;
   transition:transform .12s var(--ease), background .15s var(--ease);
 }
 .btn:active{transform:translateY(1px) scale(.99)}
@@ -231,6 +241,7 @@ p{margin:0}
   padding:9px 13px;border-radius:var(--r-pill);
   background:var(--accent-soft);border:1px solid var(--accent-line);
 }
+.streak > svg.ico{color:var(--accent)}
 .streak .n{font-size:20px;font-weight:850;letter-spacing:-.04em;line-height:1}
 
 .week{display:flex;gap:6px}
@@ -242,6 +253,7 @@ p{margin:0}
   border:1.5px solid transparent;color:var(--txt-3);
 }
 .week .dot.done{background:var(--ok);color:var(--ok-ink);border-color:transparent}
+.week .dot > svg.ico{margin:0}
 .week .dot.today{border-color:var(--accent)}
 
 /* Mission du jour */
@@ -269,7 +281,7 @@ p{margin:0}
   transition:transform .12s var(--ease),border-color .15s var(--ease);
 }
 .tile:active{transform:scale(.975)}
-.tile .ico{font-size:21px;line-height:1}
+.tile .ico{display:flex;color:var(--txt-2)}
 .tile .n{font-weight:800;font-size:14.5px;letter-spacing:-.02em}
 .tile .s{font-size:11.5px;color:var(--txt-3);line-height:1.35}
 .tile.wide{grid-column:1/-1;min-height:0;flex-direction:row;align-items:center;gap:13px}
@@ -292,7 +304,7 @@ p{margin:0}
   background:var(--bg);
 }
 .timer{
-  display:flex;align-items:center;gap:6px;
+  display:inline-flex;align-items:center;gap:5px;
   padding:5px 11px;border-radius:var(--r-pill);
   background:var(--surface-2);border:1px solid var(--line);
   font-weight:800;font-size:13.5px;
@@ -351,6 +363,8 @@ p{margin:0}
 .fb.ok{background:var(--ok-soft);border-color:var(--ok-line)}
 .fb.ko{background:var(--ko-soft);border-color:var(--ko-line)}
 .fb-h{display:flex;align-items:center;gap:8px;font-weight:850;font-size:15.5px;letter-spacing:-.02em}
+.fb.ok .fb-h > svg.ico{color:var(--ok)}
+.fb.ko .fb-h > svg.ico{color:var(--ko)}
 .fb-b{font-size:14.5px;line-height:1.58;color:var(--txt)}
 .fb .tip{
   padding:10px 12px;border-radius:12px;
@@ -368,7 +382,8 @@ p{margin:0}
 
 /* Les cœurs restent visibles une fois perdus : voir ce qu'il reste
    ET ce qu'on a déjà lâché est plus tendu qu'un simple compteur. */
-.lives{display:inline-flex;gap:3px;align-items:center;font-size:15px;line-height:1}
+.lives{display:inline-flex;gap:3px;align-items:center}
+.lives .heart{display:flex}
 .lives .heart{color:var(--ko)}
 .lives .heart.out{color:var(--surface-3)}
 .lives.hit{animation:hit .4s var(--ease)}
@@ -388,7 +403,7 @@ p{margin:0}
 
 /* ---------- coffre du jour ---------- */
 .chest{width:100%;text-align:left}
-.chest-ico{font-size:26px;line-height:1;display:inline-block}
+.chest-ico{display:flex;color:var(--accent)}
 .chest.opened .chest-ico{animation:burst .6s var(--ease)}
 @keyframes burst{
   40%{transform:scale(1.4) rotate(-8deg)}
@@ -402,8 +417,8 @@ p{margin:0}
   background:var(--surface-2);border:1px solid transparent;
 }
 .medal-box.on{border-color:var(--accent-line);background:var(--accent-soft)}
-.medal-box .s{font-size:19px;line-height:1;filter:grayscale(1);opacity:.4}
-.medal-box.on .s{filter:none;opacity:1}
+.medal-box .s{display:flex;justify-content:center;color:var(--txt-3);opacity:.5;min-height:17px}
+.medal-box.on .s{color:var(--accent);opacity:1}
 .medal-box .n{font-size:17px;font-weight:850;letter-spacing:-.03em;margin-top:4px}
 .medal-box .l{font-size:10px;font-weight:750;color:var(--txt-2);margin-top:1px}
 .medal-box .r{font-size:9px;color:var(--txt-3);margin-top:2px;line-height:1.2}
@@ -413,10 +428,13 @@ p{margin:0}
   background:var(--surface);border:1px solid var(--line-soft);
 }
 .theme.cleared{border-color:var(--accent-line)}
-.theme-ico{font-size:21px;line-height:1.1}
+.theme-ico{display:flex;color:var(--txt-2);margin-top:1px}
 .theme-n{font-weight:750;font-size:14.5px;letter-spacing:-.015em}
 .theme-medal{font-size:16px;line-height:1;display:inline-flex;gap:4px;align-items:center;flex:0 0 auto}
-.theme-medal .star{color:var(--accent);font-size:15px}
+.etoiles{display:inline-flex;gap:2px;align-items:center}
+.etoiles .et{display:flex;color:var(--accent)}
+.etoiles .et.vide{color:var(--line)}
+.theme-medal .sceau{display:flex;color:var(--accent);margin-left:4px}
 /* Défi encore verrouillé : on montre le compte à rebours plutôt
    qu'un bouton grisé, qui donne juste l'impression d'un bug. */
 .btn.locked{
@@ -464,7 +482,7 @@ p{margin:0}
   display:flex;align-items:center;gap:12px;font-weight:750;font-size:14.5px;
 }
 .fiche > summary::-webkit-details-marker{display:none}
-.fiche > summary .ico{font-size:18px}
+.fiche > summary > svg.ico{color:var(--txt-2)}
 .fiche > summary .arw{margin-left:auto;color:var(--txt-3);font-size:13px;transition:transform .2s var(--ease)}
 .fiche[open] > summary .arw{transform:rotate(90deg)}
 .fiche .body{padding:0 16px 17px;font-size:14px;line-height:1.62;color:var(--txt-2)}
@@ -477,7 +495,7 @@ p{margin:0}
   background:var(--accent-soft);border:1px solid var(--accent-line);
   color:var(--txt);font-size:13.5px;
 }
-.fiche.read > summary .ico{opacity:.5}
+.fiche.read > summary > svg.ico{opacity:.45}
 
 /* ---------- champ de recherche d'aide ---------- */
 .chercher{
@@ -487,23 +505,24 @@ p{margin:0}
   transition:border-color .15s var(--ease);
 }
 .chercher:focus-within{border-color:var(--accent)}
-.chercher-ico{font-size:15px;flex:0 0 auto;opacity:.7}
+.chercher-ico{flex:0 0 auto;color:var(--txt-3);display:flex}
 .chercher input{
   flex:1;min-width:0;padding:14px 0;border:0;background:none;outline:none;
   font-size:15.5px;color:var(--txt);
 }
 .chercher input::placeholder{color:var(--txt-3)}
 .chercher input::-webkit-search-cancel-button{display:none}
+/* 32 px minimum : en dessous, la croix est difficile à viser au pouce */
 .chercher-x{
-  flex:0 0 auto;width:24px;height:24px;border-radius:50%;
-  background:var(--surface-3);color:var(--txt-2);font-size:11px;
-  display:grid;place-items:center;
+  flex:0 0 auto;width:32px;height:32px;border-radius:50%;
+  background:var(--surface-3);color:var(--txt-2);
+  display:grid;place-items:center;margin-right:-6px;
 }
 
 /* Lien de secours dans la correction : présent, jamais tapageur */
 .fb-aide{
-  display:inline-block;margin-top:2px;
-  font-size:13px;font-weight:700;color:var(--txt-2);
+  display:inline-flex;align-items:center;min-height:40px;
+  font-size:13.5px;font-weight:700;color:var(--txt-2);
   text-decoration:underline;text-underline-offset:3px;
 }
 .fb-aide:active{color:var(--txt)}
@@ -534,16 +553,17 @@ p{margin:0}
   display:grid;place-items:center;font-size:18px;font-weight:850;
 }
 
-.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:9px}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
 .bdg{
   padding:12px 7px;border-radius:var(--r-ctl);text-align:center;
   background:var(--surface-2);border:1px solid transparent;
 }
-.bdg .e{font-size:23px;line-height:1;filter:grayscale(1);opacity:.35}
-.bdg .n{font-size:11px;font-weight:750;margin-top:6px;line-height:1.25;color:var(--txt-3)}
+.bdg .e{display:flex;justify-content:center;color:var(--txt-3);opacity:.45}
+.bdg .n{font-size:11px;font-weight:750;margin-top:6px;line-height:1.25;color:var(--txt-3);
+  overflow-wrap:anywhere;hyphens:auto}
 .bdg .d{font-size:9.5px;color:var(--txt-3);margin-top:3px;line-height:1.3;opacity:.75}
 .bdg.on{background:var(--surface);border-color:var(--accent-line)}
-.bdg.on .e{filter:none;opacity:1}
+.bdg.on .e{color:var(--accent);opacity:1}
 .bdg.on .n{color:var(--txt)}
 
 /* ============================================================
@@ -559,6 +579,13 @@ p{margin:0}
 }
 .field input::placeholder{color:var(--txt-3)}
 .field input:focus,.field select:focus{border-color:var(--accent);outline:none}
+/* Un sélecteur de date n'a aucune raison de faire 390 px de large :
+   étiré, il est laid et la zone de frappe utile reste minuscule. */
+.field input[type="date"],
+.field input[type="time"],
+.field input[type="number"]{width:auto;max-width:220px;min-width:150px}
+/* Pictogrammes des points d'accroche de l'accueil initial */
+.pt-ico{display:flex;color:var(--accent);margin-top:1px}
 
 .switch{
   display:flex;align-items:center;justify-content:space-between;gap:14px;
@@ -624,7 +651,7 @@ p{margin:0}
   box-shadow:var(--shadow);font-size:14px;font-weight:650;
   animation:toastIn .3s var(--ease);
 }
-.toast .e{font-size:19px;flex:0 0 auto}
+.toast .e{display:flex;flex:0 0 auto}
 .toast.win{background:var(--accent);border-color:transparent;color:var(--accent-ink)}
 @keyframes toastIn{from{opacity:0;transform:translateY(-12px)}}
 
@@ -637,7 +664,7 @@ p{margin:0}
 
 /* ---------- états ---------- */
 .empty{padding:34px 18px;text-align:center;color:var(--txt-3);font-size:14px;line-height:1.55}
-.empty .e{font-size:32px;display:block;margin-bottom:10px;opacity:.8}
+.empty .e{display:flex;justify-content:center;margin-bottom:10px;opacity:.55}
 .empty .t{color:var(--txt-2);font-weight:700;font-size:15px;margin-bottom:5px}
 
 .skel{

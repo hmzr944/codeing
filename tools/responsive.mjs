@@ -1,0 +1,116 @@
+/* ============================================================
+   Audit responsive : détecte les débordements horizontaux et les
+   éléments trop étirés, à plusieurs largeurs de téléphone.
+
+   Lancer : node tools/responsive.mjs
+   ============================================================ */
+import { chromium } from 'playwright';
+
+const BASE = process.argv[2] || 'http://localhost:8099/';
+const LARGEURS = [320, 360, 390, 430];   // iPhone SE -> iPhone Pro Max
+
+const ECRANS = [
+  { n: 'onboarding', aller: async () => {} },
+  { n: 'onboarding-profil', aller: async (p) => { await p.click('[data-next]'); } },
+  { n: 'onboarding-rythme', aller: async (p) => { await p.click('[data-next]'); await p.click('[data-next]'); } },
+  { n: 'accueil', aller: async (p) => { await passer(p); } },
+  { n: 'quiz', aller: async (p) => { await passer(p); await p.click('[data-daily]'); } },
+  { n: 'correction', aller: async (p) => {
+      await passer(p); await p.click('[data-daily]');
+      await p.click('.ans >> nth=0'); await p.click('#go'); } },
+  { n: 'parcours', aller: async (p) => { await passer(p); await p.click('.tab[data-go="train"]'); } },
+  { n: 'examen', aller: async (p) => { await passer(p); await p.click('.tab[data-go="exam"]'); } },
+  { n: 'aide', aller: async (p) => { await passer(p); await p.click('.tab[data-go="lessons"]'); } },
+  { n: 'aide-recherche', aller: async (p) => {
+      await passer(p); await p.click('.tab[data-go="lessons"]');
+      await p.fill('#q', 'distance de sécurité'); await p.waitForTimeout(400); } },
+  { n: 'progres', aller: async (p) => { await passer(p); await p.click('.tab[data-go="stats"]'); } },
+  { n: 'reglages', aller: async (p) => { await passer(p); await p.click('[data-go="settings"]'); } },
+  { n: 'survie', aller: async (p) => { await passer(p); await p.click('[data-survie]'); } }
+];
+
+async function passer(p) {
+  await p.click('[data-next]');
+  await p.click('[data-next]');
+  await p.click('[data-done]');
+  await p.waitForTimeout(150);
+}
+
+/* Relevé dans la page : ce qui dépasse, ce qui est démesuré */
+const RELEVE = () => {
+  const vw = document.documentElement.clientWidth;
+  const out = { debordePage: document.documentElement.scrollWidth > vw + 1, elements: [] };
+
+  document.querySelectorAll('body *').forEach((el) => {
+    const r = el.getBoundingClientRect();
+    if (!r.width || !r.height) return;
+    const cs = getComputedStyle(el);
+    if (cs.position === 'fixed') return;
+
+    const desc = el.tagName.toLowerCase() +
+      (el.id ? '#' + el.id : '') +
+      (el.className && typeof el.className === 'string'
+        ? '.' + el.className.trim().split(/\s+/).slice(0, 2).join('.') : '');
+
+    // dépasse la largeur de l'écran
+    if (r.right > vw + 1 || r.left < -1) {
+      out.elements.push({ q: 'déborde', desc, l: Math.round(r.left), r: Math.round(r.right) });
+    }
+    // contenu plus large que son conteneur
+    if (el.scrollWidth > el.clientWidth + 2 && cs.overflowX === 'visible') {
+      out.elements.push({ q: 'contenu coupé', desc, dans: el.clientWidth, contenu: el.scrollWidth });
+    }
+    // champ de saisie démesurément large par rapport à son contenu utile
+    if (/^(input|select)$/.test(el.tagName.toLowerCase())) {
+      const t = el.type || '';
+      if (['date', 'time', 'number'].includes(t) && r.width > 260) {
+        out.elements.push({ q: 'champ trop étiré', desc: desc + '[' + t + ']', largeur: Math.round(r.width) });
+      }
+    }
+    // cible tactile trop petite
+    if (/^(button|a)$/.test(el.tagName.toLowerCase()) && el.offsetParent !== null) {
+      if (r.height > 0 && r.height < 32 && el.textContent.trim().length > 0) {
+        out.elements.push({ q: 'cible tactile <32px', desc, h: Math.round(r.height) });
+      }
+    }
+  });
+  return out;
+};
+
+const b = await chromium.launch();
+let total = 0;
+
+for (const largeur of LARGEURS) {
+  const ctx = await b.newContext({ viewport: { width: largeur, height: 800 }, locale: 'fr-FR', isMobile: true, hasTouch: true });
+  for (const ecran of ECRANS) {
+    const p = await ctx.newPage();
+    await p.goto(BASE, { waitUntil: 'domcontentloaded' });
+    await p.evaluate(() => localStorage.clear());
+    await p.reload({ waitUntil: 'networkidle' });
+    try { await ecran.aller(p); } catch { /* écran non atteignable à cette étape */ }
+    await p.waitForTimeout(250);
+
+    const r = await p.evaluate(RELEVE);
+    const vus = new Set();
+    const uniques = r.elements.filter((e) => {
+      const k = e.q + '|' + e.desc;
+      if (vus.has(k)) return false;
+      vus.add(k); return true;
+    });
+    if (r.debordePage || uniques.length) {
+      console.log(`\n${largeur}px · ${ecran.n}${r.debordePage ? '   [LA PAGE DÉFILE LATÉRALEMENT]' : ''}`);
+      uniques.forEach((e) => {
+        const d = Object.entries(e).filter(([k]) => k !== 'q' && k !== 'desc')
+          .map(([k, v]) => `${k}=${v}`).join(' ');
+        console.log(`   ${e.q.padEnd(20)} ${e.desc}  ${d}`);
+        total++;
+      });
+    }
+    await p.close();
+  }
+  await ctx.close();
+}
+
+await b.close();
+console.log(`\n${total} problème(s) relevé(s).`);
+process.exit(total ? 1 : 0);

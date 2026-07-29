@@ -10,7 +10,7 @@ window.Settings = (function () {
       UI.topbar('Réglages', 'Tout reste sur cet appareil') +
       '<div class="stack g16">' +
 
-        '<section class="card stack g14">' +
+        '<section class="card stack g20">' +
           '<div class="field">' +
             '<label for="f-name">Prénom</label>' +
             '<input id="f-name" type="text" autocomplete="given-name" maxlength="20" ' +
@@ -84,7 +84,7 @@ window.Settings = (function () {
     });
     document.getElementById('f-date').addEventListener('change', function () {
       Store.s.profile.examDate = this.value; Store.saveNow();
-      UI.toast(this.value ? 'Compte à rebours activé' : 'Compte à rebours retiré', '📅');
+      UI.toast(this.value ? 'Compte à rebours activé' : 'Compte à rebours retiré', 'calendrier');
     });
     document.getElementById('f-time').addEventListener('change', function () {
       Store.s.profile.reminder = this.value; Store.save();
@@ -111,20 +111,20 @@ window.Settings = (function () {
       Notification.requestPermission().then(function (p) {
         UI.toast(p === 'granted'
           ? 'Rappel actif quand l’app est ouverte'
-          : 'Notifications refusées', p === 'granted' ? '🔔' : '🔕');
+          : 'Notifications refusées', p === 'granted' ? 'alerte' : 'fermer');
       });
     });
 
     UI.on('[data-export]', 'click', function () {
       var blob = new Blob([JSON.stringify(Store.s, null, 2)], { type: 'application/json' });
       dl(blob, 'feu-vert-progression.json');
-      UI.toast('Sauvegarde téléchargée', '💾');
+      UI.toast('Sauvegarde téléchargée', 'telecharger');
     });
 
     UI.on('[data-reset]', 'click', function () {
       if (confirm('Effacer toute la progression : série, statistiques, succès ?')) {
         Store.reset(); App.applyTheme(); App.go('home');
-        UI.toast('Progression remise à zéro', '🧹');
+        UI.toast('Progression remise à zéro', 'poubelle');
       }
     });
   }
@@ -152,7 +152,7 @@ window.Settings = (function () {
     ].join('\r\n');
 
     dl(new Blob([ics], { type: 'text/calendar' }), 'rappel-code-2026.ics');
-    UI.toast('Rappel quotidien à ' + hh + ':' + mm, '📅');
+    UI.toast('Rappel quotidien à ' + hh + ':' + mm, 'calendrier');
   }
 
   function dl(blob, name) {
