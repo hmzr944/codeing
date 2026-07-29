@@ -1,7 +1,11 @@
 # Publie l'application sur GitHub Pages.
 #
-# configure-pages avec enablement:true active Pages tout seul au
-# premier passage : aucun réglage à faire à la main dans le dépôt.
+# Réglage à faire UNE FOIS dans le dépôt, avant le premier passage :
+#   Settings > Pages > Source : GitHub Actions
+#
+# Ce n'est pas automatisable : le jeton d'un workflow n'a pas le droit
+# de créer le site Pages (l'API répond « Resource not accessible by
+# integration »). Une fois la source réglée, tout est automatique.
 name: Publier sur GitHub Pages
 
 on:
@@ -43,8 +47,6 @@ jobs:
           du -sh _site
 
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:
