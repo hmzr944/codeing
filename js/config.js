@@ -6,4 +6,4 @@
    depuis les leçons, sans reformulation. Voir worker/README.md
    pour la mettre en service.
    ============================================================ */
-window.IA_URL = '';
+window.IA_URL = 'https://feuvert.mezouarhamza3.workers.dev';

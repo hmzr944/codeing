@@ -25,7 +25,12 @@ const bloc = (n) => console.log(`\n${n}`);
 const p = await ctx.newPage();
 p.on('pageerror', (e) => erreurs.push('JS: ' + e.message));
 p.on('console', (m) => { if (m.type() === 'error') erreurs.push('console: ' + m.text()); });
-p.on('requestfailed', (r) => erreurs.push('requête: ' + r.url()));
+/* Un relais IA injoignable n'est pas un défaut : l'assistant est
+   conçu pour retomber sur le cours. Ce chemin est vérifié à part,
+   dans tools/test-ia.mjs, contre un relais maîtrisé. */
+p.on('requestfailed', (r) => {
+  if (!/workers\.dev|IA_URL/.test(r.url())) erreurs.push('requête: ' + r.url());
+});
 
 const passerAccueil = async () => {
   await p.click('[data-next]'); await p.click('[data-next]'); await p.click('[data-done]');
@@ -43,6 +48,15 @@ const jouer = async (max, choix = 0) => {
     await p.waitForTimeout(90);
   }
   return !!(await p.locator('.score').count());
+};
+
+/* L'assistant peut interroger un relais avant de répondre : on attend
+   que la bulle d'attente disparaisse plutôt qu'un délai fixe, sinon on
+   mesure le clignotement et pas la réponse. */
+const attendreReponse = async () => {
+  await p.waitForFunction(() => !document.querySelector('.pense'), null,
+    { timeout: 20000 }).catch(() => {});
+  await p.waitForTimeout(120);
 };
 
 /* ---------------- 1. chargement et données ---------------- */
@@ -123,7 +137,7 @@ await p.waitForTimeout(250);
 test('feuille de l’assistant ouverte', (await p.locator('.feuille-panneau').count()) === 1);
 await p.fill('#msg', 'angle mort');
 await p.press('#msg', 'Enter');
-await p.waitForTimeout(250);
+await attendreReponse();
 test('l’assistant répond dans la feuille',
   /angle mort|rétroviseur|contrôle/i.test(await p.locator('.feuille .msg.bot >> nth=-1').textContent()));
 await p.click('.feuille button[data-fermer]');
@@ -188,7 +202,7 @@ for (const [question, attendu] of [
   ['zzzz qwerty', /je ne trouve rien/i]]) {
   await p.fill('#msg', question);
   await p.press('#msg', 'Enter');
-  await p.waitForTimeout(220);
+  await attendreReponse();
   const txt = await p.locator('.msg.bot >> nth=-1').textContent();
   test(`assistant « ${question} »`, attendu.test(txt), txt.slice(0, 50));
 }

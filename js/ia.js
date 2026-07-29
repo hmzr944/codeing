@@ -15,7 +15,11 @@
 window.IA = (function () {
 
   var ECHECS = 0;                     // relais en panne : on cesse d'insister
-  var DELAI = 13000;
+  /* Neuf secondes. Un modèle rapide répond en deux, un résumé en
+     quatre ; au-delà, la réponse hors ligne est préférable à une
+     bulle qui clignote. C'est aussi le pire cas d'attente si
+     l'adresse du relais ne répond pas du tout. */
+  var DELAI = 9000;
 
   /* HTTPS obligatoire : depuis une page servie en HTTPS, un appel en
      clair serait bloqué par le navigateur avant même de partir. Seul
@@ -114,7 +118,13 @@ window.IA = (function () {
       return d.reponse;
     }).catch(function (e) {
       clearTimeout(minuteur);
-      ECHECS++;
+      /* Une adresse qui ne répond pas du tout — nom introuvable,
+         connexion refusée, en-têtes d'origine manquants — est un
+         problème de réglage, pas un incident passager : ça compte
+         double, pour ne pas faire attendre trois fois de suite. Un
+         dépassement de délai ou un 500, eux, peuvent n'être qu'un
+         mauvais moment. */
+      ECHECS += (e instanceof TypeError) ? 2 : 1;
       throw e;
     });
   }

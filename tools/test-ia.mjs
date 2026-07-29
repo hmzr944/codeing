@@ -59,10 +59,14 @@ const erreurs = [];
 
 const p = await ctx.newPage();
 p.on('pageerror', (e) => erreurs.push('JS: ' + e.message));
-/* En mode « erreur » on provoque volontairement une panne du
-   relais : le navigateur la journalise, ce n'est pas un défaut. */
+/* Certains blocs provoquent volontairement une panne du relais : le
+   navigateur la journalise, ce n'est pas un défaut de l'application.
+   C'est même le comportement testé. */
+let pannePrevue = false;
 p.on('console', (m) => {
-  if (m.type() === 'error' && mode !== 'erreur') erreurs.push('console: ' + m.text());
+  if (m.type() === 'error' && mode !== 'erreur' && !pannePrevue) {
+    erreurs.push('console: ' + m.text());
+  }
 });
 
 /* L'adresse du relais est posée après chargement : c'est ce que
@@ -201,7 +205,25 @@ test('réponse immédiate depuis le cours',
 test('le relais n’a pas été appelé', (await p.locator('.pense').count()) === 0);
 await ctx.setOffline(false);
 
+/* ---------------- 4 bis. adresse renseignée mais pas encore un relais ----------------
+   Cas très concret : le Worker existe et répond, mais il sert encore
+   autre chose que le relais. L'application ne doit pas s'en
+   apercevoir autrement qu'en répondant depuis le cours. */
+bloc('4 bis. Adresse qui répond, mais pas un relais');
+pannePrevue = true;
+await ouvrirAssistant();
+await p.evaluate(() => { window.IA_URL = location.origin + '/index.html'; });
+await p.fill('#msg', 'distance de sécurité');
+await p.press('#msg', 'Enter');
+await p.waitForTimeout(900);
+const pasUnRelais = await derniere().textContent();
+test('réponse du cours servie quand même', /seconde|distance/i.test(pasUnRelais),
+  pasUnRelais.slice(0, 60));
+test('rien qui ressemble à une panne', !/erreur|undefined|\[object/i.test(pasUnRelais));
+test('plus de bulle d’attente', (await p.locator('.pense').count()) === 0);
+
 /* ---------------- 5. rien à reformuler ---------------- */
+pannePrevue = false;
 bloc('5. Quand la recherche ne trouve rien');
 recu = null;
 await ouvrirAssistant();

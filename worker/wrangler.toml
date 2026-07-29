@@ -1,4 +1,6 @@
-name = "feu-vert-ia"
+# Ce nom doit être celui du Worker existant dans le tableau de bord,
+# sinon le déploiement en créerait un second à côté.
+name = "feuvert"
 main = "index.js"
 compatibility_date = "2025-01-01"
 

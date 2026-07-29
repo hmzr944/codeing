@@ -22,6 +22,31 @@ dans `wrangler.toml` (les adresses sont notées en commentaire).
 
 ## 2. Le relais
 
+Deux voies. La première ne demande aucun terminal.
+
+### a. Depuis le tableau de bord, dépôt connecté
+
+C'est le montage en place. Le Worker est relié au dépôt GitHub et se
+redéploie à chaque poussée sur `main`. Trois réglages, une seule fois,
+dans **Workers & Pages → le Worker → Settings** :
+
+| Où | Réglage |
+|---|---|
+| Build | **Root directory** = `worker` |
+| Variables and Secrets | `AI_KEY` = la clé de l'étape 1, en **Secret** |
+| Domains & Routes | activer l'adresse `workers.dev` |
+
+Le dossier racine est le réglage décisif : sans lui, Cloudflare lit la
+racine du dépôt, n'y trouve aucune configuration de Worker et publie
+l'application comme un site statique au lieu du relais.
+
+Les trois autres variables (`ORIGINES`, `AI_BASE_URL`, `AI_MODEL`)
+viennent de `wrangler.toml` à chaque déploiement : inutile de les
+saisir à la main, et une valeur saisie à la main serait écrasée. Le
+secret, lui, est préservé.
+
+### b. Depuis un terminal
+
 ```bash
 cd worker
 npx wrangler login          # ouvre le navigateur, compte Cloudflare gratuit
@@ -29,9 +54,9 @@ npx wrangler secret put AI_KEY   # coller la clé de l'étape 1
 npx wrangler deploy
 ```
 
-Les trois commandes sont à lancer depuis ta machine : `login` ouvre
-une page dans ton navigateur pour autoriser Cloudflare, et la clé
-de l'étape 1 ne doit transiter par rien d'autre que `secret put`.
+À lancer depuis ta machine, pas depuis un conteneur : `login` ouvre une
+page dans ton navigateur. La clé de l'étape 1 ne doit transiter par
+rien d'autre que `secret put`.
 
 Le code, lui, a déjà été éprouvé : il tourne tel quel dans
 **workerd**, le runtime réel de Cloudflare, et l'application
