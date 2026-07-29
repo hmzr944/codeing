@@ -10,7 +10,10 @@ window.Train = (function () {
   /* Trois paliers, montrés par des étoiles plutôt que par des
      médailles de couleur : une seule couleur d'accent dans toute
      l'application, et un niveau lisible d'un coup d'œil. */
-  var PALIERS = ['', 'Découvert', 'Solide', 'Maîtrisé'];
+  /* Un seul vocabulaire pour les paliers : ces mots servent aussi de
+     libellés dans la rangée de médailles, et deux jeux de termes pour
+     la même chose se contredisent à l'écran. */
+  var PALIERS = ['', 'Débuté', 'Solide', 'Acquis'];
 
   function etoiles(n, taille) {
     var s = '';
@@ -85,9 +88,9 @@ window.Train = (function () {
             '<div class="tiny dim num">' + done + ' / ' + total + '</div>' +
           '</div>' +
           '<div class="medal-row">' +
-            palier(1, m.bronze, 'Découvert', '40 % ancrées') +
-            palier(2, m.argent, 'Solide', '70 % ancrées') +
-            palier(3, m.or, 'Maîtrisé', '90 % ancrées') +
+            palier(1, m.bronze, PALIERS[1], '40 % ancrées') +
+            palier(2, m.argent, PALIERS[2], '70 % ancrées') +
+            palier(3, m.or, PALIERS[3], '90 % ancrées') +
             palier(0, m.boss, 'Défis', '9 sur 10') +
           '</div>' +
           '<div class="tiny dim">' + UI.esc(nextGoal) + '</div>' +

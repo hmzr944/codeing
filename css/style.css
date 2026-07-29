@@ -27,7 +27,8 @@
 
   /* --- accent unique --- */
   --accent:#f5c400;
-  --accent-ink:#241b00;          /* texte posé sur l'accent, contraste 11:1 */
+  --accent-ink:#241b00;          /* texte posé SUR l'accent, contraste 11:1 */
+  --accent-txt:#f5c400;          /* accent employé COMME couleur de texte */
   --accent-soft:rgba(245,196,0,.13);
   --accent-line:rgba(245,196,0,.32);
 
@@ -45,7 +46,10 @@
 
   --txt:#eceff4;
   --txt-2:#a3adbb;
-  --txt-3:#6d7889;
+  /* Mesuré, pas supposé : tools/contraste.mjs relève 4,8:1 au minimum
+     pour cette teinte, sur les quatre surfaces du thème. La valeur
+     précédente tombait à 3,1:1 sur --surface-3. */
+  --txt-3:#8e99aa;
 
   /* --- formes --- */
   --r-card:18px;
@@ -73,12 +77,17 @@ html[data-theme="jour"]{
   --line-soft:#e6eaf1;
   --txt:#12161d;
   --txt-2:#4e5a6b;
-  --txt-3:#7b8798;
+  --txt-3:#596576;
   /* Contrastes vérifiés sur fond clair (WCAG AA, texte normal) :
      encre foncée sur jaune 6,4:1 - blanc sur vert 5,4:1 - blanc sur rouge 5,8:1.
      Le blanc sur jaune, testé d'abord, tombait à 2,6:1 : illisible. */
   --accent:#c99700;
   --accent-ink:#241b00;
+  /* L'accent fonctionne comme couleur de texte la nuit (8,4:1 au pire)
+     et jamais le jour : #c99700 y plafonne à 2,7:1 sur blanc. D'où un
+     or nettement assombri pour ce seul rôle, qui garde la teinte de la
+     marque en tenant 4,9:1 partout, accent-soft compris. */
+  --accent-txt:#775900;
   --accent-soft:rgba(201,151,0,.12);
   --accent-line:rgba(201,151,0,.3);
   --ok:#0b7a45;   --ok-ink:#ffffff;  --ok-soft:rgba(11,122,69,.11);  --ok-line:rgba(11,122,69,.3);
@@ -197,7 +206,11 @@ p{margin:0}
 .btn.solid{background:var(--txt);border-color:transparent;color:var(--bg)}
 .btn.sm{padding:10px 14px;font-size:13.5px;border-radius:11px}
 .btn.ghost{background:transparent;border-color:var(--line)}
-.btn:disabled{opacity:.55;pointer-events:none}
+/* WCAG exempte les commandes inactives du seuil de contraste. On le
+   relève quand même : « Valider » grisé est l'état sous les yeux de
+   Mina pendant qu'elle lit la question, et il tombait à 2,7:1. Le
+   caractère inactif reste lisible au curseur et à l'atténuation. */
+.btn:disabled{opacity:.84;pointer-events:none}
 
 /* ---------- pastilles ---------- */
 .pill{
@@ -229,11 +242,15 @@ p{margin:0}
   position:relative;overflow:hidden;
 }
 /* bande de marquage au sol : le seul ornement de la page, et il
-   raconte quelque chose (la route qui reste à parcourir) */
+   raconte quelque chose (la route qui reste à parcourir).
+   Retrait sur les côtés et du bas : posée à fleur du bord, la bande
+   se faisait couper par les angles arrondis et se lisait comme un
+   défaut de rendu plutôt que comme une ligne de route. */
 .hero::after{
-  content:"";position:absolute;left:0;right:0;bottom:0;height:3px;
+  content:"";position:absolute;left:18px;right:18px;bottom:9px;height:3px;
+  border-radius:2px;
   background:repeating-linear-gradient(90deg,var(--accent) 0 20px,transparent 20px 36px);
-  opacity:.5;
+  opacity:.45;
 }
 .hero-greet{font-size:13px;color:var(--txt-2);font-weight:600}
 .hero-h{font-size:clamp(22px,5.8vw,28px);font-weight:850;letter-spacing:-.035em;margin-top:3px}
@@ -243,7 +260,7 @@ p{margin:0}
   padding:9px 13px;border-radius:var(--r-pill);
   background:var(--accent-soft);border:1px solid var(--accent-line);
 }
-.streak > svg.ico{color:var(--accent)}
+.streak > svg.ico{color:var(--accent-txt)}
 .streak .n{font-size:20px;font-weight:850;letter-spacing:-.04em;line-height:1}
 
 .week{display:flex;gap:6px}
@@ -311,7 +328,9 @@ p{margin:0}
   background:var(--surface-2);border:1px solid var(--line);
   font-weight:800;font-size:13.5px;
 }
-.timer.warn{background:var(--accent-soft);border-color:var(--accent-line);color:var(--accent)}
+/* Le chrono en alerte doit rester LISIBLE : c'est un nombre qu'on lit
+   sous pression. L'accent portait ce texte à 2,5:1 en thème jour. */
+.timer.warn{background:var(--accent-soft);border-color:var(--accent-line);color:var(--accent-txt)}
 .timer.crit{background:var(--ko-soft);border-color:var(--ko-line);color:var(--ko)}
 
 /* progression : un trait par question, façon marquage routier */
@@ -335,7 +354,7 @@ p{margin:0}
   font-size:14px;color:var(--txt-2);line-height:1.55;
 }
 .q-txt{font-size:clamp(17.5px,4.6vw,20px);font-weight:750;letter-spacing:-.025em;line-height:1.32}
-.q-multi{font-size:11px;font-weight:750;color:var(--accent);text-transform:uppercase;letter-spacing:.08em}
+.q-multi{font-size:11px;font-weight:750;color:var(--accent-txt);text-transform:uppercase;letter-spacing:.08em}
 
 .answers{display:flex;flex-direction:column;gap:9px}
 .ans{
@@ -405,7 +424,7 @@ p{margin:0}
 
 /* ---------- coffre du jour ---------- */
 .chest{width:100%;text-align:left}
-.chest-ico{display:flex;color:var(--accent)}
+.chest-ico{display:flex;color:var(--accent-txt)}
 .chest.opened .chest-ico{animation:burst .6s var(--ease)}
 @keyframes burst{
   40%{transform:scale(1.4) rotate(-8deg)}
@@ -413,17 +432,23 @@ p{margin:0}
 }
 
 /* ---------- parcours : médailles ---------- */
-.medal-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+/* minmax(0,1fr) et non 1fr : sans cela, la largeur minimale du mot le
+   plus long (« Découvert ») fait déborder la rangée à 320 px. La
+   césure prend le relais plutôt que de rapetisser le texte. */
+.medal-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
 .medal-box{
   padding:11px 6px;border-radius:var(--r-ctl);text-align:center;
   background:var(--surface-2);border:1px solid transparent;
 }
 .medal-box.on{border-color:var(--accent-line);background:var(--accent-soft)}
 .medal-box .s{display:flex;justify-content:center;color:var(--txt-3);opacity:.5;min-height:17px}
-.medal-box.on .s{color:var(--accent);opacity:1}
+.medal-box.on .s{color:var(--accent-txt);opacity:1}
 .medal-box .n{font-size:17px;font-weight:850;letter-spacing:-.03em;margin-top:4px}
-.medal-box .l{font-size:10px;font-weight:750;color:var(--txt-2);margin-top:1px}
-.medal-box .r{font-size:9px;color:var(--txt-3);margin-top:2px;line-height:1.2}
+/* Pas de coupure en plein mot : « Décou/vert » se lisait comme un
+   défaut. Les libellés ont été raccourcis pour tenir dans la boîte à
+   320 px, ce qui vaut mieux qu'un texte rapetissé ou tronçonné. */
+.medal-box .l{font-size:11px;font-weight:750;color:var(--txt-2);margin-top:1px}
+.medal-box .r{font-size:10.5px;color:var(--txt-3);margin-top:2px;line-height:1.25}
 
 .theme{
   padding:15px;border-radius:var(--r-card);
@@ -434,13 +459,15 @@ p{margin:0}
 .theme-n{font-weight:750;font-size:14.5px;letter-spacing:-.015em}
 .theme-medal{font-size:16px;line-height:1;display:inline-flex;gap:4px;align-items:center;flex:0 0 auto}
 .etoiles{display:inline-flex;gap:2px;align-items:center}
-.etoiles .et{display:flex;color:var(--accent)}
+.etoiles .et{display:flex;color:var(--accent-txt)}
 .etoiles .et.vide{color:var(--line)}
-.theme-medal .sceau{display:flex;color:var(--accent);margin-left:4px}
+.theme-medal .sceau{display:flex;color:var(--accent-txt);margin-left:4px}
 /* Défi encore verrouillé : on montre le compte à rebours plutôt
    qu'un bouton grisé, qui donne juste l'impression d'un bug. */
 .btn.locked{
-  opacity:.75;cursor:default;color:var(--txt-3);
+  /* La bordure pointillée suffit à dire que c'est fermé : l'opacité
+     n'ajoutait rien qu'un texte à 3,4:1. */
+  cursor:default;color:var(--txt-2);
   font-variant-numeric:tabular-nums;border-style:dashed;
 }
 
@@ -527,7 +554,7 @@ p{margin:0}
 .lecon-tete{padding-bottom:4px}
 .lecon-ico{
   width:44px;height:44px;border-radius:14px;
-  background:var(--accent-soft);color:var(--accent);
+  background:var(--accent-soft);color:var(--accent-txt);
   display:grid;place-items:center;
 }
 .lecon h1{font-size:clamp(23px,6vw,29px);text-wrap:balance}
@@ -776,7 +803,7 @@ p{margin:0}
 .kpi > div{padding:13px 8px;border-radius:var(--r-ctl);text-align:center;
   background:var(--surface);border:1px solid var(--line-soft)}
 .kpi .n{font-size:21px;font-weight:850;letter-spacing:-.035em;line-height:1.1}
-.kpi .l{font-size:10px;color:var(--txt-3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
+.kpi .l{font-size:10.5px;color:var(--txt-3);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-top:4px}
 
 .spark{display:flex;align-items:flex-end;gap:4px;height:76px}
 .spark i{flex:1;border-radius:3px;min-height:3px;background:var(--accent);opacity:.85}
@@ -797,9 +824,11 @@ p{margin:0}
 .bdg .e{display:flex;justify-content:center;color:var(--txt-3);opacity:.45}
 .bdg .n{font-size:11px;font-weight:750;margin-top:6px;line-height:1.25;color:var(--txt-3);
   overflow-wrap:anywhere;hyphens:auto}
-.bdg .d{font-size:9.5px;color:var(--txt-3);margin-top:3px;line-height:1.3;opacity:.75}
+/* 9,5 px et délavé : illisible au pouce. La taille remonte au plancher
+   de l'interface et l'atténuation disparaît. */
+.bdg .d{font-size:11px;color:var(--txt-3);margin-top:3px;line-height:1.3}
 .bdg.on{background:var(--surface);border-color:var(--accent-line)}
-.bdg.on .e{color:var(--accent);opacity:1}
+.bdg.on .e{color:var(--accent-txt);opacity:1}
 .bdg.on .n{color:var(--txt)}
 
 /* ============================================================
@@ -821,7 +850,7 @@ p{margin:0}
 .field input[type="time"],
 .field input[type="number"]{width:auto;max-width:220px;min-width:150px}
 /* Pictogrammes des points d'accroche de l'accueil initial */
-.pt-ico{display:flex;color:var(--accent);margin-top:1px}
+.pt-ico{display:flex;color:var(--accent-txt);margin-top:1px}
 
 .switch{
   display:flex;align-items:center;justify-content:space-between;gap:14px;
@@ -950,7 +979,7 @@ hr.sep{height:1px;background:var(--line-soft);border:0;margin:0}
 .dg-titre{fill:var(--txt);font-weight:750}
 .dg-sur{fill:var(--txt);font-weight:750}
 .dg-sur-acc{fill:var(--accent-ink);font-weight:800}
-.dg-lg-acc{fill:var(--accent);font-weight:750}
+.dg-lg-acc{fill:var(--accent-txt);font-weight:750}
 .dg-lg-ko{fill:var(--ko);font-weight:750}
 
 .dg-route,.dg-route-c{fill:var(--surface-3)}

@@ -36,11 +36,40 @@ jobs:
           node tools/lisibilite.mjs
           node tools/test-worker.mjs
 
+  # Contrôles qui exigent un vrai navigateur. Ils sont ici et pas dans
+  # une revue à l'œil parce qu'ils attrapent ce qui ne se voit pas :
+  # un contraste qui passe sous le seuil, un texte qui déborde à 320 px.
+  # Un audit de contraste avait relevé 65 textes illisibles que la
+  # lecture du CSS n'avait pas montrés.
+  apparence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Installer Chromium
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Servir le site
+        run: |
+          python3 -m http.server 8099 &
+          for i in $(seq 1 20); do
+            curl -sf -o /dev/null http://localhost:8099/index.html && break
+            sleep 1
+          done
+      - name: Contraste (WCAG AA) et tenue de 320 à 430 px
+        run: |
+          node tools/contraste.mjs
+          node tools/responsive.mjs
+      - name: L’assistant et son repli hors ligne
+        run: |
+          node tools/test-ia.mjs
+          node tools/verifier.mjs
+
   # La publication, elle, n'a lieu que depuis la branche par défaut :
   # l'environnement github-pages n'autorise qu'elle, et une tentative
   # depuis une autre branche échoue en deux secondes.
   publier:
-    needs: verifier
+    needs: [verifier, apparence]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
