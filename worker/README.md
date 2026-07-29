@@ -27,18 +27,27 @@ Deux voies. La première ne demande aucun terminal.
 ### a. Depuis le tableau de bord, dépôt connecté
 
 C'est le montage en place. Le Worker est relié au dépôt GitHub et se
-redéploie à chaque poussée sur `main`. Trois réglages, une seule fois,
-dans **Workers & Pages → le Worker → Settings** :
+redéploie à chaque poussée sur `main`.
 
-| Où | Réglage |
-|---|---|
-| Build | **Root directory** = `worker` |
-| Variables and Secrets | `AI_KEY` = la clé de l'étape 1, en **Secret** |
-| Domains & Routes | activer l'adresse `workers.dev` |
+**L'ordre compte.** Tant que Cloudflare croit avoir affaire à un site
+statique, il refuse d'enregistrer une variable : « Variables cannot be
+added to a Worker that only has static assets ». Il faut donc d'abord
+en faire un vrai Worker.
 
-Le dossier racine est le réglage décisif : sans lui, Cloudflare lit la
-racine du dépôt, n'y trouve aucune configuration de Worker et publie
-l'application comme un site statique au lieu du relais.
+Dans **Workers & Pages → le Worker → Settings** :
+
+1. **Build** → *Root directory* = `worker`. C'est le réglage décisif :
+   sans lui, Cloudflare lit la racine du dépôt, n'y trouve aucune
+   configuration de Worker et publie l'application comme un site
+   statique au lieu du relais. Si une commande de déploiement est
+   demandée, c'est `npx wrangler deploy` ; la commande de build reste
+   vide, `index.js` n'a rien à compiler.
+2. **Deployments** → *Retry*. Ce déploiement change la nature du
+   Worker : il exécute enfin `index.js`. Le message sur les « static
+   assets » disparaît alors.
+3. **Variables and Secrets** → ajouter `AI_KEY` en **Secret**. Le
+   bouton n'accepte qu'après l'étape 2.
+4. **Domains & Routes** → activer l'adresse `workers.dev`.
 
 Les trois autres variables (`ORIGINES`, `AI_BASE_URL`, `AI_MODEL`)
 viennent de `wrangler.toml` à chaque déploiement : inutile de les
