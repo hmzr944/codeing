@@ -56,6 +56,33 @@ thème peuvent toujours être tirés sans répétition.
 - **Mes erreurs** — rattrapage ciblé sur ce qui bloque encore.
 - **Sprint 60 secondes** — pour les jours où il n'y a vraiment pas le temps.
 
+### L'aide
+
+L'onglet **Aide** répond aux questions posées avec des mots de tous les jours.
+La recherche fonctionne **hors ligne** sur les 459 questions et les 16 fiches :
+un petit dictionnaire traduit le langage courant vers le vocabulaire du code,
+parce que personne ne tape « alcoolémie en période probatoire » mais plutôt
+« je peux boire combien ». Les expressions sont traitées avant les mots isolés,
+sans quoi « rond point » serait compris comme « les points du permis ».
+
+Quand ça ne suffit pas, un bouton ouvre Claude avec la question déjà rédigée.
+Depuis une correction, le bouton **« Je n'ai pas compris »** y ajoute l'énoncé,
+la bonne réponse et l'explication du cours.
+
+**Ce n'est pas une IA embarquée.** Une page publiée ne peut appeler que les
+capacités que le runtime lui accorde, et l'appel à un modèle n'en fait pas
+partie. L'aide hors ligne est donc réelle et instantanée ; le lien vers Claude
+est un passage de relais, qui demande une connexion.
+
+### Le parcours
+
+Six étapes, affichées une à la fois sur l'accueil, parce que la vraie question
+d'un débutant est « je fais quoi maintenant ? » :
+
+faire connaissance (100 questions) → comprendre les bases (5 fiches) →
+ancrer les thèmes (4 médailles) → se tester (1 examen blanc) →
+viser les 35/40 (3 examens validés) → prête pour le jour J.
+
 ### La couche jeu
 
 Elle n'est pas décorative : chaque mécanique pousse vers un comportement utile.
@@ -123,6 +150,27 @@ python3 -m http.server 8099
 Un service worker est nécessaire pour le mode hors ligne : ouvrir le fichier
 directement avec `file://` fonctionne, mais sans mise en cache.
 
+### Sur le téléphone
+
+L'application est publiée comme page privée sur claude.ai. Il suffit d'ouvrir
+le lien sur le téléphone, puis :
+
+- **iPhone** : *Partager → Sur l'écran d'accueil*
+- **Android** : *Menu → Ajouter à l'écran d'accueil*
+
+Elle s'ouvre alors en plein écran, comme une application installée.
+
+Un point à connaître : **la progression est enregistrée par adresse**. Série,
+médailles et statistiques vivent dans le navigateur, à l'URL utilisée. Ouvrir
+tantôt le lien publié, tantôt GitHub Pages revient à tenir deux carnets
+séparés : mieux vaut en choisir un et s'y tenir. Si le navigateur refuse
+l'enregistrement (navigation privée notamment), l'application le signale au
+démarrage au lieu de perdre la progression sans rien dire.
+
+```bash
+node tools/build-artifact.mjs   # génère dist/artifact.html pour la publication
+```
+
 ### Version en un seul fichier
 
 ```bash
@@ -157,6 +205,7 @@ tools/check.mjs        contrôle d'intégrité de la banque de questions
 tools/lisibilite.mjs   audit du vocabulaire et de la longueur des phrases
 tools/shots.mjs        captures d'écran de contrôle (Playwright)
 tools/build-single.mjs génère la version en un seul fichier
+tools/build-artifact.mjs génère la version pour page publiée
 ```
 
 ### Notes de design

@@ -22,7 +22,7 @@ var SHELL = [
   './js/data/questions-plus-pratique.js',
   './js/data/lessons.js',
   './js/data/badges.js',
-  './js/signs.js', './js/store.js', './js/srs.js', './js/ui.js',
+  './js/signs.js', './js/search.js', './js/store.js', './js/srs.js', './js/ui.js',
   './js/views/home.js', './js/views/train.js', './js/views/quiz.js',
   './js/views/exam.js', './js/views/lessons.js', './js/views/stats.js',
   './js/views/settings.js', './js/views/onboarding.js',

@@ -60,6 +60,33 @@ window.Home = (function () {
         '</div>';
     }
 
+    /* --- l'étape en cours du parcours : la réponse à « je fais quoi
+           maintenant ? », qui est la vraie question du débutant --- */
+    var j = Store.journey();
+    var jPct = Math.round((j.etape.cur / j.etape.goal) * 100);
+    var parcoursBlock =
+      '<section class="card stack g12">' +
+        '<div class="row between">' +
+          '<div class="sec-t">Étape ' + (j.i + 1) + ' sur ' + j.etapes.length + '</div>' +
+          '<div class="tiny dim num">' + j.etape.cur + ' / ' + j.etape.goal + '</div>' +
+        '</div>' +
+        '<div class="stack g4">' +
+          '<div style="font-weight:800;font-size:16px;letter-spacing:-.02em">' +
+            UI.esc(j.fini ? 'Prête pour le jour J' : j.etape.n) + '</div>' +
+          '<div class="small muted">' + UI.esc(j.fini
+            ? 'Tous les thèmes sont médaillés. Continue à entretenir, et passe l’examen sereinement.'
+            : j.etape.d) + '</div>' +
+        '</div>' +
+        '<div class="steps" aria-hidden="true">' +
+          j.etapes.map(function (e, i) {
+            return '<i class="' + (i < j.i || j.fini ? 'done' : i === j.i ? 'now' : '') + '"></i>';
+          }).join('') +
+        '</div>' +
+        '<div class="gauge thin"><i style="width:' + jPct + '%"></i></div>' +
+        (j.fini ? '' : '<button class="btn sm ghost" data-etape="' + j.etape.action + '">' +
+          UI.esc(j.etape.cta) + '</button>') +
+      '</section>';
+
     /* --- coffre du jour : la petite récompense qui fait terminer
            la série au lieu de s'arrêter à la moitié --- */
     var chestBlock = Store.chestReady()
@@ -139,6 +166,7 @@ window.Home = (function () {
         '</section>' +
 
         countdown +
+        parcoursBlock +
 
         /* Mission du jour */
         '<section class="card ' + (missionDone ? '' : 'accent') + ' stack g14">' +
@@ -200,6 +228,11 @@ window.Home = (function () {
       var list = Store.weakOnes().slice(0, 15);
       if (!list.length) return;
       Quiz.start({ mode: 'errors', questions: list });
+    });
+    UI.on('[data-etape]', 'click', function () {
+      var a = this.getAttribute('data-etape');
+      if (a === 'daily') Quiz.start({ mode: 'daily', questions: Store.dailySet(Math.min(goal, 20)) });
+      else App.go(a);
     });
     UI.on('[data-sprint]', 'click', function () { Sprint.intro(); });
     UI.on('[data-survie]', 'click', function () { Survie.intro(); });

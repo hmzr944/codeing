@@ -242,6 +242,11 @@ window.Quiz = (function () {
       '<div class="fb-h"><span aria-hidden="true">' + emo + '</span>' + head + '</div>' +
       '<p class="fb-b">' + UI.esc(q.e) + '</p>' +
       (q.tip ? '<div class="tip"><b>Astuce mémo.</b> ' + UI.esc(q.tip) + '</div>' : '') +
+      /* Sortie de secours quand l'explication ne suffit pas : la
+         question part vers Claude déjà mise en forme. */
+      '<a class="fb-aide" target="_blank" rel="noopener" href="' +
+        UI.esc(window.lienClaude(window.promptCorrection(q))) + '">' +
+        'Je n’ai pas compris, expliquer autrement</a>' +
       '</div></div>';
     document.getElementById('fb').innerHTML = fb;
 

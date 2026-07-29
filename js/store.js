@@ -49,6 +49,18 @@ window.Store = (function () {
     };
   }
 
+  /* Le stockage local peut être refusé (navigation privée, page
+     isolée, réglages stricts). Mieux vaut le savoir et le dire que
+     de laisser une progression disparaître sans explication. */
+  var PERSISTANT = (function () {
+    try {
+      var t = KEY + '.test';
+      localStorage.setItem(t, '1');
+      localStorage.removeItem(t);
+      return true;
+    } catch (e) { return false; }
+  })();
+
   var S = load();
 
   function load() {
@@ -395,6 +407,48 @@ window.Store = (function () {
     };
   }
 
+  /* ---------------- parcours d'apprentissage ----------------
+     Six étapes, dans l'ordre où on progresse vraiment : découvrir,
+     comprendre, ancrer, se tester, viser le seuil, être prête.
+     L'accueil n'affiche que l'étape en cours : savoir quoi faire
+     maintenant vaut mieux qu'une liste de tout ce qui reste. */
+
+  function journey() {
+    var s = snapshot(), m = medalCount();
+    var fiches = 0;
+    for (var l in S.lessons) if (S.lessons[l]) fiches++;
+    var medailles = m.bronze + m.argent + m.or;
+    var nbThemes = window.THEMES.length;
+
+    var etapes = [
+      { k: 'decouvrir', n: 'Faire connaissance',
+        d: 'Voir 100 questions, sans pression sur le score',
+        cur: Math.min(s.answered, 100), goal: 100, action: 'daily', cta: 'Lancer le défi du jour' },
+      { k: 'comprendre', n: 'Comprendre les bases',
+        d: 'Lire 5 fiches de cours',
+        cur: Math.min(fiches, 5), goal: 5, action: 'lessons', cta: 'Ouvrir les fiches' },
+      { k: 'ancrer', n: 'Ancrer les thèmes',
+        d: 'Décrocher 4 médailles',
+        cur: Math.min(medailles, 4), goal: 4, action: 'train', cta: 'Voir le parcours' },
+      { k: 'tester', n: 'Se tester en vrai',
+        d: 'Passer un premier examen blanc',
+        cur: Math.min(S.exams.length, 1), goal: 1, action: 'exam', cta: 'Passer un examen blanc' },
+      { k: 'viser', n: 'Viser les 35 sur 40',
+        d: 'Valider 3 examens blancs',
+        cur: Math.min(s.examsPassed, 3), goal: 3, action: 'exam', cta: 'Refaire un examen blanc' },
+      { k: 'prete', n: 'Prête pour le jour J',
+        d: 'Une médaille sur chacun des ' + nbThemes + ' thèmes',
+        cur: medailles, goal: nbThemes, action: 'train', cta: 'Compléter la collection' }
+    ];
+
+    var courante = etapes.length - 1;
+    for (var i = 0; i < etapes.length; i++) {
+      if (etapes[i].cur < etapes[i].goal) { courante = i; break; }
+    }
+    return { etapes: etapes, i: courante, etape: etapes[courante],
+             fini: etapes[etapes.length - 1].cur >= etapes[etapes.length - 1].goal };
+  }
+
   /* Jours restants avant l'examen, si une date a été renseignée */
   function daysToExam() {
     if (!S.profile.examDate) return null;
@@ -431,6 +485,7 @@ window.Store = (function () {
 
   return {
     get s() { return S; },
+    persistant: PERSISTANT,
     all: ALL, byId: BY_ID, byTheme: byTheme, shuffle: shuffle,
     save: save, saveNow: saveNow, reset: reset,
     due: due, unseen: unseen, weakOnes: weakOnes,
@@ -439,7 +494,7 @@ window.Store = (function () {
     themeStat: themeStat, allThemeStats: allThemeStats, medalCount: medalCount,
     chestReady: chestReady, openChest: openChest,
     answer: answer, endSession: endSession,
-    snapshot: snapshot, level: level, week: week, weakThemes: weakThemes,
+    snapshot: snapshot, level: level, week: week, weakThemes: weakThemes, journey: journey,
     liveStreak: liveStreak, goalReached: goalReached, daysToExam: daysToExam,
     checkBadges: checkBadges
   };

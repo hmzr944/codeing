@@ -96,6 +96,14 @@ window.App = (function () {
 
     watchReminder();
 
+    /* Sans stockage local, la progression ne survit pas au
+       rafraîchissement : autant le dire tout de suite. */
+    if (!Store.persistant) {
+      setTimeout(function () {
+        UI.toast('Ce navigateur bloque la sauvegarde : la progression ne sera pas conservée.', '⚠️');
+      }, 1200);
+    }
+
     /* Rappel de série : si elle est sur le point de tomber, on le dit
        une seule fois, sans culpabiliser. */
     var s = Store.liveStreak();

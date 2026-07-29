@@ -3,7 +3,9 @@
    ============================================================ */
 window.Onboarding = (function () {
 
-  var step = 0, draft = { name: '', examDate: '', goal: 20 };
+  /* Prénom pré-rempli : cette version est préparée pour Mina.
+     Le champ reste modifiable si quelqu'un d'autre l'utilise. */
+  var step = 0, draft = { name: 'Mina', examDate: '', goal: 20 };
 
   function view() { step = 0; render(); }
 
@@ -70,7 +72,7 @@ window.Onboarding = (function () {
         '</div>' +
         '<div class="stack g16">' +
           '<div class="field"><label for="o-name">Ton prénom</label>' +
-          '<input id="o-name" type="text" maxlength="20" placeholder="Par exemple : Lina" value="' + UI.esc(draft.name) + '"></div>' +
+          '<input id="o-name" type="text" maxlength="20" placeholder="Ton prénom" value="' + UI.esc(draft.name) + '"></div>' +
           '<div class="field"><label for="o-date">Date de l’examen, si elle est connue</label>' +
           '<input id="o-date" type="date" value="' + UI.esc(draft.examDate) + '">' +
           '<div class="help">Un compte à rebours apparaîtra sur l’accueil.</div></div>' +
@@ -133,7 +135,7 @@ window.Onboarding = (function () {
     document.body.classList.remove('no-tabbar');
     document.getElementById('tabbar').hidden = false;
     App.go('home');
-    UI.toast('Bienvenue. Première série quand tu veux.', '🚦');
+    UI.toast((P.name ? P.name + ', b' : 'B') + 'ienvenue. Première série quand tu veux.', '🚦');
   }
 
   return { view: view };
