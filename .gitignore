@@ -3,3 +3,8 @@ dist/
 .agents/
 .claude/
 .DS_Store
+
+# Secrets locaux de wrangler : la clé du fournisseur ne doit jamais
+# entrer dans le dépôt, qui est public.
+worker/.dev.vars
+.wrangler/

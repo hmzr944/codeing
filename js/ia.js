@@ -22,7 +22,7 @@ window.IA = (function () {
      un relais local, utilisé pour les essais, y échappe. */
   function configuree() {
     return typeof window.IA_URL === 'string' &&
-      /^(https:\/\/|http:\/\/localhost[:/])/.test(window.IA_URL);
+      /^(https:\/\/|http:\/\/(localhost|127\.0\.0\.1)[:/])/.test(window.IA_URL);
   }
 
   /* Trois échecs d'affilée et on laisse le relais tranquille pour

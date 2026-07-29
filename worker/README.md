@@ -29,6 +29,22 @@ npx wrangler secret put AI_KEY   # coller la clé de l'étape 1
 npx wrangler deploy
 ```
 
+Les trois commandes sont à lancer depuis ta machine : `login` ouvre
+une page dans ton navigateur pour autoriser Cloudflare, et la clé
+de l'étape 1 ne doit transiter par rien d'autre que `secret put`.
+
+Le code, lui, a déjà été éprouvé : il tourne tel quel dans
+**workerd**, le runtime réel de Cloudflare, et l'application
+complète a été branchée dessus. Pour refaire l'essai en local, sans
+compte ni clé réelle :
+
+```bash
+cd worker
+echo 'AI_KEY=clé-bidon' > .dev.vars        # ignoré par git
+npx wrangler dev --var AI_BASE_URL:http://localhost:8096/v1 \
+                 --var ORIGINES:http://localhost:8099
+```
+
 La dernière commande affiche l'adresse du relais, de la forme :
 
 ```
