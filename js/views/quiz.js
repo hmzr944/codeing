@@ -160,8 +160,47 @@ window.Quiz = (function () {
     var cta = '<div class="cta-bar">' +
       '<button class="btn primary block" id="go" disabled>Valider</button></div>';
 
-    UI.mount(head + body + cta);
+    UI.mount(head + body + cta + assistant());
     bind();
+  }
+
+  /* ---------------- assistant ----------------
+
+     Un mot incompris ne doit pas obliger à quitter la série : la
+     feuille se pose par-dessus et le chrono s'arrête le temps de
+     lire. L'examen blanc en est exclu : ce serait sortir des
+     conditions d'examen, qui sont tout l'intérêt du mode. */
+
+  function aideDispo() { return Q.mode !== 'exam' && Q.mode !== 'boss'; }
+
+  function assistant() {
+    if (!aideDispo()) return '';
+    return '<button class="aide-flottant" data-assist aria-label="Demander à l’assistant">' +
+      Icons.svg('chat', 21) + '</button>';
+  }
+
+  function ouvrirAide() {
+    ouvrirPour(Q.list[Q.i], 'Tu es sur cette question. Quel mot n’est pas clair ?');
+  }
+
+  function ouvrirCorrection(q) {
+    ouvrirPour(q, 'On parle de cette question. Tape le mot qui bloque.');
+  }
+
+  function ouvrirPour(q, amorce) {
+    stop();
+    Chat.ouvrir({
+      titre: 'Question en cours',
+      amorce: amorce,
+      question: q.q
+    }, {
+      reprendre: function () { if (Q && (Q.tPerQ || Q.tTotal)) startClock(); },
+      quitter: function () {
+        stop(); Q = null;
+        document.body.classList.remove('no-tabbar');
+        document.getElementById('tabbar').hidden = false;
+      }
+    });
   }
 
   function themeName(k) { return window.themeByKey(k).n; }
@@ -171,6 +210,7 @@ window.Quiz = (function () {
       if (Q.results.length === 0 || confirm('Quitter la session ? La progression de cette session sera perdue.')) quit();
     });
     UI.on('.ans', 'click', function () { pick(+this.getAttribute('data-i')); });
+    UI.on('[data-assist]', 'click', ouvrirAide);
     var go = document.getElementById('go');
     go.addEventListener('click', function () {
       if (Q.locked) next(); else validate(false);
@@ -244,13 +284,17 @@ window.Quiz = (function () {
       '<div class="fb-h">' + Icons.svg(ico, 19) + head + '</div>' +
       '<p class="fb-b">' + UI.esc(q.e) + '</p>' +
       (q.tip ? '<div class="tip"><b>Astuce mémo.</b> ' + UI.esc(q.tip) + '</div>' : '') +
-      /* Sortie de secours quand l'explication ne suffit pas : la
-         question part vers Claude déjà mise en forme. */
-      '<a class="fb-aide" target="_blank" rel="noopener" href="' +
-        UI.esc(window.lienClaude(window.promptCorrection(q))) + '">' +
-        'Je n’ai pas compris, expliquer autrement</a>' +
+      /* Deux sorties de secours quand l'explication ne suffit pas :
+         l'assistant, tout de suite et hors ligne, puis Claude avec
+         la question déjà mise en forme. */
+      '<div class="row wrap g12">' +
+        '<button class="fb-aide" data-fb-assist>Je n’ai pas compris</button>' +
+        '<a class="fb-aide" target="_blank" rel="noopener" href="' +
+          UI.esc(window.lienClaude(window.promptCorrection(q))) + '">Demander à Claude</a>' +
+      '</div>' +
       '</div></div>';
     document.getElementById('fb').innerHTML = fb;
+    UI.on('[data-fb-assist]', 'click', function () { ouvrirCorrection(q); });
 
     UI.buzz(correct ? 10 : [18, 40, 18]);
     if (!correct) {
@@ -411,6 +455,8 @@ window.Results = (function () {
 
         '<div class="stack g10" style="padding-bottom:24px">' +
           '<button class="btn primary block" data-again>' + (isExam ? 'Refaire un examen blanc' : 'Nouvelle série') + '</button>' +
+          (wrong.length ? '<button class="btn ghost block" data-revoir>' +
+            'Faire expliquer une erreur</button>' : '') +
           '<button class="btn ghost block" data-home>Retour à l’accueil</button>' +
         '</div>' +
 
@@ -419,6 +465,16 @@ window.Results = (function () {
     UI.mount(html);
 
     UI.on('[data-home]', 'click', function () { App.go('home'); });
+    /* Après l'épreuve, l'assistant redevient accessible dans tous les
+       modes : la première erreur du récapitulatif est celle qu'on a
+       le plus envie de comprendre. */
+    UI.on('[data-revoir]', 'click', function () {
+      Chat.ouvrir({
+        titre: 'Erreur à comprendre',
+        amorce: 'Voici la première question ratée. Quel mot n’était pas clair ?',
+        question: wrong[0].q.q
+      }, {});
+    });
     UI.on('[data-again]', 'click', function () {
       if (r.mode === 'exam') Quiz.start({ mode: 'exam', questions: Store.examSet() });
       else if (r.mode === 'daily') App.go('home');

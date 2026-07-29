@@ -73,7 +73,15 @@ await click('[data-home]');
 await shot('07-accueil');
 await click('.tab[data-go="train"]');   await shot('08-parcours');
 await click('.tab[data-go="exam"]');    await shot('09-examen');
-await click('.tab[data-go="lessons"]'); await shot('10-fiches');
+await click('.tab[data-go="lessons"]'); await shot('10-cours');
+await click('[data-lecon="signalisation"]'); await shot('10b-lecon');
+await p.evaluate(() => window.scrollTo(0, 900)); await shot('10c-lecon-bas');
+await click('[data-question]'); await shot('10d-assistant');
+await p.fill('#msg', 'c’est quoi un accotement ?'); await p.press('#msg', 'Enter');
+await p.waitForTimeout(300);
+await p.fill('#msg', 'je peux boire combien'); await p.press('#msg', 'Enter');
+await p.waitForTimeout(400); await shot('10e-assistant-reponse');
+await click('[data-retour]');
 await click('.tab[data-go="stats"]');   await shot('11-progres');
 
 // --- thème clair ---

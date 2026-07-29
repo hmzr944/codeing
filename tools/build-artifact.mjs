@@ -11,7 +11,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = (f) => fs.readFileSync(path.join(root, f), 'utf8');
 
 const html = read('index.html');
-const css = read('css/style.css');
+const css = read('css/font.css') + '\n' + read('css/style.css');
 const scripts = [...html.matchAll(/<script src="([^"]+)"><\/script>/g)].map((m) => m[1]);
 
 /* Balisage : le contenu de <body>, débarrassé des balises <script> */

@@ -20,10 +20,18 @@ const ECRANS = [
       await p.click('.ans >> nth=0'); await p.click('#go'); } },
   { n: 'parcours', aller: async (p) => { await passer(p); await p.click('.tab[data-go="train"]'); } },
   { n: 'examen', aller: async (p) => { await passer(p); await p.click('.tab[data-go="exam"]'); } },
-  { n: 'aide', aller: async (p) => { await passer(p); await p.click('.tab[data-go="lessons"]'); } },
-  { n: 'aide-recherche', aller: async (p) => {
+  { n: 'cours', aller: async (p) => { await passer(p); await p.click('.tab[data-go="lessons"]'); } },
+  { n: 'lecon', aller: async (p) => {
       await passer(p); await p.click('.tab[data-go="lessons"]');
-      await p.fill('#q', 'distance de sécurité'); await p.waitForTimeout(400); } },
+      await p.click('[data-lecon="signalisation"]'); } },
+  { n: 'lecon-chiffres', aller: async (p) => {
+      await passer(p); await p.click('.tab[data-go="lessons"]');
+      await p.click('[data-lecon="memo"]'); } },
+  { n: 'assistant', aller: async (p) => {
+      await passer(p); await p.click('.tab[data-go="lessons"]');
+      await p.click('[data-chat]');
+      await p.fill('#msg', 'distance de sécurité');
+      await p.press('#msg', 'Enter'); await p.waitForTimeout(300); } },
   { n: 'progres', aller: async (p) => { await passer(p); await p.click('.tab[data-go="stats"]'); } },
   { n: 'reglages', aller: async (p) => { await passer(p); await p.click('[data-go="settings"]'); } },
   { n: 'survie', aller: async (p) => { await passer(p); await p.click('[data-survie]'); } }
@@ -56,8 +64,13 @@ const RELEVE = () => {
     if (r.right > vw + 1 || r.left < -1) {
       out.elements.push({ q: 'déborde', desc, l: Math.round(r.left), r: Math.round(r.right) });
     }
-    // contenu plus large que son conteneur
-    if (el.scrollWidth > el.clientWidth + 2 && cs.overflowX === 'visible') {
+    /* Contenu plus large que son conteneur.
+       Le texte SVG est exclu : il déborde de sa boîte de mise en page
+       sans jamais être coupé, la seule limite étant le viewBox du
+       dessin. Contrôlé à la capture : les libellés des schémas
+       s'affichent en entier. */
+    if (el.namespaceURI !== 'http://www.w3.org/2000/svg' &&
+        el.scrollWidth > el.clientWidth + 2 && cs.overflowX === 'visible') {
       out.elements.push({ q: 'contenu coupé', desc, dans: el.clientWidth, contenu: el.scrollWidth });
     }
     // champ de saisie démesurément large par rapport à son contenu utile

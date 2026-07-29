@@ -9,7 +9,7 @@ window.App = (function () {
     home:     function () { Home.view(); },
     train:    function () { Train.view(); },
     exam:     function () { Exam.view(); },
-    lessons:  function () { Fiches.view(); },
+    lessons:  function () { Cours.view(); },
     stats:    function () { Stats.view(); },
     settings: function () { Settings.view(); }
   };

@@ -12,6 +12,14 @@ window.Signs = (function () {
       Y = '#ffcf00',
       GR = '#9aa3ad';  // gris (fin de prescription)
 
+  /* Pictogramme vectoriel au centre d'un panneau. Les emoji, utilisés
+     au départ, juraient avec le reste de l'interface et rendaient mal
+     à petite taille. */
+  function picto(nom, taille, cx, cy, couleur) {
+    return '<g fill="' + (couleur || K) + '">' +
+      Icons.raw(nom, taille || 34, cx || 50, cy || 62) + '</g>';
+  }
+
   function wrap(inner, label) {
     return '<svg viewBox="0 0 100 100" role="img" aria-label="' + esc(label || 'panneau') + '">' + inner + '</svg>';
   }
@@ -20,6 +28,12 @@ window.Signs = (function () {
 
   function glyph(g, size, y, fill) {
     if (!g) return '';
+    /* un nom de pictogramme plutôt qu'un caractère : on insère le
+       tracé vectoriel, centré sur la même position optique */
+    if (/^p_/.test(g) && window.Icons && Icons.has(g)) {
+      return '<g fill="' + (fill || K) + '">' +
+        Icons.raw(g, size, 50, y - size * 0.35) + '</g>';
+    }
     if (/^[a-zA-Z0-9À-ÿ.,' -]+$/.test(g)) {
       return '<text x="50" y="' + y + '" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" ' +
              'font-weight="800" font-size="' + size + '" fill="' + (fill || K) + '">' + esc(g) + '</text>';
@@ -30,8 +44,8 @@ window.Signs = (function () {
   /* ---- formes de base ---- */
 
   // Triangle de danger (pointe en haut)
-  function danger(g, label) {
-    return dangerRaw(glyph(g, 30, 78), label);
+  function danger(nomPicto, label) {
+    return dangerRaw(picto(nomPicto, 30, 50, 68), label);
   }
 
   // Même triangle, mais avec un pictogramme dessiné plutôt qu'un glyphe.
@@ -150,12 +164,12 @@ window.Signs = (function () {
         '<path d="M40 84 V76 Q40 68 50 65 Q60 62 60 54" fill="none" stroke="' + K + '" stroke-width="9"/>' +
         '<path d="M51 54 L60 40 L69 54 Z" fill="' + K + '"/>', 'Succession de virages');
     },
-    'danger-enfants':        function(){ return danger('🧒','Endroit fréquenté par des enfants'); },
-    'danger-pietons':        function(){ return danger('🚶','Passage pour piétons'); },
-    'danger-cyclistes':      function(){ return danger('🚲','Débouché de cyclistes'); },
-    'danger-animaux':        function(){ return danger('🦌','Passage d’animaux sauvages'); },
-    'danger-troupeau':       function(){ return danger('🐄','Passage d’animaux domestiques'); },
-    'danger-travaux':        function(){ return danger('🚧','Travaux'); },
+    'danger-enfants':        function(){ return danger('p_enfant','Endroit fréquenté par des enfants'); },
+    'danger-pietons':        function(){ return danger('p_pieton','Passage pour piétons'); },
+    'danger-cyclistes':      function(){ return danger('p_velo','Débouché de cyclistes'); },
+    'danger-animaux':        function(){ return danger('p_animal','Passage d’animaux sauvages'); },
+    'danger-troupeau':       function(){ return danger('p_troupeau','Passage d’animaux domestiques'); },
+    'danger-travaux':        function(){ return danger('p_travaux','Travaux'); },
     'danger-glissant': function () {
       // voiture + traces de dérapage : bien plus parlant qu'une spirale
       return dangerRaw(
@@ -167,7 +181,7 @@ window.Signs = (function () {
         '<path d="M28 76 q5-5 10 0 t10 0 t10 0 t10 0"/>' +
         '<path d="M30 84 q5-5 10 0 t10 0 t10 0"/></g>', 'Chaussée glissante');
     },
-    'danger-feux':           function(){ return danger('🚦','Feux tricolores'); },
+    'danger-feux':           function(){ return danger('p_feux','Feux tricolores'); },
     'danger-descente': function () {
       return dangerRaw(
         '<path d="M24 82 L78 82 L24 52 Z" fill="' + K + '"/>' +
@@ -179,10 +193,10 @@ window.Signs = (function () {
         '<g stroke="' + K + '" stroke-width="8" stroke-linecap="round">' +
         '<path d="M28 84 L38 52"/><path d="M72 84 L62 52"/></g>', 'Chaussée rétrécie');
     },
-    'danger-vent':           function(){ return danger('🎏','Vent latéral'); },
-    'danger-bouchon':        function(){ return danger('🚗','Risque de bouchon'); },
-    'danger-train':          function(){ return danger('🚂','Passage à niveau'); },
-    'danger-autre':          function(){ return danger('❗','Autre danger'); },
+    'danger-vent':           function(){ return danger('p_vent','Vent latéral'); },
+    'danger-bouchon':        function(){ return danger('p_voiture','Risque de bouchon'); },
+    'danger-train':          function(){ return danger('p_train','Passage à niveau'); },
+    'danger-autre':          function(){ return danger('p_exclamation','Autre danger'); },
 
     /* --- interdiction --- */
     'sens-interdit': function () {
@@ -198,12 +212,18 @@ window.Signs = (function () {
         '<circle cx="50" cy="50" r="36" fill="' + W + '"/>',
         'Circulation interdite à tout véhicule');
     },
-    'interdit-depasser':  function(){ return interdiction('🚙🚗','Interdiction de dépasser', 22); },
-    'interdit-demi-tour': function(){ return interdiction('⤺','Interdiction de faire demi-tour', 40); },
-    'interdit-klaxon':    function(){ return interdiction('📯','Usage de l’avertisseur sonore interdit', 30); },
-    'interdit-pl':        function(){ return interdiction('🚚','Accès interdit aux poids lourds', 30); },
-    'interdit-velo':      function(){ return interdiction('🚲','Accès interdit aux cycles', 30); },
-    'interdit-pietons':   function(){ return interdiction('🚶','Accès interdit aux piétons', 30); },
+    'interdit-depasser': function () {
+      return wrap('<circle cx="50" cy="50" r="47" fill="' + R + '"/>' +
+        '<circle cx="50" cy="50" r="36" fill="' + W + '"/>' +
+        '<g fill="' + K + '">' + Icons.raw('p_voiture', 26, 38, 50) + '</g>' +
+        '<g fill="' + R + '">' + Icons.raw('p_voiture', 26, 64, 50) + '</g>',
+        'Interdiction de dépasser');
+    },
+    'interdit-demi-tour': function(){ return interdiction('p_demiTour','Interdiction de faire demi-tour', 36); },
+    'interdit-klaxon':    function(){ return interdiction('p_klaxon','Usage de l’avertisseur sonore interdit', 32); },
+    'interdit-pl':        function(){ return interdiction('p_camion','Accès interdit aux poids lourds', 32); },
+    'interdit-velo':      function(){ return interdiction('p_velo','Accès interdit aux cycles', 32); },
+    'interdit-pietons':   function(){ return interdiction('p_pieton','Accès interdit aux piétons', 32); },
     'hauteur-limitee':    function(){ return interdiction('3m5','Hauteur limitée', 26); },
 
     'limite-30':  function(){ return interdiction('30','Vitesse limitée à 30', 38); },
@@ -247,9 +267,9 @@ window.Signs = (function () {
     'obl-droite':     function(){ return wrap('<circle cx="50" cy="50" r="47" fill="'+W+'"/><circle cx="50" cy="50" r="44" fill="'+B+'"/>'+arrowBend('d'),'Obligation de tourner à droite'); },
     'obl-gauche':     function(){ return wrap('<circle cx="50" cy="50" r="47" fill="'+W+'"/><circle cx="50" cy="50" r="44" fill="'+B+'"/>'+arrowBend('g'),'Obligation de tourner à gauche'); },
     'contournement-droite': function(){ return wrap('<circle cx="50" cy="50" r="47" fill="'+W+'"/><circle cx="50" cy="50" r="44" fill="'+B+'"/>'+arrow(45),'Contournement obligatoire par la droite'); },
-    'obl-velo':       function(){ return obligation('🚲','Piste ou bande cyclable obligatoire', 32); },
-    'obl-pietons':    function(){ return obligation('🚶','Chemin obligatoire pour piétons', 32); },
-    'obl-chaines':    function(){ return obligation('❄️','Chaînes à neige obligatoires', 32); },
+    'obl-velo':       function(){ return obligation('p_velo','Piste ou bande cyclable obligatoire', 34); },
+    'obl-pietons':    function(){ return obligation('p_pieton','Chemin obligatoire pour piétons', 34); },
+    'obl-chaines':    function(){ return obligation('p_neige','Chaînes à neige obligatoires', 34); },
     'vitesse-mini-30':function(){ return obligation('30','Vitesse minimale obligatoire 30 km/h', 36); },
 
     /* --- indication --- */
@@ -279,7 +299,7 @@ window.Signs = (function () {
         '<circle cx="34" cy="64" r="6"/><circle cx="66" cy="64" r="6"/></g>',
         'Route à accès réglementé (voie rapide)');
     },
-    'passage-pietons':  function(){ return indication('🚶','Passage pour piétons', 34); },
+    'passage-pietons':  function(){ return indication('p_pieton','Passage pour piétons', 36); },
     'parking':          function(){ return indication('P','Parking', 52); },
     'impasse': function () {
       return wrap('<rect x="4" y="4" width="92" height="92" rx="7" fill="' + W + '"/>' +
@@ -288,7 +308,7 @@ window.Signs = (function () {
         '<rect x="26" y="28" width="48" height="12" rx="2" fill="' + R + '"/>',
         'Voie sans issue');
     },
-    'hopital':          function(){ return indication('🏥','Établissement de santé', 34); },
+    'hopital':          function(){ return indication('p_hopital','Établissement de santé', 34); },
 
     'agglomeration': function () {
       return wrap('<rect x="4" y="22" width="92" height="56" rx="5" fill="'+K+'"/>' +
@@ -314,7 +334,8 @@ window.Signs = (function () {
     'zone-rencontre': function () {
       return wrap('<rect x="8" y="4" width="84" height="92" rx="7" fill="'+W+'"/>' +
         '<rect x="12" y="8" width="76" height="84" rx="5" fill="'+B+'"/>' +
-        '<text x="50" y="46" text-anchor="middle" font-size="26">🚶🚲</text>' +
+        '<g fill="' + W + '">' + Icons.raw('p_pieton', 22, 38, 38) +
+        Icons.raw('p_velo', 24, 63, 38) + '</g>' +
         '<text x="50" y="76" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-weight="800" font-size="21" fill="'+W+'">20</text>',
         'Zone de rencontre');
     },

@@ -1,387 +1,497 @@
 /* ============================================================
-   Fiches de révision - l'essentiel, en 2 minutes par thème
+   COURS - une leçon par thème.
+
+   Chaque leçon est une suite de blocs, pas un pavé de texte. Le
+   rendu choisit la forme la plus lisible pour chaque type :
+
+     cle       les points à retenir, un par ligne
+     chiffres  un tableau de valeurs, alignées
+     panneaux  les panneaux du thème, dessinés
+     schema    un dessin, quand la notion ne s'explique pas par des mots
+     retenir   la seule phrase à garder si on ne retient qu'une chose
+     piege     l'erreur classique, celle qui coûte des points
+     texte     un paragraphe court, jamais plus de trois phrases
+
+   Le champ theme relie la leçon à sa banque de questions : on peut
+   réviser juste après avoir lu.
    ============================================================ */
 window.LESSONS = [
 
-{k:'memo', n:'Les chiffres à connaître par cœur', i:'chiffres', star:true, html:
-`<p>Si tu ne devais retenir qu’une fiche, c’est celle-là. Ces chiffres tombent dans presque tous les examens.</p>
-<span class="key"><b>Alcool</b> : 0,5 g/L de sang (0,25 mg/L d’air expiré). Permis probatoire et transport en commun : <b>0,2 g/L</b>. Délit à partir de <b>0,8 g/L</b>.</span>
-<h4>Vitesses (temps sec)</h4>
-<ul>
-<li>Agglomération : <b>50</b> (parfois 30)</li>
-<li>Route à double sens, sans séparateur central : <b>80</b> (90 si le département l’a relevé)</li>
-<li>Route à chaussées séparées : <b>110</b></li>
-<li>Autoroute : <b>130</b></li>
-</ul>
-<h4>Sous la pluie</h4>
-<ul>
-<li>Autoroute 130 → <b>110</b></li>
-<li>Chaussées séparées 110 → <b>100</b></li>
-<li>Hors agglomération 90 → <b>80</b> et 80 → <b>70</b></li>
-<li>Agglomération : le 50 ne change pas</li>
-</ul>
-<h4>Visibilité &lt; 50 m</h4>
-<ul><li><b>50 km/h partout</b>, autoroute comprise.</li></ul>
-<h4>Jeune permis (probatoire)</h4>
-<ul><li>Autoroute <b>110</b> · chaussées séparées <b>100</b> · autres routes <b>80</b></li>
-<li>Capital : <b>6 points</b>, disque A obligatoire</li></ul>
-<h4>Distances</h4>
-<ul>
-<li>Distance de sécurité : <b>2 secondes</b></li>
-<li>Distance d’arrêt sur sol sec ≈ <b>(chiffre des dizaines)²</b> → 50 km/h = 25 m, 90 km/h = 81 m, 130 km/h = 169 m</li>
-<li>Sur sol mouillé, la distance de freinage <b>double</b></li>
-<li>Temps de réaction : <b>1 seconde</b></li>
-</ul>
-<h4>Divers</h4>
-<ul>
-<li>Pneus : sculpture minimale <b>1,6 mm</b></li>
-<li>Contrôle technique : <b>4 ans</b> puis tous les <b>2 ans</b> ; contre-visite sous <b>2 mois</b></li>
-<li>Dépassement d’un cycliste : <b>1 m</b> en ville, <b>1,50 m</b> hors agglomération</li>
-<li>Examen : <b>35 bonnes réponses sur 40</b></li>
-</ul>`},
+/* ============ TRANSVERSE ============ */
 
-{k:'lexique', n:'Le lexique, en mots simples', i:'lexique', html:
-`<p>Le code emploie des mots qu’on n’utilise jamais dans la vie courante. Les voici traduits une bonne fois pour toutes.</p>
+{k:'memo', n:'Les chiffres à connaître par cœur', i:'chiffres', theme:'', star:true,
+ resume:'Si tu ne lis qu’une leçon, c’est celle-ci. Ces nombres tombent presque à chaque examen.',
+ blocs:[
+  {t:'chiffres', titre:'Alcool au volant', lignes:[
+    ['Permis classique','0,5 g/L','soit 0,25 mg/L d’air expiré'],
+    ['Permis probatoire','0,2 g/L','autant dire aucun verre'],
+    ['À partir de','0,8 g/L','ce n’est plus une amende, c’est un délit']]},
+  {t:'schema', d:'vitesses'},
+  {t:'chiffres', titre:'Sous la pluie', lignes:[
+    ['Autoroute','110 km/h','au lieu de 130'],
+    ['Chaussées séparées','100 km/h','au lieu de 110'],
+    ['Hors agglomération','70 km/h','au lieu de 80'],
+    ['En ville','50 km/h','inchangé']]},
+  {t:'retenir', txt:'Visibilité sous 50 mètres : 50 km/h partout, autoroute comprise.'},
+  {t:'schema', d:'distance-arret'},
+  {t:'cle', titre:'Le calcul de la distance d’arrêt', items:[
+    'Sur route sèche, prends le chiffre des dizaines et multiplie-le par lui-même.',
+    'À 50 km/h : 5 × 5 = 25 mètres.',
+    'À 90 km/h : 9 × 9 = 81 mètres.',
+    'À 130 km/h : 13 × 13 = 169 mètres.',
+    'Sur route mouillée, le freinage est deux fois plus long.']},
+  {t:'chiffres', titre:'Le reste', lignes:[
+    ['Distance de sécurité','2 secondes','le double sur route mouillée'],
+    ['Pneus','1,6 mm','profondeur minimale des rainures'],
+    ['Contrôle technique','4 ans','puis tous les 2 ans'],
+    ['Dépasser un vélo','1 m / 1,50 m','en ville / hors agglomération'],
+    ['Réussir l’examen','35 sur 40','5 erreurs autorisées']]}
+ ]},
 
-<h4>Les mots de la route</h4>
-<ul>
-<li><b>Chaussée</b> : la partie où roulent les voitures. Le trottoir n’en fait pas partie.</li>
-<li><b>Accotement</b> : le bord de la route, juste après la chaussée.</li>
-<li><b>BAU</b> : la bande d’arrêt d’urgence, cette bande à droite sur l’autoroute.</li>
-<li><b>Agglomération</b> : tout ce qui se trouve entre le panneau au nom de la ville et le même panneau barré.</li>
-<li><b>Usager</b> : n’importe qui sur la route, à pied, à vélo ou en voiture.</li>
-<li><b>Giratoire</b> : le mot officiel pour rond-point.</li>
-<li><b>Panonceau</b> : la petite plaque accrochée sous un panneau, qui le précise.</li>
-<li><b>Ligne d’effet des feux</b> : la large bande blanche où l’on s’arrête au feu rouge.</li>
-<li><b>Sas vélo</b> : le carré peint devant les voitures au feu, réservé aux vélos.</li>
-</ul>
+{k:'lexique', n:'Le lexique, en mots simples', i:'lexique', theme:'',
+ resume:'Le code emploie des mots qu’on n’utilise jamais dans la vie courante. Les voici traduits.',
+ blocs:[
+  {t:'cle', titre:'Les mots de la route', items:[
+    'Chaussée : la partie où roulent les voitures. Le trottoir n’en fait pas partie.',
+    'Accotement : le bord de la route, juste après la chaussée.',
+    'BAU : la bande d’arrêt d’urgence, à droite sur l’autoroute.',
+    'Agglomération : tout ce qui est entre le panneau au nom de la ville et le même panneau barré.',
+    'Usager : n’importe qui sur la route, à pied, à vélo ou en voiture.',
+    'Giratoire : le mot officiel pour rond-point.',
+    'Panonceau : la petite plaque sous un panneau, qui le précise.']},
+  {t:'cle', titre:'Les mots des priorités', items:[
+    'Céder le passage : laisser passer l’autre. Pas forcément s’arrêter.',
+    'Marquer l’arrêt : s’arrêter complètement, roues immobiles. C’est le STOP.',
+    'S’engager : entrer dans un carrefour ou sur une voie.',
+    'Se rabattre : revenir à droite après avoir doublé.',
+    'Déboîter : quitter sa voie pour aller doubler.']},
+  {t:'cle', titre:'Les mots du véhicule', items:[
+    'Carte grise : son vrai nom est certificat d’immatriculation. C’est la même chose.',
+    'PTAC : le poids maximum de la voiture chargée. Il est écrit sur la carte grise.',
+    'PTRA : le même poids maximum, mais voiture et remorque ensemble.',
+    'Contre-visite : le second passage au contrôle technique quand quelque chose n’allait pas.',
+    'Frein moteur : ralentir en rétrogradant, sans toucher la pédale de frein.',
+    'Angle mort : la zone que les rétroviseurs ne montrent pas.',
+    'Aquaplaning : le moment où le pneu flotte sur l’eau et ne touche plus la route.']},
+  {t:'cle', titre:'Les sigles qu’on croise', items:[
+    'ABS : empêche les roues de se bloquer, pour pouvoir tourner le volant en freinant fort.',
+    'ESP : rattrape un début de dérapage tout seul.',
+    'ADAS : le nom général des aides à la conduite.',
+    'PLS : la position latérale de sécurité, sur le côté.',
+    'DAE : le défibrillateur, cet appareil qui parle et guide pas à pas.',
+    'EDPM : le nom officiel des trottinettes électriques.',
+    'ZFE : une zone de ville interdite aux véhicules les plus polluants.']},
+  {t:'retenir', txt:'Contravention : une amende. Délit : on passe devant un tribunal, et la prison devient possible.'},
+  {t:'cle', titre:'Les mots des sanctions', items:[
+    'Rétention : les policiers gardent le permis 72 heures, le temps qu’une décision soit prise.',
+    'Suspension : interdiction de conduire pendant une durée fixée. Le permis est rendu ensuite.',
+    'Annulation et invalidation : le permis n’existe plus, il faut le repasser.',
+    'Permis probatoire : les premières années après l’obtention, avec 6 points seulement.']}
+ ]},
 
-<h4>Les mots des priorités</h4>
-<ul>
-<li><b>Céder le passage</b> : laisser passer l’autre. Pas forcément s’arrêter.</li>
-<li><b>Marquer l’arrêt</b> : s’arrêter complètement, roues immobiles. C’est le STOP.</li>
-<li><b>S’engager</b> : entrer dans un carrefour ou sur une voie.</li>
-<li><b>Se rabattre</b> : revenir sur la voie de droite après avoir doublé.</li>
-<li><b>Déboîter</b> : quitter sa voie pour aller doubler.</li>
-</ul>
+{k:'nouveautes', n:'Ce qui a changé récemment', i:'nouveautes', theme:'',
+ resume:'Ces changements sont récents. Ils tombent souvent, et un cours ancien peut enseigner le contraire.',
+ blocs:[
+  {t:'cle', titre:'En 2024', items:[
+    'On peut conduire seul dès 17 ans après avoir obtenu le permis B.',
+    'La vignette verte d’assurance collée au pare-brise n’existe plus. L’assurance, elle, reste obligatoire.',
+    'Le contrôle technique devient obligatoire pour les motos de plus de 125 cm³.',
+    'Un excès de vitesse de moins de 5 km/h ne coûte plus de point. L’amende reste due.',
+    'Toute voiture neuve lit les panneaux de vitesse, freine seule en urgence et aide à rester dans la voie.']},
+  {t:'cle', titre:'Un peu avant', items:[
+    '2022 : les 5 mètres avant un passage piéton restent libres, pour qu’on voie arriver les piétons.',
+    '2022 : la conduite déléguée à la voiture est autorisée, mais sur voies séparées et à faible vitesse.',
+    '2021 : les véhicules de plus de 3,5 t portent des autocollants « angle mort ».',
+    '2020 : l’éthylotest n’est plus obligatoire à bord. Le gilet et le triangle, si.',
+    '2020 : téléphone en main plus une autre infraction, et le permis peut être retenu sur place.']},
+  {t:'retenir', txt:'Les zones à faibles émissions se développent dans les grandes villes. Les règles changent d’une ville à l’autre : on se renseigne avant d’y aller.'}
+ ]},
 
-<h4>Les mots du véhicule</h4>
-<ul>
-<li><b>Carte grise</b> : son vrai nom est « certificat d’immatriculation ». C’est la même chose.</li>
-<li><b>PTAC</b> : le poids maximum de la voiture une fois chargée. Il est écrit sur la carte grise.</li>
-<li><b>PTRA</b> : le même poids maximum, mais voiture <b>et</b> remorque ensemble.</li>
-<li><b>Contre-visite</b> : le second passage au contrôle technique quand quelque chose n’allait pas.</li>
-<li><b>Frein moteur</b> : ralentir en rétrogradant, sans toucher la pédale de frein.</li>
-<li><b>Angle mort</b> : la zone que les rétroviseurs ne montrent pas.</li>
-<li><b>Aquaplaning</b> : le moment où le pneu flotte sur l’eau et ne touche plus la route.</li>
-</ul>
+/* ============ PAR THÈME ============ */
 
-<h4>Les sigles qu’on croise</h4>
-<ul>
-<li><b>ABS</b> : empêche les roues de se bloquer quand on freine fort, pour pouvoir continuer à tourner le volant.</li>
-<li><b>ESP</b> : rattrape un début de dérapage tout seul.</li>
-<li><b>ADAS</b> : le nom général des aides à la conduite (régulateur, freinage automatique, maintien de voie…).</li>
-<li><b>PLS</b> : la position latérale de sécurité, sur le côté, pour une personne inconsciente qui respire.</li>
-<li><b>DAE</b> : le défibrillateur, cet appareil qui parle et guide pas à pas.</li>
-<li><b>EDPM</b> : le nom officiel des trottinettes électriques et engins du même genre.</li>
-<li><b>ZFE</b> : une zone de ville où les véhicules les plus polluants ne peuvent pas entrer.</li>
-</ul>
+{k:'signalisation', n:'Signalisation', i:'signalisation', theme:'signalisation',
+ resume:'La forme et la couleur d’un panneau disent déjà tout. Le dessin ne fait que préciser.',
+ blocs:[
+  {t:'retenir', txt:'Triangle = danger. Rond = ordre ou interdiction. Carré = information.'},
+  {t:'panneaux', titre:'Les formes à reconnaître', signes:[
+    ['danger-enfants','Triangle rouge : un danger arrive'],
+    ['stop','Octogone : arrêt complet, roues immobiles'],
+    ['cedez','Triangle pointe en bas : je laisse passer'],
+    ['limite-50','Rond à bord rouge : interdiction'],
+    ['obl-tout-droit','Rond bleu : obligation'],
+    ['parking','Carré bleu : simple information'],
+    ['route-prioritaire','Losange jaune : je suis prioritaire'],
+    ['fin-interdictions','Rond gris barré : la règle précédente s’arrête']]},
+  {t:'cle', titre:'Qui commande, quand tout se contredit', items:[
+    'Un agent qui règle la circulation passe avant tout le reste.',
+    'Ensuite les feux tricolores.',
+    'Ensuite les panneaux.',
+    'Ensuite les lignes peintes au sol.',
+    'Et en dernier seulement, les règles générales comme la priorité à droite.']},
+  {t:'cle', titre:'Les lignes au sol', items:[
+    'Ligne continue : je ne la franchis pas. Seule exception, dépasser un cycliste si je vois loin.',
+    'Ligne discontinue : je peux la franchir.',
+    'Traits qui s’allongent : une ligne continue arrive, je me range.',
+    'Zébras : c’est une zone interdite, je n’y roule pas.']},
+  {t:'piege', txt:'C’est toujours la ligne de ton côté qui compte, pas celle d’en face.'},
+  {t:'texte', txt:'Sur un chantier, les panneaux à fond jaune remplacent les panneaux habituels et les lignes peintes. Le jaune gagne toujours.'}
+ ]},
 
-<h4>Les mots des sanctions</h4>
-<span class="key"><b>Contravention</b> : une amende. <b>Délit</b> : on passe devant un tribunal, et la prison devient possible.</span>
-<ul>
-<li><b>Rétention</b> : les policiers gardent le permis 72 heures, le temps qu’une décision soit prise.</li>
-<li><b>Suspension</b> : interdiction de conduire pendant une durée fixée. Le permis est rendu ensuite.</li>
-<li><b>Annulation</b> et <b>invalidation</b> : le permis n’existe plus, il faut le repasser.</li>
-<li><b>Permis probatoire</b> : les premières années après l’obtention, avec 6 points seulement.</li>
-</ul>`},
+{k:'priorites', n:'Priorités & intersections', i:'priorites', theme:'priorites',
+ resume:'Une seule question à chaque carrefour : est-ce qu’un panneau décide à ma place ?',
+ blocs:[
+  {t:'schema', d:'priorite-droite'},
+  {t:'retenir', txt:'Sans aucun panneau, celui qui arrive à ma droite passe avant moi. La largeur de la route n’y change rien.'},
+  {t:'cle', titre:'Qui doit toujours céder le passage', items:[
+    'Celui qui sort d’un parking, d’un garage ou d’une station-service. Y compris aux piétons.',
+    'Celui qui tourne à gauche, face à une voiture qui va tout droit.',
+    'Celui qui a un obstacle de son côté sur une route étroite.',
+    'Celui qui descend, en montagne.',
+    'Celui qui entre dans un giratoire signalé « Cédez le passage ».']},
+  {t:'schema', d:'giratoire'},
+  {t:'piege', txt:'Un rond-point sans panneau à l’entrée inverse la règle : là, ce sont ceux qui entrent qui passent. C’est rare, et ça tombe à l’examen.'},
+  {t:'cle', titre:'Toujours prioritaires', items:[
+    'Le tramway : il ne peut ni s’écarter, ni freiner vite.',
+    'Les véhicules de secours en intervention, sirène et gyrophare allumés.',
+    'Le bus qui quitte son arrêt, mais seulement en ville.',
+    'Le piéton engagé, ou celui qui montre clairement qu’il veut traverser.']},
+  {t:'panneaux', titre:'Les panneaux qui décident', signes:[
+    ['stop','Je m’arrête, même si la voie est libre'],
+    ['cedez','Je laisse passer, sans forcément m’arrêter'],
+    ['route-prioritaire','Je reste prioritaire aux prochains carrefours'],
+    ['priorite-a-droite','Attention, quelqu’un peut arriver de ma droite'],
+    ['cedez-giratoire','Ceux qui tournent déjà passent avant moi']]},
+  {t:'texte', txt:'Dans un giratoire, le clignotant droit s’allume juste après la sortie qui précède la mienne. Pas avant.'}
+ ]},
 
-{k:'nouveautes', n:'Ce qui a changé récemment', i:'nouveautes', html:
-`<p>Ces changements sont récents : ils tombent souvent, et un cours un peu ancien peut encore enseigner le contraire.</p>
+{k:'vitesse', n:'Vitesses & distances', i:'vitesse', theme:'vitesse',
+ resume:'La vitesse affichée est un maximum, jamais un objectif. Et une voiture ne s’arrête pas où on croit.',
+ blocs:[
+  {t:'schema', d:'vitesses'},
+  {t:'cle', titre:'Où ralentir, même sans panneau', items:[
+    'Dans un virage, ou au sommet d’une côte.',
+    'À l’approche d’un passage piéton ou d’une école.',
+    'Quand on croise quelqu’un sur une route étroite.',
+    'Par mauvais temps, ou dans un trafic dense.']},
+  {t:'schema', d:'distance-arret'},
+  {t:'schema', d:'deux-secondes'},
+  {t:'retenir', txt:'Deux secondes d’écart minimum. Trois sur route mouillée. C’est une durée, donc elle s’adapte toute seule à la vitesse.'},
+  {t:'texte', txt:'Rouler deux fois plus vite ne double pas le choc : il devient quatre fois plus violent. C’est pour cela que 20 km/h de moins change tout.'},
+  {t:'chiffres', titre:'Ce que coûte un excès', lignes:[
+    ['Moins de 5 km/h','0 point','l’amende reste due'],
+    ['5 à 19 km/h','1 point',''],
+    ['20 à 29 km/h','2 points',''],
+    ['30 à 39 km/h','3 points',''],
+    ['40 à 49 km/h','4 points',''],
+    ['50 km/h et plus','6 points','1 500 € et suspension possible']]},
+  {t:'piege', txt:'Les vitesses « pluie » s’appliquent sans qu’aucun panneau ne le rappelle. C’est à toi de les connaître.'}
+ ]},
 
-<h4>2024</h4>
-<ul>
-<li>On peut <b>conduire seul dès 17 ans</b> après avoir obtenu le permis B.</li>
-<li>La <b>vignette verte d’assurance</b> collée au pare-brise <b>n’existe plus</b>. Les forces de l’ordre consultent un fichier. L’assurance, elle, reste obligatoire.</li>
-<li>Le <b>contrôle technique devient obligatoire pour les motos</b> de plus de 125 cm³.</li>
-<li>Un excès de vitesse de <b>moins de 5 km/h ne coûte plus de point</b>. L’amende, elle, reste due.</li>
-<li>Tout <b>véhicule neuf</b> vendu dans l’Union européenne embarque désormais : lecture des panneaux de vitesse, freinage d’urgence automatique, aide au maintien dans la voie, alerte de somnolence, aide au recul et une boîte noire.</li>
-</ul>
+{k:'manoeuvres', n:'Dépassement & manœuvres', i:'manoeuvres', theme:'manoeuvres',
+ resume:'Toute manœuvre suit le même ordre : je regarde, j’annonce, puis seulement j’agis.',
+ blocs:[
+  {t:'retenir', txt:'Contrôler, signaler, agir. Dans cet ordre, toujours. Le clignotant annonce une intention, il ne donne aucun droit.'},
+  {t:'cle', titre:'Un dépassement, étape par étape', items:[
+    'Je regarde dans les rétroviseurs.',
+    'Je jette un coup d’œil par-dessus l’épaule, pour l’angle mort.',
+    'Je mets le clignotant.',
+    'Je déboîte et je dépasse.',
+    'Je vois la voiture dépassée entière dans mon rétroviseur intérieur.',
+    'Alors seulement, je me rabats.']},
+  {t:'schema', d:'depassement-cycliste'},
+  {t:'cle', titre:'Quand dépasser est interdit', items:[
+    'Quand je ne vois pas assez loin : virage, sommet de côte.',
+    'Sur un passage à niveau ou un passage piéton.',
+    'Dans un carrefour où je ne suis pas prioritaire.',
+    'Quand la voiture devant moi est déjà en train de doubler.']},
+  {t:'piege', txt:'Accélérer pendant qu’on te double est une infraction, et une cause classique de choc frontal. Serre à droite et laisse faire.'},
+  {t:'texte', txt:'Marche arrière et demi-tour sont interdits sur autoroute et voie rapide, sur un passage à niveau, et dans tout virage sans visibilité.'},
+  {t:'retenir', txt:'Ouvre ta portière avec la main opposée. Ton corps pivote tout seul et tes yeux voient le cycliste qui arrive.'}
+ ]},
 
-<h4>Un peu avant</h4>
-<ul>
-<li><b>2022</b> : les <b>5 mètres avant un passage piéton</b> doivent rester libres de tout stationnement, pour qu’on voie arriver les piétons.</li>
-<li><b>2022</b> : la <b>conduite déléguée à la voiture</b> est autorisée, mais seulement sur voies séparées et à faible vitesse.</li>
-<li><b>2021</b> : les véhicules de plus de 3,5 t portent des autocollants <b>« angle mort »</b>.</li>
-<li><b>2020</b> : l’<b>éthylotest n’est plus obligatoire</b> à bord. Le gilet et le triangle, si.</li>
-<li><b>2020</b> : téléphone en main <b>plus une autre infraction</b> = le permis peut être retenu sur place.</li>
-<li><b>2018 puis 2019</b> : 80 km/h hors agglomération, que chaque département peut relever à 90 sur certaines routes.</li>
-</ul>
+{k:'autoroute', n:'Autoroute & voies rapides', i:'autoroute', theme:'autoroute',
+ resume:'Tout y va plus vite, y compris les erreurs. Trois moments comptent : entrer, circuler, sortir.',
+ blocs:[
+  {t:'cle', titre:'Entrer', items:[
+    'La voie d’insertion sert à prendre de la vitesse, pas à hésiter.',
+    'Je n’ai aucune priorité : je m’insère dans un espace libre.',
+    'S’arrêter en bout de voie d’insertion est très dangereux.']},
+  {t:'cle', titre:'Circuler', items:[
+    'Voie de droite par défaut. La gauche sert à dépasser, puis on se rabat.',
+    'Sur la voie de gauche, il faut pouvoir tenir au moins 80 km/h.',
+    'Interdits : piétons, vélos, cyclomoteurs, tout véhicule trop lent.',
+    'Marche arrière et demi-tour : interdits, sans exception.']},
+  {t:'cle', titre:'Sortir', items:[
+    'Je me rabats à droite bien avant la sortie.',
+    'Je ralentis sur la bretelle, pas sur l’autoroute.',
+    'Sortie ratée ? La suivante. Jamais de marche arrière.']},
+  {t:'schema', d:'panne-autoroute'},
+  {t:'retenir', txt:'En panne : feux de détresse, gilet enfilé dans la voiture, sortie par la droite, et on passe derrière la glissière. Les bornes d’appel sont tous les 2 km.'},
+  {t:'piege', txt:'La bande d’arrêt d’urgence n’est pas un endroit sûr. On ne reste jamais dans la voiture arrêtée dessus.'},
+  {t:'texte', txt:'La fatigue est la première cause d’accident mortel sur autoroute. Une pause de quinze minutes toutes les deux heures, même sans se sentir fatiguée.'}
+ ]},
 
-<span class="key">Les <b>zones à faibles émissions</b> se déploient dans les grandes agglomérations. Les règles changent d’une ville à l’autre : on se renseigne avant d’y aller, pas devant le panneau.</span>`},
+{k:'stationnement', n:'Arrêt & stationnement', i:'stationnement', theme:'stationnement',
+ resume:'Une seule question : est-ce que je gêne quelqu’un de plus fragile que moi ?',
+ blocs:[
+  {t:'retenir', txt:'Arrêt : je reste au volant, quelques instants. Stationnement : je quitte la voiture, ou je reste longtemps.'},
+  {t:'panneaux', titre:'Les deux panneaux à ne pas confondre', signes:[
+    ['stationnement-interdit','Une seule barre : je peux m’arrêter, pas stationner'],
+    ['arret-stationnement-interdit','Une croix : je ne m’immobilise pas du tout']]},
+  {t:'cle', titre:'Interdit dans tous les cas', items:[
+    'Sur un passage piéton, un trottoir, une piste cyclable.',
+    'Sur les 5 mètres avant un passage piéton.',
+    'Devant une entrée de garage.',
+    'Sur une place réservée aux personnes handicapées, un arrêt de bus, une voie de bus.',
+    'Sur un pont, dans un tunnel, sur la bande d’arrêt d’urgence.']},
+  {t:'schema', d:'pente'},
+  {t:'cle', titre:'Bon à savoir', items:[
+    'Plus de 7 jours au même endroit : c’est abusif, la fourrière peut venir.',
+    'Stationnement gênant : 135 €.',
+    'Sans marquage au sol, on se gare le long du trottoir, à droite.',
+    'À gauche, uniquement dans une rue à sens unique.']},
+  {t:'piege', txt:'Les feux de détresse ne rendent jamais légal un stationnement interdit. Ils préviennent d’un danger, c’est tout.'}
+ ]},
 
-{k:'signalisation', n:'Signalisation', i:'signalisation', html:
-`<h4>Lire un panneau à sa forme</h4>
-<ul>
-<li><b>Triangle rouge pointe en haut</b> → danger (j’anticipe)</li>
-<li><b>Triangle pointe en bas</b> → cédez le passage</li>
-<li><b>Octogone rouge</b> → STOP, arrêt absolu</li>
-<li><b>Disque à bord rouge</b> → interdiction</li>
-<li><b>Disque bleu</b> → obligation</li>
-<li><b>Carré / rectangle bleu</b> → indication</li>
-<li><b>Losange jaune</b> → route prioritaire (barré = fin)</li>
-<li><b>Disque gris barré</b> → fin de prescription</li>
-</ul>
-<span class="key">Astuce imparable : <b>rond = prescription</b> (ordre ou interdiction), <b>triangle = danger</b>, <b>carré = information</b>.</span>
-<h4>Hiérarchie à connaître</h4>
-<p>En cas de contradiction, l’ordre est toujours : <b>agent → feux → panneaux → marquage au sol → règles générales</b>.</p>
-<h4>Marquage au sol</h4>
-<ul>
-<li><b>Ligne continue</b> : franchissement interdit (exception : dépasser un cycliste avec visibilité)</li>
-<li><b>Ligne discontinue</b> : franchissement autorisé</li>
-<li><b>Traits qui s’allongent</b> : ligne d’avertissement, une continue arrive</li>
-<li><b>Zébras</b> : zone interdite à la circulation</li>
-<li>C’est toujours la <b>ligne de mon côté</b> qui compte</li>
-</ul>`},
+{k:'conducteur', n:'Le conducteur', i:'conducteur', theme:'conducteur',
+ resume:'La voiture est rarement en cause. C’est l’état de celle qui conduit qui décide de tout.',
+ blocs:[
+  {t:'chiffres', titre:'Alcool', lignes:[
+    ['Permis classique','0,5 g/L','soit 0,25 mg/L d’air expiré'],
+    ['Permis probatoire','0,2 g/L','un seul verre fait dépasser'],
+    ['Délit à partir de','0,8 g/L','4 500 €, 6 points, prison possible'],
+    ['Élimination','0,10 à 0,15 g/L','par heure, et rien ne l’accélère']]},
+  {t:'retenir', txt:'Le café réveille, il ne fait pas baisser l’alcool. Seul le temps compte.'},
+  {t:'cle', titre:'Ce que l’alcool fait vraiment', items:[
+    'Il allonge le temps de réaction.',
+    'Il rétrécit le champ de vision.',
+    'Il augmente la prise de risque, tout en donnant l’impression de bien conduire.']},
+  {t:'texte', txt:'Pour les stupéfiants, il n’existe aucun seuil. La moindre trace est un délit, et le test salivaire détecte bien après la disparition des effets.'},
+  {t:'cle', titre:'Les signes qu’il faut s’arrêter', items:[
+    'Les bâillements qui reviennent.',
+    'Les paupières lourdes, le regard fixe.',
+    'La voiture qui flotte dans la voie.']},
+  {t:'retenir', txt:'Face à ces signes, une seule réponse marche : une sieste de quinze à vingt minutes. La musique et la fenêtre ouverte ne servent à rien.'},
+  {t:'chiffres', titre:'Le permis à points', lignes:[
+    ['Permis probatoire','6 points','12 après 3 ans sans infraction'],
+    ['Après conduite accompagnée','2 ans','au lieu de 3'],
+    ['Stage de récupération','4 points','une fois par an au maximum'],
+    ['Téléphone en main','3 points','135 €, même à l’arrêt au feu rouge'],
+    ['Ceinture non bouclée','3 points','135 €']]},
+  {t:'piege', txt:'Les écouteurs et les oreillettes sont interdits au volant. Seul le kit intégré à la voiture est autorisé.'}
+ ]},
 
-{k:'priorites', n:'Priorités & intersections', i:'priorites', html:
-`<h4>La règle de base</h4>
-<p>Sans aucune signalisation : <b>priorité à droite</b>. La largeur ou l’importance apparente de la route ne change rien.</p>
-<h4>Qui cède toujours le passage ?</h4>
-<ul>
-<li>Celui qui sort d’un <b>lieu privé</b> (parking, garage, station-service), y compris aux piétons</li>
-<li>Celui qui <b>tourne à gauche</b>, face à un véhicule qui va tout droit</li>
-<li>Celui qui a un <b>obstacle de son côté</b> sur une route étroite</li>
-<li>Celui qui <b>descend</b> en montagne</li>
-<li>Celui qui entre dans un <b>giratoire</b> signalé « Cédez le passage »</li>
-</ul>
-<span class="key">Attention au rond-point <b>sans panneau</b> à l’entrée : la priorité à droite s’applique, donc ce sont les <b>entrants</b> qui passent. Rare, mais ça tombe à l’examen.</span>
-<h4>Toujours prioritaires</h4>
-<ul>
-<li>Le <b>tramway</b> (il ne peut pas s’écarter)</li>
-<li>Les <b>véhicules d’intervention urgente</b> (sirène + gyrophare)</li>
-<li>Le <b>bus qui quitte son arrêt</b>, en agglomération uniquement</li>
-<li>Le <b>piéton</b> engagé ou manifestant l’intention de traverser</li>
-</ul>
-<h4>Giratoire : le clignotant</h4>
-<p>Pas de clignotant à l’entrée si je sors à la première sortie. Sinon, <b>clignotant droit</b> juste après avoir dépassé la sortie précédant la mienne.</p>`},
+{k:'usagers', n:'Les autres usagers', i:'usagers', theme:'usagers',
+ resume:'Plus l’autre est fragile, plus ta marge doit être grande. C’est toute la règle.',
+ blocs:[
+  {t:'chiffres', titre:'Un piéton renversé', lignes:[
+    ['À 30 km/h','1 sur 10','risque de décès'],
+    ['À 50 km/h','1 sur 2',''],
+    ['À 60 km/h','plus de 8 sur 10','']]},
+  {t:'retenir', txt:'Vingt kilomètres-heure de moins, c’est une vie sauvée sur deux. C’est toute la raison d’être des zones 30.'},
+  {t:'schema', d:'angle-mort'},
+  {t:'piege', txt:'Un camion qui tourne à droite se déporte d’abord à gauche. Ne jamais s’intercaler à sa droite à ce moment-là.'},
+  {t:'cle', titre:'Ce qu’un cycliste a le droit de faire', items:[
+    'Rouler à deux de front, sauf la nuit ou si le trafic l’exige.',
+    'Remonter une rue à sens unique, si c’est un double-sens cyclable.',
+    'Tourner à droite au feu rouge, quand un petit panneau triangulaire le prévoit.',
+    'Se placer au milieu de la voie pour éviter les portières et se rendre visible.']},
+  {t:'schema', d:'depassement-cycliste'},
+  {t:'cle', titre:'Les trottinettes électriques', items:[
+    'Une seule personne par engin.',
+    '25 km/h maximum, 14 ans minimum.',
+    'Sur les pistes cyclables ou la chaussée, jamais sur le trottoir.',
+    'Écouteurs interdits, comme en voiture.']},
+  {t:'texte', txt:'Un enfant ne perçoit pas correctement les distances avant une dizaine d’années, et croit qu’être vu suffit à être protégé. C’est à toi d’anticiper.'}
+ ]},
 
-{k:'vitesse', n:'Vitesses & distances', i:'vitesse', html:
-`<h4>La vitesse est un maximum, pas un objectif</h4>
-<p>Le code impose de <b>réduire</b> dans une liste de situations : virages, sommets de côte, croisements étroits, passages piétons, écoles, chantiers, mauvais temps, trafic dense.</p>
-<h4>Distance de sécurité</h4>
-<p>La règle des <b>2 secondes</b> : je choisis un point fixe (panneau, arbre) ; quand le véhicule devant le dépasse, je dois pouvoir compter « mille-un, mille-deux » avant d’y arriver moi-même.</p>
-<span class="key">Sur autoroute, deux traits de rappel visibles entre les véhicules = distance correcte.</span>
-<h4>Distance d’arrêt</h4>
-<p><b>Distance d’arrêt = distance de réaction + distance de freinage.</b></p>
-<ul>
-<li>Réaction ≈ 1 seconde → à 90 km/h, c’est déjà <b>25 m</b> parcourus les yeux ouverts mais le pied inactif</li>
-<li>Sol sec : distance d’arrêt ≈ <b>dizaines²</b></li>
-<li>Sol mouillé : le freinage <b>double</b></li>
-</ul>
-<h4>Physique du choc</h4>
-<p>L’énergie varie avec le <b>carré</b> de la vitesse : rouler deux fois plus vite, c’est un choc <b>quatre fois</b> plus violent.</p>
-<h4>Barème des excès</h4>
-<ul>
-<li>&lt; 20 km/h : 1 point</li><li>20 à 29 : 2 points</li><li>30 à 39 : 3 points</li>
-<li>40 à 49 : 4 points</li><li>≥ 50 : <b>6 points</b>, 1 500 €, suspension possible</li>
-</ul>`},
+{k:'vehicule', n:'Véhicule & équipements', i:'vehicule', theme:'vehicule',
+ resume:'Cinq minutes de vérification évitent trois heures d’attente sur une bande d’arrêt d’urgence.',
+ blocs:[
+  {t:'retenir', txt:'Obligatoires à bord : le gilet, rangé dans l’habitacle, et le triangle. L’éthylotest ne l’est plus depuis 2020.'},
+  {t:'cle', titre:'Les pneus', items:[
+    'Profondeur minimale des rainures : 1,6 mm.',
+    'Pression vérifiée à froid, une fois par mois, roue de secours comprise.',
+    'Un pneu sous-gonflé consomme plus, s’use sur les bords et peut éclater.']},
+  {t:'chiffres', titre:'Les feux', lignes:[
+    ['Feux de croisement','30 m','de portée'],
+    ['Feux de route','100 m','à éteindre dès qu’on croise quelqu’un'],
+    ['Brouillard avant','pluie, neige, brouillard',''],
+    ['Brouillard arrière','brouillard ou neige','jamais sous la pluie']]},
+  {t:'piege', txt:'Les feux de brouillard arrière sous la pluie éblouissent et masquent les feux stop. C’est interdit.'},
+  {t:'cle', titre:'Les témoins du tableau de bord', items:[
+    'Rouge : je m’arrête dès que possible.',
+    'Orange : à faire vérifier rapidement.',
+    'Vert ou bleu : tout va bien, c’est une information.']},
+  {t:'texte', txt:'L’ABS empêche les roues de se bloquer : il permet de continuer à tourner le volant en freinant à fond. Il ne raccourcit pas toujours la distance.'},
+  {t:'retenir', txt:'La ceinture tient sur l’os : l’épaule et les hanches, jamais sur le ventre.'}
+ ]},
 
-{k:'manoeuvres', n:'Dépassement & manœuvres', i:'manoeuvres', html:
-`<h4>La séquence du dépassement</h4>
-<p><b>Rétroviseurs → angle mort → clignotant → déboîtement → dépassement → rétroviseur intérieur → rabattement.</b></p>
-<p>Je me rabats quand je vois le véhicule dépassé <b>en entier</b> dans mon rétroviseur intérieur.</p>
-<span class="key">Le clignotant <b>annonce</b> une intention. Il ne donne aucun droit et ne remplace jamais un contrôle.</span>
-<h4>Le dépassement est interdit</h4>
-<ul>
-<li>Quand la visibilité est insuffisante (virage, sommet de côte)</li>
-<li>Sur un passage à niveau, un passage piéton</li>
-<li>Dans une intersection où je ne suis pas prioritaire</li>
-<li>Quand le véhicule devant moi dépasse déjà</li>
-</ul>
-<h4>Écart avec un cycliste</h4>
-<p><b>1 m</b> en agglomération, <b>1,50 m</b> hors agglomération. Si l’espace manque, j’attends. Franchir une ligne continue pour ce dépassement est toléré si la visibilité est bonne.</p>
-<h4>Manœuvres interdites</h4>
-<p><b>Marche arrière</b> et <b>demi-tour</b> : interdits sur autoroute et voie rapide, sur un passage à niveau, dans un virage sans visibilité.</p>
-<h4>Ouvrir sa portière</h4>
-<p>Technique « du Néerlandais » : ouvrir avec la <b>main opposée</b> à la portière. Le corps pivote tout seul et le regard balaie l’arrière. C’est ce qui évite d’ouvrir sa portière dans un cycliste.</p>`},
+{k:'technologie', n:'Aides à la conduite', i:'technologie', theme:'technologie',
+ resume:'Depuis 2024, toutes les voitures neuves en sont équipées. Elles aident, elles ne conduisent pas.',
+ blocs:[
+  {t:'retenir', txt:'Quel que soit l’équipement, c’est toi qui restes responsable de la conduite et des infractions.'},
+  {t:'cle', titre:'Ce que toute voiture neuve embarque depuis juillet 2024', items:[
+    'La lecture des panneaux de vitesse, qui alerte en cas de dépassement.',
+    'Le freinage d’urgence automatique.',
+    'L’aide au maintien dans la voie.',
+    'Une alerte de somnolence.',
+    'L’aide au recul et une boîte noire qui enregistre les secondes du choc.']},
+  {t:'cle', titre:'Ce qui les aveugle', items:[
+    'Un pare-brise sale, un capteur couvert de boue ou de givre.',
+    'Le brouillard, la neige, un contre-jour.',
+    'Un marquage au sol effacé : plus de lignes, plus de maintien de voie.']},
+  {t:'piege', txt:'L’alerte d’angle mort ne voit pas toujours un deux-roues qui remonte vite. Le coup d’œil par-dessus l’épaule reste la seule vérification fiable.'},
+  {t:'cle', titre:'La voiture électrique', items:[
+    'Plus lourde, donc plus longue à arrêter.',
+    'Très silencieuse en ville : elle surprend les piétons, d’où le son artificiel obligatoire.',
+    'Elle ralentit fortement au lever de pied, parfois sans allumer les feux stop.',
+    'Après un choc, sa batterie peut prendre feu plusieurs heures plus tard.']},
+  {t:'texte', txt:'Le régulateur adaptatif suit la voiture de devant. Il ne comprend ni les feux, ni les piétons, ni un véhicule arrêté en travers.'}
+ ]},
 
-{k:'autoroute', n:'Autoroute & voies rapides', i:'autoroute', html:
-`<h4>S’insérer</h4>
-<p>La voie d’insertion sert à <b>prendre de la vitesse</b>, pas à hésiter. Je n’ai aucune priorité : j’adapte ma vitesse au trafic et je m’insère dans un espace suffisant. S’arrêter en bout de voie est très dangereux.</p>
-<h4>Circuler</h4>
-<ul>
-<li>Voie de droite par défaut, voie de gauche uniquement pour dépasser</li>
-<li>Vitesse minimale sur la voie de gauche par temps clair : <b>80 km/h</b></li>
-<li>Interdits : piétons, cyclos, tracteurs, tout véhicule ne dépassant pas 80 km/h</li>
-<li>Marche arrière et demi-tour : <b>interdits</b></li>
-</ul>
-<h4>Sortir</h4>
-<p>Je me rabats à droite <b>bien avant</b> la sortie, puis je décélère <b>sur la voie de décélération</b>, jamais sur l’autoroute. Sortie ratée = sortie suivante.</p>
-<span class="key"><b>Panne sur autoroute</b> : warnings → gilet enfilé <b>dans</b> la voiture → sortie par la droite → derrière la glissière → borne d’appel d’urgence (tous les 2 km).</span>
-<h4>Corridor de sécurité</h4>
-<p>En cas de bouchon, ceux de la voie de gauche se serrent à gauche, les autres à droite : un couloir se forme au milieu pour les secours.</p>
-<h4>Fatigue</h4>
-<p>Pause de 15 à 20 minutes <b>toutes les 2 heures</b>. La somnolence est la première cause d’accident mortel sur autoroute.</p>`},
+{k:'conditions', n:'Conditions difficiles', i:'conditions', theme:'conditions',
+ resume:'La pluie, la nuit et le brouillard ne changent pas les règles. Ils changent les distances.',
+ blocs:[
+  {t:'cle', titre:'Sous la pluie', items:[
+    'Vitesses réduites : 110, 100, 80, 70 selon la route.',
+    'Distances augmentées : trois secondes au lieu de deux.',
+    'Feux de croisement allumés.']},
+  {t:'retenir', txt:'Les dix premières minutes de pluie sont les plus glissantes : l’eau fait remonter le gras déposé sur la route.'},
+  {t:'cle', titre:'Si la voiture se met à flotter sur l’eau', items:[
+    'Je lâche l’accélérateur.',
+    'Je ne freine pas brutalement.',
+    'Je garde le volant droit et j’attends que les pneus retrouvent la route.']},
+  {t:'piege', txt:'Dans le brouillard, jamais de pleins phares : la lumière rebondit sur les gouttelettes et forme un mur blanc.'},
+  {t:'cle', titre:'La nuit', items:[
+    'En feux de croisement, je vois à 30 mètres. Au-delà de 80 km/h, je roule plus loin que ce que je vois.',
+    'Éblouie, je regarde le bord droit de la chaussée et je ralentis.',
+    'Un piéton habillé de sombre n’est visible qu’à une trentaine de mètres.']},
+  {t:'cle', titre:'Neige et verglas', items:[
+    'Tout en douceur : accélérer, freiner, tourner.',
+    'Le verglas se forme d’abord sur les ponts et dans les zones à l’ombre.',
+    'Chaînes sur les roues motrices, 50 km/h maximum, retirées dès que la route est dégagée.']},
+  {t:'texte', txt:'Dans un tunnel : feux de croisement, lunettes de soleil enlevées. En cas d’incendie, on coupe le moteur, on laisse les clés et on rejoint la sortie à pied. La fumée tue avant les flammes.'}
+ ]},
 
-{k:'stationnement', n:'Arrêt & stationnement', i:'stationnement', html:
-`<h4>Arrêt ou stationnement ?</h4>
-<ul>
-<li><b>Arrêt</b> : immobilisation brève, conducteur au volant (déposer quelqu’un, charger)</li>
-<li><b>Stationnement</b> : le conducteur s’absente ou l’immobilisation se prolonge</li>
-</ul>
-<span class="key">Panneau à <b>une barre</b> = stationnement interdit (l’arrêt reste possible). Panneau <b>en croix</b> = arrêt <b>et</b> stationnement interdits.</span>
-<h4>Interdit dans tous les cas</h4>
-<ul>
-<li>Sur un passage piéton, un trottoir, une piste cyclable</li>
-<li>Sur les <b>5 mètres en amont</b> d’un passage piéton</li>
-<li>Devant une entrée carrossable</li>
-<li>Sur un emplacement réservé aux personnes handicapées, un arrêt de bus, une voie réservée</li>
-<li>Sur un pont, dans un tunnel, sur la BAU</li>
-</ul>
-<h4>Bon à savoir</h4>
-<ul>
-<li>Stationnement <b>abusif</b> au-delà de <b>7 jours</b> au même endroit</li>
-<li>Stationnement gênant : <b>135 €</b>, mise en fourrière possible</li>
-<li>Alterné semi-mensuel : impairs du 1<sup>er</sup> au 15, pairs du 16 à la fin du mois</li>
-<li>En pente : frein de stationnement, rapport engagé, <b>roues braquées</b> vers le trottoir</li>
-</ul>`},
+{k:'secours', n:'Premiers secours', i:'secours', theme:'secours',
+ resume:'Trois gestes dans le bon ordre. Se précipiter fait souvent une victime de plus.',
+ blocs:[
+  {t:'retenir', txt:'Protéger, Alerter, Secourir. Dans cet ordre, jamais un autre.'},
+  {t:'cle', titre:'Protéger', items:[
+    'Feux de détresse allumés.',
+    'Gilet enfilé avant de sortir de la voiture.',
+    'Triangle posé à environ 30 mètres, bien plus loin avant un virage.',
+    'Moteurs coupés, personne ne fume.']},
+  {t:'chiffres', titre:'Alerter', lignes:[
+    ['112','partout en Europe','même sans carte SIM'],
+    ['15','SAMU',''],
+    ['18','pompiers',''],
+    ['17','police',''],
+    ['114','par SMS','pour les sourds et malentendants']]},
+  {t:'cle', titre:'Ce qu’il faut dire', items:[
+    'Le lieu précis : la route, le sens de circulation, la borne kilométrique.',
+    'Le nombre de victimes et leur état.',
+    'Et surtout : ne jamais raccrocher le premier.']},
+  {t:'schema', d:'pls'},
+  {t:'cle', titre:'Secourir', items:[
+    'On ne déplace pas une victime, sauf danger vital immédiat.',
+    'Inconsciente mais elle respire : position latérale de sécurité.',
+    'Elle ne respire pas : massage cardiaque, 100 à 120 par minute.',
+    'Le casque d’un motard reste en place, sauf si elle ne respire pas.',
+    'Une hémorragie s’arrête en appuyant fort, sans relâcher.']},
+  {t:'piege', txt:'Jamais boire, jamais manger, jamais retirer un objet planté dans une plaie. Mais parler et rassurer, oui.'},
+  {t:'texte', txt:'Appeler le 112 est déjà porter secours. Personne n’est obligé de prendre un risque vital.'}
+ ]},
 
-{k:'conducteur', n:'Le conducteur', i:'conducteur', html:
-`<h4>Alcool</h4>
-<ul>
-<li>0,5 g/L de sang = 0,25 mg/L d’air expiré (règle : <b>sang ÷ 2 = air</b>)</li>
-<li>Permis probatoire / transport en commun : <b>0,2 g/L</b></li>
-<li>Délit dès <b>0,8 g/L</b> : 4 500 €, 6 points, jusqu’à 2 ans de prison</li>
-<li>Élimination : <b>0,10 à 0,15 g/L par heure</b>. Ni café, ni douche, ni sport n’accélèrent quoi que ce soit</li>
-</ul>
-<h4>Stupéfiants et médicaments</h4>
-<p>Stupéfiants : <b>tolérance zéro</b>, c’est un délit dès la moindre trace. Médicaments : pictogramme jaune (prudence), orange (avis médical), <b>rouge (ne pas conduire)</b>.</p>
-<h4>Fatigue</h4>
-<p>Bâillements, paupières lourdes, trajectoire flottante : ce sont des <b>signaux d’alarme</b>. La seule réponse efficace est une sieste de 15 à 20 minutes.</p>
-<h4>Distraction</h4>
-<ul>
-<li>Téléphone tenu en main : <b>3 points + 135 €</b>, même à l’arrêt au feu rouge</li>
-<li>Écouteurs, casque, oreillette : <b>interdits</b> (3 points + 135 €)</li>
-</ul>
-<h4>Permis à points</h4>
-<ul>
-<li>Probatoire : <b>6 points</b> → 12 en 3 ans (ou 2 ans après conduite accompagnée)</li>
-<li>Stage : <b>+4 points maximum, une fois par an</b></li>
-<li>Récupération automatique : 6 mois (1 point isolé), 2 ans (infractions légères), 3 ans (graves)</li>
-<li>0 point → permis invalidé, à repasser après 6 mois</li>
-</ul>`},
+{k:'sanctions', n:'Infractions & sanctions', i:'sanctions', theme:'sanctions',
+ resume:'Les barèmes se retiennent par blocs. Une fois classés, ils ne bougent plus.',
+ blocs:[
+  {t:'retenir', txt:'Contravention : une amende. Délit : un tribunal, et la prison devient possible.'},
+  {t:'cle', titre:'Ce qui coûte 4 points', items:[
+    'Franchir un feu rouge.',
+    'Ne pas respecter un stop.',
+    'Refuser une priorité.',
+    'Rouler en sens interdit.']},
+  {t:'cle', titre:'Ce qui coûte 3 points', items:[
+    'Téléphone tenu en main.',
+    'Ceinture non bouclée.',
+    'Franchir une ligne continue.',
+    'Porter des écouteurs.']},
+  {t:'texte', txt:'Les premières ont un point commun : elles créent un risque de collision directe avec quelqu’un. Les secondes sont des fautes d’attention.'},
+  {t:'cle', titre:'Les délits routiers', items:[
+    'Alcool à 0,8 g/L ou plus.',
+    'Conduite après usage de stupéfiants.',
+    'Défaut d’assurance.',
+    'Délit de fuite, même pour un simple rétroviseur cassé.',
+    'Conduite sans permis, ou malgré une suspension.']},
+  {t:'chiffres', titre:'Ce qui peut arriver au permis', lignes:[
+    ['Rétention','72 heures','le temps qu’une décision soit prise'],
+    ['Suspension','durée fixée','le permis est rendu ensuite'],
+    ['Annulation','définitif','il faut le repasser'],
+    ['Solde à zéro','6 mois minimum','avant de pouvoir le repasser']]},
+  {t:'piege', txt:'Payer une amende revient à reconnaître l’infraction : les points partent avec. Si tu contestes, il faut le faire avant de payer.'}
+ ]},
 
-{k:'usagers', n:'Les autres usagers', i:'usagers', html:
-`<h4>Vulnérabilité</h4>
-<p>Un piéton renversé à <b>30 km/h</b> a environ 10 % de risque de décès ; à <b>50 km/h</b>, près de 50 %. C’est toute la raison d’être des zones 30.</p>
-<h4>Poids lourds</h4>
-<span class="key">Si je ne vois pas les rétroviseurs du camion, <b>son conducteur ne me voit pas</b>. Un camion qui tourne à droite se déporte d’abord à gauche : ne jamais s’intercaler à sa droite.</span>
-<h4>Cyclistes</h4>
-<ul>
-<li>Écart de dépassement : 1 m en ville, 1,50 m hors agglomération</li>
-<li><b>Sas vélo</b> devant les feux : interdit aux voitures</li>
-<li><b>Double-sens cyclable</b> : la règle en zone 30</li>
-<li>Casque obligatoire jusqu’à <b>12 ans</b></li>
-<li>Avant de tourner à droite : rétroviseur <b>et</b> coup d’œil par-dessus l’épaule</li>
-</ul>
-<h4>Trottinettes (EDPM)</h4>
-<p>Une seule personne, <b>25 km/h</b> maximum, 14 ans minimum, interdiction du trottoir et des écouteurs.</p>
-<h4>Piétons</h4>
-<p>Je cède le passage au piéton engagé <b>ou</b> qui manifeste son intention de traverser (4 points + 135 € sinon). Hors passage protégé, le piéton peut traverser s’il n’y a pas de passage à moins de <b>50 m</b>.</p>`},
+{k:'environnement', n:'Éco-conduite', i:'environnement', theme:'environnement',
+ resume:'Conduire souple, c’est conduire sûr. Les deux vont ensemble, ce n’est pas un hasard.',
+ blocs:[
+  {t:'retenir', txt:'Regarder loin permet de moins freiner, donc de moins accélérer. C’est 10 à 15 % de carburant en moins, et une conduite plus sûre.'},
+  {t:'cle', titre:'Les gestes qui comptent', items:[
+    'Passer les vitesses tôt : vers 2 000 tr/min en diesel, 2 500 en essence.',
+    'Ne pas faire chauffer le moteur à l’arrêt : c’est inutile et polluant.',
+    'Retirer la galerie ou le coffre de toit quand on ne s’en sert pas.',
+    'Vérifier la pression des pneus : le geste le plus écologique est aussi le plus gratuit.']},
+  {t:'chiffres', titre:'Ce que ça change', lignes:[
+    ['130 au lieu de 110','+20 % de carburant','pour 8 minutes gagnées sur 100 km'],
+    ['Coffre de toit','+10 à 20 %',''],
+    ['Climatisation en ville','+10 à 20 %','mais utile au-delà de 70 km/h']]},
+  {t:'texte', txt:'Les vignettes Crit’Air vont de 0, pour l’électrique, à 5 pour les diesels anciens. Elles décident de l’accès aux zones à faibles émissions.'},
+  {t:'piege', txt:'Même une voiture électrique émet des particules : celles des freins et des pneus.'}
+ ]},
 
-{k:'vehicule', n:'Véhicule & équipements', i:'vehicule', html:
-`<h4>Obligatoire à bord</h4>
-<p><b>Gilet</b> (accessible depuis l’habitacle) et <b>triangle</b>. L’éthylotest n’est plus obligatoire depuis 2020, mais reste conseillé.</p>
-<h4>Pneus</h4>
-<ul>
-<li>Sculpture minimale : <b>1,6 mm</b></li>
-<li>Pression vérifiée <b>à froid</b>, une fois par mois, roue de secours comprise</li>
-<li>Sous-gonflage → surconsommation, usure des bords, risque d’éclatement</li>
-</ul>
-<h4>Feux</h4>
-<ul>
-<li>Croisement : portée ≈ <b>30 m</b> · Route : ≈ <b>100 m</b></li>
-<li>Brouillard <b>avant</b> : pluie, neige, brouillard</li>
-<li>Brouillard <b>arrière</b> : brouillard ou neige uniquement, <b>jamais sous la pluie</b></li>
-<li>Détresse : danger uniquement, jamais pour légaliser un stationnement</li>
-</ul>
-<h4>Témoins</h4>
-<p><b>Rouge</b> = je m’arrête dès que possible · <b>Orange</b> = à faire vérifier · <b>Vert/bleu</b> = fonctionnement normal.</p>
-<h4>Aides électroniques</h4>
-<p>L’<b>ABS</b> empêche le blocage des roues : il permet de <b>diriger</b> en freinant fort, il ne raccourcit pas toujours la distance. L’<b>ESP</b> corrige un début de dérapage, mais aucune électronique ne recrée de l’adhérence.</p>`},
+{k:'admin', n:'Papiers & réglementation', i:'admin', theme:'admin',
+ resume:'Trois documents, quelques délais. Rien de compliqué une fois posé à plat.',
+ blocs:[
+  {t:'cle', titre:'À présenter en cas de contrôle', items:[
+    'Le permis de conduire.',
+    'Le certificat d’immatriculation, autrement dit la carte grise.',
+    'Une preuve d’assurance en cours.']},
+  {t:'retenir', txt:'Depuis avril 2024, la vignette verte collée au pare-brise n’existe plus. Les forces de l’ordre consultent un fichier. L’assurance reste obligatoire.'},
+  {t:'chiffres', titre:'Les délais à retenir', lignes:[
+    ['Changement d’adresse','1 mois',''],
+    ['Carte grise après achat','1 mois',''],
+    ['Déclaration de vente','15 jours',''],
+    ['Constat à l’assureur','5 jours ouvrés',''],
+    ['Contre-visite','2 mois','après un contrôle technique refusé']]},
+  {t:'cle', titre:'Le contrôle technique', items:[
+    'Premier passage à 4 ans, puis tous les 2 ans.',
+    'Pour vendre une voiture de plus de 4 ans : contrôle de moins de 6 mois.',
+    'Obligatoire aussi pour les motos de plus de 125 cm³ depuis 2024.']},
+  {t:'texte', txt:'Le permis B couvre les véhicules jusqu’à 3,5 tonnes et 9 places, conducteur compris. Au-delà, il faut une autre catégorie.'},
+  {t:'piege', txt:'Un constat signé ne peut plus être modifié. En cas de désaccord, chacun remplit sa partie et note ses observations.'}
+ ]},
 
-{k:'conditions', n:'Conditions difficiles', i:'conditions', html:
-`<h4>Pluie</h4>
-<p>Vitesses réduites (130→110, 110→100, 90→80, 80→70), distances augmentées, feux de croisement allumés. Les <b>10 premières minutes</b> de pluie après une période sèche sont les plus glissantes.</p>
-<h4>Aquaplaning</h4>
-<span class="key">Je <b>lâche l’accélérateur</b>, je ne freine pas brutalement, je garde le <b>volant droit</b>. Toute action brusque provoque un tête-à-queue au retour de l’adhérence.</span>
-<h4>Brouillard</h4>
-<p>Feux de croisement + brouillard avant. <b>Jamais de feux de route</b> : ils créent un mur blanc. Visibilité &lt; 50 m → <b>50 km/h partout</b>.</p>
-<h4>Neige et verglas</h4>
-<p>Tout en douceur : accélération, freinage, direction. Le verglas se forme d’abord sur les <b>ponts</b> et dans les <b>zones ombragées</b>. Chaînes sur les roues motrices, 50 km/h maximum, à retirer dès que la route est dégagée.</p>
-<h4>Nuit</h4>
-<p>Je roule à la vitesse de mes phares : en code (30 m de portée), au-delà de 80 km/h je roule plus loin que ce que je vois. Ébloui ? Je regarde le <b>bord droit</b> de la chaussée et je ralentis.</p>
-<h4>Tunnel</h4>
-<p>Feux de croisement, lunettes de soleil retirées, distances respectées. En cas d’incendie : je coupe le moteur, <b>je laisse les clés</b> et je rejoins l’issue de secours <b>à pied</b>. La fumée tue avant les flammes.</p>`},
-
-{k:'secours', n:'Premiers secours', i:'secours', html:
-`<h4>P.A.S.</h4>
-<p><b>Protéger → Alerter → Secourir.</b> Dans cet ordre : se précipiter sans protéger crée souvent une victime supplémentaire.</p>
-<h4>Protéger</h4>
-<p>Feux de détresse, gilet enfilé <b>avant</b> de sortir, balisage au triangle (≈30 m, davantage avant un virage), moteurs coupés, interdiction de fumer.</p>
-<h4>Alerter</h4>
-<ul>
-<li><b>112</b> (Europe) · <b>15</b> SAMU · <b>18</b> pompiers · <b>17</b> police · <b>114</b> par SMS</li>
-<li>Donner : le <b>lieu précis</b> (route, sens, borne km), le nombre et l’état des victimes</li>
-<li>Ne jamais raccrocher le premier</li>
-</ul>
-<h4>Secourir</h4>
-<ul>
-<li>On ne <b>déplace pas</b> une victime, sauf danger vital immédiat</li>
-<li>Inconsciente et respire → <b>PLS</b></li>
-<li>Ne respire pas → massage cardiaque, <b>100 à 120 par minute</b>, 5 à 6 cm</li>
-<li>Casque de moto : on le retire <b>seulement</b> si c’est vital</li>
-<li>Hémorragie → <b>compression directe</b></li>
-<li>Jamais : boire, manger, retirer un objet planté</li>
-</ul>
-<span class="key">La non-assistance à personne en danger est un délit. Mais appeler le 112 est déjà porter secours : personne n’est obligé de prendre un risque vital.</span>`},
-
-{k:'environnement', n:'Éco-conduite & environnement', i:'environnement', html:
-`<h4>Conduire souple, c’est conduire sûr</h4>
-<p>Anticiper permet de moins freiner, donc de moins accélérer : <b>10 à 15 % d’économie</b> de carburant, et une conduite plus sereine.</p>
-<ul>
-<li>Passer les rapports tôt : ≈ <b>2 000 tr/min</b> en diesel, <b>2 500</b> en essence</li>
-<li>Ne pas faire chauffer le moteur à l’arrêt : inutile et polluant</li>
-<li>Retirer galerie et coffre de toit inutilisés (jusqu’à 20 % de surconsommation)</li>
-<li>Climatisation : gourmande en ville, plus économique que les vitres ouvertes au-delà de 70 km/h</li>
-<li>130 → 110 km/h : environ 20 % de carburant économisé pour ~8 minutes sur 100 km</li>
-</ul>
-<h4>Crit’Air et ZFE</h4>
-<p>Vignette de <b>0</b> (électrique) à <b>5</b> (diesel ancien), définitive. Les <b>zones à faibles émissions</b> peuvent en restreindre l’accès, en permanence ou lors des pics de pollution.</p>`},
-
-{k:'admin', n:'Papiers & réglementation', i:'admin', html:
-`<h4>À présenter en cas de contrôle</h4>
-<p>Permis de conduire, certificat d’immatriculation, preuve d’assurance en cours.</p>
-<span class="key">Depuis avril 2024, la <b>vignette verte d’assurance a disparu</b> : les forces de l’ordre consultent le Fichier des Véhicules Assurés. L’assurance reste évidemment obligatoire.</span>
-<h4>Assurance</h4>
-<p>Minimum légal : la <b>responsabilité civile</b> (« au tiers »). Rouler sans assurance est un <b>délit</b> : 500 € d’amende forfaitaire, jusqu’à 3 750 € au tribunal.</p>
-<h4>Contrôle technique</h4>
-<ul>
-<li>Premier contrôle à <b>4 ans</b>, puis tous les <b>2 ans</b></li>
-<li>Contre-visite dans les <b>2 mois</b></li>
-<li>Vente d’un véhicule de plus de 4 ans : contrôle de moins de <b>6 mois</b></li>
-</ul>
-<h4>Délais à retenir</h4>
-<ul>
-<li>Changement d’adresse : <b>1 mois</b></li>
-<li>Carte grise après achat : <b>1 mois</b></li>
-<li>Déclaration de cession : <b>15 jours</b></li>
-<li>Constat amiable envoyé à l’assureur : <b>5 jours ouvrés</b></li>
-</ul>
-<h4>Permis B</h4>
-<p>Jusqu’à <b>3,5 t</b> de PTAC et <b>9 places</b> conducteur compris. Remorque : jusqu’à 750 kg librement ; ensemble jusqu’à 3,5 t en B ; jusqu’à 4,25 t avec la formation <b>B96</b> ; au-delà, permis <b>BE</b>.</p>
-<h4>L’examen</h4>
-<p>40 questions, <b>35 bonnes réponses minimum</b>. Résultat valable <b>5 ans</b> et pour 5 présentations à l’épreuve pratique.</p>`}
+{k:'trajet', n:'Préparer son trajet', i:'trajet', theme:'trajet',
+ resume:'Un trajet mal préparé pousse à rouler vite et à sauter les pauses. C’est là que ça se joue.',
+ blocs:[
+  {t:'cle', titre:'Avant de partir', items:[
+    'Pression des pneus, à froid.',
+    'Niveaux, éclairage, essuie-glaces.',
+    'Itinéraire réglé à l’arrêt, jamais en roulant.',
+    'Vignette Crit’Air vérifiée si le trajet traverse une grande ville.']},
+  {t:'retenir', txt:'Une pause de quinze à vingt minutes toutes les deux heures. À prendre même sans se sentir fatiguée : la vigilance baisse avant qu’on ne le sente.'},
+  {t:'cle', titre:'Le chargement', items:[
+    'Les objets lourds en bas et vers l’avant.',
+    'Rien ne doit masquer les feux ni la plaque.',
+    'Tout est arrimé, même pour un trajet court.',
+    'Au-delà d’un mètre qui dépasse à l’arrière : dispositif réfléchissant obligatoire.']},
+  {t:'texte', txt:'À 50 km/h, un objet de 5 kg non attaché frappe avec l’équivalent de plus de 100 kg. Tout ce qui est libre dans l’habitacle devient un projectile.'},
+  {t:'cle', titre:'Voiture chargée', items:[
+    'Corriger la hauteur des phares, sinon on éblouit.',
+    'Augmenter les distances : le freinage est plus long.',
+    'Regonfler les pneus selon la notice.']},
+  {t:'piege', txt:'À l’étranger, le permis numérique n’est pas reconnu. Seuls les documents papier font foi, et les règles changent dès la frontière.'}
+ ]}
 
 ];

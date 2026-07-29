@@ -51,6 +51,8 @@ const ICONES = {
   effacer:       ['x', 'bold'],
   fermer:        ['x', 'light'],
   ouvrir:        ['arrow-square-out', 'light'],
+  chat:          ['chat-teardrop-dots', 'light'],
+  envoyer:       ['paper-plane-tilt', 'fill'],
 
   /* modes de révision */
   examen:        ['exam', 'light'],
@@ -92,7 +94,28 @@ const ICONES = {
   drapeau:       ['flag-checkered', 'light'],
   lien:          ['link-simple', 'light'],
   personne:      ['user', 'light'],
-  maison:        ['house', 'light']
+  maison:        ['house', 'light'],
+
+  /* Pictogrammes des panneaux : graisse pleine, comme les silhouettes
+     noires des vrais panneaux routiers. Préfixe p_ pour les distinguer. */
+  p_enfant:      ['baby', 'fill'],
+  p_pieton:      ['person-simple-walk', 'fill'],
+  p_velo:        ['bicycle', 'fill'],
+  p_animal:      ['paw-print', 'fill'],
+  p_troupeau:    ['cow', 'fill'],
+  p_cheval:      ['horse', 'fill'],
+  p_travaux:     ['traffic-cone', 'fill'],
+  p_feux:        ['traffic-signal', 'fill'],
+  p_vent:        ['wind', 'bold'],
+  p_voiture:     ['car', 'fill'],
+  p_train:       ['train-simple', 'fill'],
+  p_camion:      ['truck', 'fill'],
+  p_klaxon:      ['megaphone', 'fill'],
+  p_neige:       ['snowflake', 'bold'],
+  p_hopital:     ['first-aid', 'fill'],
+  p_demiTour:    ['arrow-u-up-left', 'bold'],
+  p_exclamation: ['exclamation-mark', 'fill'],
+  p_tracteur:    ['tractor', 'fill']
 };
 
 const manquantes = [];
@@ -144,10 +167,21 @@ window.Icons = (function () {
       '>' + d + '</svg>';
   }
 
+  /* Tracé brut, sans balise <svg> : utilisé par les panneaux, qui
+     insèrent le pictogramme dans leur propre dessin. Phosphor est en
+     repère 256x256, d'où la mise à l'échelle. */
+  function raw(nom, taille, cx, cy) {
+    var d = P[nom];
+    if (!d) return '';
+    var e = (taille || 32) / 256;
+    return '<g transform="translate(' + ((cx || 50) - (taille || 32) / 2) + ',' +
+      ((cy || 50) - (taille || 32) / 2) + ') scale(' + e.toFixed(5) + ')">' + d + '</g>';
+  }
+
   function has(nom) { return !!P[nom]; }
   function list() { return Object.keys(P); }
 
-  return { svg: svg, has: has, list: list };
+  return { svg: svg, raw: raw, has: has, list: list };
 })();
 `;
 

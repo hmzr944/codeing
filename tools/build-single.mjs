@@ -10,7 +10,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = (f) => fs.readFileSync(path.join(root, f), 'utf8');
 
 const html = read('index.html');
-const css = read('css/style.css');
+const css = read('css/font.css') + '\n' + read('css/style.css');
 const scripts = [...html.matchAll(/<script src="([^"]+)"><\/script>/g)].map((m) => m[1]);
 const icon = read('assets/icon.svg');
 const iconData = 'data:image/svg+xml;base64,' + Buffer.from(icon).toString('base64');
@@ -21,6 +21,7 @@ const out = html
   .replace(/<link rel="manifest"[^>]*>\s*/, '')
   .replace(/<link rel="icon"[^>]*>/, `<link rel="icon" href="${iconData}" type="image/svg+xml">`)
   .replace(/<link rel="apple-touch-icon"[^>]*>/, `<link rel="apple-touch-icon" href="${iconData}">`)
+  .replace(/<link rel="stylesheet" href="css\/font.css">\s*/, '')
   .replace(/<link rel="stylesheet"[^>]*>/, `<style>\n${css}\n</style>`)
   .replace(/<script src="[^"]+"><\/script>\s*/g, '')
   .replace('</body>', `<script>\n${js}\n</script>\n</body>`)

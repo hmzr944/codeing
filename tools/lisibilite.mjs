@@ -102,8 +102,22 @@ for (const q of all) {
   morceaux.push({ id: q.id, champ: 'explication', txt: q.e });
   if (q.tip) morceaux.push({ id: q.id, champ: 'astuce', txt: q.tip });
 }
+/* Les leçons sont faites de blocs : on relit chacun séparément,
+   pour que le rapport dise quel bloc corriger et pas seulement
+   quelle leçon. */
+const texteBloc = (b) => {
+  if (b.t === 'cle') return [b.titre, ...b.items].filter(Boolean).join('. ');
+  if (b.t === 'chiffres') return [b.titre, ...b.lignes.map(l => l.join(' '))].filter(Boolean).join('. ');
+  if (b.t === 'panneaux') return [b.titre, ...b.signes.map(s => s[1])].filter(Boolean).join('. ');
+  if (b.t === 'schema') return '';
+  return b.txt || '';
+};
 for (const l of W.LESSONS || []) {
-  morceaux.push({ id: 'fiche:' + l.k, champ: 'fiche', txt: l.html.replace(/<[^>]+>/g, ' ') });
+  morceaux.push({ id: 'leçon:' + l.k, champ: 'résumé', txt: l.resume });
+  l.blocs.forEach((b, i) => {
+    const txt = texteBloc(b);
+    if (txt) morceaux.push({ id: 'leçon:' + l.k, champ: 'bloc ' + (i + 1) + ' (' + b.t + ')', txt });
+  });
 }
 
 const texteGlobal = morceaux.map(m => m.txt).join(' ');
@@ -127,7 +141,7 @@ for (const [sigle, attendu] of Object.entries(A_EXPLIQUER)) {
 /* --- 3. phrases trop longues --- */
 const tropLongues = [];
 for (const m of morceaux) {
-  if (m.champ === 'fiche') continue;                  // les fiches sont du cours, pas du quiz
+  if (/^bloc |^résumé$/.test(m.champ)) continue;      // les leçons sont du cours, pas du quiz
   for (const phrase of m.txt.split(/(?<=[.!?:])\s+/)) {
     const mots = phrase.trim().split(/\s+/).filter(Boolean).length;
     if (mots > MAX_MOTS_PHRASE) tropLongues.push({ ...m, mots, phrase: phrase.trim() });

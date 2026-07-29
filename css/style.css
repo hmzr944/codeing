@@ -57,7 +57,9 @@
   --pad:clamp(16px,4.6vw,22px);
   --maxw:600px;
 
-  --font:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  /* Montserrat : équivalent libre de Gotham, même famille géométrique.
+     Intégrée en base64 dans css/font.css, donc jamais absente. */
+  --font:'Montserrat',ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --ease:cubic-bezier(.2,.8,.25,1);
 }
 
@@ -90,7 +92,7 @@ html[data-theme="jour"]{
    Elles héritent de la couleur du texte : aucune règle de couleur
    à écrire au cas par cas. */
 svg.ico{display:block;flex:0 0 auto}
-.row > svg.ico,.fiche > summary > svg.ico{margin-top:1px}
+.row > svg.ico{margin-top:1px}
 html,body{margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 
@@ -474,30 +476,239 @@ p{margin:0}
 .recap .a{font-size:12.5px;color:var(--txt-2);margin-top:5px;line-height:1.5}
 
 /* ============================================================
-   FICHES
-   ============================================================ */
-.fiche{border-radius:var(--r-card);border:1px solid var(--line-soft);background:var(--surface);overflow:hidden}
-.fiche > summary{
-  list-style:none;cursor:pointer;padding:15px 16px;
-  display:flex;align-items:center;gap:12px;font-weight:750;font-size:14.5px;
-}
-.fiche > summary::-webkit-details-marker{display:none}
-.fiche > summary > svg.ico{color:var(--txt-2)}
-.fiche > summary .arw{margin-left:auto;color:var(--txt-3);font-size:13px;transition:transform .2s var(--ease)}
-.fiche[open] > summary .arw{transform:rotate(90deg)}
-.fiche .body{padding:0 16px 17px;font-size:14px;line-height:1.62;color:var(--txt-2)}
-.fiche .body h4{margin:15px 0 5px;color:var(--txt);font-size:13.5px;font-weight:750;letter-spacing:0}
-.fiche .body ul{margin:5px 0;padding-left:17px}
-.fiche .body li{margin:3px 0}
-.fiche .body b{color:var(--txt);font-weight:700}
-.fiche .body .key{
-  display:block;margin:12px 0 3px;padding:11px 13px;border-radius:12px;
-  background:var(--accent-soft);border:1px solid var(--accent-line);
-  color:var(--txt);font-size:13.5px;
-}
-.fiche.read > summary > svg.ico{opacity:.45}
+   COURS
 
-/* ---------- champ de recherche d'aide ---------- */
+   Deux écrans : la liste des leçons, puis le lecteur.
+
+   Dans le lecteur, chaque bloc a une forme qui dit ce qu'il est
+   avant même d'être lu : un encadré accentué pour la phrase à
+   retenir, un liseré rouge pour le piège, un tableau aligné pour
+   les chiffres. C'est ce qui empêche une leçon de redevenir un
+   mur de texte.
+   ============================================================ */
+
+/* ---------- liste ---------- */
+.lc{
+  display:flex;align-items:flex-start;gap:13px;width:100%;text-align:left;
+  padding:14px 15px;border-radius:var(--r-card);
+  background:var(--surface);border:1px solid var(--line-soft);
+  transition:transform .12s var(--ease), border-color .15s var(--ease);
+}
+.lc:active{transform:scale(.99);border-color:var(--line)}
+.lc-ico{
+  width:38px;height:38px;flex:0 0 38px;border-radius:12px;
+  background:var(--surface-2);color:var(--txt-2);
+  display:grid;place-items:center;
+}
+.lc-txt{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.lc-n{font-size:14.5px;font-weight:750;letter-spacing:-.015em;line-height:1.25}
+.lc-r{font-size:12.5px;color:var(--txt-3);line-height:1.42}
+.lc-e{flex:0 0 auto;color:var(--txt-3);margin-top:11px}
+/* Une leçon lue se signale par sa coche, pas par du vert : ici le
+   vert ne veut dire qu'une chose, « bonne réponse ». La coche reste
+   dans une encre lisible, l'accent servant seulement de fond. */
+.lc.lue .lc-ico{background:var(--accent-soft)}
+.lc.lue .lc-e{color:var(--txt-2)}
+.lc.lue .lc-n{color:var(--txt-2)}
+
+/* ---------- appel de l'assistant ---------- */
+.assist{display:flex;align-items:center;width:100%;padding:15px}
+.assist-ico{
+  width:40px;height:40px;flex:0 0 40px;border-radius:13px;
+  background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;
+}
+.assist-t{display:block;font-size:14.5px;font-weight:750;letter-spacing:-.015em}
+.assist-s{display:block;font-size:12.5px;color:var(--txt-3);margin-top:2px;line-height:1.4}
+
+/* ---------- lecteur ---------- */
+.ttl.fondu{opacity:0}
+.ttl{transition:opacity .18s var(--ease)}
+.lecon{margin-top:4px}
+.lecon-tete{padding-bottom:4px}
+.lecon-ico{
+  width:44px;height:44px;border-radius:14px;
+  background:var(--accent-soft);color:var(--accent);
+  display:grid;place-items:center;
+}
+.lecon h1{font-size:clamp(23px,6vw,29px);text-wrap:balance}
+.lecon-r{font-size:15px;color:var(--txt-2);line-height:1.55;text-wrap:pretty}
+
+/* la seule phrase à garder */
+.bl-retenir{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:15px 16px;border-radius:var(--r-card);
+  background:var(--accent-soft);border:1px solid var(--accent-line);
+}
+.bl-retenir p{font-size:15px;font-weight:700;line-height:1.5;letter-spacing:-.01em;text-wrap:pretty}
+/* Sur un fond déjà teinté d'accent, une icône en accent disparaît :
+   elle prend l'encre du texte, lisible dans les deux thèmes. */
+.bl-retenir .bl-ico{color:var(--txt);margin-top:2px}
+
+/* l'erreur qui coûte des points */
+.bl-piege{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:14px 16px;border-radius:var(--r-card);
+  background:var(--ko-soft);border:1px solid var(--ko-line);
+}
+.bl-piege .bl-ico{color:var(--ko);margin-top:2px}
+.bl-piege .bl-et{
+  font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ko);margin-bottom:3px;
+}
+.bl-piege p{font-size:14px;line-height:1.55;color:var(--txt);text-wrap:pretty}
+
+/* titres et paragraphes */
+.bl-sec{display:flex;flex-direction:column;gap:9px}
+.bl-t{font-size:12px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--txt-3)}
+.bl-txt{font-size:14.5px;line-height:1.62;color:var(--txt-2);text-wrap:pretty}
+.bl-txt b{color:var(--txt);font-weight:700}
+
+/* les points à retenir : une puce discrète, une ligne par idée */
+.liste{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.liste li{
+  position:relative;padding-left:19px;
+  font-size:14.5px;line-height:1.55;color:var(--txt-2);text-wrap:pretty;
+}
+.liste li::before{
+  content:"";position:absolute;left:2px;top:9px;
+  width:6px;height:6px;border-radius:50%;background:var(--accent);
+}
+.liste li b{color:var(--txt);font-weight:750}
+
+/* les chiffres : valeurs alignées à droite, comparables d'un coup d'œil */
+.tbl{
+  border-radius:var(--r-card);overflow:hidden;
+  border:1px solid var(--line-soft);background:var(--surface);
+}
+.tbl-l{
+  display:grid;grid-template-columns:1fr auto;column-gap:12px;
+  padding:11px 14px;border-bottom:1px solid var(--line-soft);
+}
+.tbl-l:last-child{border-bottom:0}
+.tbl-c{font-size:13.5px;color:var(--txt-2);align-self:center}
+/* La valeur est ce qu'on vient chercher : elle est posée sur
+   l'accent, pas écrite en accent. Du jaune sur fond clair tombe à
+   2,7:1, illisible ; l'encre foncée sur l'accent tient 6,4:1. */
+.tbl-v{
+  font-size:14.5px;font-weight:800;letter-spacing:-.02em;align-self:center;
+  padding:3px 9px;border-radius:var(--r-pill);
+  background:var(--accent);color:var(--accent-ink);
+}
+.tbl-p{grid-column:1/-1;font-size:11.5px;color:var(--txt-3);margin-top:3px;line-height:1.35}
+
+/* les panneaux, dessinés assez grands pour être reconnus */
+.pan-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(94px,1fr));gap:10px}
+.pan{margin:0;display:flex;flex-direction:column;align-items:center;gap:7px}
+.pan-d{
+  width:100%;padding:11px;border-radius:var(--r-ctl);
+  background:var(--surface-2);border:1px solid var(--line-soft);
+  display:grid;place-items:center;
+}
+.pan-d svg{width:100%;max-width:66px;height:auto;display:block}
+.pan figcaption{font-size:11.5px;line-height:1.35;color:var(--txt-3);text-align:center;text-wrap:balance}
+
+/* les schémas */
+.bl-schema{
+  margin:0;padding:14px 12px;border-radius:var(--r-card);
+  background:var(--surface-2);border:1px solid var(--line-soft);
+}
+
+/* ============================================================
+   ASSISTANT
+   ============================================================ */
+.chat{display:flex;flex-direction:column;gap:10px;padding:6px 0 12px}
+.msg{
+  max-width:88%;padding:12px 14px;border-radius:var(--r-card);
+  font-size:14px;line-height:1.55;
+}
+.msg p + p,.msg p + .chat-q,.msg p + .chat-bloc{margin-top:9px}
+.msg.bot{
+  align-self:flex-start;border-bottom-left-radius:6px;
+  background:var(--surface);border:1px solid var(--line-soft);color:var(--txt-2);
+}
+.msg.bot b{color:var(--txt);font-weight:750}
+.msg.moi{
+  align-self:flex-end;border-bottom-right-radius:6px;
+  background:var(--accent);color:var(--accent-ink);font-weight:650;
+}
+.chat-note{font-size:12px;color:var(--txt-3)}
+
+/* un bloc de leçon cité dans une réponse : mêmes formes, resserrées */
+.chat-bloc .bl-sec{gap:7px}
+.chat-bloc .tbl{background:var(--surface-2)}
+.chat-bloc .bl-retenir,.chat-bloc .bl-piege{padding:12px 13px}
+.chat-bloc .liste li,.chat-bloc .bl-txt{font-size:13.5px}
+.chat-bloc .pan-d{background:var(--surface-3)}
+
+.chat-q{
+  padding:11px 13px;border-radius:var(--r-ctl);
+  background:var(--surface-2);border-left:3px solid var(--accent);
+}
+.chat-q-q{font-size:13px;font-weight:750;color:var(--txt);line-height:1.4}
+.chat-q-a{font-size:13px;color:var(--ok);font-weight:700;margin-top:5px}
+.chat-q-e{font-size:12.5px;color:var(--txt-3);margin-top:5px;line-height:1.5}
+
+.chat-lien{
+  display:flex;align-items:flex-start;gap:7px;padding:9px 0;margin-top:2px;
+  font-size:13px;font-weight:700;color:var(--txt);
+  text-decoration:underline;text-underline-offset:3px;text-align:left;
+}
+.chat-lien svg.ico{margin-top:2px}
+/* .row impose display:flex et l'emporterait sur la règle [hidden] du
+   navigateur : les suggestions resteraient visibles après la
+   première question. */
+.chat-idees{padding-bottom:10px}
+.chat-idees[hidden]{display:none}
+
+/* ---------- l'assistant pendant une série ----------
+   Une feuille par-dessus le quiz, pas une page : quitter la vue
+   perdrait la session en cours. */
+.aide-flottant{
+  position:fixed;right:calc(var(--pad) + max(0px,(100vw - var(--maxw))/2));
+  bottom:calc(96px + env(safe-area-inset-bottom));z-index:40;
+  width:46px;height:46px;border-radius:50%;
+  background:var(--surface-2);border:1px solid var(--line);color:var(--txt-2);
+  display:grid;place-items:center;box-shadow:var(--shadow);
+}
+.aide-flottant:active{background:var(--surface-3);transform:translateY(1px)}
+
+.feuille{position:fixed;inset:0;z-index:60;display:flex;align-items:flex-end}
+.feuille-fond{position:absolute;inset:0;background:rgba(0,0,0,.5);animation:fondu .18s var(--ease)}
+.feuille-panneau{
+  position:relative;width:100%;max-width:var(--maxw);margin:0 auto;
+  max-height:88vh;display:flex;flex-direction:column;
+  padding:0 var(--pad) env(safe-area-inset-bottom);
+  background:var(--bg);border-radius:var(--r-card) var(--r-card) 0 0;
+  border-top:1px solid var(--line);
+  animation:monte .24s var(--ease);
+}
+.feuille-tete{padding:14px 0 10px;flex:0 0 auto}
+.feuille-tete .ttl{font-size:15px;font-weight:750;letter-spacing:-.015em}
+.feuille-tete .sub{font-size:12px;color:var(--txt-3);margin-top:1px}
+/* Seul le fil défile : la saisie et l'en-tête restent en place. */
+.feuille .chat{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain}
+.feuille .chat-saisie{background:var(--bg)}
+.feuille .chat-idees{flex:0 0 auto}
+
+@keyframes fondu{from{opacity:0}to{opacity:1}}
+@keyframes monte{from{transform:translateY(18px);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){
+  .feuille-fond,.feuille-panneau{animation:none}
+}
+
+/* La saisie reste sous la main, sans recouvrir la dernière réponse. */
+.chat-saisie{
+  position:sticky;bottom:0;display:flex;align-items:center;gap:9px;
+  padding:10px 0 calc(10px + env(safe-area-inset-bottom));
+  background:linear-gradient(to bottom,transparent,var(--bg) 22%);
+}
+.chat-envoi{
+  width:48px;height:48px;flex:0 0 48px;border-radius:var(--r-ctl);
+  background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;
+}
+.chat-envoi:active{transform:translateY(1px)}
+
+/* ---------- champ de recherche ---------- */
 .chercher{
   display:flex;align-items:center;gap:9px;
   padding:0 13px;border-radius:var(--r-ctl);
@@ -701,3 +912,40 @@ hr.sep{height:1px;background:var(--line-soft);border:0;margin:0}
   .kpi{gap:11px}
   .tiles{gap:13px}
 }
+
+/* ============================================================
+   SCHÉMAS
+   Les dessins de js/diagrams.js. Ils suivent le thème parce que
+   toutes leurs couleurs viennent des variables du système.
+   ============================================================ */
+.dg{width:100%;height:auto;display:block}
+.dg text{font-family:var(--font);font-weight:650}
+.dg-t,.dg-lg{fill:var(--txt-2)}
+.dg-lg2{fill:var(--txt-3)}
+.dg-titre{fill:var(--txt);font-weight:750}
+.dg-sur{fill:var(--txt);font-weight:750}
+.dg-sur-acc{fill:var(--accent-ink);font-weight:800}
+.dg-lg-acc{fill:var(--accent);font-weight:750}
+.dg-lg-ko{fill:var(--ko);font-weight:750}
+
+.dg-route,.dg-route-c{fill:var(--surface-3)}
+.dg-ilot{fill:var(--surface-2)}
+.dg-bau{fill:var(--surface-2)}
+.dg-neutre{fill:var(--surface-3)}
+.dg-accent-f{fill:var(--accent)}
+.dg-veh{fill:var(--txt-2)}
+.dg-veh-acc{fill:var(--accent)}
+.dg-vitre{fill:var(--surface)}
+.dg-danger-z{fill:var(--ko);opacity:.18}
+
+.dg-bande{stroke:var(--txt-3);stroke-width:2;stroke-dasharray:12 10;opacity:.6}
+.dg-continue{stroke:var(--txt-3);stroke-width:2;opacity:.7}
+.dg-cote{stroke:var(--txt-3);stroke-width:1.5}
+.dg-sol{stroke:var(--line);stroke-width:3}
+.dg-trottoir{stroke:var(--txt-3);stroke-width:5;stroke-linecap:round}
+.dg-glissiere{stroke:var(--txt-3);stroke-width:2.5}
+.dg-fleche{stroke:var(--accent);stroke-width:3;fill:none;marker-end:none}
+.dg-fleche-c{stroke:var(--accent);stroke-width:3.5;fill:none;stroke-linecap:round}
+.dg-fleche-p{fill:var(--accent)}
+.dg-stop circle{fill:var(--ko)}
+.dg-stop-barre{stroke:#fff;stroke-width:3;stroke-linecap:round}

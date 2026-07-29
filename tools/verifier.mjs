@@ -51,7 +51,9 @@ await p.goto(BASE, { waitUntil: 'networkidle' });
 const d = await p.evaluate(() => ({
   questions: Store.all.length,
   themes: THEMES.length,
-  fiches: LESSONS.length,
+  lecons: LESSONS.length,
+  blocs: LESSONS.reduce((a, l) => a + l.blocs.length, 0),
+  schemas: Diagrams.list().length,
   succes: BADGES.length,
   panneaux: Signs.list().length,
   icones: Icons.list().length,
@@ -61,10 +63,12 @@ const d = await p.evaluate(() => ({
 }));
 test('459 questions chargées', d.questions === 459, d.questions);
 test('16 thèmes', d.themes === 16, d.themes);
-test('16 fiches', d.fiches === 16, d.fiches);
+test('19 leçons', d.lecons === 19, d.lecons);
+test('blocs de cours', d.blocs > 100, d.blocs);
+test('11 schémas', d.schemas === 11, d.schemas);
 test('32 succès', d.succes === 32, d.succes);
 test('66 panneaux', d.panneaux === 66, d.panneaux);
-test('64 icônes', d.icones === 64, d.icones);
+test('84 icônes', d.icones === 84, d.icones);
 test('quotas d’examen = 40', d.quota === 40, d.quota);
 test('aucun identifiant en double', d.doublons === 0, d.doublons);
 test('stockage local disponible', d.stockage === true);
@@ -95,7 +99,7 @@ bloc('3. Navigation');
    existe dès le premier lancement : le bloc de statistiques de
    l'examen, lui, n'apparaît qu'une fois un examen passé. */
 for (const [tab, marqueur] of [['train', '.medal-box'], ['exam', '[data-start]'],
-  ['lessons', '#q'], ['stats', '.kpi'], ['home', '.hero']]) {
+  ['lessons', '[data-lecon]'], ['stats', '.kpi'], ['home', '.hero']]) {
   await p.click(`.tab[data-go="${tab}"]`);
   await p.waitForTimeout(250);
   test(`onglet ${tab}`, (await p.locator(marqueur).count()) > 0);
@@ -110,7 +114,21 @@ await p.click('#go');
 const correction = await p.locator('.fb').count();
 test('correction affichée après validation', correction === 1);
 test('explication présente', (await p.locator('.fb-b').textContent()).length > 30);
-test('lien d’aide vers Claude', (await p.locator('.fb-aide').getAttribute('href')).startsWith('https://claude.ai/new?q='));
+test('lien d’aide vers Claude',
+  (await p.locator('a.fb-aide').getAttribute('href')).startsWith('https://claude.ai/new?q='));
+test('assistant proposé dans la correction', (await p.locator('[data-fb-assist]').count()) === 1);
+/* La feuille se pose sur la session sans la perdre */
+await p.click('[data-fb-assist]');
+await p.waitForTimeout(250);
+test('feuille de l’assistant ouverte', (await p.locator('.feuille-panneau').count()) === 1);
+await p.fill('#msg', 'angle mort');
+await p.press('#msg', 'Enter');
+await p.waitForTimeout(250);
+test('l’assistant répond dans la feuille',
+  /angle mort|rétroviseur|contrôle/i.test(await p.locator('.feuille .msg.bot >> nth=-1').textContent()));
+await p.click('.feuille button[data-fermer]');
+await p.waitForTimeout(200);
+test('la session reprend après fermeture', (await p.locator('.fb').count()) === 1);
 await jouer(40);
 const apres = await p.evaluate(() => ({ xp: Store.s.xp, cartes: Object.keys(Store.s.cards).length, hist: Store.s.history.length }));
 test('XP en hausse', apres.xp > avant.xp, `${avant.xp} -> ${apres.xp}`);
@@ -127,24 +145,68 @@ const apresRechargement = await p.evaluate(() => ({ nom: Store.s.profile.name, x
 test('prénom conservé après rechargement', apresRechargement.nom === nomAvant, apresRechargement.nom);
 test('XP conservée après rechargement', apresRechargement.xp === xpAvant, `${xpAvant} -> ${apresRechargement.xp}`);
 
-/* ---------------- 6. aide hors ligne ---------------- */
-bloc('6. Recherche d’aide');
+/* ---------------- 6. cours ---------------- */
+bloc('6. Cours');
 await p.click('.tab[data-go="lessons"]');
-for (const [requete, attendu] of [
-  ['je peux boire combien', /alcool|g\/L/i],
-  ['distance de sécurité', /distance|seconde/i],
+test('les 19 leçons sont listées', (await p.locator('[data-lecon]').count()) === 19);
+await p.click('[data-lecon="signalisation"]');
+await p.waitForTimeout(250);
+const lu = await p.evaluate(() => ({
+  titre: document.querySelector('.lecon h1').textContent,
+  panneaux: document.querySelectorAll('.pan-d svg').length,
+  retenir: document.querySelectorAll('.bl-retenir').length,
+  pieges: document.querySelectorAll('.bl-piege').length,
+  lue: !!Store.s.lessons.signalisation
+}));
+test('leçon ouverte', lu.titre === 'Signalisation', lu.titre);
+test('panneaux dessinés dans la leçon', lu.panneaux >= 8, lu.panneaux);
+test('bloc « à retenir » présent', lu.retenir >= 1);
+test('bloc « piège » présent', lu.pieges >= 1);
+test('leçon marquée comme lue', lu.lue === true);
+await p.click('[data-lecon]:not([data-lecon="signalisation"]) >> nth=0');
+await p.waitForTimeout(200);
+test('leçon suivante accessible',
+  (await p.locator('.lecon h1').textContent()) !== 'Signalisation');
+
+/* Un schéma au moins doit se dessiner : sinon la leçon retombe en
+   texte seul, ce qu'on cherchait précisément à éviter. */
+await p.click('[data-retour] >> nth=0');
+await p.waitForTimeout(200);
+await p.click('[data-lecon="priorites"]');
+await p.waitForTimeout(250);
+test('schémas dessinés', (await p.locator('.bl-schema svg.dg').count()) >= 2);
+
+/* ---------------- 6 bis. assistant ---------------- */
+bloc('6 bis. Assistant');
+await p.click('[data-question]');
+await p.waitForTimeout(250);
+for (const [question, attendu] of [
+  ['c’est quoi un accotement ?', /bord de la route/i],
+  ['je peux boire combien', /0,5|0,2|alcool/i],
+  ['distance de sécurité', /seconde|distance/i],
   ['rond point qui passe', /giratoire|rond/i],
-  ['casque moto accident', /casque/i]]) {
-  await p.fill('#q', requete);
-  await p.waitForTimeout(450);
-  const txt = await p.locator('#resultats').textContent();
-  test(`recherche « ${requete} »`, attendu.test(txt), txt.slice(0, 40));
+  ['zzzz qwerty', /je ne trouve rien/i]]) {
+  await p.fill('#msg', question);
+  await p.press('#msg', 'Enter');
+  await p.waitForTimeout(220);
+  const txt = await p.locator('.msg.bot >> nth=-1').textContent();
+  test(`assistant « ${question} »`, attendu.test(txt), txt.slice(0, 50));
 }
-test('bouton Claude bien formé',
-  (await p.locator('#resultats a.btn').getAttribute('href')).startsWith('https://claude.ai/new?q='));
+test('renvoi vers Claude proposé',
+  (await p.locator('.msg.bot >> nth=-1').locator('a.chat-lien').getAttribute('href'))
+    .startsWith('https://claude.ai/new?q='));
+await p.click('.msg.bot button[data-lecon] >> nth=0').catch(() => {});
+await p.waitForTimeout(250);
+test('l’assistant ouvre la leçon citée', (await p.locator('.lecon h1').count()) === 1);
 
 /* ---------------- 7. examen blanc ---------------- */
 bloc('7. Examen blanc');
+/* Le lecteur masque la barre d'onglets : on en sort d'abord, ce qui
+   vérifie au passage que le bouton retour la fait revenir. */
+await p.click('[data-retour] >> nth=0');
+await p.waitForTimeout(200);
+test('la barre d’onglets revient après la lecture',
+  await p.locator('.tab[data-go="exam"]').isVisible());
 await p.click('.tab[data-go="exam"]');
 await p.click('[data-start]');
 await p.waitForTimeout(300);

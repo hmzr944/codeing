@@ -93,10 +93,29 @@ for (const t of W.THEMES) {
   if ((perTheme[t.k] || 0) < 10) bad(`thème "${t.k}" : ${perTheme[t.k] || 0} questions, minimum 10 pour le défi`);
 }
 
-/* ---------- fiches & panneaux ---------- */
+/* ---------- leçons & panneaux ---------- */
+const BLOCS = ['cle', 'chiffres', 'panneaux', 'schema', 'retenir', 'piege', 'texte'];
 for (const l of W.LESSONS || []) {
-  if (!l.k || !l.n || !l.html) bad(`fiche incomplète : ${l.k}`);
-  if (/—|–/.test(l.html)) bad(`fiche ${l.k} : tiret cadratin interdit`);
+  if (!l.k || !l.n || !l.i || !l.resume || !(l.blocs || []).length) bad(`leçon incomplète : ${l.k}`);
+  if (l.theme && !W.THEMES.some(t => t.k === l.theme)) bad(`leçon ${l.k} : thème "${l.theme}" inconnu`);
+  for (const [i, b] of (l.blocs || []).entries()) {
+    const ou = `leçon ${l.k} bloc ${i + 1}`;
+    if (!BLOCS.includes(b.t)) { bad(`${ou} : type "${b.t}" inconnu`); continue; }
+    if (b.t === 'cle' && !(b.items || []).length) bad(`${ou} : aucun point`);
+    if (b.t === 'chiffres' && !(b.lignes || []).every(x => x.length >= 2)) bad(`${ou} : ligne incomplète`);
+    if (b.t === 'schema' && !W.Diagrams.has(b.d)) bad(`${ou} : schéma "${b.d}" introuvable`);
+    if (b.t === 'panneaux') {
+      for (const s of b.signes || []) {
+        if (!W.Signs.has(s[0])) bad(`${ou} : panneau "${s[0]}" introuvable`);
+      }
+    }
+    if ((b.t === 'retenir' || b.t === 'piege' || b.t === 'texte') && !b.txt) bad(`${ou} : texte vide`);
+  }
+}
+/* Chaque thème d'examen doit avoir sa leçon : réviser sans cours,
+   c'est deviner. */
+for (const t of W.THEMES) {
+  if (!(W.LESSONS || []).some(l => l.theme === t.k)) bad(`thème "${t.k}" : aucune leçon`);
 }
 for (const id of W.Signs.list()) {
   const svg = W.Signs.render(id);
@@ -114,7 +133,7 @@ for (const t of W.THEMES) {
   console.log(`  ${String(perTheme[t.k] || 0).padStart(3)}  ${t.n}`);
 }
 console.log(`Panneaux dessinés : ${W.Signs.list().length}`);
-console.log(`Fiches : ${(W.LESSONS || []).length}   Succès : ${(W.BADGES || []).length}`);
+console.log(`Leçons : ${(W.LESSONS || []).length}   Succès : ${(W.BADGES || []).length}`);
 
 if (fail) { console.error(`\n${fail} problème(s).`); process.exit(1); }
 console.log('\nTout est cohérent.');

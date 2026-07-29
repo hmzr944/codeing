@@ -1,8 +1,8 @@
 /* ============================================================
-   Recherche d'aide - fonctionne hors ligne, sans serveur.
+   Recherche - fonctionne hors ligne, sans serveur.
 
    Mina pose sa question avec ses mots ; on retrouve les questions
-   et les passages de fiches qui y répondent. Un petit dictionnaire
+   et les blocs de leçon qui y répondent. Un petit dictionnaire
    traduit le langage courant vers le vocabulaire du code, parce
    que personne ne tape « alcoolémie en période probatoire ».
    ============================================================ */
@@ -92,7 +92,7 @@ window.Recherche = (function () {
 
   function construire() {
     if (INDEX) return INDEX;
-    INDEX = { questions: [], fiches: [] };
+    INDEX = { questions: [], blocs: [] };
 
     Store.all.forEach(function (q) {
       var theme = window.themeByKey(q.t);
@@ -103,18 +103,15 @@ window.Recherche = (function () {
       });
     });
 
+    /* On indexe bloc par bloc, jamais la leçon entière : renvoyer
+       vingt lignes pour un mot situé au milieu ne répond à rien. */
     (window.LESSONS || []).forEach(function (l) {
-      /* Une fiche est découpée à ses sous-titres : renvoyer la fiche
-         entière pour un mot noyé au milieu ne servirait à rien. */
-      var brut = l.html.split(/<h4>/);
-      brut.forEach(function (part, i) {
-        var titre = i === 0 ? '' : part.split('</h4>')[0];
-        var corps = i === 0 ? part : part.split('</h4>').slice(1).join('');
-        var texte = corps.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-        if (texte.length < 30) return;
-        INDEX.fiches.push({
-          fiche: l, titre: titre || l.n, html: corps,
-          fort: normaliser(l.n + ' ' + titre),
+      l.blocs.forEach(function (b) {
+        var texte = Cours.texteBloc(b);
+        if (texte.length < 24) return;
+        INDEX.blocs.push({
+          lecon: l, bloc: b, titre: b.titre || l.n,
+          fort: normaliser(l.n + ' ' + (b.titre || '')),
           faible: normaliser(texte)
         });
       });
@@ -151,7 +148,7 @@ window.Recherche = (function () {
 
   function chercher(requete) {
     var base = motsDe(requete);
-    if (!base.length) return { questions: [], fiches: [], mots: [] };
+    if (!base.length) return { questions: [], blocs: [], mots: [] };
 
     /* enrichissement par synonymes */
     var mots = base.slice();
@@ -176,24 +173,10 @@ window.Recherche = (function () {
     }
 
     var qs = meilleurs(idx.questions, 6, function (x) { return x.r.q; });
-    var fs = meilleurs(idx.fiches, 3, function (x) { return x.r; });
+    var bs = meilleurs(idx.blocs, 3, function (x) { return x.r; });
 
-    return { questions: qs, fiches: fs, mots: base };
+    return { questions: qs, blocs: bs, mots: base };
   }
 
-  /* Questions fréquentes, proposées quand le champ est vide */
-  var SUGGESTIONS = [
-    'alcool jeune permis',
-    'distance de sécurité',
-    'priorité à droite',
-    'panneau triangle rouge',
-    'vitesse sous la pluie',
-    'stationnement interdit',
-    'que faire en cas d’accident',
-    'téléphone au volant',
-    'pneus usés',
-    'zone 30'
-  ];
-
-  return { chercher: chercher, suggestions: SUGGESTIONS, normaliser: normaliser };
+  return { chercher: chercher, normaliser: normaliser };
 })();
