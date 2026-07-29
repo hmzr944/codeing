@@ -15,7 +15,8 @@ navigateur et fonctionne hors ligne.
 |---|---|
 | **459 questions** | 16 thèmes, chacune avec une explication et souvent une astuce mémo |
 | **66 panneaux** | dessinés en SVG, forme et couleurs fidèles, pictogrammes simplifiés |
-| **16 fiches** | le cours en version courte, dont « les chiffres à connaître par cœur », un **lexique en mots simples** et **ce qui a changé récemment** |
+| **19 leçons** | le cours par thème, en blocs illustrés plutôt qu'en pavés : à retenir, pièges, chiffres, panneaux, schémas. Plus « les chiffres à connaître par cœur », un **lexique en mots simples** et **ce qui a changé récemment** |
+| **11 schémas** | dessinés en SVG pour ce qui ne s'explique pas par des mots : distance d'arrêt, giratoire, angle mort, PLS, panne sur autoroute |
 | **32 succès** | débloqués sans être annoncés à l'avance |
 
 ### Écrit pour être compris du premier coup
@@ -56,23 +57,62 @@ thème peuvent toujours être tirés sans répétition.
 - **Mes erreurs** — rattrapage ciblé sur ce qui bloque encore.
 - **Sprint 60 secondes** — pour les jours où il n'y a vraiment pas le temps.
 
-### L'aide
+### Les cours
 
-L'onglet **Aide** répond aux questions posées avec des mots de tous les jours.
-La recherche fonctionne **hors ligne** sur les 459 questions et les 16 fiches :
-un petit dictionnaire traduit le langage courant vers le vocabulaire du code,
-parce que personne ne tape « alcoolémie en période probatoire » mais plutôt
-« je peux boire combien ». Les expressions sont traitées avant les mots isolés,
-sans quoi « rond point » serait compris comme « les points du permis ».
+L'onglet **Cours** contient une leçon par thème. Chacune est une suite de
+**blocs typés** — la phrase à retenir, le piège classique, les points clés, un
+tableau de chiffres, les panneaux dessinés, un schéma — et non du HTML libre.
+Le lecteur ne sait dessiner que ces sept formes : une leçon ne peut donc pas
+redevenir un mur de texte, c'est structurellement impossible.
 
-Quand ça ne suffit pas, un bouton ouvre Claude avec la question déjà rédigée.
-Depuis une correction, le bouton **« Je n'ai pas compris »** y ajoute l'énoncé,
-la bonne réponse et l'explication du cours.
+Chaque leçon se lit en plein écran, sans barre d'onglets, et se termine par
+« Réviser ce thème » : on lit, on enchaîne sur les questions.
 
-**Ce n'est pas une IA embarquée.** Une page publiée ne peut appeler que les
-capacités que le runtime lui accorde, et l'appel à un modèle n'en fait pas
-partie. L'aide hors ligne est donc réelle et instantanée ; le lien vers Claude
-est un passage de relais, qui demande une connexion.
+### L'assistant
+
+Un assistant répond aux questions posées avec des mots de tous les jours. Il
+est accessible depuis les cours, depuis **chaque question hors examen** (une
+feuille se pose par-dessus, le chrono s'arrête, la série n'est pas perdue) et
+depuis le récapitulatif d'erreurs.
+
+Il sait faire trois choses :
+
+- **expliquer un terme ou une notion.** Le lexique n'est pas recopié : il est
+  lu directement dans les leçons, toute ligne de la forme « Terme : explication »
+  en faisant partie ;
+- **résumer une leçon**, depuis le bouton « Me résumer cette leçon » ;
+- **dire pourquoi la réponse cochée est fausse.** Après une erreur, le bouton
+  de la correction change de libellé et transmet ce qui a réellement été coché :
+  la vraie question n'est pas « c'est quoi ce mot » mais « pourquoi mon choix
+  est faux ».
+
+La recherche fonctionne **hors ligne**, bloc par bloc, sur les 19 leçons et les
+459 questions. Un petit dictionnaire traduit le langage courant vers le
+vocabulaire du code, parce que personne ne tape « alcoolémie en période
+probatoire » mais plutôt « je peux boire combien ». Les expressions sont
+traitées avant les mots isolés, sans quoi « rond point » serait compris comme
+« les points du permis ».
+
+#### Le modèle reformule, il n'invente pas
+
+Un vrai modèle peut être branché, en option (voir `worker/README.md`). Il ne
+répond jamais de mémoire : la recherche hors ligne trouve d'abord les passages
+du cours qui répondent, et le modèle n'a le droit que de les redire simplement,
+avec un exemple. Il lui est interdit d'ajouter un chiffre ou une règle, et il
+doit répondre « Je n'ai pas trouvé ça dans le cours » plutôt que d'improviser.
+C'est ce qui empêche « 90 km/h » de sortir là où le cours dit 80.
+
+Le passage source reste dépliable sous chaque réponse : une explication qu'on
+ne peut pas recouper ne vaut rien pour un examen.
+
+La clé du fournisseur ne peut pas vivre dans la page — le dépôt est public. Elle
+reste dans un secret Cloudflare, et la consigne du modèle est écrite dans le
+relais, hors de portée du navigateur : la page ne choisit sa tâche que dans une
+liste fermée.
+
+**Sans relais, sans réseau, ou si le modèle ne répond pas**, chaque demande a sa
+réponse hors ligne, servie telle quelle et sans message d'erreur. Un bouton
+ouvre Claude avec la question déjà rédigée quand rien ne suffit.
 
 ### Le parcours
 
@@ -192,9 +232,13 @@ autonome.
 index.html             coquille et ordre de chargement
 css/style.css          système de design complet (voir l'en-tête du fichier)
 js/
+  config.js            adresse du relais IA (vide = assistant hors ligne seul)
   data/                thèmes et quotas d'examen, 11 banques de questions,
-                       fiches, succès
+                       leçons, succès
   signs.js             générateur SVG des panneaux
+  diagrams.js          générateur SVG des schémas explicatifs
+  search.js            recherche hors ligne, bloc par bloc
+  ia.js                assemblage des extraits et appel du relais
   srs.js               répétition espacée (boîtes de Leitner)
   store.js             état, statistiques, séries, sélection des questions
   ui.js                rendu, toasts, retours tactiles
@@ -208,6 +252,11 @@ tools/responsive.mjs   débordements et cibles tactiles de 320 à 430 px
 tools/build-icons.mjs  extrait les icônes Phosphor dans js/icons.js
 tools/build-single.mjs génère la version en un seul fichier
 tools/build-artifact.mjs génère la version pour page publiée
+tools/build-font.mjs   intègre Montserrat en base64 dans css/font.css
+tools/verifier.mjs     parcours complet de bout en bout (58 contrôles)
+tools/test-worker.mjs  garde-fous du relais IA, sans le déployer
+tools/test-ia.mjs      assistant branché sur un faux relais
+worker/                relais Cloudflare pour le modèle (facultatif)
 ```
 
 ### Icônes
@@ -257,6 +306,10 @@ node tools/check.mjs       # syntaxe, ids uniques, index de réponses, quotas d'
 node tools/lisibilite.mjs  # jargon, sigles non expliqués, phrases trop longues
 node tools/responsive.mjs  # débordements, champs étirés, cibles tactiles trop petites
 node tools/shots.mjs       # parcours complet dans Chromium, détecte les erreurs JS
+node tools/verifier.mjs    # 58 contrôles de bout en bout, à lancer sur le site publié
+node tools/test-worker.mjs # garde-fous du relais IA, sans réseau ni déploiement
+node tools/test-ia.mjs     # assistant branché sur un faux relais : reformulation,
+                           # résumé, analyse d'erreur, et repli quand le relais tombe
 ```
 
 `check.mjs` applique des règles de fond, pas seulement de forme :
@@ -265,7 +318,10 @@ node tools/shots.mjs       # parcours complet dans Chromium, détecte les erreur
   cela apprendrait le mauvais réflexe de tout cocher au moindre doute ;
 - les quotas d'examen doivent totaliser exactement 40 et couvrir tous les thèmes ;
 - chaque thème doit contenir au moins 10 questions, sinon son défi ne pourrait
-  pas être tiré sans répétition.
+  pas être tiré sans répétition ;
+- chaque thème doit avoir sa leçon, et chaque bloc de leçon doit être d'un type
+  connu, avec un schéma et des panneaux qui existent : réviser sans cours, c'est
+  deviner.
 
 ---
 
