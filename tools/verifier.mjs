@@ -1,0 +1,209 @@
+/* ============================================================
+   Vérification de bout en bout.
+
+   À lancer de préférence sur un miroir du site publié, pour
+   contrôler ce qui est réellement servi et non la copie locale :
+     node tools/verifier.mjs http://localhost:8100/
+   ============================================================ */
+import { chromium } from 'playwright';
+
+const BASE = process.argv[2] || 'http://localhost:8099/';
+const b = await chromium.launch();
+const ctx = await b.newContext({
+  viewport: { width: 390, height: 844 }, deviceScaleFactor: 2,
+  locale: 'fr-FR', isMobile: true, hasTouch: true
+});
+
+const erreurs = [];
+let ok = 0, ko = 0;
+const test = (nom, condition, detail) => {
+  if (condition) { ok++; console.log(`  ok    ${nom}`); }
+  else { ko++; console.log(`  ÉCHEC ${nom}${detail ? '  -> ' + detail : ''}`); }
+};
+const bloc = (n) => console.log(`\n${n}`);
+
+const p = await ctx.newPage();
+p.on('pageerror', (e) => erreurs.push('JS: ' + e.message));
+p.on('console', (m) => { if (m.type() === 'error') erreurs.push('console: ' + m.text()); });
+p.on('requestfailed', (r) => erreurs.push('requête: ' + r.url()));
+
+const passerAccueil = async () => {
+  await p.click('[data-next]'); await p.click('[data-next]'); await p.click('[data-done]');
+  await p.waitForTimeout(200);
+};
+const jouer = async (max, choix = 0) => {
+  for (let i = 0; i < max; i++) {
+    if (await p.locator('.score').count()) return true;
+    const n = await p.locator('.ans').count();
+    if (n) {
+      await p.click(`.ans >> nth=${choix < 0 ? n - 1 : Math.min(choix, n - 1)}`, { timeout: 3000 }).catch(() => {});
+      await p.waitForTimeout(40);
+    }
+    await p.click('#go', { timeout: 3000 }).catch(() => {});
+    await p.waitForTimeout(90);
+  }
+  return !!(await p.locator('.score').count());
+};
+
+/* ---------------- 1. chargement et données ---------------- */
+bloc('1. Chargement et données');
+await p.goto(BASE, { waitUntil: 'networkidle' });
+const d = await p.evaluate(() => ({
+  questions: Store.all.length,
+  themes: THEMES.length,
+  fiches: LESSONS.length,
+  succes: BADGES.length,
+  panneaux: Signs.list().length,
+  icones: Icons.list().length,
+  quota: Object.values(EXAM_QUOTA).reduce((a, x) => a + x, 0),
+  stockage: Store.persistant,
+  doublons: Store.all.length - new Set(Store.all.map(q => q.id)).size
+}));
+test('459 questions chargées', d.questions === 459, d.questions);
+test('16 thèmes', d.themes === 16, d.themes);
+test('16 fiches', d.fiches === 16, d.fiches);
+test('32 succès', d.succes === 32, d.succes);
+test('66 panneaux', d.panneaux === 66, d.panneaux);
+test('64 icônes', d.icones === 64, d.icones);
+test('quotas d’examen = 40', d.quota === 40, d.quota);
+test('aucun identifiant en double', d.doublons === 0, d.doublons);
+test('stockage local disponible', d.stockage === true);
+
+/* ---------------- 2. icônes rendues ---------------- */
+bloc('2. Icônes et absence d’emoji dans l’interface');
+await passerAccueil();
+const ic = await p.evaluate(() => document.querySelectorAll('svg.ico').length);
+test('icônes SVG présentes sur l’accueil', ic > 8, ic + ' trouvée(s)');
+
+/* emoji résiduels : on ignore les panneaux, dont les pictogrammes
+   sont volontairement des emoji */
+const emo = await p.evaluate(() => {
+  const re = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}]/u;
+  const trouves = [];
+  document.querySelectorAll('#app *, .tabbar *').forEach((el) => {
+    if (el.closest('.q-sign') || el.children.length) return;
+    const t = (el.textContent || '').trim();
+    if (t && re.test(t)) trouves.push(el.className + ' :: ' + t.slice(0, 30));
+  });
+  return trouves;
+});
+test('aucun emoji dans l’interface', emo.length === 0, emo.slice(0, 3).join(' | '));
+
+/* ---------------- 3. parcours et onglets ---------------- */
+bloc('3. Navigation');
+/* Chaque onglet est reconnu à un élément qui lui est propre et qui
+   existe dès le premier lancement : le bloc de statistiques de
+   l'examen, lui, n'apparaît qu'une fois un examen passé. */
+for (const [tab, marqueur] of [['train', '.medal-box'], ['exam', '[data-start]'],
+  ['lessons', '#q'], ['stats', '.kpi'], ['home', '.hero']]) {
+  await p.click(`.tab[data-go="${tab}"]`);
+  await p.waitForTimeout(250);
+  test(`onglet ${tab}`, (await p.locator(marqueur).count()) > 0);
+}
+
+/* ---------------- 4. défi du jour et mémorisation ---------------- */
+bloc('4. Défi du jour et répétition espacée');
+const avant = await p.evaluate(() => ({ xp: Store.s.xp, cartes: Object.keys(Store.s.cards).length }));
+await p.click('[data-daily]');
+await p.click('.ans >> nth=0');
+await p.click('#go');
+const correction = await p.locator('.fb').count();
+test('correction affichée après validation', correction === 1);
+test('explication présente', (await p.locator('.fb-b').textContent()).length > 30);
+test('lien d’aide vers Claude', (await p.locator('.fb-aide').getAttribute('href')).startsWith('https://claude.ai/new?q='));
+await jouer(40);
+const apres = await p.evaluate(() => ({ xp: Store.s.xp, cartes: Object.keys(Store.s.cards).length, hist: Store.s.history.length }));
+test('XP en hausse', apres.xp > avant.xp, `${avant.xp} -> ${apres.xp}`);
+test('fiches de révision créées', apres.cartes > avant.cartes, `${avant.cartes} -> ${apres.cartes}`);
+test('session enregistrée', apres.hist >= 1);
+test('écran de résultat', (await p.locator('.score').count()) === 1);
+
+/* ---------------- 5. persistance ---------------- */
+bloc('5. Persistance');
+const nomAvant = await p.evaluate(() => Store.s.profile.name);
+const xpAvant = await p.evaluate(() => Store.s.xp);
+await p.goto(BASE, { waitUntil: 'networkidle' });
+const apresRechargement = await p.evaluate(() => ({ nom: Store.s.profile.name, xp: Store.s.xp }));
+test('prénom conservé après rechargement', apresRechargement.nom === nomAvant, apresRechargement.nom);
+test('XP conservée après rechargement', apresRechargement.xp === xpAvant, `${xpAvant} -> ${apresRechargement.xp}`);
+
+/* ---------------- 6. aide hors ligne ---------------- */
+bloc('6. Recherche d’aide');
+await p.click('.tab[data-go="lessons"]');
+for (const [requete, attendu] of [
+  ['je peux boire combien', /alcool|g\/L/i],
+  ['distance de sécurité', /distance|seconde/i],
+  ['rond point qui passe', /giratoire|rond/i],
+  ['casque moto accident', /casque/i]]) {
+  await p.fill('#q', requete);
+  await p.waitForTimeout(450);
+  const txt = await p.locator('#resultats').textContent();
+  test(`recherche « ${requete} »`, attendu.test(txt), txt.slice(0, 40));
+}
+test('bouton Claude bien formé',
+  (await p.locator('#resultats a.btn').getAttribute('href')).startsWith('https://claude.ai/new?q='));
+
+/* ---------------- 7. examen blanc ---------------- */
+bloc('7. Examen blanc');
+await p.click('.tab[data-go="exam"]');
+await p.click('[data-start]');
+await p.waitForTimeout(300);
+const ex = await p.evaluate(() => ({ n: Quiz && document.querySelectorAll('.pips i').length }));
+test('40 questions tirées', ex.n === 40, ex.n);
+const t1 = await p.locator('#timer').textContent();
+await p.waitForTimeout(2100);
+const t2 = await p.locator('#timer').textContent();
+test('chronomètre décompte', t1 !== t2, `${t1.trim()} puis ${t2.trim()}`);
+await p.click('.ans >> nth=0'); await p.click('#go'); await p.waitForTimeout(200);
+test('aucune correction pendant l’épreuve', (await p.locator('.fb').count()) === 0);
+
+/* ---------------- 8. survie ---------------- */
+bloc('8. Mode survie');
+await p.goto(BASE, { waitUntil: 'networkidle' });
+await p.click('[data-survie]'); await p.click('[data-go]');
+await p.waitForTimeout(300);
+test('trois vies au départ', (await p.locator('.lives .heart:not(.out)').count()) === 3);
+await jouer(60, -1);
+const surv = await p.evaluate(() => Store.s.survivalBest);
+test('partie terminée et record enregistré', typeof surv === 'number');
+
+/* ---------------- 9. réglages ---------------- */
+bloc('9. Réglages');
+await p.goto(BASE, { waitUntil: 'networkidle' });
+await p.click('[data-go="settings"]');
+await p.click('#theme [data-theme="jour"]');
+await p.waitForTimeout(200);
+test('thème jour appliqué', (await p.evaluate(() => document.documentElement.dataset.theme)) === 'jour');
+await p.click('#theme [data-theme="nuit"]');
+await p.waitForTimeout(200);
+test('thème nuit appliqué', (await p.evaluate(() => document.documentElement.dataset.theme)) === 'nuit');
+await p.click('[data-goal="30"]');
+test('objectif quotidien modifié', (await p.evaluate(() => Store.s.profile.goal)) === 30);
+
+const tel = p.waitForEvent('download', { timeout: 8000 }).catch(() => null);
+await p.click('[data-ics]');
+const fichier = await tel;
+test('rappel calendrier téléchargeable', !!fichier && /\.ics$/.test(fichier.suggestedFilename()),
+  fichier ? fichier.suggestedFilename() : 'aucun téléchargement');
+
+/* ---------------- 10. hors ligne ---------------- */
+bloc('10. Fonctionnement hors ligne');
+await p.goto(BASE, { waitUntil: 'networkidle' });
+const sw = await p.evaluate(() => navigator.serviceWorker.ready.then(() => true).catch(() => false));
+test('service worker actif', sw === true);
+await p.waitForTimeout(1500);
+await ctx.setOffline(true);
+await p.goto(BASE, { waitUntil: 'domcontentloaded' }).catch(() => {});
+await p.waitForTimeout(600);
+const horsLigne = await p.evaluate(() => (window.Store && Store.all.length) || 0).catch(() => 0);
+test('application chargée sans réseau', horsLigne === 459, horsLigne + ' question(s)');
+await ctx.setOffline(false);
+
+/* ---------------- bilan ---------------- */
+await b.close();
+console.log(`\n${ok} contrôle(s) réussi(s), ${ko} échec(s).`);
+if (erreurs.length) {
+  console.log('\nErreurs relevées pendant le parcours :');
+  [...new Set(erreurs)].slice(0, 10).forEach((e) => console.log('  ' + e));
+}
+process.exit(ko || erreurs.length ? 1 : 0);
