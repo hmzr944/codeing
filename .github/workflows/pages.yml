@@ -1,4 +1,4 @@
-# Publie l'application sur GitHub Pages.
+# Vérifie le contenu, puis publie l'application sur GitHub Pages.
 #
 # Réglage à faire UNE FOIS dans le dépôt, avant le premier passage :
 #   Settings > Pages > Source : GitHub Actions
@@ -24,19 +24,30 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Les contrôles tournent sur toutes les branches : c'est là qu'on
+  # veut savoir qu'une leçon ou une question est cassée.
+  verifier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cohérence du contenu et lisibilité
+        run: |
+          node tools/check.mjs
+          node tools/lisibilite.mjs
+          node tools/test-worker.mjs
+
+  # La publication, elle, n'a lieu que depuis la branche par défaut :
+  # l'environnement github-pages n'autorise qu'elle, et une tentative
+  # depuis une autre branche échoue en deux secondes.
   publier:
+    needs: verifier
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deploiement.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-
-      - name: Vérifier la banque de questions
-        run: |
-          node tools/check.mjs
-          node tools/lisibilite.mjs
-          node tools/test-worker.mjs
 
       - name: Rassembler le site
         run: |
