@@ -15,8 +15,24 @@ navigateur et fonctionne hors ligne.
 |---|---|
 | **459 questions** | 16 thèmes, chacune avec une explication et souvent une astuce mémo |
 | **66 panneaux** | dessinés en SVG, forme et couleurs fidèles, pictogrammes simplifiés |
-| **14 fiches** | le cours en version courte, dont une fiche « chiffres à connaître par cœur » |
+| **16 fiches** | le cours en version courte, dont « les chiffres à connaître par cœur », un **lexique en mots simples** et **ce qui a changé récemment** |
 | **32 succès** | débloqués sans être annoncés à l'avance |
+
+### Écrit pour être compris du premier coup
+
+Une question qu'on doit relire deux fois n'apprend rien. La banque suit trois
+règles, vérifiées automatiquement par `tools/lisibilite.mjs` :
+
+- **aucun mot savant là où un mot courant existe.** « Baisse de vigilance »
+  et non « hypovigilance », « après le repas » et non « post-prandial »,
+  « à double sens » et non « bidirectionnelle » ;
+- **tout sigle est expliqué en clair au moins une fois.** PTAC, BAU, PLS, ZFE,
+  EDPM restent employés, parce qu'ils tombent à l'examen, mais jamais sans
+  traduction. La fiche **Lexique** les reprend tous ;
+- **aucune phrase de plus de 26 mots.** Au-delà, on relit.
+
+L'audit part d'une liste de mots interdits, puis ratisse tous les mots de plus
+de 13 lettres pour attraper ce que la liste n'avait pas prévu.
 
 Les seize thèmes suivent le découpage officiel de l'ETG, y compris des sujets
 récents que beaucoup de banques anciennes ignorent : **aides à la conduite et
@@ -138,6 +154,7 @@ js/
   app.js               routeur, thème, rappel local
 sw.js                  service worker (hors ligne)
 tools/check.mjs        contrôle d'intégrité de la banque de questions
+tools/lisibilite.mjs   audit du vocabulaire et de la longueur des phrases
 tools/shots.mjs        captures d'écran de contrôle (Playwright)
 tools/build-single.mjs génère la version en un seul fichier
 ```
@@ -162,8 +179,9 @@ volontairement simplifiés.
 ### Contrôles
 
 ```bash
-node tools/check.mjs    # syntaxe, ids uniques, index de réponses, quotas d'examen
-node tools/shots.mjs    # parcours complet dans Chromium, détecte les erreurs JS
+node tools/check.mjs       # syntaxe, ids uniques, index de réponses, quotas d'examen
+node tools/lisibilite.mjs  # jargon, sigles non expliqués, phrases trop longues
+node tools/shots.mjs       # parcours complet dans Chromium, détecte les erreurs JS
 ```
 
 `check.mjs` applique des règles de fond, pas seulement de forme :

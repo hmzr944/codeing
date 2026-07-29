@@ -85,14 +85,14 @@ window.Q_SIGNALISATION = [
  q:'Ce panneau signifie :',
  o:['Fin de la limitation à 70 km/h','Limitation à 70 km/h','Vitesse conseillée 70 km/h'],
  a:[0],
- e:'Le disque gris barré met fin à la prescription. Je reprends la vitesse maximale correspondant au type de route et à ma situation.',
+ e:'Le disque gris barré annule le panneau précédent. Je reprends la vitesse maximale correspondant au type de route et à ma situation.',
  tip:'Gris + barre = « oubliez le panneau précédent ».'},
 
 {id:'SG13', t:'signalisation', d:2, sign:'fin-interdictions',
  q:'Ce panneau annule :',
  o:['Toutes les interdictions précédemment signalées','Uniquement les limitations de vitesse','Uniquement l’interdiction de dépasser'],
  a:[0],
- e:'Le disque gris avec les traits obliques met fin à l’ensemble des interdictions imposées aux véhicules en mouvement (vitesse, dépassement, klaxon…).',
+ e:'Le disque gris barré de traits annule toutes les interdictions qui visaient les véhicules en marche (vitesse, dépassement, klaxon…).',
  tip:'Plusieurs traits = plusieurs interdictions levées.'},
 
 {id:'SG14', t:'signalisation', d:1, sign:'interdit-depasser',
@@ -139,7 +139,7 @@ window.Q_SIGNALISATION = [
 
 {id:'SG20', t:'signalisation', d:2, sign:'danger-travaux',
  q:'Sur une zone de travaux, la signalisation temporaire :',
- o:['Prime sur la signalisation permanente','Est seulement indicative','S’applique uniquement aux poids lourds'],
+ o:['L’emporte sur les panneaux habituels','Est seulement indicative','S’applique uniquement aux poids lourds'],
  a:[0],
  e:'La signalisation temporaire (fond jaune, cônes, panneaux de chantier) l’emporte sur la signalisation permanente et sur le marquage au sol existant.',
  tip:'Jaune temporaire > blanc permanent.'},
@@ -221,7 +221,7 @@ window.Q_SIGNALISATION = [
  tip:'Le nom de la ville EST un panneau de limitation.'},
 
 {id:'SG32', t:'signalisation', d:2, sign:'fin-agglomeration',
- q:'Après ce panneau, sur une route bidirectionnelle sans séparateur central :',
+ q:'Après ce panneau, sur une route à double sens sans séparateur central :',
  o:['La vitesse maximale est en principe de 80 km/h','La vitesse maximale passe automatiquement à 110 km/h','Il n’y a plus de limitation'],
  a:[0],
  e:'Hors agglomération, une route à double sens sans séparateur central est limitée à 80 km/h. Certains départements l’ont relevée à 90 km/h : dans ce cas, des panneaux le précisent.',
@@ -259,7 +259,7 @@ window.Q_SIGNALISATION = [
  q:'Sur une route à accès réglementé (panneau carré bleu avec voiture) :',
  o:['Les règles sont proches de l’autoroute mais la vitesse maximale est de 110 km/h','La vitesse est de 130 km/h','Les piétons sont autorisés'],
  a:[0],
- e:'La route à accès réglementé applique les règles autoroutières (pas de piétons, pas d’arrêt) mais la vitesse maximale y est de 110 km/h par temps sec, sauf indication.',
+ e:'Mêmes règles que l’autoroute : ni piétons, ni arrêt. Mais la vitesse maximale y est de 110 km/h par temps sec, sauf panneau contraire.',
  tip:'Bleu carré « voiture » = quasi-autoroute à 110.'},
 
 {id:'SG38', t:'signalisation', d:2, sign:'impasse',

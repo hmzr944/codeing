@@ -55,7 +55,7 @@ window.Q_CONDUCTEUR = [
  tip:'Pictogramme rouge = je ne prends pas le volant.'},
 
 {id:'CO08', t:'conducteur', d:1,
- q:'Les signes annonciateurs de la somnolence au volant sont :',
+ q:'Les signes qui annoncent l’endormissement au volant sont :',
  o:['Les bâillements répétés','Les paupières lourdes et le regard fixe','Les difficultés à maintenir sa trajectoire','Une envie soudaine d’accélérer'],
  a:[0,1,2],
  e:'Face à ces signaux, la seule réponse efficace est de s’arrêter et de faire une sieste de 15 à 20 minutes. La musique ou la fenêtre ouverte ne sont que des illusions.',
@@ -65,7 +65,7 @@ window.Q_CONDUCTEUR = [
  q:'Le permis probatoire comporte au départ :',
  o:['6 points','12 points','8 points'],
  a:[0],
- e:'6 points au départ. En l’absence d’infraction, on gagne 2 points par an sur 3 ans (ou 3 points par an sur 2 ans après conduite accompagnée) jusqu’à atteindre 12 points.',
+ e:'6 points au départ. Sans infraction, on gagne 2 points par an pendant 3 ans. Après une conduite accompagnée, c’est 3 points par an pendant 2 ans. On arrive à 12 dans les deux cas.',
  tip:'6 points, patience : le capital se construit.'},
 
 {id:'CO10', t:'conducteur', d:2,
@@ -79,7 +79,7 @@ window.Q_CONDUCTEUR = [
  q:'Le solde de points devient nul :',
  o:['Le permis est invalidé et doit être repassé après un délai','On perd seulement le droit de conduire la nuit','On reçoit une amende puis les points reviennent'],
  a:[0],
- e:'À zéro point, le permis est invalidé (lettre 48SI). Il faut attendre 6 mois (1 an en cas de récidive), passer une visite médicale, des tests psychotechniques et repasser les épreuves.',
+ e:'À zéro point, le permis est invalidé (lettre 48SI). Il faut attendre 6 mois (1 an en cas de récidive), passer une visite médicale, des tests de réflexes et d’attention et repasser les épreuves.',
  tip:'Zéro point = retour à la case départ, littéralement.'},
 
 {id:'CO12', t:'conducteur', d:2,
@@ -155,7 +155,7 @@ window.Q_CONDUCTEUR = [
  q:'Le délai pour récupérer la totalité de ses points après une infraction, sans nouvelle infraction, est de :',
  o:['2 ans pour les contraventions des 4 premières classes','3 ans pour les délits et contraventions de 5e classe','6 mois si l’on n’a perdu qu’un seul point','1 an pour les délits routiers'],
  a:[0,1,2],
- e:'La reconstitution est automatique : 6 mois pour un point isolé, 2 ans pour les infractions légères, 3 ans pour les plus graves, et 10 ans au maximum pour certains points.',
+ e:'La récupération est automatique : 6 mois pour un point isolé, 2 ans pour les infractions légères, 3 ans pour les plus graves, et 10 ans au maximum pour certains points.',
  tip:'Six mois pour un point, deux ans pour le reste, trois si c’était grave.'},
 
 /* ---------------- PAPIERS & RÉGLEMENTATION ---------------- */
@@ -212,7 +212,7 @@ window.Q_CONDUCTEUR = [
  q:'Une amende forfaitaire minorée s’applique si je paie :',
  o:['Rapidement, dans le délai réduit prévu','Après contestation','Uniquement pour les excès de vitesse'],
  a:[0],
- e:'Payer vite (15 jours par courrier, 30 jours en télépaiement selon les cas) réduit le montant. À l’inverse, l’amende est majorée en cas de retard. Le paiement vaut reconnaissance de l’infraction et entraîne le retrait des points.',
+ e:'Payer vite (15 jours par courrier, 30 jours en télépaiement selon les cas) réduit le montant. À l’inverse, l’amende est majorée en cas de retard. Payer revient à reconnaître l’infraction, et les points partent avec.',
  tip:'Payer = reconnaître. Contester d’abord si l’on conteste vraiment.'},
 
 {id:'AD09', t:'admin', d:3,

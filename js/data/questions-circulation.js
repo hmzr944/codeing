@@ -172,7 +172,7 @@ window.Q_CIRCULATION = [
  q:'En période probatoire (jeune permis), les vitesses maximales sont :',
  o:['110 km/h sur autoroute','100 km/h sur route à chaussées séparées','80 km/h sur les autres routes hors agglomération','70 km/h en agglomération'],
  a:[0,1,2],
- e:'Pendant la période probatoire (3 ans, ou 2 ans après conduite accompagnée), les vitesses sont réduites et le disque « A » doit être apposé à l’arrière.',
+ e:'La période probatoire dure 3 ans, ou 2 ans après une conduite accompagnée. Pendant ce temps, les vitesses sont réduites et le disque « A » reste collé à l’arrière.',
  tip:'Jeune permis : 110 / 100 / 80. Et 0,2 g/L d’alcool maximum.'},
 
 {id:'VI07', t:'vitesse', d:2,
@@ -242,7 +242,7 @@ window.Q_CIRCULATION = [
  q:'Sur autoroute, l’intervalle de sécurité peut se contrôler grâce :',
  o:['Aux deux traits de rappel peints au sol','Aux bornes kilométriques','Aux panneaux d’aire de repos'],
  a:[0],
- e:'Sur de nombreuses autoroutes, des chevrons ou des traits de rappel matérialisent la distance de sécurité : il faut voir au moins deux traits entre soi et le véhicule précédent.',
+ e:'Sur de nombreuses autoroutes, des chevrons ou des traits peints marquent la distance de sécurité : il faut voir au moins deux traits entre soi et le véhicule précédent.',
  tip:'Deux traits visibles = distance correcte.'},
 
 {id:'VI17', t:'vitesse', d:3,
@@ -314,7 +314,7 @@ window.Q_CIRCULATION = [
  q:'Un demi-tour est interdit :',
  o:['Sur autoroute','Sur un passage à niveau','Dans un virage sans visibilité','Dans une rue à sens unique'],
  a:[0,1,2],
- e:'Le demi-tour ne se pratique que là où la visibilité est bonne et où il ne gêne personne. Il est proscrit sur autoroute, voie rapide, passage à niveau, pont et virage sans visibilité.'},
+ e:'Le demi-tour ne se pratique que là où la visibilité est bonne et où il ne gêne personne. Il est interdit sur autoroute, voie rapide, passage à niveau, pont et virage sans visibilité.'},
 
 {id:'MA09', t:'manoeuvres', d:3,
  q:'Le clignotant sert à :',
@@ -341,7 +341,7 @@ window.Q_CIRCULATION = [
  q:'Avant d’ouvrir ma portière après m’être garé :',
  o:['Je contrôle le rétroviseur et je regarde derrière moi','J’ouvre franchement pour être vu','Je me fie uniquement au bruit'],
  a:[0],
- e:'L’« emportiérage » blesse gravement des cyclistes chaque année. La technique dite « du Néerlandais » consiste à ouvrir avec la main opposée, ce qui oblige à se retourner.',
+ e:'Ouvrir sa portière sans regarder (« l’emportiérage ») blesse gravement des cyclistes chaque année. La technique dite « du Néerlandais » consiste à ouvrir avec la main opposée, ce qui oblige à se retourner.',
  tip:'Ouvre avec la main droite : ton corps pivote et tes yeux voient le vélo.'},
 
 {id:'MA13', t:'manoeuvres', d:2,
@@ -412,7 +412,7 @@ window.Q_CIRCULATION = [
  q:'La fatigue sur autoroute impose :',
  o:['Une pause toutes les 2 heures environ','De ne s’arrêter qu’en cas de somnolence avérée','De boire du café pour ne jamais s’arrêter'],
  a:[0],
- e:'Une pause de 15 à 20 minutes toutes les deux heures. L’hypovigilance autoroutière est une cause majeure d’accidents mortels : bâillements et lignes floues sont des signaux d’alarme.',
+ e:'Une pause de 15 à 20 minutes toutes les deux heures. La baisse de vigilance sur autoroute est une cause majeure d’accidents mortels : bâillements et lignes floues sont des signaux d’alarme.',
  tip:'Bâillement = prochaine aire, sans négocier.'},
 
 {id:'AU09', t:'autoroute', d:2,
@@ -498,7 +498,7 @@ window.Q_CIRCULATION = [
  q:'Stationner sur une place réservée aux personnes handicapées sans carte mobilité inclusion :',
  o:['Est puni d’une amende de 135 € et d’une mise en fourrière possible','Est toléré si l’arrêt est court','N’est sanctionné que dans les parkings privés'],
  a:[0],
- e:'Aucune tolérance, même pour « deux minutes ». Ces places sont dimensionnées pour permettre les transferts en fauteuil.',
+ e:'Aucune tolérance, même pour « deux minutes ». Ces places sont plus larges : elles servent à sortir en fauteuil roulant.',
  tip:'Une place PMR n’est pas une place libre : c’est un équipement.'},
 
 {id:'ST10', t:'stationnement', d:2,

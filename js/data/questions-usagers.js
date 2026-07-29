@@ -16,7 +16,7 @@ window.Q_USAGERS = [
  q:'Un piéton renversé à 50 km/h a un risque de décès d’environ :',
  o:['Une chance sur deux','Moins de 5 %','Quasi nul'],
  a:[0],
- e:'À 30 km/h, le risque de décès est d’environ 10 % ; à 50 km/h, il approche 50 % ; à 60 km/h, il dépasse 80 %. C’est toute la logique des zones 30.',
+ e:'À 30 km/h, environ un piéton renversé sur dix meurt. À 50 km/h, c’est près d’un sur deux. À 60 km/h, plus de huit sur dix. C’est toute la logique des zones 30.',
  tip:'20 km/h de moins, c’est une vie sauvée sur deux.'},
 
 {id:'US03', t:'usagers', d:2,
@@ -86,7 +86,7 @@ window.Q_USAGERS = [
  e:'Un tracteur avec outil peut dépasser la largeur de la voie et masquer totalement la visibilité. Le dépassement exige une très longue portion dégagée.'},
 
 {id:'US13', t:'usagers', d:2,
- q:'En présence d’un attroupement, d’une manifestation ou d’une course cycliste :',
+ q:'En présence d’un rassemblement, d’une manifestation ou d’une course cycliste :',
  o:['Je ralentis, voire je m’arrête','Je suis les indications éventuelles des organisateurs et des forces de l’ordre','Je peux traverser le groupe lentement'],
  a:[0,1],
  e:'Un groupe de coureurs ou de manifestants est un usager collectif : on ne le coupe pas. Les motards d’escorte donnent les consignes.'},

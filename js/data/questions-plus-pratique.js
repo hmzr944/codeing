@@ -11,7 +11,7 @@ window.Q_PLUS_PRATIQUE = [
  q:'Sur une autoroute à deux voies, un poids lourd en dépasse un autre très lentement :',
  o:['Je patiente sans coller ni faire d’appels de phares','Je conserve ma distance de sécurité','Je me rabats à droite pour le doubler'],
  a:[0,1],
- e:'Le dépassement par la droite est interdit. Les manœuvres d’intimidation créent des freinages en chaîne.',
+ e:'Le dépassement par la droite est interdit. Coller ou faire des appels de phares provoque des freinages en chaîne.',
  tip:'Un camion qui en double un autre : on respire et on attend.'},
 
 {id:'AU13', t:'autoroute', d:2,
@@ -89,7 +89,7 @@ window.Q_PLUS_PRATIQUE = [
  q:'La fatigue autoroutière est aggravée par :',
  o:['La monotonie du paysage et la régularité de la vitesse','L’usage prolongé du régulateur','La variété du trafic'],
  a:[0,1],
- e:'L’hypovigilance s’installe sans signal net. Le régulateur supprime les micro-actions qui maintiennent l’éveil.',
+ e:'La vigilance baisse sans qu’on s’en aperçoive. Le régulateur supprime les petits gestes qui tiennent éveillé.',
  tip:'Route droite, vitesse constante : le cerveau décroche.'},
 
 {id:'AU24', t:'autoroute', d:2,
@@ -131,9 +131,9 @@ window.Q_PLUS_PRATIQUE = [
 
 {id:'ST15', t:'stationnement', d:2,
  q:'Le stationnement payant non réglé :',
- o:['Donne lieu à un forfait de post-stationnement','Dont le montant est fixé par la commune','Est un retrait de points'],
+ o:['Donne lieu à un « forfait de post-stationnement »','Dont le montant est fixé par la commune','Est un retrait de points'],
  a:[0,1],
- e:'Depuis la dépénalisation, ce n’est plus une amende pénale mais une redevance. Elle n’entraîne aucun retrait de point.',
+ e:'Ce n’est plus une amende : c’est une redevance fixée par la mairie. Elle n’entraîne aucun retrait de point.',
  tip:'Stationnement payant : redevance, pas points.'},
 
 {id:'ST16', t:'stationnement', d:2,
@@ -238,7 +238,7 @@ window.Q_PLUS_PRATIQUE = [
 
 {id:'CD22', t:'conditions', d:2,
  q:'Par forte chaleur :',
- o:['La vigilance baisse et la déshydratation accélère la fatigue','Le revêtement peut ressuer et devenir glissant','La conduite n’est pas affectée'],
+ o:['La vigilance baisse et la déshydratation accélère la fatigue','Le goudron peut remonter en surface et devenir glissant','La conduite n’est pas affectée'],
  a:[0,1],
  e:'On boit régulièrement, on aère l’habitacle avant de partir et on ne laisse jamais un enfant ou un animal dans un véhicule à l’arrêt.',
  tip:'Chaleur : on boit, on aère, on ne laisse personne à bord.'},
@@ -247,7 +247,7 @@ window.Q_PLUS_PRATIQUE = [
  q:'Un tunnel avec un feu rouge clignotant à l’entrée :',
  o:['Interdit l’accès','Signale un incident à l’intérieur','Autorise l’entrée avec prudence'],
  a:[0,1],
- e:'Les tunnels disposent de feux, de signaux d’affectation de voie et de haut-parleurs. Une croix rouge au-dessus d’une voie interdit d’y circuler.',
+ e:'Les tunnels ont des feux, des panneaux indiquant les voies ouvertes et des haut-parleurs. Une croix rouge au-dessus d’une voie interdit d’y circuler.',
  tip:'Croix rouge au-dessus d’une voie : cette voie est fermée.'},
 
 {id:'CD24', t:'conditions', d:2,
@@ -305,21 +305,21 @@ window.Q_PLUS_PRATIQUE = [
  q:'Le champ visuel du conducteur :',
  o:['Se rétrécit à mesure que la vitesse augmente','Passe d’environ 100 degrés à l’arrêt à moins de 30 degrés à vitesse élevée','S’élargit avec la vitesse'],
  a:[0,1],
- e:'À grande vitesse, la vision devient tubulaire : ce qui arrive des côtés est perçu trop tard. C’est une raison physiologique de ralentir en ville.',
+ e:'Plus on va vite, moins on voit sur les côtés, comme dans un tunnel. C’est une raison de plus de ralentir en ville.',
  tip:'Plus vite je roule, moins je vois sur les côtés.'},
 
 {id:'CO28', t:'conducteur', d:2,
  q:'Après un repas copieux ou en début d’après-midi :',
  o:['La vigilance baisse naturellement','Une pause courte est préférable à un café','La conduite est plus sûre car on est reposé'],
  a:[0,1],
- e:'Le creux post-prandial est un pic d’accidents. Une sieste de quinze minutes restaure la vigilance mieux que n’importe quel excitant.',
+ e:'La digestion fait chuter la vigilance : c’est un pic d’accidents. Une sieste de quinze minutes restaure la vigilance mieux que n’importe quel excitant.',
  tip:'Après le repas, le corps réclame son dû.'},
 
 {id:'CO29', t:'conducteur', d:3,
  q:'Un conducteur novice sous-estime souvent :',
  o:['Le temps nécessaire pour s’arrêter','La difficulté d’anticiper les comportements des autres','Sa propre maîtrise du véhicule'],
  a:[0,1],
- e:'Les jeunes conducteurs sont surreprésentés dans les accidents mortels, surtout la nuit et le week-end. L’expérience se construit en kilomètres, pas en confiance.',
+ e:'Les jeunes conducteurs sont bien plus souvent impliqués dans les accidents mortels, surtout la nuit et le week-end. L’expérience se construit en kilomètres, pas en confiance.',
  tip:'La confiance arrive toujours avant la compétence.'},
 
 {id:'CO30', t:'conducteur', d:2,
@@ -406,7 +406,7 @@ window.Q_PLUS_PRATIQUE = [
  o:['Est assimilée à un piéton','Doit bénéficier d’un large écart et d’une vitesse très réduite','Doit circuler sur la chaussée comme un cycliste'],
  a:[0,1],
  e:'Les personnes en fauteuil, à pied ou poussant un vélo sont des piétons. Un trottoir encombré peut les contraindre à descendre sur la chaussée.',
- tip:'Fauteuil roulant : c’est un piéton, avec moins d’échappatoires.'},
+ tip:'Fauteuil roulant : c’est un piéton, avec moins de moyens de s’écarter.'},
 
 {id:'US28', t:'usagers', d:2,
  q:'Devant une sortie d’école :',

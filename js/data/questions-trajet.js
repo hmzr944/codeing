@@ -58,7 +58,7 @@ window.Q_TRAJET = [
  o:['Ne doit masquer ni les feux ni la plaque','Impose une plaque et des feux répétiteurs si nécessaire','Peut masquer la plaque si les vélos sont visibles'],
  a:[0,1],
  e:'Une plaque masquée est passible d’une amende lourde. Le porte-vélos allonge aussi le véhicule : les manœuvres et le stationnement changent.',
- tip:'Plaque cachée par les vélos : la sanction est disproportionnée.'},
+ tip:'Plaque cachée par les vélos : la sanction est très lourde.'},
 
 {id:'TR09', t:'trajet', d:2,
  q:'Pour conduire dans un autre pays européen, je dois disposer :',
@@ -85,7 +85,7 @@ window.Q_TRAJET = [
  q:'Sur un trajet de nuit :',
  o:['La vigilance baisse fortement entre 2 h et 5 h du matin','Il vaut mieux avoir dormi avant de partir','Le café compense efficacement le manque de sommeil'],
  a:[0,1],
- e:'Le creux physiologique nocturne provoque des endormissements de quelques secondes, suffisants pour quitter la route. Une sieste avant le départ vaut mieux qu’un départ anticipé.',
+ e:'Entre 2 h et 5 h, le corps réclame le sommeil. On peut s’endormir deux secondes : assez pour quitter la route. Une sieste avant le départ vaut mieux qu’un départ anticipé.',
  tip:'Partir fatigué à minuit, c’est déjà commencer le trajet en dette.'},
 
 {id:'TR13', t:'trajet', d:2,

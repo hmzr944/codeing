@@ -9,7 +9,7 @@ window.Q_PLUS_ROUTE = [
 
 {id:'SG51', t:'signalisation', d:2, sign:'danger-travaux',
  q:'Sur un chantier, la signalisation temporaire est reconnaissable :',
- o:['À son fond jaune','Et elle prime sur le marquage au sol permanent','À son fond blanc'],
+ o:['À son fond jaune','Et elle l’emporte sur les lignes peintes habituelles','À son fond blanc'],
  a:[0,1],
  e:'Les lignes jaunes temporaires annulent les lignes blanches. En cas de contradiction, on suit toujours le jaune.',
  tip:'Jaune contre blanc : le jaune gagne.'},
@@ -53,7 +53,7 @@ window.Q_PLUS_ROUTE = [
  q:'Un panneau d’interdiction accompagné d’un panonceau « sauf riverains » :',
  o:['Autorise les riverains et les personnes s’y rendant','Interdit le transit à tous les autres','Est une simple recommandation'],
  a:[0,1],
- e:'Les mentions « sauf riverains », « sauf livraisons » ou « sauf ayants droit » restreignent l’interdiction à une catégorie précise.',
+ e:'Les mentions « sauf riverains », « sauf livraisons » ou « sauf autorisation » réduisent l’interdiction à une catégorie précise.',
  tip:'« Sauf » : le panonceau ouvre une porte étroite.'},
 
 {id:'SG58', t:'signalisation', d:2,
@@ -104,7 +104,7 @@ window.Q_PLUS_ROUTE = [
 {id:'PR18', t:'priorites', d:2,
  ctx:'Je circule sur une route prioritaire signalée par un losange jaune. Une voiture arrive d’un chemin sur ma droite.',
  q:'Qui passe ?',
- o:['Moi, la route prioritaire prime sur la priorité à droite','L’autre véhicule, la priorité à droite s’applique toujours','Le premier arrivé'],
+ o:['Moi : la route prioritaire passe avant la priorité à droite','L’autre véhicule, la priorité à droite s’applique toujours','Le premier arrivé'],
  a:[0],
  e:'La priorité à droite est une règle par défaut : toute signalisation la remplace. Le véhicule débouchant doit céder le passage.',
  tip:'Un panneau de priorité efface la priorité à droite.'},
@@ -134,7 +134,7 @@ window.Q_PLUS_ROUTE = [
 
 {id:'PR22', t:'priorites', d:3,
  q:'À un carrefour à sens giratoire, changer de voie à l’intérieur de l’anneau :',
- o:['Impose le clignotant et un contrôle de l’angle mort','Est une manœuvre fréquemment accidentogène','Est interdit'],
+ o:['Impose le clignotant et un contrôle de l’angle mort','Est une manœuvre à l’origine de nombreux accidents','Est interdit'],
  a:[0,1],
  e:'Un véhicule circulant sur la voie extérieure peut poursuivre son tour. On se place sur la bonne voie dès l’entrée, selon la sortie visée.',
  tip:'On choisit sa voie à l’entrée du giratoire, pas à mi-parcours.'},
@@ -156,7 +156,7 @@ window.Q_PLUS_ROUTE = [
 
 {id:'PR25', t:'priorites', d:2,
  q:'Dans une aire piétonne :',
- o:['Les piétons sont prioritaires sur toute la surface','La circulation motorisée est limitée aux ayants droit et à l’allure du pas','La vitesse est limitée à 20 km/h'],
+ o:['Les piétons sont prioritaires sur toute la surface','Seules les voitures autorisées y entrent, et au pas','La vitesse est limitée à 20 km/h'],
  a:[0,1],
  e:'L’allure du pas signifie environ 6 km/h. La zone de rencontre, elle, autorise la circulation générale jusqu’à 20 km/h.',
  tip:'Aire piétonne : au pas. Zone de rencontre : 20.'},

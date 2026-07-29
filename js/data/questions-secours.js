@@ -21,7 +21,7 @@ window.Q_SECOURS = [
  q:'Pour protéger une zone d’accident, je dois :',
  o:['Allumer mes feux de détresse','Enfiler mon gilet avant de sortir','Baliser avec le triangle si les conditions le permettent','Déplacer les véhicules accidentés pour dégager la voie'],
  a:[0,1,2],
- e:'Le triangle se place à environ 30 mètres, et bien plus loin en cas de virage ou de sommet de côte. Sur autoroute, la mise à l’abri derrière la glissière prime sur le balisage.',
+ e:'Le triangle se place à environ 30 mètres, et bien plus loin en cas de virage ou de sommet de côte. Sur autoroute, se mettre à l’abri derrière la glissière passe avant le balisage.',
  tip:'Sur autoroute : gilet, glissière, puis appel. Le triangle si c’est sûr.'},
 
 {id:'SE04', t:'secours', d:2,
@@ -49,7 +49,7 @@ window.Q_SECOURS = [
  q:'Le casque d’un motard accidenté :',
  o:['Ne doit être retiré que si c’est indispensable (arrêt respiratoire, vomissements)','Doit être retiré systématiquement','Doit être retiré par une seule personne rapidement'],
  a:[0],
- e:'Le retrait du casque se pratique idéalement à deux, avec maintien de l’axe tête-cou-tronc. Sans nécessité vitale, on ne touche pas au casque.',
+ e:'Le retrait du casque se pratique idéalement à deux, en gardant la tête dans l’axe du corps. Sans nécessité vitale, on ne touche pas au casque.',
  tip:'Casque : on le laisse, sauf si la victime ne respire pas.'},
 
 {id:'SE08', t:'secours', d:3,

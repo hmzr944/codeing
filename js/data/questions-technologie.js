@@ -16,7 +16,7 @@ window.Q_TECHNOLOGIE = [
  q:'Depuis juillet 2024, tout véhicule neuf vendu dans l’Union européenne doit être équipé :',
  o:['D’une adaptation intelligente de la vitesse (ISA)','D’un système d’alerte de somnolence','D’une boîte noire enregistrant les données d’accident','D’un éthylotest antidémarrage installé d’origine'],
  a:[0,1,2],
- e:'Le règlement européen de sécurité générale impose aussi le freinage d’urgence automatique, l’aide au maintien dans la voie et l’aide au recul. Ces systèmes sont désactivables mais se réactivent à chaque démarrage.',
+ e:'Le règlement européen de sécurité générale impose aussi le freinage d’urgence automatique, l’aide au maintien dans la voie et l’aide au recul. On peut les couper, mais ils se remettent en marche à chaque démarrage.',
  tip:'2024 : la sécurité active devient obligatoire sur le neuf.'},
 
 {id:'TE03', t:'technologie', d:2,
@@ -51,7 +51,7 @@ window.Q_TECHNOLOGIE = [
  q:'En France, un système de conduite automatisée de niveau 3 :',
  o:['N’est autorisé que dans des conditions très restreintes (voie séparée, basse vitesse)','Impose au conducteur de pouvoir reprendre la main immédiatement','Permet de dormir au volant'],
  a:[0,1],
- e:'La délégation de conduite est encadrée depuis 2022 : voies à chaussées séparées sans piétons ni cyclistes, à faible vitesse. Le conducteur doit rester en état de reprendre le contrôle à la demande du système.',
+ e:'La conduite déléguée à la voiture est encadrée depuis 2022 : voies à chaussées séparées sans piétons ni cyclistes, à faible vitesse. Le conducteur doit rester en état de reprendre le contrôle à la demande du système.',
  tip:'Niveau 3 : les yeux peuvent se détacher, pas la vigilance.'},
 
 {id:'TE08', t:'technologie', d:2,
@@ -100,7 +100,7 @@ window.Q_TECHNOLOGIE = [
  q:'En cas d’accident impliquant un véhicule électrique :',
  o:['Il faut signaler aux secours qu’il s’agit d’un véhicule électrique','La batterie peut s’enflammer avec du retard','Il n’y a aucun risque électrique une fois le contact coupé'],
  a:[0,1],
- e:'Les batteries lithium peuvent s’emballer thermiquement plusieurs heures après le choc. On garde ses distances si des fumées ou des crépitements apparaissent et on prévient les secours.',
+ e:'Une batterie abîmée peut surchauffer et prendre feu plusieurs heures après le choc. On garde ses distances si des fumées ou des crépitements apparaissent et on prévient les secours.',
  tip:'Batterie accidentée : on s’éloigne, on prévient, on ne touche pas.'},
 
 {id:'TE15', t:'technologie', d:2,
@@ -121,7 +121,7 @@ window.Q_TECHNOLOGIE = [
  q:'Les capteurs et caméras d’aide à la conduite :',
  o:['Doivent être maintenus propres pour fonctionner','Peuvent être perturbés par la neige, la boue ou un autocollant','Fonctionnent quelles que soient les conditions'],
  a:[0,1],
- e:'Un pare-brise sale, un capteur de pare-chocs couvert de boue ou une caméra givrée suffisent à désactiver les aides. Le véhicule affiche généralement un message d’indisponibilité.',
+ e:'Un pare-brise sale, un capteur de pare-chocs couvert de boue ou une caméra givrée suffisent à désactiver les aides. La voiture affiche en général un message disant que l’aide ne marche plus.',
  tip:'Capteurs sales : les aides s’éteignent, souvent sans qu’on le remarque.'},
 
 {id:'TE18', t:'technologie', d:2,

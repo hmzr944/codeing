@@ -9,7 +9,7 @@ window.LESSONS = [
 <h4>Vitesses (temps sec)</h4>
 <ul>
 <li>Agglomération : <b>50</b> (parfois 30)</li>
-<li>Route bidirectionnelle sans séparateur : <b>80</b> (90 si le département l’a relevé)</li>
+<li>Route à double sens, sans séparateur central : <b>80</b> (90 si le département l’a relevé)</li>
 <li>Route à chaussées séparées : <b>110</b></li>
 <li>Autoroute : <b>130</b></li>
 </ul>
@@ -39,6 +39,86 @@ window.LESSONS = [
 <li>Dépassement d’un cycliste : <b>1 m</b> en ville, <b>1,50 m</b> hors agglomération</li>
 <li>Examen : <b>35 bonnes réponses sur 40</b></li>
 </ul>`},
+
+{k:'lexique', n:'Le lexique, en mots simples', e:'💬', html:
+`<p>Le code emploie des mots qu’on n’utilise jamais dans la vie courante. Les voici traduits une bonne fois pour toutes.</p>
+
+<h4>Les mots de la route</h4>
+<ul>
+<li><b>Chaussée</b> : la partie où roulent les voitures. Le trottoir n’en fait pas partie.</li>
+<li><b>Accotement</b> : le bord de la route, juste après la chaussée.</li>
+<li><b>BAU</b> : la bande d’arrêt d’urgence, cette bande à droite sur l’autoroute.</li>
+<li><b>Agglomération</b> : tout ce qui se trouve entre le panneau au nom de la ville et le même panneau barré.</li>
+<li><b>Usager</b> : n’importe qui sur la route, à pied, à vélo ou en voiture.</li>
+<li><b>Giratoire</b> : le mot officiel pour rond-point.</li>
+<li><b>Panonceau</b> : la petite plaque accrochée sous un panneau, qui le précise.</li>
+<li><b>Ligne d’effet des feux</b> : la large bande blanche où l’on s’arrête au feu rouge.</li>
+<li><b>Sas vélo</b> : le carré peint devant les voitures au feu, réservé aux vélos.</li>
+</ul>
+
+<h4>Les mots des priorités</h4>
+<ul>
+<li><b>Céder le passage</b> : laisser passer l’autre. Pas forcément s’arrêter.</li>
+<li><b>Marquer l’arrêt</b> : s’arrêter complètement, roues immobiles. C’est le STOP.</li>
+<li><b>S’engager</b> : entrer dans un carrefour ou sur une voie.</li>
+<li><b>Se rabattre</b> : revenir sur la voie de droite après avoir doublé.</li>
+<li><b>Déboîter</b> : quitter sa voie pour aller doubler.</li>
+</ul>
+
+<h4>Les mots du véhicule</h4>
+<ul>
+<li><b>Carte grise</b> : son vrai nom est « certificat d’immatriculation ». C’est la même chose.</li>
+<li><b>PTAC</b> : le poids maximum de la voiture une fois chargée. Il est écrit sur la carte grise.</li>
+<li><b>PTRA</b> : le même poids maximum, mais voiture <b>et</b> remorque ensemble.</li>
+<li><b>Contre-visite</b> : le second passage au contrôle technique quand quelque chose n’allait pas.</li>
+<li><b>Frein moteur</b> : ralentir en rétrogradant, sans toucher la pédale de frein.</li>
+<li><b>Angle mort</b> : la zone que les rétroviseurs ne montrent pas.</li>
+<li><b>Aquaplaning</b> : le moment où le pneu flotte sur l’eau et ne touche plus la route.</li>
+</ul>
+
+<h4>Les sigles qu’on croise</h4>
+<ul>
+<li><b>ABS</b> : empêche les roues de se bloquer quand on freine fort, pour pouvoir continuer à tourner le volant.</li>
+<li><b>ESP</b> : rattrape un début de dérapage tout seul.</li>
+<li><b>ADAS</b> : le nom général des aides à la conduite (régulateur, freinage automatique, maintien de voie…).</li>
+<li><b>PLS</b> : la position latérale de sécurité, sur le côté, pour une personne inconsciente qui respire.</li>
+<li><b>DAE</b> : le défibrillateur, cet appareil qui parle et guide pas à pas.</li>
+<li><b>EDPM</b> : le nom officiel des trottinettes électriques et engins du même genre.</li>
+<li><b>ZFE</b> : une zone de ville où les véhicules les plus polluants ne peuvent pas entrer.</li>
+</ul>
+
+<h4>Les mots des sanctions</h4>
+<span class="key"><b>Contravention</b> : une amende. <b>Délit</b> : on passe devant un tribunal, et la prison devient possible.</span>
+<ul>
+<li><b>Rétention</b> : les policiers gardent le permis 72 heures, le temps qu’une décision soit prise.</li>
+<li><b>Suspension</b> : interdiction de conduire pendant une durée fixée. Le permis est rendu ensuite.</li>
+<li><b>Annulation</b> et <b>invalidation</b> : le permis n’existe plus, il faut le repasser.</li>
+<li><b>Permis probatoire</b> : les premières années après l’obtention, avec 6 points seulement.</li>
+</ul>`},
+
+{k:'nouveautes', n:'Ce qui a changé récemment', e:'🆕', html:
+`<p>Ces changements sont récents : ils tombent souvent, et un cours un peu ancien peut encore enseigner le contraire.</p>
+
+<h4>2024</h4>
+<ul>
+<li>On peut <b>conduire seul dès 17 ans</b> après avoir obtenu le permis B.</li>
+<li>La <b>vignette verte d’assurance</b> collée au pare-brise <b>n’existe plus</b>. Les forces de l’ordre consultent un fichier. L’assurance, elle, reste obligatoire.</li>
+<li>Le <b>contrôle technique devient obligatoire pour les motos</b> de plus de 125 cm³.</li>
+<li>Un excès de vitesse de <b>moins de 5 km/h ne coûte plus de point</b>. L’amende, elle, reste due.</li>
+<li>Tout <b>véhicule neuf</b> vendu dans l’Union européenne embarque désormais : lecture des panneaux de vitesse, freinage d’urgence automatique, aide au maintien dans la voie, alerte de somnolence, aide au recul et une boîte noire.</li>
+</ul>
+
+<h4>Un peu avant</h4>
+<ul>
+<li><b>2022</b> : les <b>5 mètres avant un passage piéton</b> doivent rester libres de tout stationnement, pour qu’on voie arriver les piétons.</li>
+<li><b>2022</b> : la <b>conduite déléguée à la voiture</b> est autorisée, mais seulement sur voies séparées et à faible vitesse.</li>
+<li><b>2021</b> : les véhicules de plus de 3,5 t portent des autocollants <b>« angle mort »</b>.</li>
+<li><b>2020</b> : l’<b>éthylotest n’est plus obligatoire</b> à bord. Le gilet et le triangle, si.</li>
+<li><b>2020</b> : téléphone en main <b>plus une autre infraction</b> = le permis peut être retenu sur place.</li>
+<li><b>2018 puis 2019</b> : 80 km/h hors agglomération, que chaque département peut relever à 90 sur certaines routes.</li>
+</ul>
+
+<span class="key">Les <b>zones à faibles émissions</b> se déploient dans les grandes agglomérations. Les règles changent d’une ville à l’autre : on se renseigne avant d’y aller, pas devant le panneau.</span>`},
 
 {k:'signalisation', n:'Signalisation', e:'🚸', html:
 `<h4>Lire un panneau à sa forme</h4>
@@ -124,7 +204,7 @@ window.LESSONS = [
 <h4>Manœuvres interdites</h4>
 <p><b>Marche arrière</b> et <b>demi-tour</b> : interdits sur autoroute et voie rapide, sur un passage à niveau, dans un virage sans visibilité.</p>
 <h4>Ouvrir sa portière</h4>
-<p>Technique « du Néerlandais » : ouvrir avec la <b>main opposée</b> à la portière. Le corps pivote automatiquement et le regard balaie l’arrière. C’est ce qui évite l’emportiérage d’un cycliste.</p>`},
+<p>Technique « du Néerlandais » : ouvrir avec la <b>main opposée</b> à la portière. Le corps pivote tout seul et le regard balaie l’arrière. C’est ce qui évite d’ouvrir sa portière dans un cycliste.</p>`},
 
 {k:'autoroute', n:'Autoroute & voies rapides', e:'🛣️', html:
 `<h4>S’insérer</h4>

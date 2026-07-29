@@ -58,7 +58,7 @@ window.Q_VEHICULE = [
  q:'L’ABS a pour fonction :',
  o:['D’empêcher le blocage des roues au freinage','De permettre de conserver la direction en freinant fort','De réduire systématiquement la distance de freinage'],
  a:[0,1],
- e:'L’ABS conserve la directivité en freinage d’urgence : il faut freiner fort et continu, sans relâcher, et diriger le véhicule. Sur gravillons ou neige, il peut allonger la distance.',
+ e:'Avec l’ABS, on peut continuer à tourner le volant tout en freinant à fond. On appuie fort, sans relâcher, et on dirige. Sur gravillons ou neige, il peut allonger la distance.',
  tip:'Avec l’ABS : j’écrase la pédale ET je braque.'},
 
 {id:'VE09', t:'vehicule', d:2,
@@ -125,7 +125,7 @@ window.Q_VEHICULE = [
  q:'Un pare-brise fissuré dans le champ de vision du conducteur :',
  o:['Doit être réparé ou remplacé','Peut entraîner une contre-visite au contrôle technique','N’a aucune conséquence légale'],
  a:[0,1],
- e:'Un impact dans le champ de vision altère la perception et fragilise le pare-brise, qui participe à la rigidité de l’habitacle et au bon déploiement de l’airbag passager.'},
+ e:'Un impact devant les yeux gêne la vision et fragilise le pare-brise. Or celui-ci tient la structure de la voiture et sert d’appui à l’airbag du passager.'},
 
 {id:'VE19', t:'vehicule', d:2,
  q:'Les pneus hiver ou 4 saisons peuvent être obligatoires :',
@@ -173,7 +173,7 @@ window.Q_VEHICULE = [
  q:'La climatisation :',
  o:['Augmente la consommation, surtout à basse vitesse','Doit être utilisée avec modération','N’a aucun impact sur la consommation'],
  a:[0,1],
- e:'La climatisation peut augmenter la consommation de 10 à 20 % en ville. En revanche, les vitres ouvertes à vitesse élevée dégradent l’aérodynamisme : au-delà de 70 km/h, la clim est souvent plus économique.',
+ e:'La climatisation peut augmenter la consommation de 10 à 20 % en ville. En revanche, les vitres ouvertes à vitesse élevée freinent la voiture : au-delà de 70 km/h, la clim est souvent plus économique.',
  tip:'En ville : fenêtres. Sur route rapide : clim.'},
 
 {id:'EN04', t:'environnement', d:2,

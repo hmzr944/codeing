@@ -15,7 +15,7 @@ window.Q_SANCTIONS = [
  q:'Sont des délits routiers :',
  o:['La conduite avec 0,8 g/L d’alcool ou plus','La conduite après usage de stupéfiants','Le défaut d’assurance','Le stationnement sur un passage piéton'],
  a:[0,1,2],
- e:'S’ajoutent le délit de fuite, la conduite sans permis, le refus d’obtempérer et la récidive de grand excès de vitesse. Tous exposent à une peine d’emprisonnement.',
+ e:'S’ajoutent le délit de fuite, la conduite sans permis, le refus de s’arrêter à un contrôle et la récidive de grand excès de vitesse. Tous exposent à une peine d’emprisonnement.',
  tip:'Alcool 0,8, stupéfiants, pas d’assurance, pas de permis : tribunal.'},
 
 {id:'SA03', t:'sanctions', d:2,
@@ -57,7 +57,7 @@ window.Q_SANCTIONS = [
  q:'La rétention immédiate du permis par les forces de l’ordre :',
  o:['Dure au maximum 72 heures','Précède une éventuelle suspension décidée par le préfet','Est définitive'],
  a:[0,1],
- e:'La rétention est une mesure conservatoire de 72 heures (120 heures en cas de suspicion d’alcool ou de stupéfiants). Le préfet décide ensuite d’une suspension ou d’une restitution.',
+ e:'La rétention est une mesure provisoire de 72 heures (120 heures en cas de suspicion d’alcool ou de stupéfiants). Le préfet décide ensuite d’une suspension ou d’une restitution.',
  tip:'Rétention : 72 heures, le temps que le préfet décide.'},
 
 {id:'SA09', t:'sanctions', d:2,
@@ -76,9 +76,9 @@ window.Q_SANCTIONS = [
 
 {id:'SA11', t:'sanctions', d:2,
  q:'Le retrait de points est effectif :',
- o:['Lorsque l’infraction est définitivement établie','Notamment après le paiement de l’amende','Dès l’interception par les forces de l’ordre'],
+ o:['Lorsque l’infraction est définitivement établie','Notamment après le paiement de l’amende','Dès le contrôle par les forces de l’ordre'],
  a:[0,1],
- e:'Payer vaut reconnaissance de l’infraction et déclenche le retrait. Contester suspend la procédure, mais fait perdre le bénéfice de l’amende minorée.',
+ e:'Payer revient à reconnaître l’infraction : le retrait suit. Contester suspend la procédure, mais fait perdre le bénéfice de l’amende minorée.',
  tip:'Payer, c’est reconnaître. Il faut choisir avant de régler.'},
 
 {id:'SA12', t:'sanctions', d:2,
@@ -113,7 +113,7 @@ window.Q_SANCTIONS = [
  q:'Un radar de chantier :',
  o:['Contrôle la vitesse abaissée dans une zone de travaux','Protège des personnels travaillant à quelques mètres des voitures','Ne fonctionne que la nuit'],
  a:[0,1],
- e:'Les zones de chantier concentrent des accidents graves impliquant les agents. La signalisation temporaire y prime sur la signalisation permanente.',
+ e:'Les zones de chantier concentrent des accidents graves impliquant les agents. Les panneaux de chantier y remplacent les panneaux habituels.',
  tip:'Un chantier, ce sont des gens à un mètre de votre voiture.'},
 
 {id:'SA17', t:'sanctions', d:3,
