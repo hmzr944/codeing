@@ -13,20 +13,49 @@ navigateur et fonctionne hors ligne.
 
 | | |
 |---|---|
-| **242 questions** | 13 thèmes, chacune avec une explication et souvent une astuce mémo |
+| **459 questions** | 16 thèmes, chacune avec une explication et souvent une astuce mémo |
 | **66 panneaux** | dessinés en SVG, forme et couleurs fidèles, pictogrammes simplifiés |
 | **14 fiches** | le cours en version courte, dont une fiche « chiffres à connaître par cœur » |
-| **23 succès** | débloqués sans être annoncés à l'avance |
+| **32 succès** | débloqués sans être annoncés à l'avance |
 
-### Les cinq façons de réviser
+Les seize thèmes suivent le découpage officiel de l'ETG, y compris des sujets
+récents que beaucoup de banques anciennes ignorent : **aides à la conduite et
+véhicules électriques** (obligatoires sur tout véhicule neuf vendu dans l'UE
+depuis juillet 2024), **infractions et sanctions** avec les barèmes à jour, et
+**préparation de trajet** (chargement, remorque, conduite à l'étranger).
+
+Aucun thème ne descend sous 20 questions : un examen blanc comme un défi de
+thème peuvent toujours être tirés sans répétition.
+
+### Les sept façons de réviser
 
 - **Défi du jour** — la séance principale. Le paquet est composé à la volée :
   45 % de révisions dues, 25 % d'anciennes erreurs, le reste en découverte.
-- **Par thème** — pour attaquer un point faible précis, en séries de 10 à 30.
+- **Parcours** — les seize thèmes, en séries de 10 à 30 questions.
+- **Défi du thème** — 10 questions, 9 bonnes réponses exigées, sans correction
+  pendant l'épreuve. Le remporter pose une étoile sur le thème.
 - **Examen blanc** — 40 questions, 20 secondes chacune, aucun retour pendant
   l'épreuve, seuil à 35/40. Les conditions réelles.
+- **Survie** — trois vies, 15 secondes par question, aucune limite de longueur.
 - **Mes erreurs** — rattrapage ciblé sur ce qui bloque encore.
 - **Sprint 60 secondes** — pour les jours où il n'y a vraiment pas le temps.
+
+### La couche jeu
+
+Elle n'est pas décorative : chaque mécanique pousse vers un comportement utile.
+
+| Mécanique | Ce qu'elle provoque |
+|---|---|
+| **Médailles de thème** (bronze 40 %, argent 70 %, or 90 % de questions ancrées) | Pousse à couvrir les seize thèmes plutôt que ses préférés |
+| **Défi du thème** (9/10) | Vérifie la maîtrise réelle, sans filet |
+| **Combo** (×2 à partir de 3 bonnes réponses, ×3 à partir de 6) | Récompense la régularité, pas la chance |
+| **Survie** (3 vies) | Donne une raison de relancer une partie |
+| **Coffre du jour** | Fait terminer la série au lieu de s'arrêter à la moitié |
+| **Série de jours + 2 jokers** | Installe l'habitude sans punir un jour manqué |
+
+Une question compte comme « ancrée » à partir de la boîte 4, c'est-à-dire après
+plusieurs bonnes réponses espacées de plusieurs jours. Une médaille d'or ne
+s'obtient donc pas en une soirée : c'est volontaire.
 
 ### La mécanique de mémorisation
 
@@ -39,7 +68,7 @@ deux crans.
 | Revient dans | le jour même | 1 j | 3 j | 7 j | 16 j | 35 j |
 
 Concrètement : ce qui est raté revient tout de suite, ce qui est su disparaît de
-la circulation. C'est ce qui permet de couvrir 242 questions sans les revoir
+la circulation. C'est ce qui permet de couvrir 459 questions sans les revoir
 toutes chaque jour.
 
 ### Le retour quotidien
@@ -99,7 +128,8 @@ autonome.
 index.html             coquille et ordre de chargement
 css/style.css          système de design complet (voir l'en-tête du fichier)
 js/
-  data/                thèmes, 6 banques de questions, fiches, succès
+  data/                thèmes et quotas d'examen, 11 banques de questions,
+                       fiches, succès
   signs.js             générateur SVG des panneaux
   srs.js               répétition espacée (boîtes de Leitner)
   store.js             état, statistiques, séries, sélection des questions
@@ -136,8 +166,13 @@ node tools/check.mjs    # syntaxe, ids uniques, index de réponses, quotas d'exa
 node tools/shots.mjs    # parcours complet dans Chromium, détecte les erreurs JS
 ```
 
-`check.mjs` refuse notamment une question dont toutes les propositions seraient
-correctes : cela apprendrait le mauvais réflexe de tout cocher au moindre doute.
+`check.mjs` applique des règles de fond, pas seulement de forme :
+
+- une question dont **toutes** les propositions seraient correctes est refusée :
+  cela apprendrait le mauvais réflexe de tout cocher au moindre doute ;
+- les quotas d'examen doivent totaliser exactement 40 et couvrir tous les thèmes ;
+- chaque thème doit contenir au moins 10 questions, sinon son défi ne pourrait
+  pas être tiré sans répétition.
 
 ---
 

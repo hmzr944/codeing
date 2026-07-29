@@ -364,6 +364,66 @@ p{margin:0}
   background:linear-gradient(transparent,var(--bg) 38%);
 }
 
+/* ---------- couche jeu : vies, combo ---------- */
+
+/* Les cœurs restent visibles une fois perdus : voir ce qu'il reste
+   ET ce qu'on a déjà lâché est plus tendu qu'un simple compteur. */
+.lives{display:inline-flex;gap:3px;align-items:center;font-size:15px;line-height:1}
+.lives .heart{color:var(--ko)}
+.lives .heart.out{color:var(--surface-3)}
+.lives.hit{animation:hit .4s var(--ease)}
+@keyframes hit{
+  30%{transform:scale(1.22)}
+  60%{transform:scale(.94)}
+}
+
+.combo{
+  display:inline-flex;align-items:center;
+  padding:4px 9px;border-radius:var(--r-pill);
+  background:var(--accent);color:var(--accent-ink);
+  font-size:12.5px;font-weight:850;letter-spacing:-.02em;
+  animation:pop .3s var(--ease);
+}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+
+/* ---------- coffre du jour ---------- */
+.chest{width:100%;text-align:left}
+.chest-ico{font-size:26px;line-height:1;display:inline-block}
+.chest.opened .chest-ico{animation:burst .6s var(--ease)}
+@keyframes burst{
+  40%{transform:scale(1.4) rotate(-8deg)}
+  70%{transform:scale(.95) rotate(5deg)}
+}
+
+/* ---------- parcours : médailles ---------- */
+.medal-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.medal-box{
+  padding:11px 6px;border-radius:var(--r-ctl);text-align:center;
+  background:var(--surface-2);border:1px solid transparent;
+}
+.medal-box.on{border-color:var(--accent-line);background:var(--accent-soft)}
+.medal-box .s{font-size:19px;line-height:1;filter:grayscale(1);opacity:.4}
+.medal-box.on .s{filter:none;opacity:1}
+.medal-box .n{font-size:17px;font-weight:850;letter-spacing:-.03em;margin-top:4px}
+.medal-box .l{font-size:10px;font-weight:750;color:var(--txt-2);margin-top:1px}
+.medal-box .r{font-size:9px;color:var(--txt-3);margin-top:2px;line-height:1.2}
+
+.theme{
+  padding:15px;border-radius:var(--r-card);
+  background:var(--surface);border:1px solid var(--line-soft);
+}
+.theme.cleared{border-color:var(--accent-line)}
+.theme-ico{font-size:21px;line-height:1.1}
+.theme-n{font-weight:750;font-size:14.5px;letter-spacing:-.015em}
+.theme-medal{font-size:16px;line-height:1;display:inline-flex;gap:4px;align-items:center;flex:0 0 auto}
+.theme-medal .star{color:var(--accent);font-size:15px}
+/* Défi encore verrouillé : on montre le compte à rebours plutôt
+   qu'un bouton grisé, qui donne juste l'impression d'un bug. */
+.btn.locked{
+  opacity:.75;cursor:default;color:var(--txt-3);
+  font-variant-numeric:tabular-nums;border-style:dashed;
+}
+
 /* ============================================================
    RÉSULTATS
    ============================================================ */

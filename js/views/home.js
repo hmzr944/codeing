@@ -60,6 +60,40 @@ window.Home = (function () {
         '</div>';
     }
 
+    /* --- coffre du jour : la petite récompense qui fait terminer
+           la série au lieu de s'arrêter à la moitié --- */
+    var chestBlock = Store.chestReady()
+      ? '<button class="card accent chest row between" data-chest>' +
+          '<div class="row g12">' +
+            '<span class="chest-ico" aria-hidden="true">🎁</span>' +
+            '<span class="stack g4" style="text-align:left">' +
+              '<span style="font-weight:800;font-size:15.5px;letter-spacing:-.02em">Coffre du jour</span>' +
+              '<span class="tiny dim">Objectif atteint, il est à toi</span>' +
+            '</span>' +
+          '</div>' +
+          '<span class="dim" aria-hidden="true">›</span>' +
+        '</button>'
+      : '';
+
+    /* --- avancement de la collection de médailles --- */
+    var med = Store.medalCount();
+    var nTh = window.THEMES.length;
+    var medalBlock =
+      '<button class="card stack g10" data-go="train" style="width:100%;text-align:left">' +
+        '<div class="row between"><div class="sec-t">Collection de médailles</div>' +
+        '<div class="tiny dim num">' + (med.bronze + med.argent + med.or) + ' / ' + nTh + '</div></div>' +
+        '<div class="row g10">' +
+          '<span class="pill">🥉 <span class="num">' + med.bronze + '</span></span>' +
+          '<span class="pill">🥈 <span class="num">' + med.argent + '</span></span>' +
+          '<span class="pill">🥇 <span class="num">' + med.or + '</span></span>' +
+          '<span class="pill">★ <span class="num">' + med.boss + '</span></span>' +
+        '</div>' +
+        '<div class="tiny dim">' +
+          (med.or === nTh ? 'Tous les thèmes en or. Il ne reste plus qu’à passer l’examen.'
+                          : 'Chaque thème donne une médaille selon les questions vraiment ancrées.') +
+        '</div>' +
+      '</button>';
+
     /* --- thèmes fragiles --- */
     var weak = Store.weakThemes(3);
     var weakBlock = '';
@@ -122,11 +156,18 @@ window.Home = (function () {
           '</button>' +
         '</section>' +
 
+        chestBlock +
+
         /* Accès rapides */
         '<div class="tiles">' +
           '<button class="tile" data-exam>' +
             '<span class="ico" aria-hidden="true">⏱️</span>' +
             '<div><div class="n">Examen blanc</div><div class="s">40 questions, 20 s chacune</div></div>' +
+          '</button>' +
+          '<button class="tile" data-survie>' +
+            '<span class="ico" aria-hidden="true">♥</span>' +
+            '<div><div class="n">Survie</div><div class="s">' +
+              (S.survivalBest ? 'Record : ' + S.survivalBest : 'Trois vies, sans limite') + '</div></div>' +
           '</button>' +
           '<button class="tile" data-errors' + (errors ? '' : ' disabled') + '>' +
             (errors ? '<span class="count num">' + errors + '</span>' : '') +
@@ -134,15 +175,13 @@ window.Home = (function () {
             '<div><div class="n">Mes erreurs</div><div class="s">' +
               (errors ? 'Rattraper ce qui bloque' : 'Rien à rattraper') + '</div></div>' +
           '</button>' +
-          '<button class="tile" data-go="train">' +
-            '<span class="ico" aria-hidden="true">🎯</span>' +
-            '<div><div class="n">Par thème</div><div class="s">Choisir ce qu’on travaille</div></div>' +
-          '</button>' +
           '<button class="tile" data-sprint>' +
             '<span class="ico" aria-hidden="true">🏎️</span>' +
             '<div><div class="n">Sprint 60 s</div><div class="s">Le maximum en une minute</div></div>' +
           '</button>' +
         '</div>' +
+
+        medalBlock +
 
         weakBlock +
 
@@ -163,6 +202,17 @@ window.Home = (function () {
       Quiz.start({ mode: 'errors', questions: list });
     });
     UI.on('[data-sprint]', 'click', function () { Sprint.intro(); });
+    UI.on('[data-survie]', 'click', function () { Survie.intro(); });
+    UI.on('[data-chest]', 'click', function () {
+      var bonus = Store.openChest();
+      if (!bonus) return;
+      this.classList.add('opened');
+      this.querySelector('.chest-ico').textContent = '🎉';
+      UI.confetti();
+      UI.toast('Coffre ouvert : ' + bonus + ' XP', '🎁', true);
+      UI.celebrate(Store.checkBadges());
+      setTimeout(function () { Home.view(); }, 1400);
+    });
     UI.on('[data-theme]', 'click', function () {
       Quiz.start({ mode: 'train', theme: this.getAttribute('data-theme'),
                    questions: Store.trainSet(this.getAttribute('data-theme'), 15) });

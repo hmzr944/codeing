@@ -119,3 +119,42 @@ window.Sprint = (function () {
 
   return { intro: intro, launch: launch };
 })();
+
+
+/* ============================================================
+   Survie - trois vies, aucune limite de questions
+   ============================================================ */
+window.Survie = (function () {
+
+  function intro() {
+    var best = Store.s.survivalBest;
+    var html =
+      UI.topbar('Survie', 'Trois erreurs et la partie s’arrête') +
+      '<div class="stack g16">' +
+        '<section class="card stack g14">' +
+          '<div class="row g8" style="font-size:26px" aria-hidden="true">♥ ♥ ♥</div>' +
+          '<h2>Jusqu’où peux-tu aller ?</h2>' +
+          '<p class="small muted">Les questions s’enchaînent sans fin, 15 secondes chacune. ' +
+          'Chaque erreur coûte une vie. Les bonnes réponses consécutives font monter un multiplicateur : ' +
+          '3 d’affilée passent en ×2, 6 d’affilée en ×3.</p>' +
+          '<div class="row between card quiet">' +
+            '<div class="stack g4"><div class="sec-t">Record</div>' +
+            '<div style="font-weight:800;font-size:22px" class="num">' + best + '</div></div>' +
+            '<div class="tiny dim" style="text-align:right;max-width:52%">bonnes réponses<br>avant la 3<sup>e</sup> erreur</div>' +
+          '</div>' +
+          '<button class="btn primary block" data-go>Lancer une partie</button>' +
+        '</section>' +
+        '<p class="tiny dim center" style="padding:0 14px">Le mode survie compte comme une révision : ' +
+        'les questions ratées reviennent dans le défi du jour.</p>' +
+      '</div>';
+    UI.mount(html);
+    UI.on('[data-back]', 'click', function () { App.go('home'); });
+    UI.on('[data-go]', 'click', launch);
+  }
+
+  function launch() {
+    Quiz.start({ mode: 'survie', questions: Store.survivalSet() });
+  }
+
+  return { intro: intro, launch: launch };
+})();

@@ -8,12 +8,17 @@ window.Store = (function () {
 
   /* --- banque de questions consolidée --- */
   var ALL = []
-    .concat(window.Q_SIGNALISATION || [])
-    .concat(window.Q_CIRCULATION   || [])
-    .concat(window.Q_CONDUCTEUR    || [])
-    .concat(window.Q_VEHICULE      || [])
-    .concat(window.Q_USAGERS       || [])
-    .concat(window.Q_SECOURS       || []);
+    .concat(window.Q_SIGNALISATION  || [])
+    .concat(window.Q_CIRCULATION    || [])
+    .concat(window.Q_CONDUCTEUR     || [])
+    .concat(window.Q_VEHICULE       || [])
+    .concat(window.Q_USAGERS        || [])
+    .concat(window.Q_SECOURS        || [])
+    .concat(window.Q_TECHNOLOGIE    || [])
+    .concat(window.Q_SANCTIONS      || [])
+    .concat(window.Q_TRAJET         || [])
+    .concat(window.Q_PLUS_ROUTE     || [])
+    .concat(window.Q_PLUS_PRATIQUE  || []);
 
   var BY_ID = {};
   for (var i = 0; i < ALL.length; i++) BY_ID[ALL[i].id] = ALL[i];
@@ -35,6 +40,11 @@ window.Store = (function () {
       lessons: {},                                // fiches consultées
       sprintBest: 0,
       sessions: 0,
+      /* --- couche jeu --- */
+      bosses: {},                                 // thème -> date du défi réussi
+      survivalBest: 0,                            // record du mode survie
+      comboBest: 0,                               // plus longue série de bonnes réponses
+      chest: { d: '', taken: false },             // coffre quotidien
       flags: { night: false, morning: false, onboarded: false }
     };
   }
@@ -128,11 +138,8 @@ window.Store = (function () {
   /* Examen blanc : 40 questions réparties comme à l'examen, en
      évitant de tirer deux fois la même. */
   function examSet() {
-    var quota = {
-      signalisation: 7, priorites: 5, vitesse: 4, manoeuvres: 4,
-      autoroute: 3, stationnement: 3, conducteur: 4, usagers: 3,
-      vehicule: 3, conditions: 2, secours: 1, environnement: 1
-    };
+    var quota = {}, src = window.EXAM_QUOTA;
+    for (var q in src) quota[q] = src[q];
     var out = [], used = {};
     for (var k in quota) {
       var pool = shuffle(byTheme(k));
@@ -166,9 +173,82 @@ window.Store = (function () {
 
   function sprintSet() { return shuffle(ALL).slice(0, 60); }
 
+  /* Mode survie : un paquet long, mêlé, pour ne jamais tomber à court */
+  function survivalSet() { return shuffle(ALL); }
+
+  /* Défi du thème : 10 questions tirées dans tout le thème.
+     C'est une épreuve de maîtrise, donc le tirage est purement
+     aléatoire : pas de faveur aux questions déjà connues. */
+  function bossSet(k) { return shuffle(byTheme(k)).slice(0, 10); }
+
+  /* ---------------- maîtrise par thème ---------------- */
+
+  /* Une question compte comme maîtrisée à partir de la boîte 4 :
+     elle a été réussie plusieurs fois, à plusieurs jours d'écart. */
+  function themeStat(k) {
+    var qs = byTheme(k), seen = 0, mastered = 0;
+    for (var i = 0; i < qs.length; i++) {
+      var c = S.cards[qs[i].id];
+      if (c) { seen++; if (c.b >= 4) mastered++; }
+    }
+    var t = S.themes[k] || { seen: 0, ok: 0 };
+    var mast = qs.length ? mastered / qs.length : 0;
+    return {
+      k: k, total: qs.length, seen: seen, mastered: mastered,
+      cov: qs.length ? seen / qs.length : 0,
+      mast: mast,
+      acc: t.seen ? t.ok / t.seen : 0,
+      answered: t.seen,
+      boss: !!S.bosses[k],
+      medal: mast >= 0.9 ? 3 : mast >= 0.7 ? 2 : mast >= 0.4 ? 1 : 0
+    };
+  }
+
+  function allThemeStats() {
+    return window.THEMES.map(function (t) { return themeStat(t.k); });
+  }
+
+  /* Nombre de médailles obtenues, tous thèmes confondus */
+  function medalCount() {
+    var n = { bronze: 0, argent: 0, or: 0, boss: 0 };
+    allThemeStats().forEach(function (s) {
+      if (s.medal === 1) n.bronze++;
+      if (s.medal === 2) n.argent++;
+      if (s.medal === 3) n.or++;
+      if (s.boss) n.boss++;
+    });
+    return n;
+  }
+
+  function clearBoss(k) {
+    if (!S.bosses[k]) { S.bosses[k] = SRS.today(); S.xp += 80; saveNow(); return true; }
+    return false;
+  }
+
+  /* ---------------- coffre quotidien ---------------- */
+
+  /* Disponible une fois par jour, une fois l'objectif atteint.
+     Petite récompense variable : c'est ce qui donne envie de finir
+     la série plutôt que de s'arrêter à la moitié. */
+  function chestReady() {
+    var d = SRS.today();
+    if (S.chest.d !== d) { S.chest = { d: d, taken: false }; }
+    return goalReached(d) && !S.chest.taken;
+  }
+
+  function openChest() {
+    if (!chestReady()) return 0;
+    var bonus = 20 + Math.floor(Math.random() * 5) * 10;   // 20 à 60 XP
+    if (liveStreak() >= 7) bonus += 20;                    // série longue récompensée
+    S.chest.taken = true;
+    S.xp += bonus;
+    saveNow();
+    return bonus;
+  }
+
   /* ---------------- enregistrement des réponses ---------------- */
 
-  function answer(q, correct) {
+  function answer(q, correct, mult) {
     S.cards[q.id] = SRS.grade(S.cards[q.id], correct);
 
     var t = S.themes[q.t] || (S.themes[q.t] = { seen: 0, ok: 0 });
@@ -179,7 +259,8 @@ window.Store = (function () {
     if (S.daily.d !== d) S.daily = { d: d, done: 0, perfect: false };
     S.daily.done++;
 
-    S.xp += correct ? 10 : 2;
+    // le multiplicateur de combo ne s'applique qu'aux bonnes réponses
+    S.xp += correct ? 10 * (mult || 1) : 2;
 
     var h = new Date().getHours();
     if (h >= 22 || h < 5) S.flags.night = true;
@@ -205,7 +286,10 @@ window.Store = (function () {
       S.xp += meta.score >= 35 ? 120 : 40;
     }
     if (meta.mode === 'sprint' && meta.score > S.sprintBest) S.sprintBest = meta.score;
+    if (meta.mode === 'survie' && meta.score > S.survivalBest) S.survivalBest = meta.score;
     if (meta.mode === 'daily' && meta.score === meta.total && meta.total > 0) S.daily.perfect = true;
+    if (meta.combo && meta.combo > S.comboBest) S.comboBest = meta.combo;
+    if (meta.mode === 'boss' && meta.score >= 9 && meta.theme) clearBoss(meta.theme);
 
     touchStreak();
     var won = checkBadges();
@@ -278,6 +362,8 @@ window.Store = (function () {
       sessions: S.sessions, bestStreak: S.streak.best, streak: liveStreak(),
       examsPassed: examsPassed, examBest: examBest, examsElite: examsElite, examStreak: examStreak,
       dailyPerfect: !!S.daily.perfect, sprintBest: S.sprintBest, lessonsRead: lessonsRead,
+      survivalBest: S.survivalBest, comboBest: S.comboBest,
+      medals: medalCount(),
       night: S.flags.night, morning: S.flags.morning,
       themeAcc: function (k) { var t = S.themes[k]; return t && t.seen ? t.ok / t.seen : 0; },
       themeSeen: function (k) { var t = S.themes[k]; return t ? t.seen : 0; }
@@ -349,6 +435,9 @@ window.Store = (function () {
     save: save, saveNow: saveNow, reset: reset,
     due: due, unseen: unseen, weakOnes: weakOnes,
     dailySet: dailySet, examSet: examSet, trainSet: trainSet, sprintSet: sprintSet,
+    survivalSet: survivalSet, bossSet: bossSet,
+    themeStat: themeStat, allThemeStats: allThemeStats, medalCount: medalCount,
+    chestReady: chestReady, openChest: openChest,
     answer: answer, endSession: endSession,
     snapshot: snapshot, level: level, week: week, weakThemes: weakThemes,
     liveStreak: liveStreak, goalReached: goalReached, daysToExam: daysToExam,

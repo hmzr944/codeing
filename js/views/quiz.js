@@ -6,12 +6,22 @@ window.Quiz = (function () {
   var Q = null;   // session en cours
 
   var MODES = {
-    daily:  { title: 'Défi du jour',   instant: true,  perQ: 0,  total: 0,  label: 'Question' },
-    train:  { title: 'Entraînement',   instant: true,  perQ: 0,  total: 0,  label: 'Question' },
-    errors: { title: 'Mes erreurs',    instant: true,  perQ: 0,  total: 0,  label: 'Question' },
-    exam:   { title: 'Examen blanc',   instant: false, perQ: 20, total: 0,  label: 'Question' },
-    sprint: { title: 'Sprint 60 s',    instant: true,  perQ: 0,  total: 60, label: 'Question' }
+    daily:  { title: 'Défi du jour',  instant: true,  perQ: 0,  total: 0,  lives: 0 },
+    train:  { title: 'Entraînement',  instant: true,  perQ: 0,  total: 0,  lives: 0 },
+    errors: { title: 'Mes erreurs',   instant: true,  perQ: 0,  total: 0,  lives: 0 },
+    exam:   { title: 'Examen blanc',  instant: false, perQ: 20, total: 0,  lives: 0 },
+    sprint: { title: 'Sprint 60 s',   instant: true,  perQ: 0,  total: 60, lives: 0 },
+    /* Survie : le chrono par question et les trois vies créent la
+       tension. C'est le mode qu'on relance « juste une dernière fois ». */
+    survie: { title: 'Survie',        instant: true,  perQ: 15, total: 0,  lives: 3 },
+    /* Défi du thème : un mini-examen, sans correction pendant
+       l'épreuve, qu'il faut passer à 9 sur 10. */
+    boss:   { title: 'Défi du thème', instant: false, perQ: 20, total: 0,  lives: 0 }
   };
+
+  /* Le combo récompense la régularité, pas la chance : il faut
+     enchaîner sans erreur pour multiplier les points. */
+  function comboMult(c) { return c >= 6 ? 3 : c >= 3 ? 2 : 1; }
 
   function start(cfg) {
     var m = MODES[cfg.mode];
@@ -20,6 +30,8 @@ window.Quiz = (function () {
       list: cfg.questions, i: 0,
       sel: [], locked: false,
       results: [],                       // {q, correct, chosen}
+      combo: 0, bestCombo: 0,
+      lives: m.lives,
       tPerQ: m.perQ, tLeft: m.perQ,
       tTotal: m.total, tTotalLeft: m.total,
       tick: null, startedAt: Date.now()
@@ -72,16 +84,44 @@ window.Quiz = (function () {
 
   function current() { return Q.list[Q.i]; }
 
+  /* En survie, la longueur est inconnue : on affiche le score plutôt
+     qu'une barre de progression qui n'aurait aucun sens. */
+  function endless() { return Q.mode === 'survie'; }
+
   function pips() {
+    if (endless()) return '';
     var out = '';
     for (var i = 0; i < Q.list.length; i++) {
       var r = Q.results[i];
-      var c = r ? (r.correct ? 'ok' : (Q.conf.instant ? 'ko' : 'ok')) : (i === Q.i ? 'now' : '');
+      var c = r ? (r.correct ? 'ok' : 'ko') : (i === Q.i ? 'now' : '');
       // en mode examen on ne révèle rien : toutes les répondues sont neutres
       if (!Q.conf.instant && r) c = 'now';
       out += '<i class="' + c + '"></i>';
     }
     return '<div class="pips">' + out + '</div>';
+  }
+
+  function hearts() {
+    if (!Q.conf.lives) return '';
+    var o = '';
+    for (var i = 0; i < Q.conf.lives; i++) {
+      o += '<span class="heart' + (i < Q.lives ? '' : ' out') + '" aria-hidden="true">♥</span>';
+    }
+    return '<span class="lives" role="status" aria-label="' + Q.lives + ' vies restantes">' + o + '</span>';
+  }
+
+  function comboTag() {
+    var m = comboMult(Q.combo);
+    if (m < 2) return '';
+    return '<span class="combo num">×' + m + '</span>';
+  }
+
+  function counter() {
+    if (endless()) {
+      var ok = Q.results.filter(function (r) { return r && r.correct; }).length;
+      return '<span class="pill num">' + ok + ' pt' + (ok > 1 ? 's' : '') + '</span>';
+    }
+    return '<span class="pill num">' + (Q.i + 1) + ' / ' + Q.list.length + '</span>';
   }
 
   function render() {
@@ -92,10 +132,10 @@ window.Quiz = (function () {
         '<div class="row between">' +
           '<button class="back" data-quit aria-label="Quitter la session">‹</button>' +
           '<div class="row g8">' +
-            '<span class="pill num">' + (Q.i + 1) + ' / ' + Q.list.length + '</span>' +
+            hearts() + comboTag() + counter() +
             ((Q.tPerQ || Q.tTotal)
               ? '<span class="timer num" id="timer">⏱ <span>' + (Q.tTotal ? Q.tTotalLeft : Q.tLeft) + ' s</span></span>'
-              : '<span class="pill">' + UI.esc(themeName(q.t)) + '</span>') +
+              : '') +
           '</div>' +
         '</div>' + pips() +
       '</div>';
@@ -165,14 +205,22 @@ window.Quiz = (function () {
     var q = current();
     var correct = !timedOut && Q.sel.length > 0 && sameSet(Q.sel, q.a);
 
+    if (correct) {
+      Q.combo++;
+      if (Q.combo > Q.bestCombo) Q.bestCombo = Q.combo;
+    } else {
+      Q.combo = 0;
+      if (Q.conf.lives) Q.lives--;
+    }
+
     Q.locked = true;
     Q.results[Q.i] = { q: q, correct: correct, chosen: Q.sel.slice(), timedOut: !!timedOut };
-    Store.answer(q, correct);
+    Store.answer(q, correct, comboMult(Q.combo));
 
     if (Q.conf.instant) {
       revealCorrection(q, correct, timedOut);
     } else {
-      // examen blanc : aucun retour, on enchaîne comme le jour J
+      // examen blanc et défi de thème : aucun retour, comme le jour J
       next();
     }
   }
@@ -205,11 +253,19 @@ window.Quiz = (function () {
 
     var go = document.getElementById('go');
     go.disabled = false;
-    go.textContent = (Q.i + 1 >= Q.list.length) ? 'Voir mon résultat' : 'Question suivante';
+    var last = (Q.i + 1 >= Q.list.length) || (Q.conf.lives && Q.lives <= 0);
+    go.textContent = last ? 'Voir mon résultat' : 'Question suivante';
     go.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+
+    // en survie, la perte d'une vie doit se voir immédiatement
+    if (Q.conf.lives && !correct) {
+      var l = document.querySelector('.lives');
+      if (l) { l.classList.remove('hit'); void l.offsetWidth; l.classList.add('hit'); }
+    }
   }
 
   function next() {
+    if (Q.conf.lives && Q.lives <= 0) { stop(); finish(); return; }
     Q.i++;
     Q.sel = []; Q.locked = false; Q.tLeft = Q.tPerQ;
     if (Q.i >= Q.list.length) { stop(); finish(); return; }
@@ -223,14 +279,15 @@ window.Quiz = (function () {
     stop();
     var answered = Q.results.filter(Boolean);
     var score = answered.filter(function (r) { return r.correct; }).length;
-    var total = Q.mode === 'sprint' ? answered.length : Q.list.length;
+    var open = (Q.mode === 'sprint' || Q.mode === 'survie');
+    var total = open ? answered.length : Q.list.length;
 
     var won = Store.endSession({
-      mode: Q.mode, score: score, total: total, theme: Q.theme
+      mode: Q.mode, score: score, total: total, theme: Q.theme, combo: Q.bestCombo
     });
 
     Results.show({
-      mode: Q.mode, score: score, total: total,
+      mode: Q.mode, score: score, total: total, combo: Q.bestCombo,
       results: answered, theme: Q.theme, badges: won
     });
 
@@ -251,7 +308,9 @@ window.Results = (function () {
   function show(r) {
     var pct = r.total ? Math.round((r.score / r.total) * 100) : 0;
     var isExam = r.mode === 'exam';
-    var passed = isExam ? r.score >= 35 : pct >= 80;
+    var isBoss = r.mode === 'boss';
+    var isSurv = r.mode === 'survie';
+    var passed = isExam ? r.score >= 35 : isBoss ? r.score >= 9 : pct >= 80;
 
     var verdict, sub;
     if (isExam) {
@@ -259,6 +318,18 @@ window.Results = (function () {
       sub = passed
         ? 'Avec ce score, tu obtiens le code. Reste à confirmer.'
         : 'Il faut 35 bonnes réponses sur 40. Il t’en manque ' + (35 - r.score) + '.';
+    } else if (isBoss) {
+      var tn = window.themeByKey(r.theme).n;
+      verdict = passed ? 'Défi remporté' : 'Défi manqué';
+      sub = passed
+        ? 'Le thème « ' + tn + ' » est validé. L’étoile est à toi.'
+        : 'Il faut 9 bonnes réponses sur 10. Retente quand tu veux, le thème t’attend.';
+    } else if (isSurv) {
+      var record = Store.s.survivalBest;
+      verdict = (r.score >= record && r.score > 0) ? 'Nouveau record' : 'Partie terminée';
+      sub = (r.score >= record && r.score > 0)
+        ? r.score + ' bonnes réponses avant la troisième erreur. C’est ton meilleur score.'
+        : 'Ton record reste de ' + record + '. Il ne tiendra pas longtemps.';
     } else if (pct === 100) {
       verdict = 'Sans faute'; sub = 'Série parfaite. Ces questions sont acquises.';
     } else if (pct >= 80) {
@@ -316,6 +387,8 @@ window.Results = (function () {
         '</div>' +
 
         (isExam ? examScale(r.score) : '') +
+        (isBoss ? bossScale(r.score) : '') +
+        (r.combo >= 3 ? comboCard(r.combo) : '') +
 
         (themeRows ? '<div class="card stack g12"><div class="sec-t">Par thème</div>' + themeRows + '</div>' : '') +
 
@@ -343,16 +416,39 @@ window.Results = (function () {
       if (r.mode === 'exam') Quiz.start({ mode: 'exam', questions: Store.examSet() });
       else if (r.mode === 'daily') App.go('home');
       else if (r.mode === 'sprint') Sprint.launch();
+      else if (r.mode === 'survie') Survie.launch();
+      else if (r.mode === 'boss') Quiz.start({ mode: 'boss', theme: r.theme, questions: Store.bossSet(r.theme) });
       else Quiz.start({ mode: 'train', theme: r.theme, questions: Store.trainSet(r.theme || 'all', 20) });
     });
 
-    if (passed && r.total >= 10) UI.confetti();
+    if (passed && r.total >= 9) UI.confetti();
     UI.celebrate(r.badges);
   }
 
   function labelOf(r) {
+    if (r.mode === 'boss') return 'Défi du thème · ' + window.themeByKey(r.theme).n;
     return { daily: 'Défi du jour', train: 'Entraînement', exam: 'Examen blanc',
-             sprint: 'Sprint 60 secondes', errors: 'Séance de rattrapage' }[r.mode] || '';
+             sprint: 'Sprint 60 secondes', errors: 'Séance de rattrapage',
+             survie: 'Mode survie' }[r.mode] || '';
+  }
+
+  /* Seuil du défi de thème : 9 sur 10 */
+  function bossScale(score) {
+    return '<div class="card stack g10">' +
+      '<div class="row between"><div class="sec-t">Seuil du défi</div>' +
+      '<div class="tiny dim">9 / 10 requis</div></div>' +
+      '<div style="position:relative">' +
+        '<div class="gauge ' + (score >= 9 ? 'ok' : 'ko') + '"><i style="width:' + (score * 10) + '%"></i></div>' +
+        '<div style="position:absolute;top:-3px;left:90%;width:2px;height:14px;background:var(--txt);border-radius:2px"></div>' +
+      '</div></div>';
+  }
+
+  function comboCard(c) {
+    return '<div class="card accent row between">' +
+      '<div class="stack g4"><div class="sec-t">Meilleure série</div>' +
+      '<div style="font-weight:800;font-size:16px;letter-spacing:-.02em">' +
+      c + ' bonnes réponses d’affilée</div></div>' +
+      '<div class="combo num" style="font-size:15px">×' + (c >= 6 ? 3 : 2) + '</div></div>';
   }
 
   /* Barème officiel rendu lisible : où se situe le score */

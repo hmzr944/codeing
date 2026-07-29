@@ -51,7 +51,9 @@ console.log(`Scripts chargés : ${files.length}`);
 const W = sandbox.window;
 
 /* ---------- banque de questions ---------- */
-const banks = ['Q_SIGNALISATION', 'Q_CIRCULATION', 'Q_CONDUCTEUR', 'Q_VEHICULE', 'Q_USAGERS', 'Q_SECOURS'];
+const banks = ['Q_SIGNALISATION', 'Q_CIRCULATION', 'Q_CONDUCTEUR', 'Q_VEHICULE',
+  'Q_USAGERS', 'Q_SECOURS', 'Q_TECHNOLOGIE', 'Q_SANCTIONS', 'Q_TRAJET',
+  'Q_PLUS_ROUTE', 'Q_PLUS_PRATIQUE'];
 const all = banks.flatMap(b => W[b] || []);
 const ids = new Set();
 const themeKeys = new Set((W.THEMES || []).map(t => t.k));
@@ -74,10 +76,21 @@ for (const q of all) {
 }
 
 /* ---------- quotas de l'examen blanc ---------- */
-const quota = { signalisation: 7, priorites: 5, vitesse: 4, manoeuvres: 4, autoroute: 3,
-  stationnement: 3, conducteur: 4, usagers: 3, vehicule: 3, conditions: 2, secours: 1, environnement: 1 };
+const quota = W.EXAM_QUOTA;
+const sum = Object.values(quota).reduce((a, b) => a + b, 0);
+if (sum !== 40) bad(`les quotas d'examen totalisent ${sum} au lieu de 40`);
+for (const k of Object.keys(quota)) {
+  if (!themeKeys.has(k)) bad(`quota défini pour un thème inconnu : "${k}"`);
+}
+for (const t of themeKeys) {
+  if (!(t in quota)) bad(`thème "${t}" absent des quotas d'examen`);
+}
 for (const [k, n] of Object.entries(quota)) {
   if ((perTheme[k] || 0) < n) bad(`thème "${k}" : ${perTheme[k] || 0} questions pour un quota d'examen de ${n}`);
+}
+/* Un thème doit avoir de quoi tenir un défi de 10 questions */
+for (const t of W.THEMES) {
+  if ((perTheme[t.k] || 0) < 10) bad(`thème "${t.k}" : ${perTheme[t.k] || 0} questions, minimum 10 pour le défi`);
 }
 
 /* ---------- fiches & panneaux ---------- */
