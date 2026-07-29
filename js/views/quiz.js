@@ -187,7 +187,11 @@ window.Quiz = (function () {
     ouvrirPour(q, 'On parle de cette question. Tape le mot qui bloque.');
   }
 
-  function ouvrirPour(q, amorce) {
+  function ouvrirErreur(q, choisi) {
+    ouvrirPour(q, null, function () { Chat.expliquerErreur(q, choisi); });
+  }
+
+  function ouvrirPour(q, amorce, intention) {
     stop();
     Chat.ouvrir({
       titre: 'Question en cours',
@@ -200,7 +204,7 @@ window.Quiz = (function () {
         document.body.classList.remove('no-tabbar');
         document.getElementById('tabbar').hidden = false;
       }
-    });
+    }, intention);
   }
 
   function themeName(k) { return window.themeByKey(k).n; }
@@ -288,13 +292,23 @@ window.Quiz = (function () {
          l'assistant, tout de suite et hors ligne, puis Claude avec
          la question déjà mise en forme. */
       '<div class="row wrap g12">' +
-        '<button class="fb-aide" data-fb-assist>Je n’ai pas compris</button>' +
+        '<button class="fb-aide" data-fb-assist>' +
+          (correct || timedOut ? 'Je n’ai pas compris' : 'Pourquoi ma réponse est fausse ?') +
+        '</button>' +
         '<a class="fb-aide" target="_blank" rel="noopener" href="' +
           UI.esc(window.lienClaude(window.promptCorrection(q))) + '">Demander à Claude</a>' +
       '</div>' +
       '</div></div>';
     document.getElementById('fb').innerHTML = fb;
-    UI.on('[data-fb-assist]', 'click', function () { ouvrirCorrection(q); });
+
+    /* Quand elle s'est trompée, la vraie question n'est pas « c'est
+       quoi ce mot » mais « pourquoi ce que j'ai coché est faux ». On
+       transmet donc ce qu'elle a réellement choisi. */
+    var choisi = Q.sel.map(function (i) { return q.o[i]; });
+    UI.on('[data-fb-assist]', 'click', function () {
+      if (!correct && !timedOut && choisi.length) ouvrirErreur(q, choisi);
+      else ouvrirCorrection(q);
+    });
 
     UI.buzz(correct ? 10 : [18, 40, 18]);
     if (!correct) {
@@ -469,11 +483,11 @@ window.Results = (function () {
        modes : la première erreur du récapitulatif est celle qu'on a
        le plus envie de comprendre. */
     UI.on('[data-revoir]', 'click', function () {
-      Chat.ouvrir({
-        titre: 'Erreur à comprendre',
-        amorce: 'Voici la première question ratée. Quel mot n’était pas clair ?',
-        question: wrong[0].q.q
-      }, {});
+      var e = wrong[0];
+      var choisi = (e.chosen || []).map(function (i) { return e.q.o[i]; });
+      Chat.ouvrir({ titre: 'Erreur à comprendre', question: e.q.q,
+        amorce: 'Voici la première question ratée. Quel mot n’était pas clair ?' }, {},
+        choisi.length ? function () { Chat.expliquerErreur(e.q, choisi); } : null);
     });
     UI.on('[data-again]', 'click', function () {
       if (r.mode === 'exam') Quiz.start({ mode: 'exam', questions: Store.examSet() });

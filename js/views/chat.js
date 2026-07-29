@@ -66,17 +66,29 @@ window.Chat = (function () {
      La réponse
      ============================================================ */
 
-  function repondre(txt) {
+  /* Ce que l'assistant a trouvé dans le cours. C'est la seule
+     matière dont on dispose : la réponse hors ligne s'en déduit,
+     et c'est aussi tout ce que le modèle a le droit de reformuler. */
+  function chercherTout(txt) {
     var norme = Recherche.normaliser(txt);
 
     for (var i = 0; i < POLITESSE.length; i++) {
       if (POLITESSE[i][0].test(norme) && norme.split(' ').length < 6) {
-        return { html: '<p>' + UI.esc(POLITESSE[i][1]) + '</p>', sur: true };
+        return { politesse: POLITESSE[i][1] };
       }
     }
-
     var def = definition(norme);
     var res = Recherche.chercher(txt);
+    return { def: def, res: res, sur: !!(def || res.blocs.length || res.questions.length) };
+  }
+
+  function repondre(txt, trouve) {
+    if (trouve.politesse) {
+      return { html: '<p>' + UI.esc(trouve.politesse) + '</p>', sur: true };
+    }
+
+    var def = trouve.def;
+    var res = trouve.res;
     var out = '';
     var sur = false;
 
@@ -115,11 +127,25 @@ window.Chat = (function () {
       out = '<p>Je ne trouve rien de sûr là-dessus, et je préfère le dire plutôt que d’inventer.</p>';
     }
 
-    out += '<a class="chat-lien" target="_blank" rel="noopener" href="' +
+    out += claude(txt, sur);
+    return { html: out, sur: sur };
+  }
+
+  function claude(txt, sur) {
+    return '<a class="chat-lien" target="_blank" rel="noopener" href="' +
       UI.esc(Cours.lienClaude(prompt(txt))) + '">' +
       Icons.svg('ouvrir', 14) + (sur ? 'Demander autrement à Claude' : 'Demander à Claude') + '</a>';
+  }
 
-    return { html: out, sur: sur };
+  /* Réponse reformulée par le modèle. Le passage du cours qui l'a
+     nourrie reste consultable juste en dessous : une explication
+     qu'on ne peut pas recouper ne vaut rien pour un examen. */
+  function avecSource(texte, local) {
+    return texte.split(/\n+/).filter(Boolean).map(function (p) {
+      return '<p>' + UI.esc(p) + '</p>';
+    }).join('') +
+      '<details class="src"><summary>D’où ça vient</summary>' +
+      '<div class="src-c">' + local + '</div></details>';
   }
 
   /* Un terme du lexique cité dans la question */
@@ -164,7 +190,9 @@ window.Chat = (function () {
     fil.push({ de: 'bot', html:
       '<p>Salut Mina. Je cherche dans les ' + window.LESSONS.length + ' leçons et les ' +
       Store.all.length + ' questions, et je connais tout le vocabulaire du code.</p>' +
-      '<p class="chat-note">Je ne suis pas une IA : si je ne trouve pas, je te passe Claude.</p>' });
+      '<p class="chat-note">' + (IA.configuree()
+        ? 'Je ne réponds qu’avec ce qu’il y a dans le cours, jamais de mémoire. Tu peux toujours vérifier d’où vient ma réponse.'
+        : 'Je ne suis pas une IA : si je ne trouve pas, je te passe Claude.') + '</p>' });
   }
 
   /* Le corps commun aux deux habillages. Les idées de question ne
@@ -190,10 +218,11 @@ window.Chat = (function () {
   }
 
   /* ---- page entière, depuis les cours ---- */
-  function view(lecon) {
-    contexte = lecon ? { titre: lecon.n, amorce: 'Tu lisais « ' + lecon.n + ' ». Quel mot n’était pas clair ?' } : null;
+  function view(lecon, intention) {
+    contexte = lecon ? { titre: lecon.n, lecon: lecon,
+      amorce: 'Tu lisais « ' + lecon.n + ' ». Quel mot n’était pas clair ?' } : null;
     accueillir();
-    amorcer();
+    if (!intention) amorcer();
 
     document.body.classList.add('no-tabbar');
     var bar = document.getElementById('tabbar');
@@ -205,11 +234,57 @@ window.Chat = (function () {
           Icons.svg('retour', 18) + '</button>' +
         '<div class="grow"><div class="ttl">Assistant</div>' +
         '<div class="sub">Il cherche dans le cours, il n’invente pas</div></div>' +
-      '</header>' + corps()
+      '</header>' +
+      '<div class="chat-page">' + corps() + '</div>'
     );
 
     brancher();
     UI.on('[data-retour]', 'click', function () { App.go('lessons'); });
+    if (intention) intention();
+  }
+
+  /* ---- résumer une leçon ---- */
+  function resumer(lecon) {
+    view(lecon, function () {
+      lancer({
+        mode: 'resume', lecon: lecon,
+        demande: 'Résume-moi cette leçon, je révise vite.'
+      }, 'Résume-moi « ' + lecon.n + ' »', resumeLocal(lecon));
+    });
+  }
+
+  /* Sans modèle, le résumé se fabrique quand même : on ne garde que
+     les blocs faits pour être retenus. */
+  function resumeLocal(lecon) {
+    var gardes = lecon.blocs.filter(function (b) {
+      return b.t === 'retenir' || b.t === 'piege' || b.t === 'chiffres';
+    });
+    if (!gardes.length) gardes = lecon.blocs.slice(0, 2);
+    return '<p>Voici ce qu’il faut retenir de « ' + UI.esc(lecon.n) + ' ».</p>' +
+      '<div class="chat-bloc stack g10">' + gardes.map(Cours.bloc).join('') + '</div>' +
+      lien(lecon, 'Relire la leçon en entier');
+  }
+
+  /* ---- décortiquer une erreur ---- */
+  function expliquerErreur(q, choisi) {
+    var bonne = q.a.map(function (i) { return q.o[i]; });
+    lancer({
+      mode: 'erreur', q: q, choisi: choisi,
+      res: Recherche.chercher(q.q + ' ' + q.e),
+      demande: 'Pourquoi ma réponse est fausse ?'
+    }, 'Pourquoi « ' + choisi.join(' + ') +' » est faux ?', erreurLocale(q, choisi, bonne));
+  }
+
+  function erreurLocale(q, choisi, bonne) {
+    var res = Recherche.chercher(q.q + ' ' + q.e);
+    return '<p>Tu as coché <b>' + UI.esc(choisi.join(' + ')) + '</b>.</p>' +
+      '<p>La bonne réponse était <b>' + UI.esc(bonne.join(' + ')) + '</b>.</p>' +
+      '<p>' + UI.esc(q.e) + '</p>' +
+      (q.tip ? '<p class="chat-note">Astuce : ' + UI.esc(q.tip) + '</p>' : '') +
+      (res.blocs.length
+        ? '<div class="chat-bloc">' + Cours.bloc(res.blocs[0].bloc) + '</div>' +
+          lien(res.blocs[0].lecon, 'Lire « ' + res.blocs[0].lecon.n + ' »')
+        : '');
   }
 
   /* ---- feuille posée sur le quiz ----
@@ -218,12 +293,12 @@ window.Chat = (function () {
      car il faut alors arrêter proprement la session en cours. */
   var sorties = {};
 
-  function ouvrir(ctx, opts) {
+  function ouvrir(ctx, opts, intention) {
     if (document.getElementById('feuille')) return;
     contexte = ctx || null;
     sorties = opts || {};
     accueillir();
-    amorcer();
+    if (!intention) amorcer();
 
     var f = document.createElement('div');
     f.id = 'feuille';
@@ -244,6 +319,7 @@ window.Chat = (function () {
     UI.on('[data-fermer]', 'click', function () { fermer(); }, f);
     var zone = f.querySelector('#fil');
     zone.scrollTop = zone.scrollHeight;
+    if (intention) intention();
   }
 
   function fermer(reprendre) {
@@ -300,21 +376,82 @@ window.Chat = (function () {
     txt = (txt || '').trim();
     if (!txt) return;
 
-    fil.push({ de: 'moi', html: '<p>' + UI.esc(txt) + '</p>' });
-    var r = repondre(txt);
-    fil.push({ de: 'bot', html: r.html });
-
-    var zone = el('fil');
-    zone.insertAdjacentHTML('beforeend', bulle(fil[fil.length - 2]) + bulle(fil[fil.length - 1]));
+    ajouter({ de: 'moi', html: '<p>' + UI.esc(txt) + '</p>' });
 
     aDemande = true;
     var idees = el('idees');
     if (idees) idees.hidden = true;
 
-    /* Dans la feuille c'est le fil qui défile, dans la page c'est la
-       fenêtre : scrollIntoView couvre les deux. */
-    zone.lastElementChild.scrollIntoView({ block: 'end', behavior: 'smooth' });
+    var trouve = chercherTout(txt);
+
+    /* La politesse et l'absence de résultat n'ont rien à reformuler :
+       appeler le modèle sans extrait reviendrait à lui demander
+       d'improviser, ce qu'on cherche justement à empêcher. */
+    if (trouve.politesse || !trouve.sur) {
+      ajouter({ de: 'bot', html: repondre(txt, trouve).html });
+      return;
+    }
+
+    var local = repondre(txt, trouve).html;
+    if (contexte && contexte.question) {
+      txt += '\n(elle est sur cette question d’examen : ' + contexte.question + ')';
+    }
+    interroger({ mode: 'expliquer', demande: txt, res: trouve.res, def: trouve.def }, local);
   }
 
-  return { view: view, ouvrir: ouvrir, fermer: fermer };
+  /* Poser une demande qui ne vient pas du champ de saisie : le
+     résumé d'une leçon, l'explication d'une erreur. On écrit la
+     bulle de Mina pour elle, puis on suit le même chemin. */
+  function lancer(d, libelle, local) {
+    aDemande = true;
+    var idees = el('idees');
+    if (idees) idees.hidden = true;
+    ajouter({ de: 'moi', html: '<p>' + UI.esc(libelle) + '</p>' });
+    interroger(d, local);
+  }
+
+  /* Le modèle reformule, le cours reste la source. Sans relais, sans
+     réseau, ou s'il ne répond pas, la réponse hors ligne est déjà
+     prête : l'attente ne peut jamais laisser Mina sans rien. */
+  function interroger(d, local) {
+    if (!IA.disponible()) {
+      ajouter({ de: 'bot', html: local });
+      return;
+    }
+    var attente = ajouter({ de: 'bot', html: reflechit() });
+    IA.demander(d)
+      .then(function (texte) { remplacer(attente, avecSource(texte, local)); })
+      .catch(function () { remplacer(attente, local); });
+  }
+
+  function reflechit() {
+    return '<div class="pense" aria-label="L’assistant cherche"><i></i><i></i><i></i></div>';
+  }
+
+  /* Ajoute une bulle et rend son index, pour pouvoir la remplacer
+     quand la réponse du modèle arrive. */
+  function ajouter(msg) {
+    fil.push(msg);
+    var zone = el('fil');
+    if (zone) {
+      zone.insertAdjacentHTML('beforeend', bulle(msg));
+      /* Dans la feuille c'est le fil qui défile, dans la page c'est
+         la fenêtre : scrollIntoView couvre les deux. */
+      zone.lastElementChild.scrollIntoView({ block: 'end', behavior: 'smooth' });
+    }
+    return fil.length - 1;
+  }
+
+  function remplacer(i, html) {
+    fil[i] = { de: 'bot', html: html };
+    var zone = el('fil');
+    if (!zone) return;
+    var noeud = zone.children[i];
+    if (!noeud) return;
+    noeud.outerHTML = bulle(fil[i]);
+    zone.children[i].scrollIntoView({ block: 'end', behavior: 'smooth' });
+  }
+
+  return { view: view, ouvrir: ouvrir, fermer: fermer,
+           resumer: resumer, expliquerErreur: expliquerErreur };
 })();

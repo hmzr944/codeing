@@ -36,6 +36,7 @@ jobs:
         run: |
           node tools/check.mjs
           node tools/lisibilite.mjs
+          node tools/test-worker.mjs
 
       - name: Rassembler le site
         run: |

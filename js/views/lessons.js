@@ -220,6 +220,7 @@ window.Cours = (function () {
       '<div class="stack g10" style="margin-top:24px">' +
         (nb ? '<button class="btn primary block" data-reviser="' + l.theme + '">' +
           'Réviser ce thème · ' + nb + ' questions</button>' : '') +
+        '<button class="btn ghost block" data-resume>Me résumer cette leçon</button>' +
         '<button class="btn ghost block" data-question>Poser une question à l’assistant</button>' +
         (suivante ? '<button class="btn ghost block" data-lecon="' + suivante.k + '">' +
           'Leçon suivante · ' + UI.esc(suivante.n) + '</button>' : '') +
@@ -234,6 +235,7 @@ window.Cours = (function () {
     UI.on('[data-retour]', 'click', function () { App.go('lessons'); });
     UI.on('[data-lecon]', 'click', function () { lire(this.getAttribute('data-lecon')); });
     UI.on('[data-question]', 'click', function () { Chat.view(l); });
+    UI.on('[data-resume]', 'click', function () { Chat.resumer(l); });
     UI.on('[data-reviser]', 'click', function () {
       var t = this.getAttribute('data-reviser');
       Quiz.start({ mode: 'train', theme: t, questions: Store.trainSet(t, 10) });

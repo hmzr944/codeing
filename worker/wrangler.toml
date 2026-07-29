@@ -1,0 +1,19 @@
+name = "feu-vert-ia"
+main = "index.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+# Origines autorisées à appeler le relais, séparées par des virgules.
+# Vide = tout le monde, à ne garder que le temps d'un essai.
+ORIGINES = "https://hmzr944.github.io"
+
+# Fournisseur. Tout point d'entrée compatible OpenAI convient :
+#   Groq     https://api.groq.com/openai/v1                       llama-3.3-70b-versatile
+#   Mistral  https://api.mistral.ai/v1                            mistral-small-latest
+#   Gemini   https://generativelanguage.googleapis.com/v1beta/openai  gemini-2.0-flash
+#   OpenRouter https://openrouter.ai/api/v1                       (modèles en :free)
+AI_BASE_URL = "https://api.groq.com/openai/v1"
+AI_MODEL = "llama-3.3-70b-versatile"
+
+# AI_KEY n'est pas ici : c'est un secret.
+#   npx wrangler secret put AI_KEY
