@@ -53,7 +53,7 @@ window.Train = (function () {
                 (s.boss ? '<span class="sceau">' + Icons.svg('defiReussi', 15) + '</span>' : '') +
               '</span>' +
             '</div>' +
-            '<div class="gauge thin' + (s.medal === 3 ? ' ok' : '') + '"><i style="width:' + pct + '%"></i></div>' +
+            '<div class="gauge thin' + (s.medal === 3 ? ' ok' : '') + '"><i style="--pct:' + (pct / 100) + '"></i></div>' +
             '<div class="tiny dim num">' + s.mastered + ' / ' + s.total + ' ancrées' +
               (covPct ? ' · ' + covPct + ' % découvert' : '') + '</div>' +
           '</div>' +

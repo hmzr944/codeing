@@ -90,7 +90,7 @@ window.Home = (function () {
             return '<i class="' + (i < j.i || j.fini ? 'done' : i === j.i ? 'now' : '') + '"></i>';
           }).join('') +
         '</div>' +
-        '<div class="gauge thin"><i style="width:' + jPct + '%"></i></div>' +
+        '<div class="gauge thin"><i style="--pct:' + (jPct / 100) + '"></i></div>' +
         (j.fini ? '' : '<button class="btn sm ghost" data-etape="' + j.etape.action + '">' +
           UI.esc(j.etape.cta) + '</button>') +
       '</section>';
@@ -141,7 +141,7 @@ window.Home = (function () {
             return '<button class="bar" data-theme="' + w.k + '" style="width:100%">' +
               '<div class="l">' + UI.esc(window.themeByKey(w.k).n) + '</div>' +
               '<div class="grow"><div class="gauge thin ' + (p < 50 ? 'ko' : p >= 80 ? 'ok' : '') + '">' +
-              '<i style="width:' + p + '%"></i></div></div>' +
+              '<i style="--pct:' + (p / 100) + '"></i></div></div>' +
               '<div class="v num">' + p + ' %</div></button>';
           }).join('') +
         '</div>';
