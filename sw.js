@@ -6,7 +6,7 @@
 /* Le nom change à chaque modification de la liste ci-dessous : sans
    cela, un ancien cache resservirait une coquille à laquelle il
    manque les nouveaux fichiers. */
-var CACHE = 'feuvert-v15';
+var CACHE = 'feuvert-v16';
 
 var SHELL = [
   './', './index.html', './manifest.webmanifest',
@@ -38,7 +38,10 @@ var SHELL = [
   './assets/memes/spongebob-smug.jpg', './assets/memes/thumbs-up.jpg',
   './assets/memes/phone-confused.jpg', './assets/memes/robot-poker-face.jpg',
   './assets/memes/pixar-choc.jpg', './assets/memes/portrait-dramatique.jpg',
-  './assets/memes/chien-durag.jpg', './assets/memes/chien-blase.jpg'
+  './assets/memes/chien-durag.jpg', './assets/memes/chien-blase.jpg',
+  './assets/memes/ceinture-blase.jpg', './assets/memes/menton-reflexion.jpg',
+  './assets/memes/pouce-sceptique.jpg', './assets/memes/barbu-perplexe.jpg',
+  './assets/memes/coiffeur-choc.jpg'
 ];
 
 self.addEventListener('install', function (e) {

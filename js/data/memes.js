@@ -23,5 +23,15 @@ window.MEMES = [
   { img: 'assets/memes/chien-durag.jpg',
     legende: 'Toi qui réfléchis très fort à un panneau de danger... et qui te trompes quand même.' },
   { img: 'assets/memes/chien-blase.jpg',
-    legende: 'Le regard blasé de ton moniteur après la même erreur pour la troisième fois.' }
+    legende: 'Le regard blasé de ton moniteur après la même erreur pour la troisième fois.' },
+  { img: 'assets/memes/ceinture-blase.jpg',
+    legende: 'Ceinture mise, bras croisés, et toujours pas la bonne réponse.' },
+  { img: 'assets/memes/menton-reflexion.jpg',
+    legende: 'Toi qui réfléchis très fort avant de cocher... la seule case fausse.' },
+  { img: 'assets/memes/pouce-sceptique.jpg',
+    legende: '« Nan mais attends, la vraie réponse elle était juste là. »' },
+  { img: 'assets/memes/barbu-perplexe.jpg',
+    legende: 'La tête de tout le monde dans la salle après ta réponse.' },
+  { img: 'assets/memes/coiffeur-choc.jpg',
+    legende: 'Ton visage en réalisant que tu viens de rater une question de cours élémentaire.' }
 ];

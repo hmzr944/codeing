@@ -80,6 +80,13 @@ const demarrer = async () => {
   if (await p.locator('[data-next]').count()) {
     await p.click('[data-next]'); await p.click('[data-next]'); await p.click('[data-done]');
   }
+  /* La porte d'entrée (taper son prénom) apparaît une fois par vraie
+     ouverture ; sessionStorage la retient ensuite pour le reste de
+     cette page, donc un seul passage suffit ici. */
+  if (await p.locator('[data-entrer]').count()) {
+    await p.click('[data-entrer]');
+    await p.waitForTimeout(500);
+  }
   await brancherRelais();
 };
 const ouvrirAssistant = async () => {
@@ -89,6 +96,17 @@ const ouvrirAssistant = async () => {
   await p.waitForTimeout(200);
 };
 const derniere = () => p.locator('.msg.bot >> nth=-1');
+
+/* Le lecteur de leçon montre une idée par écran : le bouton de résumé
+   n'apparaît qu'à l'écran de fin, une fois toutes les étapes vues. */
+const finDeLecon = async () => {
+  await p.click('[data-suivant]');
+  await p.waitForTimeout(150);
+  for (let i = 0; i < 25 && !(await p.locator('[data-resume]').count()); i++) {
+    await p.click('[data-suivant]');
+    await p.waitForTimeout(100);
+  }
+};
 
 /* ---------------- 1. reformulation ---------------- */
 bloc('1. Le modèle reformule');
@@ -126,6 +144,7 @@ bloc('2 bis. Résumer une leçon');
 await demarrer();
 await p.click('.tab[data-go="lessons"]');
 await p.click('[data-lecon="signalisation"]');
+await finDeLecon();
 await p.click('[data-resume]');
 await p.waitForTimeout(800);
 test('demande de résumé écrite pour elle',
@@ -143,6 +162,7 @@ await demarrer();
 await p.evaluate(() => { window.IA_URL = ''; });
 await p.click('.tab[data-go="lessons"]');
 await p.click('[data-lecon="signalisation"]');
+await finDeLecon();
 await p.click('[data-resume]');
 await p.waitForTimeout(400);
 const horsLigne = await derniere().textContent();
