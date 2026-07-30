@@ -1,5 +1,9 @@
 # Ce nom doit être celui du Worker existant dans le tableau de bord,
 # sinon le déploiement en créerait un second à côté.
+#
+# Le déploiement se déclenche à chaque push sur main, mais reprend le
+# réglage "Root directory" du tableau de bord au moment du build : un
+# push fait AVANT ce réglage reconstruit encore le site statique.
 name = "feuvert"
 main = "index.js"
 compatibility_date = "2025-01-01"
