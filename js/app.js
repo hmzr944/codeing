@@ -129,6 +129,16 @@ window.App = (function () {
       }, 900);
     }
 
+    /* Le mot d'accueil d'une session : une seule fois par ouverture
+       de l'appli, jamais au premier lancement (l'onboarding vient
+       déjà de saluer), et jamais en revenant simplement à l'accueil
+       depuis un autre onglet. */
+    if (Store.s.flags.onboarded) {
+      setTimeout(function () {
+        UI.toast(window.MOTIVATION.arrivee(Store.s.profile.name), 'couronne');
+      }, 500);
+    }
+
     if ('serviceWorker' in navigator && location.protocol !== 'file:' && !window.__SINGLE_FILE__) {
       navigator.serviceWorker.register('sw.js').catch(function () {});
     }

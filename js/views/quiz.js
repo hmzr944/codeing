@@ -416,33 +416,38 @@ window.Results = (function () {
     var isSurv = r.mode === 'survie';
     var passed = isExam ? r.score >= 35 : isBoss ? r.score >= 9 : pct >= 80;
 
-    var verdict, sub;
+    var verdict, sub, tier;
     if (isExam) {
       verdict = passed ? 'Examen validé' : 'Pas encore validé';
       sub = passed
         ? 'Avec ce score, tu obtiens le code. Reste à confirmer.'
         : 'Il faut 35 bonnes réponses sur 40. Il t’en manque ' + (35 - r.score) + '.';
+      tier = passed ? 'examReussi' : 'examRate';
     } else if (isBoss) {
       var tn = window.themeByKey(r.theme).n;
       verdict = passed ? 'Défi remporté' : 'Défi manqué';
       sub = passed
         ? 'Le thème « ' + tn + ' » est validé. L’étoile est à toi.'
         : 'Il faut 9 bonnes réponses sur 10. Retente quand tu veux, le thème t’attend.';
+      tier = passed ? 'bien' : 'faible';
     } else if (isSurv) {
       var record = Store.s.survivalBest;
-      verdict = (r.score >= record && r.score > 0) ? 'Nouveau record' : 'Partie terminée';
-      sub = (r.score >= record && r.score > 0)
+      var recordBattu = r.score >= record && r.score > 0;
+      verdict = recordBattu ? 'Nouveau record' : 'Partie terminée';
+      sub = recordBattu
         ? r.score + ' bonnes réponses avant la troisième erreur. C’est ton meilleur score.'
         : 'Ton record reste de ' + record + '. Il ne tiendra pas longtemps.';
+      tier = recordBattu ? 'bien' : 'moyen';
     } else if (pct === 100) {
-      verdict = 'Sans faute'; sub = 'Série parfaite. Ces questions sont acquises.';
+      verdict = 'Sans faute'; sub = 'Série parfaite. Ces questions sont acquises.'; tier = 'parfait';
     } else if (pct >= 80) {
-      verdict = 'Bien joué'; sub = 'Le niveau est bon. On consolide les dernières erreurs.';
+      verdict = 'Bien joué'; sub = 'Le niveau est bon. On consolide les dernières erreurs.'; tier = 'bien';
     } else if (pct >= 60) {
-      verdict = 'Ça vient'; sub = 'La base est là. Les erreurs reviendront automatiquement.';
+      verdict = 'Ça vient'; sub = 'La base est là. Les erreurs reviendront automatiquement.'; tier = 'moyen';
     } else {
-      verdict = 'Séance utile'; sub = 'Ces questions sont maintenant repérées. Elles reviendront vite.';
+      verdict = 'Séance utile'; sub = 'Ces questions sont maintenant repérées. Elles reviendront vite.'; tier = 'faible';
     }
+    var motivation = window.MOTIVATION.fin(tier);
 
     /* répartition par thème sur cette session */
     var byT = {};
@@ -489,6 +494,8 @@ window.Results = (function () {
             '<p class="muted small">' + UI.esc(sub) + '</p>' +
           '</div>' +
         '</div>' +
+
+        '<p class="small center" style="color:var(--accent-txt);font-weight:500">' + UI.esc(motivation) + '</p>' +
 
         (isExam ? examScale(r.score) : '') +
         (isBoss ? bossScale(r.score) : '') +
