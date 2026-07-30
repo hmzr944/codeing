@@ -394,7 +394,8 @@ window.LESSONS = [
   {t:'retenir', txt:'En panne : feux de détresse, gilet enfilé dans la voiture, sortie par la droite, et on passe derrière la glissière. Les bornes d’appel sont tous les 2 km et localisent automatiquement l’appel.'},
   {t:'piege', txt:'La bande d’arrêt d’urgence n’est pas un endroit sûr : elle concentre de nombreux accidents mortels. On ne reste jamais dans la voiture arrêtée dessus, on sort par la droite et on se met derrière la glissière.'},
 
-  {t:'texte', txt:'La fatigue est la première cause d’accident mortel sur autoroute : une pause de quinze à vingt minutes toutes les deux heures, même sans se sentir fatiguée. La monotonie du paysage, la régularité de la vitesse et un usage prolongé du régulateur aggravent la baisse de vigilance sans qu’on s’en aperçoive.'},
+  {t:'texte', txt:'La fatigue est la première cause d’accident mortel sur autoroute, et la monotonie du paysage, la régularité de la vitesse et un usage prolongé du régulateur aggravent la baisse de vigilance sans qu’on s’en aperçoive.'},
+  {t:'schema', d:'pause-2h'},
   {t:'cle', titre:'Face à un imprévu', items:[
     'Embouteillage : le « corridor de sécurité » se forme en se serrant à gauche pour ceux sur la voie de gauche, à droite pour les autres, afin de laisser un passage central aux secours.',
     'Un véhicule à contresens roule le plus souvent sur ce qui est, pour lui, la voie de droite, donc sur votre voie de gauche : je serre à droite, je ralentis et j’allume mes feux de détresse.',
@@ -449,6 +450,7 @@ window.LESSONS = [
     ['Délit à partir de','0,8 g/L','4 500 €, 6 points, prison possible'],
     ['Élimination','0,10 à 0,15 g/L','par heure, et rien ne l’accélère']]},
   {t:'retenir', txt:'Le café réveille, il ne fait pas baisser l’alcool. Seul le temps compte : ni douche froide, ni sport, ni café ne l’accélèrent.'},
+  {t:'schema', d:'alcool-temps'},
   {t:'cle', titre:'Ce que l’alcool fait vraiment', items:[
     'Il allonge le temps de réaction.',
     'Il rétrécit le champ de vision (vision en tunnel, sensibilité accrue à l’éblouissement).',
@@ -471,7 +473,8 @@ window.LESSONS = [
     'Après un repas copieux ou en début d’après-midi, la vigilance baisse naturellement : une pause de quinze minutes vaut mieux que n’importe quel excitant.',
     'Le stress, la colère ou une dispute récente réduisent la capacité d’analyse et augmentent la prise de risque : quelques minutes d’arrêt avant de démarrer valent mieux qu’un trajet sous tension.',
     'La fatigue est la première cause d’accident mortel sur autoroute.']},
-  {t:'texte', txt:'Le champ visuel se rétrécit à mesure que la vitesse augmente : d’environ 100 degrés à l’arrêt, il tombe sous 30 degrés à vitesse élevée, comme dans un tunnel. Une raison de plus de ralentir en ville, là où les surprises viennent des côtés.'},
+  {t:'schema', d:'champ-visuel'},
+  {t:'texte', txt:'Comme dans un tunnel : une raison de plus de ralentir en ville, là où les surprises viennent des côtés.'},
 
   {t:'chiffres', titre:'Le permis à points', lignes:[
     ['Permis probatoire','6 points','12 après 3 ans sans infraction, +2 par an'],
@@ -564,6 +567,7 @@ window.LESSONS = [
     'Un pneu sous-gonflé consomme plus, s’use sur les bords et risque davantage l’éclatement.',
     'La gomme vieillit même sans rouler : un contrôle s’impose au-delà de 5 à 6 ans (date de fabrication en code à 4 chiffres sur le flanc).',
     'Monter des pneus différents sur un même essieu (dimension, structure, type) est interdit : ça déséquilibre le freinage et la tenue de route.']},
+  {t:'schema', d:'usure-pneu'},
   {t:'piege', txt:'Dans certaines communes de montagne signalées, des pneus hiver ou 4 saisons (ou des équipements amovibles comme des chaînes) sont obligatoires du 1er novembre au 31 mars.'},
 
   {t:'chiffres', titre:'Les feux', lignes:[
@@ -571,6 +575,7 @@ window.LESSONS = [
     ['Feux de route','100 m','à éteindre dès qu’on croise quelqu’un'],
     ['Brouillard avant','pluie, neige, brouillard',''],
     ['Brouillard arrière','brouillard ou neige','jamais sous la pluie']]},
+  {t:'schema', d:'portee-feux'},
   {t:'piege', txt:'Les feux de brouillard arrière sous la pluie éblouissent et masquent les feux stop. C’est interdit. Un seul feu de croisement grillé fait aussi ressembler la voiture à un deux-roues, ce qui fausse l’estimation de distance des autres : il se remplace sans délai.'},
   {t:'texte', txt:'Les feux de détresse signalent un danger (immobilisation, ralentissement brutal sur autoroute) : ils ne légalisent jamais un stationnement interdit. Un véhicule électrique ou hybride, très silencieux à basse vitesse, doit émettre un son artificiel (AVAS) s’il est récent : restez attentif près des piétons malgré tout.'},
 
@@ -612,6 +617,7 @@ window.LESSONS = [
     'Une alerte de somnolence et de vigilance.',
     'L’aide au recul et une boîte noire qui enregistre les secondes du choc.',
     'Le système eCall : il appelle automatiquement le 112 en cas d’accident grave et transmet la position, même si personne ne peut parler.']},
+  {t:'schema', d:'aides-conduite'},
   {t:'piege', txt:'Ces systèmes peuvent être coupés, mais ils se remettent en marche à chaque démarrage. Ils gardent le conducteur pleinement responsable : une aide qui se trompe (panneau masqué, sortie d’autoroute) ne change rien à l’infraction ou à l’accident.'},
 
   {t:'cle', titre:'Ce qui les aveugle ou les rend inefficaces', items:[
@@ -664,6 +670,7 @@ window.LESSONS = [
     'Le verglas se forme d’abord sur les ponts et dans les zones à l’ombre.',
     'Sur neige tassée, l’adhérence peut être divisée par cinq à dix : pneus hiver ou chaînes deviennent indispensables.',
     'Chaînes sur les roues motrices, 50 km/h maximum, retirées dès que la route est dégagée.']},
+  {t:'schema', d:'adherence-neige'},
   {t:'piege', txt:'Si l’avant du véhicule part vers l’extérieur en virage (sous-virage), je lève le pied sans freiner brutalement et je regarde là où je veux aller : braquer davantage aggrave le décrochage des roues avant.'},
 
   {t:'cle', titre:'Vent, chaleur et visibilité réduite', items:[
@@ -746,6 +753,7 @@ window.LESSONS = [
     ['Suspension','durée fixée','le permis est rendu ensuite'],
     ['Annulation','définitif','il faut repasser le permis'],
     ['Solde à zéro','6 mois minimum','visite médicale et épreuves à repasser (lettre 48SI)']]},
+  {t:'schema', d:'parcours-sanction'},
   {t:'piege', txt:'Payer une amende revient à reconnaître l’infraction : les points partent avec. Si tu contestes, il faut le faire avant de payer, ce qui fait perdre le bénéfice de l’amende minorée.'},
   {t:'texte', txt:'Un stage de sensibilisation rend jusqu’à 4 points, une fois par an, sans jamais dépasser le plafond. Pour un permis probatoire, perdre 3 points ou plus en une fois rend le stage obligatoire dans les quatre mois.'},
 
@@ -778,6 +786,7 @@ window.LESSONS = [
     ['Coffre de toit','+10 à 20 %',''],
     ['Climatisation en ville','+10 à 20 %','mais utile au-delà de 70 km/h'],
     ['Conduite agressive en ville','plus de carburant','sans gagner de temps réel']]},
+  {t:'schema', d:'conso-carburant'},
   {t:'texte', txt:'La résistance de l’air augmente avec le carré de la vitesse : rouler à 110 km/h au lieu de 130 économise beaucoup de carburant pour quelques minutes seulement sur un trajet courant.'},
 
   {t:'texte', txt:'Les vignettes Crit’Air vont de 0, pour l’électrique, à 5 pour les diesels anciens. Elles décident de l’accès aux zones à faibles émissions (ZFE), dont les règles et horaires varient d’une commune à l’autre : on se renseigne avant d’y circuler.'},
@@ -827,6 +836,7 @@ window.LESSONS = [
     'Coefficient à 1 au départ, qui baisse de 5 % par année sans accident responsable, jusqu’à un plancher de 0,50.',
     'Un accident entièrement responsable l’augmente de 25 %, un accident partagé de 12,5 %.',
     'Il suit le conducteur et se transmet à un nouveau contrat, pas à un nouveau véhicule.']},
+  {t:'schema', d:'bonus-malus'},
 
   {t:'texte', txt:'Le permis B couvre les véhicules jusqu’à 3,5 tonnes de PTAC et 9 places, conducteur compris. Une remorque : jusqu’à 3,5 t d’ensemble avec le seul permis B, une formation B96 (7 heures) jusqu’à 4,25 t, le permis BE au-delà.'},
   {t:'cle', titre:'Permis : cas particuliers', items:[
@@ -848,6 +858,7 @@ window.LESSONS = [
     'Vignette Crit’Air vérifiée si le trajet traverse une grande ville, y compris de passage.',
     'Avec un véhicule inconnu (location, prêt) : régler siège, rétroviseurs et volant, repérer les commandes d’éclairage et d’essuie-glaces avant de démarrer.']},
   {t:'retenir', txt:'Une pause de quinze à vingt minutes toutes les deux heures. À prendre même sans se sentir fatiguée : la vigilance baisse avant qu’on ne le sente. Le calcul du temps de trajet doit intégrer ces pauses, les pleins ou recharges, et une marge : un horaire trop serré pousse à rouler vite et à sauter les pauses.'},
+  {t:'schema', d:'pause-2h'},
   {t:'piege', txt:'Sur un trajet de nuit, la vigilance baisse fortement entre 2 h et 5 h du matin : on peut s’endormir deux secondes, assez pour quitter la route. Une sieste avant le départ vaut mieux qu’un départ anticipé.'},
 
   {t:'cle', titre:'Le chargement', items:[
@@ -856,7 +867,7 @@ window.LESSONS = [
     'Tout est arrimé, même pour un trajet court.',
     'Au-delà d’un mètre qui dépasse à l’arrière : dispositif réfléchissant obligatoire.',
     'Une galerie ou un coffre de toit a une charge admissible limitée, souvent 50 à 75 kg, et remonte le centre de gravité : virages et freinages en deviennent moins stables.']},
-  {t:'texte', txt:'À 50 km/h, un objet de 5 kg non attaché frappe avec l’équivalent de plus de 100 kg. Tout ce qui est libre dans l’habitacle devient un projectile.'},
+  {t:'schema', d:'objet-projectile'},
   {t:'cle', titre:'Voiture chargée', items:[
     'Corriger la hauteur des phares, sinon on éblouit.',
     'Augmenter les distances : le freinage est plus long.',

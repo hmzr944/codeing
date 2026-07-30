@@ -85,7 +85,7 @@ test('460 questions chargées', d.questions === 460, d.questions);
 test('16 thèmes', d.themes === 16, d.themes);
 test('19 leçons', d.lecons === 19, d.lecons);
 test('blocs de cours', d.blocs > 100, d.blocs);
-test('11 schémas', d.schemas === 11, d.schemas);
+test('22 schémas', d.schemas === 22, d.schemas);
 test('32 succès', d.succes === 32, d.succes);
 test('66 panneaux', d.panneaux === 66, d.panneaux);
 test('84 icônes', d.icones === 84, d.icones);

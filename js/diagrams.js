@@ -217,6 +217,179 @@ window.Diagrams = (function () {
         T(150, 16, 'En descente, je braque vers le trottoir', 'dg-titre', 11) +
         T(96, 110, 'roues tournées', 'dg-lg-acc', 10),
         'Roues braquées vers le trottoir en stationnement en pente');
+    },
+
+    /* ---- Rien n'accélère la baisse de l'alcoolémie ---- */
+    'alcool-temps': function () {
+      var faux = ['Le café', 'La douche froide', 'Le sport'];
+      var s = T(150, 16, 'Rien n’accélère la baisse de l’alcool dans le sang', 'dg-titre', 11);
+      faux.forEach(function (m, i) {
+        var y = 42 + i * 28;
+        s += '<circle cx="26" cy="' + y + '" r="12" class="dg-neg"/>' +
+          '<line x1="18" y1="' + (y - 8) + '" x2="34" y2="' + (y + 8) + '" class="dg-neg"/>' +
+          T(48, y + 4, m, 'dg-lg', 11.5, 'start');
+      });
+      var y2 = 42 + 3 * 28 + 8;
+      s += '<path d="M14 ' + (y2 - 4) + ' l8 8 16-16" class="dg-check"/>' +
+        T(48, y2 + 4, 'Seul le temps : 0,10 à 0,15 g/L par heure', 'dg-lg-acc', 11.5, 'start');
+      return svg('0 0 300 ' + (y2 + 24), s,
+        'Rien n’accélère l’élimination de l’alcool dans le sang, seul le temps qui passe compte');
+    },
+
+    /* ---- Le champ de vision se referme avec la vitesse ---- */
+    'champ-visuel': function () {
+      return svg('0 0 300 150',
+        T(150, 14, 'Le champ de vision se referme avec la vitesse', 'dg-titre', 11) +
+        '<path d="M150 138 L34 40 L266 40 Z" class="dg-neutre" opacity=".55"/>' +
+        '<path d="M150 138 L118 40 L182 40 Z" class="dg-accent-f" opacity=".85"/>' +
+        T(70, 58, '100°', 'dg-lg', 12) + T(70, 72, 'à l’arrêt', 'dg-lg', 9) +
+        T(150, 58, '30°', 'dg-sur-acc', 12) + T(150, 72, 'vitesse élevée', 'dg-lg-acc', 9) +
+        '<circle cx="150" cy="138" r="7" class="dg-veh"/>',
+        'Le champ de vision passe d’environ 100 degrés à l’arrêt à moins de 30 degrés à vitesse élevée');
+    },
+
+    /* ---- Portée des feux ---- */
+    'portee-feux': function () {
+      var lignes = [['Feux de croisement', '30'], ['Feux de route', '100']];
+      var s = T(150, 14, 'Distance éclairée par les feux', 'dg-titre', 11);
+      lignes.forEach(function (l, i) {
+        var y = 32 + i * 44;
+        s += '<rect x="8" y="' + y + '" width="200" height="24" rx="4" class="dg-neutre"/>' +
+          T(18, y + 16, l[0], 'dg-sur', 11.5, 'start') +
+          '<rect x="220" y="' + y + '" width="72" height="24" rx="4" class="dg-accent-f"/>' +
+          T(256, y + 16, l[1] + ' m', 'dg-sur-acc', 12);
+      });
+      return svg('0 0 300 130', s,
+        'Les feux de croisement portent à 30 mètres, les feux de route à 100 mètres');
+    },
+
+    /* ---- Usure des pneus ---- */
+    'usure-pneu': function () {
+      return svg('0 0 300 150',
+        T(150, 14, 'Profondeur des rainures : neuf contre limite légale', 'dg-titre', 11) +
+        '<rect x="70" y="30" width="46" height="90" rx="4" class="dg-neutre"/>' +
+        '<rect x="70" y="30" width="46" height="90" rx="4" class="dg-accent-f"/>' +
+        '<rect x="184" y="30" width="46" height="90" rx="4" class="dg-neutre"/>' +
+        '<rect x="184" y="102" width="46" height="18" rx="3" class="dg-accent-f"/>' +
+        T(93, 22, 'Pneu neuf', 'dg-lg', 10) +
+        T(207, 22, 'Pneu à la limite', 'dg-lg-ko', 10) +
+        T(93, 134, '≈ 8 mm', 'dg-sur', 11) +
+        T(207, 134, '1,6 mm', 'dg-lg-ko', 11),
+        'La profondeur minimale légale des rainures est de 1,6 millimètre, contre environ 8 mm au neuf');
+    },
+
+    /* ---- Ce que surveille une voiture récente ---- */
+    'aides-conduite': function () {
+      return svg('0 0 300 190',
+        T(150, 14, 'Ce que surveille une voiture récente', 'dg-titre', 11) +
+        voitureDessus(150, 100, 70, -90) +
+        '<path d="M150 58 V22" class="dg-cote"/>' +
+        T(150, 18, 'ISA + freinage d’urgence', 'dg-lg-acc', 9.5) +
+        '<path d="M114 100 H36" class="dg-cote"/>' +
+        T(36, 92, 'Maintien', 'dg-lg', 9.5, 'start') + T(36, 104, 'de voie', 'dg-lg', 9.5, 'start') +
+        '<path d="M186 100 H264" class="dg-cote"/>' +
+        T(264, 92, 'Alerte de', 'dg-lg', 9.5, 'start') + T(264, 104, 'somnolence', 'dg-lg', 9.5, 'start') +
+        '<path d="M150 142 V172" class="dg-cote"/>' +
+        T(150, 184, 'Aide au recul + eCall', 'dg-lg-acc', 9.5),
+        'Un aperçu des aides à la conduite à l’avant, sur les côtés et à l’arrière');
+    },
+
+    /* ---- Ce qui peut arriver au permis ---- */
+    'parcours-sanction': function () {
+      var etapes = [
+        ['Infraction', ''], ['Rétention', '72 h'],
+        ['Décision', 'du préfet'], ['Suspension', 'ou annulation']
+      ];
+      var s = T(150, 14, 'Ce qui peut arriver au permis', 'dg-titre', 11);
+      var w = 66, gap = 8, x = 4, y = 34;
+      etapes.forEach(function (e, i) {
+        var dernier = i === etapes.length - 1;
+        s += '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="46" rx="6" class="' +
+          (dernier ? 'dg-accent-f' : 'dg-neutre') + '"/>' +
+          T(x + w / 2, y + 20, e[0], dernier ? 'dg-sur-acc' : 'dg-sur', 9.5) +
+          T(x + w / 2, y + 34, e[1], dernier ? 'dg-sur-acc' : 'dg-lg', 9.5);
+        if (!dernier) {
+          s += '<path d="M' + (x + w + 2) + ' ' + (y + 23) + ' H' + (x + w + gap - 2) + '" class="dg-fleche-c"/>' +
+            '<path d="M' + (x + w + gap - 6) + ' ' + (y + 18) + ' l6 5 -6 5 z" class="dg-fleche-p"/>';
+        }
+        x += w + gap;
+      });
+      return svg('0 0 300 100', s,
+        'Rétention du permis, puis décision du préfet, puis suspension ou annulation selon la gravité');
+    },
+
+    /* ---- Ce qui augmente la consommation ---- */
+    'conso-carburant': function () {
+      var lignes = [
+        ['130 au lieu de 110 km/h', 20],
+        ['Coffre de toit', 15],
+        ['Climatisation en ville', 15]
+      ];
+      var s = T(150, 14, 'Ce qui augmente la consommation', 'dg-titre', 11);
+      lignes.forEach(function (l, i) {
+        var y = 36 + i * 34;
+        var w = (l[1] / 25) * 120;
+        s += T(8, y - 6, l[0], 'dg-lg', 10, 'start') +
+          '<rect x="8" y="' + y + '" width="' + w + '" height="18" rx="4" class="dg-neutre"/>' +
+          '<rect x="' + (w + 12) + '" y="' + y + '" width="46" height="18" rx="4" class="dg-accent-f"/>' +
+          T((w + 35), y + 13, '+' + l[1] + ' %', 'dg-sur-acc', 10.5);
+      });
+      return svg('0 0 300 140', s,
+        'Rouler plus vite, transporter un coffre de toit ou climatiser en ville augmentent nettement la consommation');
+    },
+
+    /* ---- Le coefficient bonus-malus ---- */
+    'bonus-malus': function () {
+      return svg('0 0 300 150',
+        T(150, 14, 'Le coefficient bonus-malus', 'dg-titre', 11) +
+        '<path d="M20 40 L20 130 H280" class="dg-cote"/>' +
+        '<path d="M20 60 L60 66 L100 72 L140 78 L180 84 L220 90 L260 96" class="dg-fleche-c"/>' +
+        '<path d="M140 78 L160 50" class="dg-neg"/>' +
+        T(20, 52, '1,00', 'dg-sur', 10, 'start') +
+        T(260, 108, '0,50', 'dg-lg-acc', 10, 'end') +
+        T(178, 44, 'accident : +25 %', 'dg-lg-ko', 9.5) +
+        T(150, 142, '−5 % par an sans accident responsable', 'dg-lg', 10),
+        'Le coefficient baisse de 5 % chaque année sans accident, avec un plancher à 0,50, et augmente de 25 % après un accident responsable');
+    },
+
+    /* ---- Un objet non attaché devient un projectile ---- */
+    'objet-projectile': function () {
+      return svg('0 0 300 140',
+        T(150, 14, 'Un objet non attaché devient un projectile', 'dg-titre', 11) +
+        '<rect x="46" y="76" width="30" height="30" rx="4" class="dg-neutre"/>' +
+        T(61, 122, '5 kg', 'dg-sur', 11) +
+        '<path d="M96 90 H150" class="dg-fleche-c"/>' +
+        '<path d="M142 84 l10 6 -10 6 z" class="dg-fleche-p"/>' +
+        T(123, 76, 'à 50 km/h', 'dg-lg-acc', 10) +
+        '<rect x="180" y="40" width="74" height="66" rx="6" class="dg-accent-f"/>' +
+        T(217, 122, '≈ 100 kg', 'dg-sur', 12),
+        'À 50 km/h, un objet de 5 kilos non attaché frappe avec l’équivalent de 100 kilos');
+    },
+
+    /* ---- Une pause toutes les deux heures ---- */
+    'pause-2h': function () {
+      return svg('0 0 300 110',
+        T(150, 14, 'Une pause toutes les deux heures', 'dg-titre', 11) +
+        '<rect x="10" y="40" width="110" height="26" rx="5" class="dg-neutre"/>' +
+        T(65, 57, '2 h de route', 'dg-sur', 11) +
+        '<path d="M124 53 H158" class="dg-fleche-c"/>' +
+        '<path d="M150 47 l10 6 -10 6 z" class="dg-fleche-p"/>' +
+        '<rect x="162" y="40" width="128" height="26" rx="5" class="dg-accent-f"/>' +
+        T(226, 57, '15 à 20 min de pause', 'dg-sur-acc', 11) +
+        T(150, 90, 'La vigilance baisse avant qu’on ne le sente', 'dg-lg', 10),
+        'Toutes les deux heures de route, une pause de quinze à vingt minutes s’impose');
+    },
+
+    /* ---- Adhérence sur neige tassée ---- */
+    'adherence-neige': function () {
+      return svg('0 0 300 130',
+        T(150, 14, 'Adhérence sur neige tassée', 'dg-titre', 11) +
+        T(10, 40, 'Route sèche', 'dg-sur', 11, 'start') +
+        '<rect x="10" y="46" width="220" height="22" rx="4" class="dg-accent-f"/>' +
+        T(10, 88, 'Neige tassée', 'dg-lg-ko', 11, 'start') +
+        '<rect x="10" y="94" width="30" height="22" rx="4" class="dg-neutre"/>' +
+        T(52, 109, 'adhérence divisée par 5 à 10', 'dg-lg-ko', 10, 'start'),
+        'Sur neige tassée, l’adhérence peut être divisée par cinq à dix par rapport à une route sèche');
     }
   };
 

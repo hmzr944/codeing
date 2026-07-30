@@ -1133,3 +1133,5 @@ hr.sep{height:1px;background:var(--line-soft);border:0;margin:0}
 .dg-fleche-p{fill:var(--accent)}
 .dg-stop circle{fill:var(--ko)}
 .dg-stop-barre{stroke:#fff;stroke-width:3;stroke-linecap:round}
+.dg-neg{fill:none;stroke:var(--ko);stroke-width:2.5}
+.dg-check{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
