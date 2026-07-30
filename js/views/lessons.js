@@ -140,7 +140,7 @@ window.Cours = (function () {
             '<div class="sec-t">Leçons lues</div>' +
             '<div class="tiny dim num">' + nLues + ' / ' + n + '</div>' +
           '</div>' +
-          '<div class="gauge thin"><i style="width:' + Math.round(nLues / n * 100) + '%"></i></div>' +
+          '<div class="gauge thin"><i style="--pct:' + (Math.round(nLues / n * 100) / 100) + '"></i></div>' +
           '<div class="tiny dim">Une leçon avant de dormir, et elle tient toute la semaine.</div>' +
         '</section>' +
 

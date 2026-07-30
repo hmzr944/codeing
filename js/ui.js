@@ -48,7 +48,7 @@ window.UI = (function () {
       '<span>' + esc(msg) + '</span>';
     toaster.appendChild(n);
     setTimeout(function () {
-      n.style.transition = 'opacity .3s, transform .3s';
+      n.style.transition = 'opacity .3s var(--ease), transform .3s var(--ease)';
       n.style.opacity = '0'; n.style.transform = 'translateY(-10px)';
       setTimeout(function () { n.remove(); }, 320);
     }, 2600);

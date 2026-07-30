@@ -225,8 +225,11 @@ p{margin:0}
 
 /* ---------- jauges ---------- */
 .gauge{height:8px;border-radius:var(--r-pill);background:var(--surface-3);overflow:hidden}
-.gauge > i{display:block;height:100%;border-radius:var(--r-pill);background:var(--accent);
-  transition:width .5s var(--ease)}
+.gauge > i{
+  display:block;height:100%;width:100%;border-radius:var(--r-pill);background:var(--accent);
+  transform-origin:left;transform:scaleX(var(--pct,0));
+  transition:transform .5s var(--ease);
+}
 .gauge.thin{height:5px}
 .gauge.ok > i{background:var(--ok)}
 .gauge.ko > i{background:var(--ko)}
@@ -745,7 +748,12 @@ p{margin:0}
 @keyframes fondu{from{opacity:0}to{opacity:1}}
 @keyframes monte{from{transform:translateY(18px);opacity:0}to{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){
-  .feuille-fond,.feuille-panneau{animation:none}
+  /* Le mouvement disparaît, mais un fondu court reste : sans lui, la
+     feuille et les transitions d'écran surviennent d'un coup sec, sans
+     aucun repère visuel pour situer l'apparition. */
+  .feuille-fond,.feuille-panneau{animation:fade .2s var(--ease) !important}
+  .enter{animation-duration:.2s !important}
+  .rise{animation-name:fade;animation-duration:.2s !important}
 }
 
 /* La saisie reste sous la main, sans recouvrir la dernière réponse. */
@@ -817,6 +825,13 @@ p{margin:0}
 }
 
 .badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
+.medal-row > *,.pan-g > *,.badges > *{animation:rise .28s var(--ease) both}
+.medal-row > :nth-child(1),.pan-g > :nth-child(1),.badges > :nth-child(1){animation-delay:0ms}
+.medal-row > :nth-child(2),.pan-g > :nth-child(2),.badges > :nth-child(2){animation-delay:40ms}
+.medal-row > :nth-child(3),.pan-g > :nth-child(3),.badges > :nth-child(3){animation-delay:80ms}
+.medal-row > :nth-child(4),.pan-g > :nth-child(4),.badges > :nth-child(4){animation-delay:120ms}
+.medal-row > :nth-child(5),.pan-g > :nth-child(5),.badges > :nth-child(5){animation-delay:160ms}
+.medal-row > :nth-child(n+6),.pan-g > :nth-child(n+6),.badges > :nth-child(n+6){animation-delay:200ms}
 .bdg{
   padding:12px 7px;border-radius:var(--r-ctl);text-align:center;
   background:var(--surface-2);border:1px solid transparent;
