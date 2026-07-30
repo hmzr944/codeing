@@ -161,9 +161,22 @@ bloc('5. Persistance');
 const nomAvant = await p.evaluate(() => Store.s.profile.name);
 const xpAvant = await p.evaluate(() => Store.s.xp);
 await p.goto(BASE, { waitUntil: 'networkidle' });
+/* Ce rechargement est une vraie nouvelle « session » au sens de
+   sessionStorage (jamais posé pendant l'onboarding) : la porte
+   d'entrée doit s'afficher avant tout le reste. */
 const apresRechargement = await p.evaluate(() => ({ nom: Store.s.profile.name, xp: Store.s.xp }));
 test('prénom conservé après rechargement', apresRechargement.nom === nomAvant, apresRechargement.nom);
 test('XP conservée après rechargement', apresRechargement.xp === xpAvant, `${xpAvant} -> ${apresRechargement.xp}`);
+
+/* ---------------- 5 bis. Entrée de session ---------------- */
+bloc('5 bis. Entrée de session');
+test('la porte affiche le bon prénom',
+  (await p.locator('[data-entrer]').textContent()).includes(nomAvant), nomAvant);
+await p.click('[data-entrer]');
+await p.waitForTimeout(600);
+test('taper son prénom mène à l’accueil', (await p.locator('.hero').count()) === 1);
+await p.goto(BASE, { waitUntil: 'networkidle' });
+test('la porte ne réapparaît pas dans la même session', (await p.locator('[data-entrer]').count()) === 0);
 
 /* ---------------- 6. cours ---------------- */
 bloc('6. Cours');

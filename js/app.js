@@ -115,32 +115,25 @@ window.App = (function () {
       Onboarding.view();
     } else {
       var h = (location.hash || '').replace('#', '');
-      go(TABS.indexOf(h) >= 0 || h === 'settings' ? h : 'home');
+      var route = TABS.indexOf(h) >= 0 || h === 'settings' ? h : 'home';
+
+      /* La porte d'entrée (taper son prénom) ne s'affiche qu'une
+         fois par vraie ouverture de l'appli : sessionStorage s'efface
+         à la fermeture de l'onglet, jamais à un simple retour à
+         l'accueil depuis un autre onglet pendant la même session. */
+      var CLE_SESSION = 'feuvert-session-ouverte';
+      var dejaOuverte = false;
+      try { dejaOuverte = sessionStorage.getItem(CLE_SESSION) === '1'; } catch (e) {}
+      if (dejaOuverte) {
+        go(route);
+        apresEntree();
+      } else {
+        try { sessionStorage.setItem(CLE_SESSION, '1'); } catch (e) {}
+        Entree.view(function () { go(route); apresEntree(); });
+      }
     }
 
     watchReminder();
-
-    /* Sans stockage local, la progression ne survit pas au
-       rafraîchissement : autant le dire tout de suite. */
-    if (!Store.persistant) {
-      setTimeout(function () {
-        UI.toast('Ce navigateur bloque la sauvegarde : la progression ne sera pas conservée.', 'alerte');
-      }, 1200);
-    }
-
-    /* Une sauvegarde illisible a été remplacée par la copie de secours,
-       ou à défaut par une progression neuve : Mina doit le savoir plutôt
-       que de découvrir en silence que sa série a disparu. */
-    var etat = Store.etatChargement();
-    if (etat === 'secours') {
-      setTimeout(function () {
-        UI.toast('Petit souci de sauvegarde : ta progression de la veille a été récupérée.', 'alerte');
-      }, 700);
-    } else if (etat === 'reinitialise') {
-      setTimeout(function () {
-        UI.toast('Ta sauvegarde était illisible et a dû être réinitialisée.', 'alerte');
-      }, 700);
-    }
 
     /* Si l'écriture échoue (quota plein, stockage restreint en cours de
        session), un seul avertissement suffit : mieux vaut le dire une
@@ -152,20 +145,42 @@ window.App = (function () {
       }
     }, 4000);
 
-    /* Rappel de série : si elle est sur le point de tomber, on le dit
-       une seule fois, sans culpabiliser. */
-    var s = Store.liveStreak();
-    if (s >= 3 && !Store.goalReached(SRS.today())) {
-      setTimeout(function () {
-        UI.toast('Série de ' + s + ' jours en cours', 'serie');
-      }, 900);
-    }
+    /* Tout ce qui doit attendre que Mina soit vraiment entrée : ni
+       pendant l'écran « prête ? », ni avant qu'elle ait tapé son
+       prénom. */
+    function apresEntree() {
+      /* Sans stockage local, la progression ne survit pas au
+         rafraîchissement : autant le dire tout de suite. */
+      if (!Store.persistant) {
+        setTimeout(function () {
+          UI.toast('Ce navigateur bloque la sauvegarde : la progression ne sera pas conservée.', 'alerte');
+        }, 1200);
+      }
 
-    /* Le mot d'accueil d'une session : une seule fois par ouverture
-       de l'appli, jamais au premier lancement (l'onboarding vient
-       déjà de saluer), et jamais en revenant simplement à l'accueil
-       depuis un autre onglet. */
-    if (Store.s.flags.onboarded) {
+      /* Une sauvegarde illisible a été remplacée par la copie de secours,
+         ou à défaut par une progression neuve : Mina doit le savoir
+         plutôt que de découvrir en silence que sa série a disparu. */
+      var etat = Store.etatChargement();
+      if (etat === 'secours') {
+        setTimeout(function () {
+          UI.toast('Petit souci de sauvegarde : ta progression de la veille a été récupérée.', 'alerte');
+        }, 700);
+      } else if (etat === 'reinitialise') {
+        setTimeout(function () {
+          UI.toast('Ta sauvegarde était illisible et a dû être réinitialisée.', 'alerte');
+        }, 700);
+      }
+
+      /* Rappel de série : si elle est sur le point de tomber, on le dit
+         une seule fois, sans culpabiliser. */
+      var s = Store.liveStreak();
+      if (s >= 3 && !Store.goalReached(SRS.today())) {
+        setTimeout(function () {
+          UI.toast('Série de ' + s + ' jours en cours', 'serie');
+        }, 900);
+      }
+
+      /* Le mot de motivation d'une session, une fois entrée. */
       setTimeout(function () {
         UI.toast(window.MOTIVATION.arrivee(Store.s.profile.name), 'couronne');
       }, 500);

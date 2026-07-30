@@ -17,10 +17,17 @@ window.Settings = (function () {
               'placeholder="Ton prénom" value="' + UI.esc(P.name) + '">' +
             '<div class="help">Sert uniquement à personnaliser l’accueil.</div>' +
           '</div>' +
-          '<div class="field">' +
-            '<label for="f-date">Date de l’examen</label>' +
-            '<input id="f-date" type="date" value="' + UI.esc(P.examDate) + '">' +
-            '<div class="help">Affiche un compte à rebours et adapte le rythme conseillé.</div>' +
+          '<div class="stack g8">' +
+            '<div class="sec-t">Objectif d’examen</div>' +
+            '<div class="tiny dim">' + (P.examDate
+              ? 'Dans ' + UI.plural(SRS.daysBetween(SRS.today(), P.examDate), 'jour') +
+                '. Un compte à rebours et un rythme conseillé s’adaptent sur l’accueil.'
+              : 'Dans combien de temps veux-tu être prête ? Un compte à rebours et un rythme conseillé s’adaptent sur l’accueil.') +
+            '</div>' +
+            '<div class="stack g8">' +
+              delaiBtn(14, '2 semaines') + delaiBtn(30, '1 mois') + delaiBtn(60, '2 mois') +
+              delaiBtn(90, '3 mois') + delaiBtn(0, 'Aucun objectif') +
+            '</div>' +
           '</div>' +
         '</section>' +
 
@@ -92,9 +99,12 @@ window.Settings = (function () {
     document.getElementById('f-name').addEventListener('input', function () {
       Store.s.profile.name = this.value.trim(); Store.save();
     });
-    document.getElementById('f-date').addEventListener('change', function () {
-      Store.s.profile.examDate = this.value; Store.saveNow();
-      UI.toast(this.value ? 'Compte à rebours activé' : 'Compte à rebours retiré', 'calendrier');
+    UI.on('[data-delai]', 'click', function () {
+      var j = +this.getAttribute('data-delai');
+      Store.s.profile.examDate = j > 0 ? SRS.addDays(SRS.today(), j) : '';
+      Store.saveNow();
+      UI.toast(j > 0 ? 'Objectif fixé à ' + UI.plural(j, 'jour') : 'Objectif retiré', 'calendrier');
+      view();
     });
     document.getElementById('f-time').addEventListener('change', function () {
       Store.s.profile.reminder = this.value; Store.save();
@@ -202,6 +212,15 @@ window.Settings = (function () {
     a.href = url; a.download = name;
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+
+  /* Pas de surbrillance ici : contrairement à l'onboarding, l'objectif
+     déjà fixé est une cible mouvante (le nombre de jours restants
+     change chaque jour), donc aucun de ces boutons ne « correspond »
+     durablement à l'état actuel. */
+  function delaiBtn(jours, texte) {
+    return '<button class="card row between" data-delai="' + jours + '" style="width:100%;text-align:left">' +
+      '<span style="font-weight:500;font-size:14.5px">' + texte + '</span></button>';
   }
 
   return { view: view };

@@ -5,7 +5,7 @@ window.Onboarding = (function () {
 
   /* Prénom pré-rempli : cette version est préparée pour Mina.
      Le champ reste modifiable si quelqu'un d'autre l'utilise. */
-  var step = 0, draft = { name: 'Mina', examDate: '', goal: 20 };
+  var step = 0, draft = { name: 'Mina', examDate: '', delai: null, goal: 20 };
 
   function view() { step = 0; render(); }
 
@@ -70,12 +70,18 @@ window.Onboarding = (function () {
           '<h1>On fait connaissance ?</h1>' +
           '<p class="muted small">Les deux champs sont facultatifs. Rien ne quitte ton téléphone.</p>' +
         '</div>' +
-        '<div class="stack g16">' +
-          '<div class="field"><label for="o-name">Ton prénom</label>' +
-          '<input id="o-name" type="text" maxlength="20" placeholder="Ton prénom" value="' + UI.esc(draft.name) + '"></div>' +
-          '<div class="field"><label for="o-date">Date de l’examen, si elle est connue</label>' +
-          '<input id="o-date" type="date" value="' + UI.esc(draft.examDate) + '">' +
-          '<div class="help">Un compte à rebours apparaîtra sur l’accueil.</div></div>' +
+        '<div class="field"><label for="o-name">Ton prénom</label>' +
+        '<input id="o-name" type="text" maxlength="20" placeholder="Ton prénom" value="' + UI.esc(draft.name) + '"></div>' +
+        '<div class="stack g8">' +
+          '<label>Dans combien de temps veux-tu être prête ?</label>' +
+          '<div class="stack g8" id="delai">' +
+            delaiChoix(14, '2 semaines') +
+            delaiChoix(30, '1 mois') +
+            delaiChoix(60, '2 mois') +
+            delaiChoix(90, '3 mois') +
+            delaiChoix(0, 'Je ne sais pas encore') +
+          '</div>' +
+          '<div class="help">Un compte à rebours et un rythme conseillé s’adaptent sur l’accueil.</div>' +
         '</div>' +
       '</div>' +
       '<div class="stack g12" style="padding-bottom:calc(20px + env(safe-area-inset-bottom))">' +
@@ -84,12 +90,29 @@ window.Onboarding = (function () {
         '<button class="btn ghost block" data-skip>Passer</button>' +
       '</div>'
     ));
+    UI.on('[data-delai]', 'click', function () {
+      var j = +this.getAttribute('data-delai');
+      draft.delai = j;
+      draft.examDate = j > 0 ? SRS.addDays(SRS.today(), j) : '';
+      var n = document.querySelectorAll('[data-delai]');
+      for (var i = 0; i < n.length; i++) {
+        n[i].classList.toggle('accent', +n[i].getAttribute('data-delai') === j);
+      }
+    });
     UI.on('[data-next]', 'click', function () {
       draft.name = document.getElementById('o-name').value.trim();
-      draft.examDate = document.getElementById('o-date').value;
       step = 2; render();
     });
     UI.on('[data-skip]', 'click', function () { step = 2; render(); });
+  }
+
+  function delaiChoix(jours, texte) {
+    var actif = draft.delai === jours;
+    return '<button class="card ' + (actif ? 'accent' : '') + ' row between" data-delai="' + jours + '" ' +
+      'style="width:100%;text-align:left">' +
+      '<span style="font-weight:500;font-size:14.5px">' + texte + '</span>' +
+      (actif ? Icons.svg('valide', 16) : '') +
+    '</button>';
   }
 
   function rhythm() {

@@ -34,7 +34,8 @@ window.Quiz = (function () {
       lives: m.lives,
       tPerQ: m.perQ, tLeft: m.perQ,
       tTotal: m.total, tTotalLeft: m.total,
-      tick: null, startedAt: Date.now()
+      tick: null, startedAt: Date.now(),
+      niveauDepart: Store.level().n
     };
     document.body.classList.add('no-tabbar');
     document.getElementById('tabbar').hidden = true;
@@ -384,14 +385,17 @@ window.Quiz = (function () {
     var score = answered.filter(function (r) { return r.correct; }).length;
     var open = (Q.mode === 'sprint' || Q.mode === 'survie');
     var total = open ? answered.length : Q.list.length;
+    var niveauDepart = Q.niveauDepart;
 
     var won = Store.endSession({
       mode: Q.mode, score: score, total: total, theme: Q.theme, combo: Q.bestCombo
     });
 
+    var niveauFin = Store.level();
     Results.show({
       mode: Q.mode, score: score, total: total, combo: Q.bestCombo,
-      results: answered, theme: Q.theme, badges: won
+      results: answered, theme: Q.theme, badges: won,
+      niveauGagne: niveauFin.n > niveauDepart ? niveauFin : null
     });
 
     Q = null;
@@ -497,6 +501,8 @@ window.Results = (function () {
 
         '<p class="small center rise" style="color:var(--accent-txt);font-weight:500;animation-delay:140ms">' + UI.esc(motivation) + '</p>' +
 
+        (r.niveauGagne ? niveauCard(r.niveauGagne) : '') +
+
         (isExam ? examScale(r.score) : '') +
         (isBoss ? bossScale(r.score) : '') +
         (r.combo >= 3 ? comboCard(r.combo) : '') +
@@ -552,7 +558,7 @@ window.Results = (function () {
       else Quiz.start({ mode: 'train', theme: r.theme, questions: Store.trainSet(r.theme || 'all', 20) });
     });
 
-    if (passed && r.total >= 9) UI.confetti();
+    if ((passed && r.total >= 9) || r.niveauGagne) UI.confetti();
     if (pct > 50) Son.succes();
     UI.celebrate(r.badges);
   }
@@ -573,6 +579,17 @@ window.Results = (function () {
         '<div class="gauge ' + (score >= 9 ? 'ok' : 'ko') + '"><i data-anime="--pct" style="--pct:' + ((score * 10) / 100) + '"></i></div>' +
         '<div style="position:absolute;top:-3px;left:90%;width:2px;height:14px;background:var(--txt);border-radius:2px"></div>' +
       '</div></div>';
+  }
+
+  /* Passer un niveau est rare : ça mérite mieux qu'une ligne dans le
+     bloc XP habituel. */
+  function niveauCard(niveau) {
+    return '<div class="card accent stack g4 center rise" style="animation-delay:200ms">' +
+      '<div class="sec-t">Niveau supérieur</div>' +
+      '<div style="font-weight:700;font-size:19px;letter-spacing:-.02em">' +
+        'Niveau ' + niveau.n + ' · ' + UI.esc(niveau.name) +
+      '</div>' +
+    '</div>';
   }
 
   function comboCard(c) {

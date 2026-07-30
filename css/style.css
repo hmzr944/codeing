@@ -207,6 +207,33 @@ p{margin:0}
 }
 .brand-name{font-size:16px;font-weight:700;letter-spacing:-.03em}
 .brand-sub{font-size:11.5px;color:var(--txt-3)}
+.brand-mark.lg{width:64px;height:64px;border-radius:20px;font-size:24px}
+
+/* ---------- entrée de session ---------- */
+.entree{
+  min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:22px;padding:24px;text-align:center;
+  transition:opacity .4s var(--ease),transform .4s var(--ease);
+}
+.entree-salut{font-size:14px;color:var(--txt-3)}
+.entree h1{font-size:clamp(22px,6vw,27px);text-wrap:balance}
+.entree-nom{
+  display:flex;align-items:center;gap:14px;margin-top:6px;
+  padding:12px 26px 12px 12px;border-radius:var(--r-pill);
+  background:var(--surface);border:1px solid var(--line);
+  font-size:17px;font-weight:600;letter-spacing:-.01em;color:var(--txt);
+  transition:transform .15s var(--ease),background .15s var(--ease);
+}
+.entree-nom:active{transform:scale(.97);background:var(--surface-2)}
+.entree-avatar{
+  width:42px;height:42px;flex:0 0 42px;border-radius:50%;
+  background:var(--accent);color:var(--accent-ink);
+  display:grid;place-items:center;font-size:17px;font-weight:700;
+}
+/* Le tapotement referme la porte plutôt que de couper d'un coup :
+   l'accueil, lui, entre déjà en cascade (voir .hero .rise), la
+   sortie d'ici et l'entrée là-bas se poursuivent naturellement. */
+.entree-sortie{opacity:0;transform:scale(1.05)}
 
 /* ---------- surfaces ---------- */
 .card{
