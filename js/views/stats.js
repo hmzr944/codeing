@@ -59,7 +59,7 @@ window.Stats = (function () {
       UI.topbar('Progrès', 'Tout est calculé sur ce téléphone', false) +
       '<div class="stack g20">' +
 
-        '<section class="card level">' +
+        '<section class="card level rise">' +
           '<div class="lv num">' + lvl.n + '</div>' +
           '<div class="grow stack g8">' +
             '<div class="row between">' +
@@ -71,13 +71,13 @@ window.Stats = (function () {
           '</div>' +
         '</section>' +
 
-        '<div class="kpi">' +
+        '<div class="kpi rise" style="animation-delay:60ms">' +
           '<div><div class="n num">' + s.answered + '</div><div class="l">Réponses</div></div>' +
           '<div><div class="n num">' + acc + ' %</div><div class="l">Réussite</div></div>' +
           '<div><div class="n num">' + s.streak + '</div><div class="l">Série</div></div>' +
         '</div>' +
 
-        '<section class="card stack g12">' +
+        '<section class="card stack g12 rise" style="animation-delay:120ms">' +
           '<div class="row between"><div class="sec-t">14 derniers jours</div>' +
           '<div class="tiny dim">Meilleure série : <b class="num">' + s.bestStreak + '</b></div></div>' +
           '<div class="spark">' + spark + '</div>' +
@@ -105,6 +105,24 @@ window.Stats = (function () {
 
     UI.mount(html);
     UI.animateGauges();
+    animerSpark();
+  }
+
+  /* Les barres des 14 derniers jours portent déjà leur hauteur finale
+     en style inline : elles repartent de zéro pour que la montée se
+     voie, plutôt que d'apparaître déjà pleines comme un décor figé. */
+  function animerSpark() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var barres = document.querySelectorAll('.spark i');
+    for (var i = 0; i < barres.length; i++) {
+      (function (b) {
+        var h = b.style.height;
+        b.style.height = '4px';
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () { b.style.height = h; });
+        });
+      })(barres[i]);
+    }
   }
 
   function memoryBars(boxes, neverSeen, total) {

@@ -26,7 +26,7 @@ window.Exam = (function () {
     if (last5.length >= 3) {
       var ready = avg >= 36;
       readiness =
-        '<div class="card ' + (ready ? 'accent' : 'quiet') + ' stack g8">' +
+        '<div class="card ' + (ready ? 'accent' : 'quiet') + ' stack g8 rise" style="animation-delay:60ms">' +
           '<div class="sec-t">État de préparation</div>' +
           '<div style="font-weight:500;font-size:16px;letter-spacing:-.02em">' +
             (ready ? 'Niveau du jour J atteint' : 'Encore un peu de marge') + '</div>' +
@@ -41,7 +41,7 @@ window.Exam = (function () {
       UI.topbar('Examen blanc', 'Les conditions du jour J, sans la pression', false) +
       '<div class="stack g20">' +
 
-        '<section class="card stack g14">' +
+        '<section class="card stack g14 rise">' +
           '<div class="stack g10">' +
             rule('40 questions', 'Tirées de tous les thèmes, comme à l’examen officiel.') +
             rule('20 secondes par question', 'Le chrono ne s’arrête pas. Pas de retour en arrière.') +
@@ -53,14 +53,14 @@ window.Exam = (function () {
 
         readiness +
 
-        (ex.length ? '<div class="kpi">' +
+        (ex.length ? '<div class="kpi rise" style="animation-delay:120ms">' +
           '<div><div class="n num">' + ex.length + '</div><div class="l">Passés</div></div>' +
           '<div><div class="n num">' + passed + '</div><div class="l">Validés</div></div>' +
           '<div><div class="n num">' + best + '</div><div class="l">Meilleur</div></div>' +
         '</div>' : '') +
 
-        '<div class="card stack g4"><div class="sec-t" style="margin-bottom:6px">Historique</div>' +
-          history + '</div>' +
+        '<div class="card stack g4 rise" style="animation-delay:180ms">' +
+          '<div class="sec-t" style="margin-bottom:6px">Historique</div>' + history + '</div>' +
 
         '<div style="height:8px"></div>' +
       '</div>';
@@ -94,7 +94,7 @@ window.Sprint = (function () {
     var html =
       UI.topbar('Sprint 60 secondes', 'Pour les jours où il n’y a pas le temps') +
       '<div class="stack g20">' +
-        '<section class="card stack g14">' +
+        '<section class="card stack g14 rise">' +
           '<h2>Une minute, un maximum de bonnes réponses</h2>' +
           '<p class="small muted">Uniquement des questions à réponse unique. Le chrono tourne en continu : ' +
           'on répond à l’instinct, et la correction s’affiche immédiatement. ' +
@@ -131,7 +131,7 @@ window.Survie = (function () {
     var html =
       UI.topbar('Survie', 'Trois erreurs et la partie s’arrête') +
       '<div class="stack g20">' +
-        '<section class="card stack g14">' +
+        '<section class="card stack g14 rise">' +
           '<div class="row g6" style="color:var(--ko)">' +
             Icons.svg('survie', 26) + Icons.svg('survie', 26) + Icons.svg('survieContour', 26) + '</div>' +
           '<h2>Jusqu’où peux-tu aller ?</h2>' +
@@ -145,7 +145,7 @@ window.Survie = (function () {
           '</div>' +
           '<button class="btn primary block" data-go>Lancer une partie</button>' +
         '</section>' +
-        '<p class="tiny dim center" style="padding:0 14px">Le mode survie compte comme une révision : ' +
+        '<p class="tiny dim center rise" style="padding:0 14px;animation-delay:80ms">Le mode survie compte comme une révision : ' +
         'les questions ratées reviennent dans le défi du jour.</p>' +
       '</div>';
     UI.mount(html);

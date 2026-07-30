@@ -43,8 +43,41 @@ const ECRANS = [
       await p.press('#msg', 'Enter'); await p.waitForTimeout(300); } },
   { n: 'progres', aller: async (p) => { await passer(p); await p.click('.tab[data-go="stats"]'); } },
   { n: 'reglages', aller: async (p) => { await passer(p); await p.click('[data-go="settings"]'); } },
-  { n: 'survie', aller: async (p) => { await passer(p); await p.click('[data-survie]'); } }
+  { n: 'survie', aller: async (p) => { await passer(p); await p.click('[data-survie]'); } },
+  { n: 'sprint', aller: async (p) => { await passer(p); await p.click('[data-sprint]'); } },
+  /* La porte d'entrée n'apparaît qu'à une vraie deuxième ouverture :
+     l'onboarding qui vient de finir ne pose jamais le drapeau de
+     session, donc un simple rechargement suffit à la déclencher. */
+  { n: 'entree', aller: async (p) => {
+      await passer(p);
+      await p.reload({ waitUntil: 'networkidle' }); } },
+  { n: 'resultat-a-revoir', aller: async (p) => {
+      await passer(p); await p.click('[data-daily]');
+      await repondreFaux(p); } },
+  { n: 'defi-theme', aller: async (p) => {
+      await passer(p); await p.click('.tab[data-go="train"]');
+      await p.click('[data-boss] >> nth=0'); } },
+  { n: 'defi-resultat', aller: async (p) => {
+      await passer(p); await p.click('.tab[data-go="train"]');
+      await p.click('[data-boss] >> nth=0');
+      await repondreFaux(p); } }
 ];
+
+/* Répond systématiquement la dernière proposition (souvent fausse)
+   jusqu'à l'écran de résultat : sert à peupler « À revoir » et les
+   jauges de fin d'épreuve avec de vraies erreurs. */
+async function repondreFaux(p, max) {
+  for (let i = 0; i < (max || 90); i++) {
+    if ((await p.locator('.score').count())) return;
+    const n = await p.locator('.ans').count();
+    if (n) {
+      await p.click(`.ans >> nth=${n - 1}`, { timeout: 3000 }).catch(() => {});
+      await p.waitForTimeout(30);
+    }
+    await p.click('#go', { timeout: 3000 }).catch(() => {});
+    await p.waitForTimeout(70);
+  }
+}
 
 async function passer(p) {
   await p.click('[data-next]');

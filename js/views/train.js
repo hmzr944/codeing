@@ -82,7 +82,7 @@ window.Train = (function () {
       UI.topbar('Parcours', 'Jusqu’à trois étoiles par thème, seize à décrocher', false) +
       '<div class="stack g20">' +
 
-        '<section class="card stack g12">' +
+        '<section class="card stack g12 rise">' +
           '<div class="row between">' +
             '<div class="sec-t">Collection</div>' +
             '<div class="tiny dim num">' + done + ' / ' + total + '</div>' +
@@ -96,7 +96,7 @@ window.Train = (function () {
           '<div class="tiny dim">' + UI.esc(nextGoal) + '</div>' +
         '</section>' +
 
-        '<section class="card quiet stack g10">' +
+        '<section class="card quiet stack g10 rise" style="animation-delay:60ms">' +
           '<div class="sec-t">Longueur des séries</div>' +
           '<div class="seg" id="len">' +
             [10, 15, 20, 30].map(function (n) {
@@ -105,7 +105,7 @@ window.Train = (function () {
           '</div>' +
         '</section>' +
 
-        '<button class="btn primary block" data-all>Mélange de tous les thèmes</button>' +
+        '<button class="btn primary block rise" style="animation-delay:110ms" data-all>Mélange de tous les thèmes</button>' +
 
         '<div class="stack g10">' + rows + '</div>' +
 
