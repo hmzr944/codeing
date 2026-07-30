@@ -3,7 +3,8 @@
 
    SYSTÈME DE DESIGN (verrouillé, à ne pas contourner localement)
 
-   Couleur    un seul accent : le jaune signalétique (--accent).
+   Couleur    un seul accent : un vert sarcelle, cohérent avec le nom
+              de l'application (--accent).
               --ok / --ko sont SÉMANTIQUES : ils ne signifient jamais
               autre chose que "bonne réponse" / "mauvaise réponse".
               Aucune autre teinte décorative dans l'interface.
@@ -26,11 +27,14 @@
   color-scheme: dark;
 
   /* --- accent unique --- */
-  --accent:#f5c400;
-  --accent-ink:#241b00;          /* texte posé SUR l'accent, contraste 11:1 */
-  --accent-txt:#f5c400;          /* accent employé COMME couleur de texte */
-  --accent-soft:rgba(245,196,0,.13);
-  --accent-line:rgba(245,196,0,.32);
+  /* Vert « Feu Vert » plutôt que le jaune d'origine : nettement décalé
+     en teinte (sarcelle, ~172°) par rapport au vert sémantique --ok
+     (~150°, vif) pour ne jamais se confondre avec « bonne réponse ». */
+  --accent:#0f6358;
+  --accent-ink:#ffffff;          /* texte posé SUR l'accent */
+  --accent-txt:#3ecbb8;          /* plus clair que --accent : lisible comme texte sur fond très sombre */
+  --accent-soft:rgba(15,99,88,.16);
+  --accent-line:rgba(15,99,88,.38);
 
   /* --- sémantique stricte --- */
   --ok:#3ad57f;   --ok-ink:#04170c;  --ok-soft:rgba(58,213,127,.13);  --ok-line:rgba(58,213,127,.34);
@@ -61,10 +65,9 @@
   --pad:clamp(18px,4.8vw,24px);
   --maxw:600px;
 
-  /* Lexend : conçue pour la lisibilité (proportions ouvertes, espacement
-     généreux), plus adaptée à une révision d'examen que Montserrat.
-     Intégrée en base64 dans css/font.css, donc jamais absente. */
-  --font:'Lexend',ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  /* Inter : neutre et lisible à toutes les tailles, chiffres tabulaires
+     natifs. Intégrée en base64 dans css/font.css, donc jamais absente. */
+  --font:'Inter',ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --ease:cubic-bezier(.2,.8,.25,1);
   /* Courbe de tiroir façon iOS (Ionic), amortissement critique sans
      rebond : réservée aux surfaces qui « arrivent » comme un matériau
@@ -93,18 +96,15 @@ html[data-theme="jour"]{
   --txt:#12161d;
   --txt-2:#4e5a6b;
   --txt-3:#596576;
-  /* Contrastes vérifiés sur fond clair (WCAG AA, texte normal) :
-     encre foncée sur jaune 6,4:1 - blanc sur vert 5,4:1 - blanc sur rouge 5,8:1.
-     Le blanc sur jaune, testé d'abord, tombait à 2,6:1 : illisible. */
-  --accent:#c99700;
-  --accent-ink:#241b00;
-  /* L'accent fonctionne comme couleur de texte la nuit (8,4:1 au pire)
-     et jamais le jour : #c99700 y plafonne à 2,7:1 sur blanc. D'où un
-     or nettement assombri pour ce seul rôle, qui garde la teinte de la
-     marque en tenant 4,9:1 partout, accent-soft compris. */
-  --accent-txt:#775900;
-  --accent-soft:rgba(201,151,0,.12);
-  --accent-line:rgba(201,151,0,.3);
+  /* Contrastes mesurés par tools/contraste.mjs sur fond clair. */
+  --accent:#0f6358;
+  --accent-ink:#ffffff;
+  /* Contrairement au jaune d'origine, ce vert reste assez sombre pour
+     servir aussi de couleur de texte sans variante distincte, dans le
+     même sens que le fond de bouton. */
+  --accent-txt:#0f6358;
+  --accent-soft:rgba(15,99,88,.12);
+  --accent-line:rgba(15,99,88,.3);
   --ok:#0b7a45;   --ok-ink:#ffffff;  --ok-soft:rgba(11,122,69,.11);  --ok-line:rgba(11,122,69,.3);
   --ko:#c41f38;   --ko-ink:#ffffff;  --ko-soft:rgba(196,31,56,.10);  --ko-line:rgba(196,31,56,.3);
   --shadow:0 14px 34px -24px rgba(18,22,29,.5);
@@ -144,10 +144,12 @@ a{color:var(--txt);text-underline-offset:3px}
    texte est grand, plus les blancs entre lettres paraissent excessifs.
    Un -.025em unique sur les trois tailles serrait h3 pour rien et
    desserrait h1 pas assez. */
-h1,h2,h3{margin:0;line-height:1.12;font-weight:800}
-h1{font-size:clamp(25px,6.6vw,32px);letter-spacing:-.03em}
-h2{font-size:clamp(18px,4.8vw,21px);letter-spacing:-.02em}
-h3{font-size:15px;font-weight:750;letter-spacing:-.015em}
+/* Le gras est réservé aux titres qui le méritent : h1 seul reste
+   franchement gras, h2/h3 ne font que structurer sans crier. */
+h1,h2,h3{margin:0;line-height:1.12}
+h1{font-size:clamp(25px,6.6vw,32px);letter-spacing:-.03em;font-weight:700}
+h2{font-size:clamp(18px,4.8vw,21px);letter-spacing:-.02em;font-weight:600}
+h3{font-size:15px;font-weight:600;letter-spacing:-.015em}
 p{margin:0}
 
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
@@ -194,16 +196,16 @@ p{margin:0}
   transition:background .15s var(--ease);
 }
 .back:active{background:var(--surface-3)}
-.topbar .ttl{font-size:15px;font-weight:750;letter-spacing:-.015em}
+.topbar .ttl{font-size:15px;font-weight:700;letter-spacing:-.015em}
 .topbar .sub{font-size:12px;color:var(--txt-3);margin-top:1px}
 
 .brand{display:flex;align-items:center;gap:11px}
 .brand-mark{
   width:40px;height:40px;flex:0 0 40px;border-radius:13px;
   background:var(--accent);color:var(--accent-ink);
-  display:grid;place-items:center;font-weight:850;font-size:17px;letter-spacing:-.04em;
+  display:grid;place-items:center;font-weight:700;font-size:17px;letter-spacing:-.04em;
 }
-.brand-name{font-size:16px;font-weight:800;letter-spacing:-.03em}
+.brand-name{font-size:16px;font-weight:700;letter-spacing:-.03em}
 .brand-sub{font-size:11.5px;color:var(--txt-3)}
 
 /* ---------- surfaces ---------- */
@@ -217,7 +219,7 @@ p{margin:0}
 .card.accent{background:var(--accent-soft);border-color:var(--accent-line)}
 
 .sec-t{
-  font-size:11px;font-weight:750;letter-spacing:.11em;text-transform:uppercase;
+  font-size:11px;font-weight:500;letter-spacing:.11em;text-transform:uppercase;
   color:var(--txt-3);
 }
 
@@ -225,7 +227,7 @@ p{margin:0}
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
   padding:15px 20px;border-radius:var(--r-ctl);
-  font-weight:750;font-size:15.5px;letter-spacing:-.015em;
+  font-weight:500;font-size:15.5px;letter-spacing:-.015em;
   background:var(--surface-2);border:1px solid var(--line);color:var(--txt);
   /* le libellé doit pouvoir passer à la ligne : à 320 px, « Ajouter le
      rappel à mon calendrier » débordait de son conteneur */
@@ -249,7 +251,7 @@ p{margin:0}
   display:inline-flex;align-items:center;gap:6px;
   padding:6px 11px;border-radius:var(--r-pill);
   background:var(--surface-2);border:1px solid var(--line);
-  font-size:12.5px;font-weight:650;color:var(--txt-2);
+  font-size:12.5px;font-weight:500;color:var(--txt-2);
 }
 .pill.on{background:var(--accent);border-color:transparent;color:var(--accent-ink)}
 .pill.ok{background:var(--ok-soft);border-color:var(--ok-line);color:var(--ok)}
@@ -287,8 +289,8 @@ p{margin:0}
   background:repeating-linear-gradient(90deg,var(--accent) 0 20px,transparent 20px 36px);
   opacity:.45;
 }
-.hero-greet{font-size:13px;color:var(--txt-2);font-weight:600}
-.hero-h{font-size:clamp(22px,5.8vw,28px);font-weight:850;letter-spacing:-.035em;margin-top:3px}
+.hero-greet{font-size:13px;color:var(--txt-2);font-weight:400}
+.hero-h{font-size:clamp(22px,5.8vw,28px);font-weight:600;letter-spacing:-.035em;margin-top:3px}
 
 .streak{
   display:flex;align-items:center;gap:9px;
@@ -296,11 +298,11 @@ p{margin:0}
   background:var(--accent-soft);border:1px solid var(--accent-line);
 }
 .streak > svg.ico{color:var(--accent-txt)}
-.streak .n{font-size:20px;font-weight:850;letter-spacing:-.04em;line-height:1}
+.streak .n{font-size:20px;font-weight:500;letter-spacing:-.04em;line-height:1}
 
 .week{display:flex;gap:6px}
 .week .d{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;
-  font-size:10px;color:var(--txt-3);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+  font-size:10px;color:var(--txt-3);font-weight:500;text-transform:uppercase;letter-spacing:.04em}
 .week .dot{
   width:100%;aspect-ratio:1;max-width:32px;border-radius:10px;
   background:var(--surface-3);display:grid;place-items:center;font-size:12px;
@@ -321,7 +323,7 @@ p{margin:0}
 }
 .ring > span{
   width:44px;height:44px;border-radius:50%;background:var(--surface);
-  display:grid;place-items:center;font-size:13px;font-weight:800;
+  display:grid;place-items:center;font-size:13px;font-weight:500;
 }
 .card.accent .ring > span{background:var(--bg)}
 
@@ -336,7 +338,7 @@ p{margin:0}
 }
 .tile:active{transform:scale(.975)}
 .tile .ico{display:flex;color:var(--txt-2)}
-.tile .n{font-weight:800;font-size:14.5px;letter-spacing:-.02em}
+.tile .n{font-weight:500;font-size:14.5px;letter-spacing:-.02em}
 .tile .s{font-size:11.5px;color:var(--txt-3);line-height:1.35}
 .tile.wide{grid-column:1/-1;min-height:0;flex-direction:row;align-items:center;gap:13px}
 .tile.wide .grow{display:flex;flex-direction:column;gap:2px}
@@ -345,7 +347,7 @@ p{margin:0}
 .count{
   position:absolute;top:11px;right:11px;
   min-width:21px;height:21px;padding:0 6px;border-radius:var(--r-pill);
-  background:var(--accent);color:var(--accent-ink);font-size:11.5px;font-weight:800;
+  background:var(--accent);color:var(--accent-ink);font-size:11.5px;font-weight:500;
   display:grid;place-items:center;
 }
 
@@ -361,7 +363,7 @@ p{margin:0}
   display:inline-flex;align-items:center;gap:5px;
   padding:5px 11px;border-radius:var(--r-pill);
   background:var(--surface-2);border:1px solid var(--line);
-  font-weight:800;font-size:13.5px;
+  font-weight:500;font-size:13.5px;
 }
 /* Le chrono en alerte doit rester LISIBLE : c'est un nombre qu'on lit
    sous pression. L'accent portait ce texte à 2,5:1 en thème jour. */
@@ -388,8 +390,8 @@ p{margin:0}
   background:var(--surface-2);border-left:3px solid var(--accent);
   font-size:14px;color:var(--txt-2);line-height:1.55;
 }
-.q-txt{font-size:clamp(17.5px,4.6vw,20px);font-weight:750;letter-spacing:-.025em;line-height:1.32}
-.q-multi{font-size:11px;font-weight:750;color:var(--accent-txt);text-transform:uppercase;letter-spacing:.08em}
+.q-txt{font-size:clamp(17.5px,4.6vw,20px);font-weight:600;letter-spacing:-.025em;line-height:1.32}
+.q-multi{font-size:11px;font-weight:500;color:var(--accent-txt);text-transform:uppercase;letter-spacing:.08em}
 
 .answers{display:flex;flex-direction:column;gap:9px}
 .ans{
@@ -403,7 +405,7 @@ p{margin:0}
 .ans .k{
   width:25px;height:25px;flex:0 0 25px;border-radius:8px;margin-top:1px;
   background:var(--surface-3);display:grid;place-items:center;
-  font-size:12px;font-weight:800;color:var(--txt-2);
+  font-size:12px;font-weight:500;color:var(--txt-2);
 }
 .ans.sel{border-color:var(--accent);background:var(--accent-soft)}
 .ans.sel .k{background:var(--accent);color:var(--accent-ink)}
@@ -418,7 +420,7 @@ p{margin:0}
 .fb{border-radius:var(--r-card);padding:16px;border:1px solid}
 .fb.ok{background:var(--ok-soft);border-color:var(--ok-line)}
 .fb.ko{background:var(--ko-soft);border-color:var(--ko-line)}
-.fb-h{display:flex;align-items:center;gap:8px;font-weight:850;font-size:15.5px;letter-spacing:-.02em}
+.fb-h{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15.5px;letter-spacing:-.02em}
 .fb.ok .fb-h > svg.ico{color:var(--ok)}
 .fb.ko .fb-h > svg.ico{color:var(--ko)}
 .fb-b{font-size:14.5px;line-height:1.58;color:var(--txt)}
@@ -452,7 +454,7 @@ p{margin:0}
   display:inline-flex;align-items:center;
   padding:4px 9px;border-radius:var(--r-pill);
   background:var(--accent);color:var(--accent-ink);
-  font-size:12.5px;font-weight:850;letter-spacing:-.02em;
+  font-size:12.5px;font-weight:500;letter-spacing:-.02em;
   animation:pop .3s var(--ease);
 }
 @keyframes pop{from{transform:scale(.6);opacity:0}}
@@ -478,11 +480,11 @@ p{margin:0}
 .medal-box.on{border-color:var(--accent-line);background:var(--accent-soft)}
 .medal-box .s{display:flex;justify-content:center;color:var(--txt-3);opacity:.5;min-height:17px}
 .medal-box.on .s{color:var(--accent-txt);opacity:1}
-.medal-box .n{font-size:17px;font-weight:850;letter-spacing:-.03em;margin-top:4px}
+.medal-box .n{font-size:17px;font-weight:500;letter-spacing:-.03em;margin-top:4px}
 /* Pas de coupure en plein mot : « Décou/vert » se lisait comme un
    défaut. Les libellés ont été raccourcis pour tenir dans la boîte à
    320 px, ce qui vaut mieux qu'un texte rapetissé ou tronçonné. */
-.medal-box .l{font-size:11px;font-weight:750;color:var(--txt-2);margin-top:1px}
+.medal-box .l{font-size:11px;font-weight:500;color:var(--txt-2);margin-top:1px}
 .medal-box .r{font-size:10.5px;color:var(--txt-3);margin-top:2px;line-height:1.25}
 
 .theme{
@@ -491,7 +493,7 @@ p{margin:0}
 }
 .theme.cleared{border-color:var(--accent-line)}
 .theme-ico{display:flex;color:var(--txt-2);margin-top:1px}
-.theme-n{font-weight:750;font-size:14.5px;letter-spacing:-.015em}
+.theme-n{font-weight:400;font-size:14.5px;letter-spacing:-.015em}
 .theme-medal{font-size:16px;line-height:1;display:inline-flex;gap:4px;align-items:center;flex:0 0 auto}
 .etoiles{display:inline-flex;gap:2px;align-items:center}
 .etoiles .et{display:flex;color:var(--accent-txt)}
@@ -521,12 +523,12 @@ p{margin:0}
   width:132px;height:132px;border-radius:50%;background:var(--bg);
   display:grid;place-items:center;text-align:center;padding:0 14px;
 }
-.score-n{font-size:40px;font-weight:850;letter-spacing:-.05em;line-height:1}
-.score-l{font-size:11.5px;color:var(--txt-3);font-weight:700;line-height:1.25;margin-top:5px}
+.score-n{font-size:40px;font-weight:700;letter-spacing:-.05em;line-height:1}
+.score-l{font-size:11.5px;color:var(--txt-3);font-weight:500;line-height:1.25;margin-top:5px}
 
 .bar{display:flex;align-items:center;gap:10px}
 .bar .l{font-size:12.5px;flex:0 0 43%;color:var(--txt-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.bar .v{font-size:12.5px;font-weight:750;flex:0 0 44px;text-align:right}
+.bar .v{font-size:12.5px;font-weight:500;flex:0 0 44px;text-align:right}
 
 .recap{
   padding:13px 14px;border-radius:var(--r-ctl);
@@ -534,7 +536,7 @@ p{margin:0}
   border-left:3px solid var(--ko);
 }
 .recap.ok{border-left-color:var(--ok)}
-.recap .q{font-size:13.5px;font-weight:700;line-height:1.35}
+.recap .q{font-size:13.5px;font-weight:400;line-height:1.35}
 .recap .a{font-size:12.5px;color:var(--txt-2);margin-top:5px;line-height:1.5}
 
 /* ============================================================
@@ -563,7 +565,7 @@ p{margin:0}
   display:grid;place-items:center;
 }
 .lc-txt{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
-.lc-n{font-size:14.5px;font-weight:750;letter-spacing:-.015em;line-height:1.25}
+.lc-n{font-size:14.5px;font-weight:500;letter-spacing:-.015em;line-height:1.25}
 .lc-r{font-size:12.5px;color:var(--txt-3);line-height:1.42}
 .lc-e{flex:0 0 auto;color:var(--txt-3);margin-top:11px}
 /* Une leçon lue se signale par sa coche, pas par du vert : ici le
@@ -579,7 +581,7 @@ p{margin:0}
   width:40px;height:40px;flex:0 0 40px;border-radius:13px;
   background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;
 }
-.assist-t{display:block;font-size:14.5px;font-weight:750;letter-spacing:-.015em}
+.assist-t{display:block;font-size:14.5px;font-weight:500;letter-spacing:-.015em}
 .assist-s{display:block;font-size:12.5px;color:var(--txt-3);margin-top:2px;line-height:1.4}
 
 /* ---------- lecteur ---------- */
@@ -601,7 +603,7 @@ p{margin:0}
   padding:15px 16px;border-radius:var(--r-card);
   background:var(--accent-soft);border:1px solid var(--accent-line);
 }
-.bl-retenir p{font-size:15px;font-weight:700;line-height:1.5;letter-spacing:-.01em;text-wrap:pretty}
+.bl-retenir p{font-size:15px;font-weight:600;line-height:1.5;letter-spacing:-.01em;text-wrap:pretty}
 /* Sur un fond déjà teinté d'accent, une icône en accent disparaît :
    elle prend l'encre du texte, lisible dans les deux thèmes. */
 .bl-retenir .bl-ico{color:var(--txt);margin-top:2px}
@@ -614,16 +616,16 @@ p{margin:0}
 }
 .bl-piege .bl-ico{color:var(--ko);margin-top:2px}
 .bl-piege .bl-et{
-  font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  font-size:10.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
   color:var(--ko);margin-bottom:3px;
 }
 .bl-piege p{font-size:14px;line-height:1.55;color:var(--txt);text-wrap:pretty}
 
 /* titres et paragraphes */
 .bl-sec{display:flex;flex-direction:column;gap:9px}
-.bl-t{font-size:12px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--txt-3)}
+.bl-t{font-size:12px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--txt-3)}
 .bl-txt{font-size:14.5px;line-height:1.62;color:var(--txt-2);text-wrap:pretty}
-.bl-txt b{color:var(--txt);font-weight:700}
+.bl-txt b{color:var(--txt);font-weight:500}
 
 /* les points à retenir : une puce discrète, une ligne par idée */
 .liste{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
@@ -635,7 +637,7 @@ p{margin:0}
   content:"";position:absolute;left:2px;top:9px;
   width:6px;height:6px;border-radius:50%;background:var(--accent);
 }
-.liste li b{color:var(--txt);font-weight:750}
+.liste li b{color:var(--txt);font-weight:500}
 
 /* les chiffres : valeurs alignées à droite, comparables d'un coup d'œil */
 .tbl{
@@ -649,10 +651,11 @@ p{margin:0}
 .tbl-l:last-child{border-bottom:0}
 .tbl-c{font-size:13.5px;color:var(--txt-2);align-self:center}
 /* La valeur est ce qu'on vient chercher : elle est posée sur
-   l'accent, pas écrite en accent. Du jaune sur fond clair tombe à
-   2,7:1, illisible ; l'encre foncée sur l'accent tient 6,4:1. */
+   l'accent (fond + encre), plutôt qu'écrite directement en couleur
+   d'accent sur la page — le rendu est plus lisible et fonctionne
+   quelle que soit la teinte choisie pour l'accent. */
 .tbl-v{
-  font-size:14.5px;font-weight:800;letter-spacing:-.02em;align-self:center;
+  font-size:14.5px;font-weight:600;letter-spacing:-.02em;align-self:center;
   padding:3px 9px;border-radius:var(--r-pill);
   background:var(--accent);color:var(--accent-ink);
 }
@@ -692,10 +695,10 @@ p{margin:0}
   align-self:flex-start;border-bottom-left-radius:6px;
   background:var(--surface);border:1px solid var(--line-soft);color:var(--txt-2);
 }
-.msg.bot b{color:var(--txt);font-weight:750}
+.msg.bot b{color:var(--txt);font-weight:500}
 .msg.moi{
   align-self:flex-end;border-bottom-right-radius:6px;
-  background:var(--accent);color:var(--accent-ink);font-weight:650;
+  background:var(--accent);color:var(--accent-ink);font-weight:400;
 }
 .chat-note{font-size:12px;color:var(--txt-3)}
 
@@ -710,13 +713,13 @@ p{margin:0}
   padding:11px 13px;border-radius:var(--r-ctl);
   background:var(--surface-2);border-left:3px solid var(--accent);
 }
-.chat-q-q{font-size:13px;font-weight:750;color:var(--txt);line-height:1.4}
-.chat-q-a{font-size:13px;color:var(--ok);font-weight:700;margin-top:5px}
+.chat-q-q{font-size:13px;font-weight:500;color:var(--txt);line-height:1.4}
+.chat-q-a{font-size:13px;color:var(--ok);font-weight:500;margin-top:5px}
 .chat-q-e{font-size:12.5px;color:var(--txt-3);margin-top:5px;line-height:1.5}
 
 .chat-lien{
   display:flex;align-items:flex-start;gap:7px;padding:9px 0;margin-top:2px;
-  font-size:13px;font-weight:700;color:var(--txt);
+  font-size:13px;font-weight:500;color:var(--txt);
   text-decoration:underline;text-underline-offset:3px;text-align:left;
 }
 .chat-lien svg.ico{margin-top:2px}
@@ -734,7 +737,7 @@ p{margin:0}
    explication qu'on ne peut pas recouper ne vaut rien pour un examen. */
 .src{margin-top:10px;border-top:1px solid var(--line-soft);padding-top:8px}
 .src > summary{
-  list-style:none;cursor:pointer;font-size:12px;font-weight:700;
+  list-style:none;cursor:pointer;font-size:12px;font-weight:400;
   color:var(--txt-3);min-height:30px;display:flex;align-items:center;
 }
 .src > summary::-webkit-details-marker{display:none}
@@ -780,7 +783,7 @@ p{margin:0}
   animation:materialise .32s var(--ease-drawer);
 }
 .feuille-tete{padding:14px 0 10px;flex:0 0 auto}
-.feuille-tete .ttl{font-size:15px;font-weight:750;letter-spacing:-.015em}
+.feuille-tete .ttl{font-size:15px;font-weight:700;letter-spacing:-.015em}
 .feuille-tete .sub{font-size:12px;color:var(--txt-3);margin-top:1px}
 /* Seul le fil défile : la saisie et l'en-tête restent en place. */
 .feuille .chat{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain}
@@ -864,7 +867,7 @@ p{margin:0}
 /* Lien de secours dans la correction : présent, jamais tapageur */
 .fb-aide{
   display:inline-flex;align-items:center;min-height:40px;
-  font-size:13.5px;font-weight:700;color:var(--txt-2);
+  font-size:13.5px;font-weight:500;color:var(--txt-2);
   text-decoration:underline;text-underline-offset:3px;
 }
 .fb-aide:active{color:var(--txt)}
@@ -881,8 +884,8 @@ p{margin:0}
 .kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
 .kpi > div{padding:13px 8px;border-radius:var(--r-ctl);text-align:center;
   background:var(--surface);border:1px solid var(--line-soft)}
-.kpi .n{font-size:21px;font-weight:850;letter-spacing:-.035em;line-height:1.1}
-.kpi .l{font-size:10.5px;color:var(--txt-3);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-top:4px}
+.kpi .n{font-size:21px;font-weight:500;letter-spacing:-.035em;line-height:1.1}
+.kpi .l{font-size:10.5px;color:var(--txt-3);font-weight:500;text-transform:uppercase;letter-spacing:.04em;margin-top:4px}
 
 .spark{display:flex;align-items:flex-end;gap:4px;height:76px}
 .spark i{flex:1;border-radius:3px;min-height:3px;background:var(--accent);opacity:.85}
@@ -892,7 +895,7 @@ p{margin:0}
 .level .lv{
   width:46px;height:46px;flex:0 0 46px;border-radius:var(--r-ctl);
   background:var(--accent);color:var(--accent-ink);
-  display:grid;place-items:center;font-size:18px;font-weight:850;
+  display:grid;place-items:center;font-size:18px;font-weight:500;
 }
 
 .badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
@@ -908,7 +911,7 @@ p{margin:0}
   background:var(--surface-2);border:1px solid transparent;
 }
 .bdg .e{display:flex;justify-content:center;color:var(--txt-3);opacity:.45}
-.bdg .n{font-size:11px;font-weight:750;margin-top:6px;line-height:1.25;color:var(--txt-3);
+.bdg .n{font-size:11px;font-weight:500;margin-top:6px;line-height:1.25;color:var(--txt-3);
   overflow-wrap:anywhere;hyphens:auto}
 /* 9,5 px et délavé : illisible au pouce. La taille remonte au plancher
    de l'interface et l'atténuation disparaît. */
@@ -921,7 +924,7 @@ p{margin:0}
    FORMULAIRES
    ============================================================ */
 .field{display:flex;flex-direction:column;gap:6px}
-.field > label{font-size:12.5px;font-weight:700;color:var(--txt-2)}
+.field > label{font-size:12.5px;font-weight:400;color:var(--txt-2)}
 .field .help{font-size:11.5px;color:var(--txt-3);line-height:1.4}
 .field input,.field select{
   width:100%;padding:13px 14px;border-radius:var(--r-ctl);
@@ -943,7 +946,7 @@ p{margin:0}
   padding:14px 15px;border-radius:var(--r-card);
   background:var(--surface);border:1px solid var(--line-soft);width:100%;text-align:left;
 }
-.switch .t{font-size:14.5px;font-weight:650}
+.switch .t{font-size:14.5px;font-weight:400}
 .switch .s{font-size:11.5px;color:var(--txt-3);margin-top:2px;line-height:1.4}
 .knob{
   width:48px;height:29px;flex:0 0 48px;border-radius:var(--r-pill);
@@ -957,7 +960,7 @@ p{margin:0}
 .knob.on::after{transform:translateX(19px);background:var(--accent-ink)}
 
 .seg{display:flex;gap:5px;padding:4px;border-radius:var(--r-ctl);background:var(--surface-2);border:1px solid var(--line)}
-.seg button{flex:1;padding:9px 6px;border-radius:10px;font-size:13px;font-weight:700;color:var(--txt-3)}
+.seg button{flex:1;padding:9px 6px;border-radius:10px;font-size:13px;font-weight:500;color:var(--txt-3)}
 .seg button.on{background:var(--surface);color:var(--txt)}
 
 /* ============================================================
@@ -978,7 +981,7 @@ p{margin:0}
 .tabbar[hidden]{display:none}
 .tab{
   flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;
-  padding:10px 2px 8px;color:var(--txt-3);font-size:11px;font-weight:700;letter-spacing:-.01em;
+  padding:10px 2px 8px;color:var(--txt-3);font-size:11px;font-weight:500;letter-spacing:-.01em;
 }
 .tab-label{display:block}
 .tab::before{
@@ -1021,7 +1024,7 @@ body.no-tabbar .chat-fab{display:none}
   display:flex;align-items:center;gap:11px;
   padding:12px 15px;border-radius:var(--r-ctl);
   background:var(--surface-2);border:1px solid var(--line);
-  box-shadow:var(--shadow);font-size:14px;font-weight:650;
+  box-shadow:var(--shadow);font-size:14px;font-weight:400;
   animation:toastIn .3s var(--ease);
 }
 .toast .e{display:flex;flex:0 0 auto}
@@ -1038,7 +1041,7 @@ body.no-tabbar .chat-fab{display:none}
 /* ---------- états ---------- */
 .empty{padding:34px 18px;text-align:center;color:var(--txt-3);font-size:14px;line-height:1.55}
 .empty .e{display:flex;justify-content:center;margin-bottom:10px;opacity:.55}
-.empty .t{color:var(--txt-2);font-weight:700;font-size:15px;margin-bottom:5px}
+.empty .t{color:var(--txt-2);font-weight:500;font-size:15px;margin-bottom:5px}
 
 .skel{
   border-radius:var(--r-card);background:var(--surface-2);

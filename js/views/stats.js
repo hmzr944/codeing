@@ -63,7 +63,7 @@ window.Stats = (function () {
           '<div class="lv num">' + lvl.n + '</div>' +
           '<div class="grow stack g8">' +
             '<div class="row between">' +
-              '<div style="font-weight:800;font-size:15px;letter-spacing:-.02em">' + UI.esc(lvl.name) + '</div>' +
+              '<div style="font-weight:500;font-size:15px;letter-spacing:-.02em">' + UI.esc(lvl.name) + '</div>' +
               '<div class="tiny dim num">' + S.xp + ' XP</div></div>' +
             '<div class="gauge thin"><i style="--pct:' + (lvl.pct / 100) + '"></i></div>' +
             '<div class="tiny dim">' + (lvl.max ? 'Niveau maximum atteint'

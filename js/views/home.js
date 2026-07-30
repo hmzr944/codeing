@@ -61,7 +61,7 @@ window.Home = (function () {
       countdown =
         '<div class="card accent row between">' +
           '<div class="stack g4"><div class="sec-t">Jour J</div>' +
-          '<div style="font-weight:800;font-size:16px;letter-spacing:-.02em">' +
+          '<div style="font-weight:500;font-size:16px;letter-spacing:-.02em">' +
             (toExam === 0 ? 'C’est aujourd’hui' : UI.plural(toExam, 'jour') + ' avant l’examen') + '</div></div>' +
           (toExam > 0 ? '<div class="tiny dim" style="text-align:right;max-width:44%">Rythme conseillé<br><b class="num" style="color:var(--txt)">' +
             Math.min(perDay, 60) + ' questions par jour</b></div>' : '') +
@@ -79,7 +79,7 @@ window.Home = (function () {
           '<div class="tiny dim num">' + j.etape.cur + ' / ' + j.etape.goal + '</div>' +
         '</div>' +
         '<div class="stack g4">' +
-          '<div style="font-weight:800;font-size:16px;letter-spacing:-.02em">' +
+          '<div style="font-weight:500;font-size:16px;letter-spacing:-.02em">' +
             UI.esc(j.fini ? 'Prête pour le jour J' : j.etape.n) + '</div>' +
           '<div class="small muted">' + UI.esc(j.fini
             ? 'Tous les thèmes sont étoilés. Continue à entretenir, et passe l’examen sereinement.'
@@ -102,7 +102,7 @@ window.Home = (function () {
           '<div class="row g12">' +
             '<span class="chest-ico">' + Icons.svg('coffre', 25) + '</span>' +
             '<span class="stack g4" style="text-align:left">' +
-              '<span style="font-weight:800;font-size:15.5px;letter-spacing:-.02em">Coffre du jour</span>' +
+              '<span style="font-weight:500;font-size:15.5px;letter-spacing:-.02em">Coffre du jour</span>' +
               '<span class="tiny dim">Objectif atteint, il est à toi</span>' +
             '</span>' +
           '</div>' +
@@ -135,7 +135,7 @@ window.Home = (function () {
       weakBlock =
         '<div class="card stack g12">' +
           '<div class="row between"><div class="sec-t">À consolider</div>' +
-          '<button class="tiny dim" data-go="train" style="font-weight:700">Tout voir ›</button></div>' +
+          '<button class="tiny dim" data-go="train" style="font-weight:500">Tout voir ›</button></div>' +
           weak.map(function (w) {
             var p = Math.round(w.acc * 100);
             return '<button class="bar" data-theme="' + w.k + '" style="width:100%">' +
@@ -181,7 +181,7 @@ window.Home = (function () {
           '<div class="mission">' +
             '<div class="ring" style="--p:' + pct + '"><span class="num">' + pct + '%</span></div>' +
             '<div class="grow stack g4">' +
-              '<div style="font-weight:800;font-size:16px;letter-spacing:-.02em">' +
+              '<div style="font-weight:500;font-size:16px;letter-spacing:-.02em">' +
                 (missionDone ? 'Objectif atteint' : 'Défi du jour') + '</div>' +
               '<div class="small muted">' + doneToday + ' question' + (doneToday > 1 ? 's' : '') +
               ' sur ' + goal + (dueN ? ' · ' + dueN + ' à réviser' : '') + '</div>' +

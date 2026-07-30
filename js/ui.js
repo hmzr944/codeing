@@ -68,7 +68,7 @@ window.UI = (function () {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var wrap = document.createElement('div');
     wrap.className = 'confetti';
-    var colors = ['#f5c400', '#3ad57f', '#ffffff', '#ff6076'];
+    var colors = ['#3ac4b3', '#3ad57f', '#ffffff', '#ff6076'];
     for (var i = 0; i < 42; i++) {
       var p = document.createElement('i');
       p.style.left = (Math.random() * 100) + '%';

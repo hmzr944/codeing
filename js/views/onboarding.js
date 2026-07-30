@@ -59,7 +59,7 @@ window.Onboarding = (function () {
 
   function point(ico, t, s) {
     return '<div class="row top g12"><span class="pt-ico">' + Icons.svg(ico, 19) + '</span>' +
-      '<div class="grow"><div style="font-weight:700;font-size:14px">' + t + '</div>' +
+      '<div class="grow"><div style="font-weight:500;font-size:14px">' + t + '</div>' +
       '<div class="tiny dim" style="margin-top:2px">' + s + '</div></div></div>';
   }
 
@@ -122,9 +122,9 @@ window.Onboarding = (function () {
   function choice(n, t, s) {
     return '<button class="card ' + (draft.goal === n ? 'accent' : '') + ' row between" data-g="' + n + '" ' +
       'style="width:100%;text-align:left">' +
-      '<span class="stack g4"><span style="font-weight:750;font-size:15px">' + t + '</span>' +
+      '<span class="stack g4"><span style="font-weight:500;font-size:15px">' + t + '</span>' +
       '<span class="tiny dim">' + s + '</span></span>' +
-      '<span class="num" style="font-weight:850;font-size:19px">' + n + '</span></button>';
+      '<span class="num" style="font-weight:500;font-size:19px">' + n + '</span></button>';
   }
 
   function finish() {

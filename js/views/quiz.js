@@ -523,7 +523,7 @@ window.Results = (function () {
   function comboCard(c) {
     return '<div class="card accent row between">' +
       '<div class="stack g4"><div class="sec-t">Meilleure série</div>' +
-      '<div style="font-weight:800;font-size:16px;letter-spacing:-.02em">' +
+      '<div style="font-weight:500;font-size:16px;letter-spacing:-.02em">' +
       c + ' bonnes réponses d’affilée</div></div>' +
       '<div class="combo num" style="font-size:15px">×' + (c >= 6 ? 3 : 2) + '</div></div>';
   }

@@ -316,11 +316,10 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--line);
 
   <section>
     <h2>Typographie</h2>
-    <p>Lexend Variable, sous licence SIL, intégrée en base64 dans la page.
-    Dessinée pour la lisibilité : proportions ouvertes, espacement généreux,
-    pensée pour réduire la fatigue de lecture. Elle est embarquée et non chargée
-    à distance, pour que l’absence de réseau ne fasse jamais basculer la mise en
-    page sur une police de repli.</p>
+    <p>Inter Variable, sous licence SIL, intégrée en base64 dans la page.
+    Neutre et lisible à toutes les tailles, avec des chiffres tabulaires natifs.
+    Elle est embarquée et non chargée à distance, pour que l’absence de réseau
+    ne fasse jamais basculer la mise en page sur une police de repli.</p>
     <div class="tbl-wrap"><table>
       <thead><tr><th>Rôle</th><th>Taille</th><th class="n">Graisse</th><th>Emploi</th></tr></thead>
       <tbody>${lignesType}</tbody>

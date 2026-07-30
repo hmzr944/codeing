@@ -1,18 +1,16 @@
 /* ============================================================
    Génère css/font.css : la police intégrée en base64.
 
-   Lexend est dessinée par Google avec une recherche en lisibilité
-   (Thomas Jockin / BDS) : proportions ouvertes, espacement généreux,
-   pensée pour réduire la fatigue de lecture. C'est précisément ce
-   qu'il faut pour un examen révisé sur mobile, souvent en écran de
-   nuit ou en trajet.
+   Inter : la référence des interfaces lisibles à toutes les tailles,
+   avec des chiffres tabulaires natifs (utile pour le chrono et les
+   compteurs) et un rendu neutre qui laisse le contenu parler.
 
    Elle est intégrée au CSS plutôt que chargée depuis un CDN, pour
    deux raisons : l'application doit fonctionner hors ligne, et une
    police distante qui n'arrive pas fait basculer toute la mise en
    page sur une police de repli.
 
-     npm install --no-save @fontsource-variable/lexend
+     npm install --no-save @fontsource-variable/inter
      node tools/build-font.mjs
    ============================================================ */
 import fs from 'node:fs';
@@ -20,25 +18,25 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const dossier = path.join(root, 'node_modules/@fontsource-variable/lexend/files');
-const fichier = path.join(dossier, 'lexend-latin-wght-normal.woff2');
+const dossier = path.join(root, 'node_modules/@fontsource-variable/inter/files');
+const fichier = path.join(dossier, 'inter-latin-wght-normal.woff2');
 
 if (!fs.existsSync(fichier)) {
-  console.error('Police introuvable. Lancer d’abord :\n  npm install --no-save @fontsource-variable/lexend');
+  console.error('Police introuvable. Lancer d’abord :\n  npm install --no-save @fontsource-variable/inter');
   process.exit(1);
 }
 
 const b64 = fs.readFileSync(fichier).toString('base64');
 
 const css = `/* ============================================================
-   Police - Lexend Variable (SIL Open Font License 1.1)
+   Police - Inter Variable (SIL Open Font License 1.1)
    Générée par tools/build-font.mjs. NE PAS MODIFIER À LA MAIN.
 
    Intégrée en base64 : aucune requête réseau, donc pas de bascule
    sur une police de repli si la connexion manque.
    ============================================================ */
 @font-face{
-  font-family:'Lexend';
+  font-family:'Inter';
   font-style:normal;
   font-weight:100 900;
   font-display:swap;

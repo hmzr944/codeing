@@ -15,7 +15,7 @@ window.Exam = (function () {
     var history = ex.length
       ? ex.slice(0, 12).map(function (e) {
           return '<div class="row between" style="padding:11px 0;border-bottom:1px solid var(--line-soft)">' +
-            '<div class="stack g4"><div style="font-weight:700;font-size:14px" class="num">' +
+            '<div class="stack g4"><div style="font-weight:500;font-size:14px" class="num">' +
               e.score + ' / ' + e.total + '</div>' +
             '<div class="tiny dim">' + UI.dateFR(e.d) + '</div></div>' +
             '<span class="pill ' + (e.ok ? 'ok' : 'ko') + '">' + (e.ok ? 'Validé' : 'Échoué') + '</span></div>';
@@ -28,7 +28,7 @@ window.Exam = (function () {
       readiness =
         '<div class="card ' + (ready ? 'accent' : 'quiet') + ' stack g8">' +
           '<div class="sec-t">État de préparation</div>' +
-          '<div style="font-weight:800;font-size:16px;letter-spacing:-.02em">' +
+          '<div style="font-weight:500;font-size:16px;letter-spacing:-.02em">' +
             (ready ? 'Niveau du jour J atteint' : 'Encore un peu de marge') + '</div>' +
           '<div class="small muted">Moyenne sur tes ' + last5.length + ' derniers examens blancs : ' +
             '<b class="num">' + avg + ' / 40</b>. ' +
@@ -74,7 +74,7 @@ window.Exam = (function () {
   function rule(t, s) {
     return '<div class="row top g10">' +
       '<span style="color:var(--accent);display:flex;margin-top:1px">' + Icons.svg('valide', 15) + '</span>' +
-      '<div class="grow"><div style="font-weight:700;font-size:14px">' + UI.esc(t) + '</div>' +
+      '<div class="grow"><div style="font-weight:500;font-size:14px">' + UI.esc(t) + '</div>' +
       '<div class="tiny dim" style="margin-top:2px">' + UI.esc(s) + '</div></div></div>';
   }
 
@@ -101,7 +101,7 @@ window.Sprint = (function () {
           'Idéal pour entretenir les réflexes sans y passer la soirée.</p>' +
           '<div class="row between card quiet">' +
             '<div class="stack g4"><div class="sec-t">Ton record</div>' +
-            '<div style="font-weight:800;font-size:20px" class="num">' + Store.s.sprintBest + '</div></div>' +
+            '<div style="font-weight:500;font-size:20px" class="num">' + Store.s.sprintBest + '</div></div>' +
             '<div class="tiny dim" style="text-align:right;max-width:50%">bonnes réponses<br>en une minute</div>' +
           '</div>' +
           '<button class="btn primary block" data-go>Lancer le sprint</button>' +
@@ -140,7 +140,7 @@ window.Survie = (function () {
           '3 d’affilée passent en ×2, 6 d’affilée en ×3.</p>' +
           '<div class="row between card quiet">' +
             '<div class="stack g4"><div class="sec-t">Record</div>' +
-            '<div style="font-weight:800;font-size:22px" class="num">' + best + '</div></div>' +
+            '<div style="font-weight:500;font-size:22px" class="num">' + best + '</div></div>' +
             '<div class="tiny dim" style="text-align:right;max-width:52%">bonnes réponses<br>avant la 3<sup>e</sup> erreur</div>' +
           '</div>' +
           '<button class="btn primary block" data-go>Lancer une partie</button>' +
