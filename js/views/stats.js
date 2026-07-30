@@ -40,7 +40,7 @@ window.Stats = (function () {
           return '<div class="bar">' +
             '<div class="l">' + UI.esc(r.n) + '</div>' +
             '<div class="grow"><div class="gauge thin ' + (r.p >= 80 ? 'ok' : r.p < 50 ? 'ko' : '') + '">' +
-            '<i style="--pct:' + (r.p / 100) + '"></i></div></div>' +
+            '<i data-anime="--pct" style="--pct:' + (r.p / 100) + '"></i></div></div>' +
             '<div class="v num">' + r.p + ' %</div></div>';
         }).join('')
       : UI.empty('graphique', 'Pas encore de données', 'Fais une première série pour voir tes points forts apparaître.');
@@ -65,7 +65,7 @@ window.Stats = (function () {
             '<div class="row between">' +
               '<div style="font-weight:500;font-size:15px;letter-spacing:-.02em">' + UI.esc(lvl.name) + '</div>' +
               '<div class="tiny dim num">' + S.xp + ' XP</div></div>' +
-            '<div class="gauge thin"><i style="--pct:' + (lvl.pct / 100) + '"></i></div>' +
+            '<div class="gauge thin"><i data-anime="--pct" style="--pct:' + (lvl.pct / 100) + '"></i></div>' +
             '<div class="tiny dim">' + (lvl.max ? 'Niveau maximum atteint'
               : 'Encore ' + (lvl.to - S.xp) + ' XP avant le niveau ' + (lvl.n + 1)) + '</div>' +
           '</div>' +
@@ -104,6 +104,7 @@ window.Stats = (function () {
       '</div>';
 
     UI.mount(html);
+    UI.animateGauges();
   }
 
   function memoryBars(boxes, neverSeen, total) {
@@ -114,7 +115,7 @@ window.Stats = (function () {
       return '<div class="bar">' +
         '<div class="l">' + labels[i] + '</div>' +
         '<div class="grow"><div class="gauge thin' + (i >= 5 ? ' ok' : '') + '">' +
-        '<i style="--pct:' + (p / 100) + '"></i></div></div>' +
+        '<i data-anime="--pct" style="--pct:' + (p / 100) + '"></i></div></div>' +
         '<div class="v num">' + v + '</div></div>';
     }).join('');
   }

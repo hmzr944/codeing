@@ -462,7 +462,7 @@ window.Results = (function () {
       return '<div class="bar">' +
         '<div class="l">' + UI.esc(window.themeByKey(k).n) + '</div>' +
         '<div class="grow"><div class="gauge thin ' + (p >= 80 ? 'ok' : p < 50 ? 'ko' : '') + '">' +
-        '<i style="--pct:' + (p / 100) + '"></i></div></div>' +
+        '<i data-anime="--pct" style="--pct:' + (p / 100) + '"></i></div></div>' +
         '<div class="v num">' + t.ok + '/' + t.n + '</div></div>';
     }).join('');
 
@@ -571,7 +571,7 @@ window.Results = (function () {
       '<div class="row between"><div class="sec-t">Seuil du défi</div>' +
       '<div class="tiny dim">9 / 10 requis</div></div>' +
       '<div style="position:relative">' +
-        '<div class="gauge ' + (score >= 9 ? 'ok' : 'ko') + '"><i style="--pct:' + ((score * 10) / 100) + '"></i></div>' +
+        '<div class="gauge ' + (score >= 9 ? 'ok' : 'ko') + '"><i data-anime="--pct" style="--pct:' + ((score * 10) / 100) + '"></i></div>' +
         '<div style="position:absolute;top:-3px;left:90%;width:2px;height:14px;background:var(--txt);border-radius:2px"></div>' +
       '</div></div>';
   }
@@ -591,7 +591,7 @@ window.Results = (function () {
       '<div class="row between"><div class="sec-t">Seuil de réussite</div>' +
       '<div class="tiny dim">35 / 40 requis</div></div>' +
       '<div style="position:relative">' +
-        '<div class="gauge ' + (score >= 35 ? 'ok' : 'ko') + '"><i style="--pct:' + (p / 100) + '"></i></div>' +
+        '<div class="gauge ' + (score >= 35 ? 'ok' : 'ko') + '"><i data-anime="--pct" style="--pct:' + (p / 100) + '"></i></div>' +
         '<div style="position:absolute;top:-3px;left:87.5%;width:2px;height:14px;background:var(--txt);border-radius:2px"></div>' +
       '</div>' +
       '<div class="tiny dim">Le trait marque les 35 bonnes réponses exigées le jour de l’examen.</div>' +

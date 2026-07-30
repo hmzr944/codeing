@@ -53,7 +53,7 @@ window.Train = (function () {
                 (s.boss ? '<span class="sceau">' + Icons.svg('defiReussi', 15) + '</span>' : '') +
               '</span>' +
             '</div>' +
-            '<div class="gauge thin' + (s.medal === 3 ? ' ok' : '') + '"><i style="--pct:' + (pct / 100) + '"></i></div>' +
+            '<div class="gauge thin' + (s.medal === 3 ? ' ok' : '') + '"><i data-anime="--pct" style="--pct:' + (pct / 100) + '"></i></div>' +
             '<div class="tiny dim num">' + s.mastered + ' / ' + s.total + ' ancrées' +
               (covPct ? ' · ' + covPct + ' % découvert' : '') + '</div>' +
           '</div>' +
@@ -113,6 +113,7 @@ window.Train = (function () {
       '</div>';
 
     UI.mount(html);
+    UI.animateGauges();
 
     UI.on('[data-len]', 'click', function () {
       length = +this.getAttribute('data-len');
