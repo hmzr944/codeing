@@ -128,6 +128,30 @@ window.App = (function () {
       }, 1200);
     }
 
+    /* Une sauvegarde illisible a été remplacée par la copie de secours,
+       ou à défaut par une progression neuve : Mina doit le savoir plutôt
+       que de découvrir en silence que sa série a disparu. */
+    var etat = Store.etatChargement();
+    if (etat === 'secours') {
+      setTimeout(function () {
+        UI.toast('Petit souci de sauvegarde : ta progression de la veille a été récupérée.', 'alerte');
+      }, 700);
+    } else if (etat === 'reinitialise') {
+      setTimeout(function () {
+        UI.toast('Ta sauvegarde était illisible et a dû être réinitialisée.', 'alerte');
+      }, 700);
+    }
+
+    /* Si l'écriture échoue (quota plein, stockage restreint en cours de
+       session), un seul avertissement suffit : mieux vaut le dire une
+       fois que laisser croire, séance après séance, que tout est bien
+       enregistré. */
+    setInterval(function () {
+      if (Store.ecritureAEchoue()) {
+        UI.toast('La sauvegarde a échoué : la progression de cette séance risque de ne pas tenir.', 'alerte');
+      }
+    }, 4000);
+
     /* Rappel de série : si elle est sur le point de tomber, on le dit
        une seule fois, sans culpabiliser. */
     var s = Store.liveStreak();

@@ -5,6 +5,7 @@
 window.Store = (function () {
 
   var KEY = 'feuvert.v1';
+  var CLE_SECOURS = KEY + '.secours';
 
   /* --- banque de questions consolidée --- */
   var ALL = []
@@ -61,19 +62,52 @@ window.Store = (function () {
     } catch (e) { return false; }
   })();
 
-  var S = load();
+  function completer(d) {
+    var base = blank();
+    for (var k in base) if (!(k in d)) d[k] = base[k];
+    for (var p in base.profile) if (!(p in d.profile)) d.profile[p] = base.profile[p];
+    for (var f in base.flags) if (!(f in d.flags)) d.flags[f] = base.flags[f];
+    return d;
+  }
 
+  /* Après un load(), l'appli (voir app.js) doit pouvoir dire à Mina
+     ce qui s'est passé plutôt que de la laisser découvrir en silence
+     que sa série a disparu. */
+  var ETAT_CHARGEMENT = 'ok';   // 'ok' | 'secours' | 'reinitialise'
+
+  /* Une sauvegarde illisible (écriture coupée en plein milieu, bug de
+     navigateur) ne doit pas coûter des semaines de révision : une
+     copie de secours, écrite à chaque chargement réussi, sert de
+     filet avant d'abandonner et de repartir de zéro. */
   function load() {
     try {
       var raw = localStorage.getItem(KEY);
-      if (!raw) return blank();
-      var d = JSON.parse(raw);
-      var base = blank();
-      for (var k in base) if (!(k in d)) d[k] = base[k];
-      for (var p in base.profile) if (!(p in d.profile)) d.profile[p] = base.profile[p];
-      for (var f in base.flags) if (!(f in d.flags)) d.flags[f] = base.flags[f];
-      return d;
-    } catch (e) { return blank(); }
+      if (raw) {
+        var d = completer(JSON.parse(raw));
+        try { localStorage.setItem(CLE_SECOURS, raw); } catch (e2) {}
+        return d;
+      }
+    } catch (e) {
+      try {
+        var secours = localStorage.getItem(CLE_SECOURS);
+        if (secours) { ETAT_CHARGEMENT = 'secours'; return completer(JSON.parse(secours)); }
+      } catch (e3) {}
+      ETAT_CHARGEMENT = 'reinitialise';
+    }
+    return blank();
+  }
+
+  var S = load();
+
+  var ECRITURE_ECHOUEE = false;
+  function ecrire() {
+    try {
+      localStorage.setItem(KEY, JSON.stringify(S));
+      return true;
+    } catch (e) {
+      ECRITURE_ECHOUEE = true;
+      return false;
+    }
   }
 
   var pending = null;
@@ -81,12 +115,33 @@ window.Store = (function () {
     if (pending) return;
     pending = setTimeout(function () {
       pending = null;
-      try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {}
+      ecrire();
     }, 120);
   }
   function saveNow() {
     if (pending) { clearTimeout(pending); pending = null; }
-    try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {}
+    ecrire();
+  }
+
+  /* Un seul avertissement par session, même si l'écriture continue
+     d'échouer à chaque réponse : le dire une fois suffit, le répéter
+     n'aiderait pas. */
+  function ecritureAEchoue() {
+    if (!ECRITURE_ECHOUEE) return false;
+    ECRITURE_ECHOUEE = false;
+    return true;
+  }
+
+  /* Remplace toute la progression par une sauvegarde importée (voir
+     Réglages). Un format qui ne ressemble pas au nôtre est refusé
+     plutôt que d'écraser une vraie progression avec du bruit. */
+  function importer(texte) {
+    var d;
+    try { d = JSON.parse(texte); } catch (e) { return false; }
+    if (!d || typeof d !== 'object' || !d.profile || !d.cards) return false;
+    S = completer(d);
+    saveNow();
+    return true;
   }
 
   /* ---------------- sélection de questions ---------------- */
@@ -486,6 +541,9 @@ window.Store = (function () {
   return {
     get s() { return S; },
     persistant: PERSISTANT,
+    etatChargement: function () { return ETAT_CHARGEMENT; },
+    ecritureAEchoue: ecritureAEchoue,
+    importer: importer,
     all: ALL, byId: BY_ID, byTheme: byTheme, shuffle: shuffle,
     save: save, saveNow: saveNow, reset: reset,
     due: due, unseen: unseen, weakOnes: weakOnes,

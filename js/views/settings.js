@@ -70,8 +70,11 @@ window.Settings = (function () {
         '<section class="card stack g10">' +
           '<div class="sec-t">Données</div>' +
           '<div class="tiny dim">Aucun compte, aucun serveur : ta progression vit dans ce navigateur. ' +
-          'Vider les données du site l’efface définitivement.</div>' +
+          'Vider les données du site l’efface définitivement : exporte un fichier de temps en temps, ' +
+          'pour pouvoir la récupérer sur ce téléphone ou un autre.</div>' +
           '<button class="btn ghost block" data-export>Exporter ma progression</button>' +
+          '<button class="btn ghost block" data-import>Importer une sauvegarde</button>' +
+          '<input id="f-import" type="file" accept="application/json,.json" hidden>' +
           '<button class="btn ghost block" data-reset style="color:var(--ko)">Tout réinitialiser</button>' +
         '</section>' +
 
@@ -134,6 +137,29 @@ window.Settings = (function () {
       var blob = new Blob([JSON.stringify(Store.s, null, 2)], { type: 'application/json' });
       dl(blob, 'feu-vert-progression.json');
       UI.toast('Sauvegarde téléchargée', 'telecharger');
+    });
+
+    UI.on('[data-import]', 'click', function () {
+      document.getElementById('f-import').click();
+    });
+    document.getElementById('f-import').addEventListener('change', function (e) {
+      var fichier = e.target.files[0];
+      this.value = '';
+      if (!fichier) return;
+      if (!confirm('Remplacer toute la progression actuelle par celle de ce fichier ?')) return;
+      var lecteur = new FileReader();
+      lecteur.onload = function () {
+        if (Store.importer(String(lecteur.result))) {
+          App.applyTheme(); App.go('home');
+          UI.toast('Sauvegarde importée', 'valide');
+        } else {
+          UI.toast('Ce fichier ne ressemble pas à une sauvegarde valide', 'alerte');
+        }
+      };
+      lecteur.onerror = function () {
+        UI.toast('Impossible de lire ce fichier', 'alerte');
+      };
+      lecteur.readAsText(fichier);
     });
 
     UI.on('[data-reset]', 'click', function () {
