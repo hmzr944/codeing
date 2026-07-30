@@ -322,13 +322,20 @@ window.Chat = (function () {
     if (intention) intention();
   }
 
+  /* La feuille se retire par le chemin inverse de son arrivée (voir
+     .feuille.fermeture dans le CSS) au lieu de disparaître d'un coup :
+     on attend la fin de cette animation avant de retirer le nœud. */
   function fermer(reprendre) {
     var f = document.getElementById('feuille');
-    if (f) f.remove();
+    if (!f || f.classList.contains('fermeture')) return;
+    f.classList.add('fermeture');
     racine = null;
     var fn = reprendre === false ? sorties.quitter : sorties.reprendre;
     sorties = {};
-    if (fn) fn();
+    setTimeout(function () {
+      f.remove();
+      if (fn) fn();
+    }, 270);
   }
 
   /* La première bulle rappelle d'où l'on vient : sans cela, on ne

@@ -66,6 +66,20 @@
      Intégrée en base64 dans css/font.css, donc jamais absente. */
   --font:'Lexend',ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --ease:cubic-bezier(.2,.8,.25,1);
+  /* Courbe de tiroir façon iOS (Ionic), amortissement critique sans
+     rebond : réservée aux surfaces qui « arrivent » comme un matériau
+     (feuille de l'assistant) — --ease reste la valeur des bascules
+     d'interface ordinaires (boutons, jauges), déjà réglée par l'audit
+     de mouvement. */
+  --ease-drawer:cubic-bezier(.32,.72,0,1);
+
+  /* --- matériau translucide (nuit) : verre dépoli sur --surface-2 --- */
+  --glass:rgba(29,34,43,.72);
+  --glass-edge:rgba(255,255,255,.08);
+  /* chrome flottante (barre du haut) : le même fond que la page, mais
+     laissé passer en transparence — jamais un autre ton, sinon la barre
+     se remarque comme une pièce rapportée plutôt qu'un même matériau. */
+  --bg-glass:rgba(14,17,22,.75);
 }
 
 html[data-theme="jour"]{
@@ -94,6 +108,11 @@ html[data-theme="jour"]{
   --ok:#0b7a45;   --ok-ink:#ffffff;  --ok-soft:rgba(11,122,69,.11);  --ok-line:rgba(11,122,69,.3);
   --ko:#c41f38;   --ko-ink:#ffffff;  --ko-soft:rgba(196,31,56,.10);  --ko-line:rgba(196,31,56,.3);
   --shadow:0 14px 34px -24px rgba(18,22,29,.5);
+
+  /* --- matériau translucide (jour) : verre clair sur blanc --- */
+  --glass:rgba(255,255,255,.78);
+  --glass-edge:rgba(255,255,255,.55);
+  --bg-glass:rgba(244,245,248,.72);
 }
 
 *,*::before,*::after{box-sizing:border-box}
@@ -121,9 +140,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 input,select{font:inherit;color:inherit}
 a{color:var(--txt);text-underline-offset:3px}
 
-h1,h2,h3{margin:0;line-height:1.12;letter-spacing:-.025em;font-weight:800}
-h1{font-size:clamp(25px,6.6vw,32px)}
-h2{font-size:clamp(18px,4.8vw,21px)}
+/* Le resserrement des lettres suit la taille, pas l'inverse : plus le
+   texte est grand, plus les blancs entre lettres paraissent excessifs.
+   Un -.025em unique sur les trois tailles serrait h3 pour rien et
+   desserrait h1 pas assez. */
+h1,h2,h3{margin:0;line-height:1.12;font-weight:800}
+h1{font-size:clamp(25px,6.6vw,32px);letter-spacing:-.03em}
+h2{font-size:clamp(18px,4.8vw,21px);letter-spacing:-.02em}
 h3{font-size:15px;font-weight:750;letter-spacing:-.015em}
 p{margin:0}
 
@@ -149,10 +172,18 @@ p{margin:0}
 .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
 
 /* ---------- en-têtes ---------- */
+/* Chrome flottante plutôt que barre opaque : le contenu défile
+   dessous, la barre reste lisible grâce au flou plutôt qu'à un aplat. */
 .topbar{
   display:flex;align-items:center;gap:12px;
   padding:calc(13px + env(safe-area-inset-top)) 0 12px;
-  position:sticky;top:0;z-index:30;background:var(--bg);
+  position:sticky;top:0;z-index:30;
+  background:var(--bg-glass);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);
+  backdrop-filter:blur(14px) saturate(160%);
+}
+@media (prefers-reduced-transparency:reduce){
+  .topbar{background:var(--bg);backdrop-filter:none;-webkit-backdrop-filter:none}
 }
 /* Classe autonome : ce bouton sert aussi hors de .topbar (quiz),
    où il n'héritait d'aucune taille et tombait à 26 px de haut. */
@@ -729,32 +760,71 @@ p{margin:0}
 .aide-flottant:active{background:var(--surface-3);transform:translateY(1px)}
 
 .feuille{position:fixed;inset:0;z-index:60;display:flex;align-items:flex-end}
-.feuille-fond{position:absolute;inset:0;background:rgba(0,0,0,.5);animation:fondu .18s var(--ease)}
+.feuille-fond{
+  position:absolute;inset:0;background:rgba(0,0,0,.5);
+  -webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);
+  animation:fondu .18s var(--ease);
+}
+/* Verre dépoli plutôt qu'aplat : la feuille se pose comme un matériau
+   distinct de la page, pas comme un panneau de la même étoffe qu'elle.
+   Le bord haut légèrement clair imite le reflet sur la tranche du verre. */
 .feuille-panneau{
   position:relative;width:100%;max-width:var(--maxw);margin:0 auto;
   max-height:88vh;display:flex;flex-direction:column;
   padding:0 var(--pad) env(safe-area-inset-bottom);
-  background:var(--bg);border-radius:var(--r-card) var(--r-card) 0 0;
-  border-top:1px solid var(--line);
-  animation:monte .24s var(--ease);
+  background:var(--glass);border-radius:var(--r-card) var(--r-card) 0 0;
+  border-top:1px solid var(--glass-edge);
+  -webkit-backdrop-filter:blur(24px) saturate(160%);
+  backdrop-filter:blur(24px) saturate(160%);
+  transform-origin:bottom center;
+  animation:materialise .32s var(--ease-drawer);
 }
 .feuille-tete{padding:14px 0 10px;flex:0 0 auto}
 .feuille-tete .ttl{font-size:15px;font-weight:750;letter-spacing:-.015em}
 .feuille-tete .sub{font-size:12px;color:var(--txt-3);margin-top:1px}
 /* Seul le fil défile : la saisie et l'en-tête restent en place. */
 .feuille .chat{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain}
-.feuille .chat-saisie{background:var(--bg)}
+/* Transparent et non var(--bg) : posée sur le même verre que le reste
+   de la feuille, pas sur un carton opaque collé au fond. */
+.feuille .chat-saisie{background:transparent}
 .feuille .chat-idees{flex:0 0 auto}
 
+/* La fermeture reprend exactement le chemin inverse de l'ouverture
+   (mêmes animations, sens inversé) : ce qui est arrivé du bas y
+   retourne, plutôt que de disparaître d'un coup sur place. Le nœud
+   reste le temps de l'animation (JS), mais ne doit plus intercepter
+   aucun clic dès l'instant où la fermeture est engagée : l'écran du
+   dessous doit rester immédiatement utilisable pendant la sortie. */
+.feuille.fermeture{pointer-events:none}
+.feuille.fermeture .feuille-fond{animation:fondu .18s var(--ease) reverse both}
+.feuille.fermeture .feuille-panneau{animation:materialise .26s var(--ease-drawer) reverse both}
+
 @keyframes fondu{from{opacity:0}to{opacity:1}}
-@keyframes monte{from{transform:translateY(18px);opacity:0}to{transform:none;opacity:1}}
+/* Se matérialise plutôt que de simplement s'estomper : le flou et
+   l'échelle arrivent avec l'opacité et la position, pour que la feuille
+   se lise comme un vrai matériau qui se pose, pas un calque qui fond. */
+@keyframes materialise{
+  from{transform:translateY(18px) scale(.97);opacity:0;-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0)}
+  to{transform:none;opacity:1}
+}
 @media (prefers-reduced-motion:reduce){
   /* Le mouvement disparaît, mais un fondu court reste : sans lui, la
      feuille et les transitions d'écran surviennent d'un coup sec, sans
      aucun repère visuel pour situer l'apparition. */
   .feuille-fond,.feuille-panneau{animation:fade .2s var(--ease) !important}
+  .feuille.fermeture .feuille-fond,.feuille.fermeture .feuille-panneau{animation:fade .2s var(--ease) reverse both !important}
   .enter{animation-duration:.2s !important}
   .rise{animation-name:fade;animation-duration:.2s !important}
+}
+@media (prefers-reduced-transparency:reduce){
+  /* Le flou disparaît, mais la hiérarchie doit rester lisible : une
+     surface presque opaque avec une bordure nette la remplace, plutôt
+     qu'un panneau qui se fondrait dans le reste de la page. */
+  .feuille-fond{backdrop-filter:none;-webkit-backdrop-filter:none}
+  .feuille-panneau{
+    background:var(--surface);border-top-color:var(--line);
+    backdrop-filter:none;-webkit-backdrop-filter:none;
+  }
 }
 
 /* La saisie reste sous la main, sans recouvrir la dernière réponse. */
