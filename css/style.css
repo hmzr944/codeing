@@ -587,15 +587,6 @@ p{margin:0}
 .bar .l{font-size:12.5px;flex:0 0 43%;color:var(--txt-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bar .v{font-size:12.5px;font-weight:500;flex:0 0 44px;text-align:right}
 
-.recap{
-  padding:13px 14px;border-radius:var(--r-ctl);
-  background:var(--surface);border:1px solid var(--line-soft);
-  border-left:3px solid var(--ko);
-}
-.recap.ok{border-left-color:var(--ok)}
-.recap .q{font-size:13.5px;font-weight:400;line-height:1.35}
-.recap .a{font-size:12.5px;color:var(--txt-2);margin-top:5px;line-height:1.5}
-
 /* ============================================================
    COURS
 

@@ -470,14 +470,37 @@ window.Results = (function () {
     }).join('');
 
     var wrong = r.results.filter(function (x) { return !x.correct; });
-    var recap = wrong.length
-      ? wrong.map(function (x) {
-          return '<div class="recap"><div class="q">' + UI.esc(x.q.q) + '</div>' +
-            '<div class="a"><b>Réponse : </b>' +
-            UI.esc(x.q.a.map(function (i) { return x.q.o[i]; }).join(' + ')) + '<br>' +
-            UI.esc(x.q.e) + '</div></div>';
-        }).join('')
-      : UI.empty('cible', 'Aucune erreur', 'Rien à revoir sur cette série.');
+
+    /* Ce qui compte ici, c'est la leçon à revoir, pas le texte complet
+       de chaque question ratée : la question elle-même reste consultable
+       question par question, réponse au tapis « Faire expliquer une
+       erreur » plus bas. Les erreurs sont donc regroupées par leçon. */
+    var parLecon = {};
+    wrong.forEach(function (x) {
+      var l = x.q.t && window.LESSONS.filter(function (ll) { return ll.theme === x.q.t; })[0];
+      if (!l) return;
+      var e = parLecon[l.k] || (parLecon[l.k] = { l: l, n: 0 });
+      e.n++;
+    });
+    var lecons = Object.keys(parLecon).map(function (k) { return parLecon[k]; })
+      .sort(function (a, b) { return b.n - a.n; });
+
+    var revoir;
+    if (!wrong.length) {
+      revoir = UI.empty('cible', 'Aucune erreur', 'Rien à revoir sur cette série.');
+    } else {
+      revoir =
+        '<p class="small muted">' + UI.plural(wrong.length, 'erreur') +
+        (lecons.length
+          ? ', surtout en ' + lecons.slice(0, 3).map(function (x) { return x.l.n; }).join(', ') + '.'
+          : '.') +
+        '</p>' +
+        (lecons.length ? '<div class="row wrap g8">' +
+          lecons.map(function (x) {
+            return '<span class="pill ko">' + UI.esc(x.l.n) + ' · ' + x.n + '</span>';
+          }).join('') +
+        '</div>' : '');
+    }
 
     var lvl = Store.level();
 
@@ -516,7 +539,10 @@ window.Results = (function () {
         '</div>' +
 
         '<div class="stack g10">' +
-          '<div class="sec-t">À revoir (' + wrong.length + ')</div>' + recap +
+          '<div class="sec-t">À revoir</div>' + revoir +
+          (lecons.length ? '<button class="btn ghost block" data-lecons>' +
+            (lecons.length > 1 ? 'Revoir ces leçons' : 'Revoir « ' + UI.esc(lecons[0].l.n) + ' »') +
+          '</button>' : '') +
         '</div>' +
 
         '<div class="stack g10" style="padding-bottom:24px">' +
@@ -539,6 +565,12 @@ window.Results = (function () {
     }
 
     UI.on('[data-home]', 'click', function () { App.go('home'); });
+    /* Une seule leçon à revoir : on y entre directement. Plusieurs :
+       la liste des cours, pour choisir par laquelle commencer. */
+    UI.on('[data-lecons]', 'click', function () {
+      if (lecons.length === 1) Cours.lire(lecons[0].l.k);
+      else App.go('lessons');
+    });
     /* Après l'épreuve, l'assistant redevient accessible dans tous les
        modes : la première erreur du récapitulatif est celle qu'on a
        le plus envie de comprendre. */
