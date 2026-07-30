@@ -232,16 +232,35 @@ window.LESSONS = [
   {t:'piege', txt:'Un rond-point sans panneau à l’entrée inverse la règle : là, ce sont ceux qui entrent qui passent. C’est rare, et ça tombe à l’examen.'},
   {t:'cle', titre:'Toujours prioritaires', items:[
     'Le tramway : il ne peut ni s’écarter, ni freiner vite.',
-    'Les véhicules de secours en intervention, sirène et gyrophare allumés.',
+    'Les véhicules de secours en intervention, sirène et gyrophare allumés. Sirène éteinte, en trajet ordinaire, ils redeviennent des usagers comme les autres.',
     'Le bus qui quitte son arrêt, mais seulement en ville.',
-    'Le piéton engagé, ou celui qui montre clairement qu’il veut traverser.']},
+    'Le piéton engagé, ou celui qui montre clairement qu’il veut traverser : depuis 2018, ne pas céder le passage coûte 4 points et 135 €.']},
   {t:'panneaux', titre:'Les panneaux qui décident', signes:[
     ['stop','Je m’arrête, même si la voie est libre'],
     ['cedez','Je laisse passer, sans forcément m’arrêter'],
     ['route-prioritaire','Je reste prioritaire aux prochains carrefours'],
     ['priorite-a-droite','Attention, quelqu’un peut arriver de ma droite'],
     ['cedez-giratoire','Ceux qui tournent déjà passent avant moi']]},
-  {t:'texte', txt:'Dans un giratoire, le clignotant droit s’allume juste après la sortie qui précède la mienne. Pas avant.'}
+  {t:'texte', txt:'Dans un giratoire, le clignotant droit s’allume juste après la sortie qui précède la mienne, pas avant. Changer de voie à l’intérieur de l’anneau impose clignotant et contrôle de l’angle mort : mieux vaut se placer sur la bonne voie dès l’entrée, selon la sortie visée.'},
+
+  {t:'cle', titre:'Ce que le feu vert ne veut pas dire', items:[
+    'Le vert ne donne pas la priorité sur un usager déjà engagé dans le carrefour : un véhicule bloqué doit pouvoir en sortir.',
+    'Il est interdit de s’engager dans une intersection si l’on risque d’y rester immobilisé et de bloquer la circulation transversale : j’attends avant la ligne tant que je ne peux pas dégager.',
+    'Traverser une piste cyclable pour tourner impose de céder le passage au cycliste qui poursuit tout droit : contrôle de l’angle mort droit indispensable.']},
+  {t:'cle', titre:'Face à un agent qui règle la circulation', items:[
+    'Ses gestes priment sur les feux et les panneaux.',
+    'Bras levé verticalement, ou agent vu de face ou de dos : arrêt pour tous.',
+    'Bras tendu horizontalement : les usagers vers qui pointe le bras s’arrêtent.',
+    'Agent vu de profil : passage autorisé.']},
+
+  {t:'cle', titre:'Zones et voies particulières', items:[
+    'Sur une voie verte, la circulation motorisée est interdite : piétons et cyclistes y sont prioritaires, sauf véhicules de service.',
+    'Dans une aire piétonne, les piétons sont prioritaires sur toute la surface ; seules les voitures autorisées y entrent, à l’allure du pas (environ 6 km/h).',
+    'Dans les zones 30 et les zones de rencontre, le double-sens cyclable est la règle par défaut : un cycliste peut donc arriver de face dans une rue à sens unique.',
+    'Un panneau « cédez le passage cycliste au feu rouge » (petit triangle avec vélo et flèche) autorise le cycliste à franchir le feu rouge dans la direction indiquée, en cédant le passage aux autres.',
+    'Sur une voie réservée aux bus, je ne circule que si la signalisation l’autorise pour ma catégorie de véhicule (taxis, vélos, véhicules d’urgence selon les cas).']},
+  {t:'piege', txt:'La forme du carrefour ne crée aucune priorité : à une intersection en T, sans signalisation, la priorité à droite s’applique normalement, même pour qui circule sur la barre du T. Beaucoup d’accidents viennent de conducteurs persuadés d’être sur « la route principale ».'},
+  {t:'texte', txt:'Le croisement en marche arrière ou dans un passage étroit se fait normalement par l’avant (chacun passe devant l’autre), sauf si le marquage ou la configuration impose l’inverse : l’essentiel est d’établir un contact visuel et de rester lisible. Un convoi exceptionnel ou un cortège officiel se traite comme un seul véhicule : on ne le coupe pas.'}
  ]},
 
 {k:'vitesse', n:'Vitesses & distances', i:'vitesse', theme:'vitesse',
@@ -393,23 +412,32 @@ window.LESSONS = [
 {k:'stationnement', n:'Arrêt & stationnement', i:'stationnement', theme:'stationnement',
  resume:'Une seule question : est-ce que je gêne quelqu’un de plus fragile que moi ?',
  blocs:[
-  {t:'retenir', txt:'Arrêt : je reste au volant, quelques instants. Stationnement : je quitte la voiture, ou je reste longtemps.'},
+  {t:'retenir', txt:'Arrêt : je reste au volant, quelques instants, pour laisser monter ou descendre quelqu’un. Stationnement : je quitte la voiture, ou l’immobilisation se prolonge.'},
   {t:'panneaux', titre:'Les deux panneaux à ne pas confondre', signes:[
     ['stationnement-interdit','Une seule barre : je peux m’arrêter, pas stationner'],
     ['arret-stationnement-interdit','Une croix : je ne m’immobilise pas du tout']]},
   {t:'cle', titre:'Interdit dans tous les cas', items:[
-    'Sur un passage piéton, un trottoir, une piste cyclable.',
-    'Sur les 5 mètres avant un passage piéton.',
-    'Devant une entrée de garage.',
-    'Sur une place réservée aux personnes handicapées, un arrêt de bus, une voie de bus.',
+    'Sur un passage piéton, un trottoir, une piste cyclable : une voiture qui mord dessus force le cycliste à se déporter dans le trafic.',
+    'Sur les 5 mètres avant un passage piéton, pour que le piéton reste visible avant de s’engager.',
+    'Devant une entrée de garage (entrée carrossable).',
+    'Sur une place réservée aux personnes handicapées, un arrêt de bus, une voie de bus : 135 € et mise en fourrière fréquente, sans tolérance même pour deux minutes.',
+    'Devant une bouche d’incendie ou un accès pompiers : mise en fourrière immédiate, car cela peut conditionner l’arrivée des secours.',
     'Sur un pont, dans un tunnel, sur la bande d’arrêt d’urgence.']},
   {t:'schema', d:'pente'},
   {t:'cle', titre:'Bon à savoir', items:[
-    'Plus de 7 jours au même endroit : c’est abusif, la fourrière peut venir.',
-    'Stationnement gênant : 135 €.',
-    'Sans marquage au sol, on se gare le long du trottoir, à droite.',
-    'À gauche, uniquement dans une rue à sens unique.']},
-  {t:'piege', txt:'Les feux de détresse ne rendent jamais légal un stationnement interdit. Ils préviennent d’un danger, c’est tout.'}
+    'Plus de 7 jours au même endroit : c’est abusif, la fourrière peut venir (délai parfois réduit par arrêté municipal).',
+    'Stationnement gênant : 135 €. Ce n’est pas la même chose que le stationnement payant non réglé, qui donne lieu à un forfait de post-stationnement fixé par la commune, sans aucun retrait de point.',
+    'Sans marquage au sol, on se gare le long du trottoir, à droite dans le sens de la circulation.',
+    'À gauche, uniquement dans une rue à sens unique, qui autorise d’ailleurs le stationnement des deux côtés sauf signalisation contraire.',
+    'Sur un emplacement matérialisé (longitudinal, épi, bataille), le mode de stationnement est imposé par le marquage : le véhicule doit rester dans les limites de la place.']},
+  {t:'texte', txt:'En stationnement alterné semi-mensuel : côté des numéros impairs du 1er au 15, côté des numéros pairs du 16 à la fin du mois. Le changement de côté se fait le dernier jour de chaque période, entre 20 h 30 et 21 h.'},
+  {t:'cle', titre:'Cas particuliers', items:[
+    'Une place de recharge pour véhicule électrique est réservée aux véhicules en cours de recharge : un véhicule thermique garé dessus, ou un véhicule électrique qui y reste après la charge, peut être sanctionné.',
+    'Une place de livraison a des horaires indiqués sur un panonceau : hors de ces créneaux, la place redevient parfois banale, parfois interdite. Il faut lire le panonceau.',
+    'Ouvrir sa portière brusquement engage la responsabilité de celui qui l’ouvre : c’est une cause fréquente d’accident avec les cyclistes, d’où la technique d’ouverture avec la main opposée.',
+    'Un arrêt pour déposer un passager se fait sans gêner la circulation ni la visibilité, du côté droit de la chaussée, jamais dans un virage ni sur un passage piéton.']},
+  {t:'piege', txt:'Les feux de détresse ne rendent jamais légal un stationnement interdit, y compris en double file : ils préviennent d’un danger, c’est tout. Un piéton masqué par un véhicule en double file reste invisible pour les autres.'},
+  {t:'texte', txt:'Avant de quitter le véhicule, même sur le plat : moteur coupé, frein de stationnement serré, un rapport engagé (ou P en boîte automatique), clés retirées et véhicule fermé. En pente, les roues se braquent en plus vers le trottoir.'}
  ]},
 
 {k:'conducteur', n:'Le conducteur', i:'conducteur', theme:'conducteur',
@@ -476,21 +504,53 @@ window.LESSONS = [
     ['À 30 km/h','1 sur 10','risque de décès'],
     ['À 50 km/h','1 sur 2',''],
     ['À 60 km/h','plus de 8 sur 10','']]},
-  {t:'retenir', txt:'Vingt kilomètres-heure de moins, c’est une vie sauvée sur deux. C’est toute la raison d’être des zones 30.'},
+  {t:'retenir', txt:'Vingt kilomètres-heure de moins, c’est une vie sauvée sur deux. C’est toute la raison d’être des zones 30. Piétons, cyclistes, trottinettes et deux-roues motorisés n’ont aucune carrosserie : à vitesse égale, les conséquences d’un choc n’ont rien de comparable.'},
   {t:'schema', d:'angle-mort'},
-  {t:'piege', txt:'Un camion qui tourne à droite se déporte d’abord à gauche. Ne jamais s’intercaler à sa droite à ce moment-là.'},
+  {t:'cle', titre:'Angle mort d’un poids lourd', items:[
+    'Un poids lourd a plusieurs angles morts, dont un très important à droite et juste devant la cabine.',
+    'Règle simple : si je ne vois pas les rétroviseurs du camion, son conducteur ne me voit pas.',
+    'Depuis 2021, les véhicules de plus de 3,5 tonnes portent une signalisation « angle mort » sur les côtés et l’arrière : elle rappelle la zone dangereuse, elle ne la supprime pas.']},
+  {t:'piege', txt:'Un camion qui tourne à droite se déporte d’abord à gauche (le porte-à-faux l’oblige à élargir sa trajectoire). Ne jamais s’intercaler à sa droite à ce moment-là : c’est une cause fréquente d’accidents mortels de cyclistes.'},
+
   {t:'cle', titre:'Ce qu’un cycliste a le droit de faire', items:[
     'Rouler à deux de front, sauf la nuit ou si le trafic l’exige.',
     'Remonter une rue à sens unique, si c’est un double-sens cyclable.',
     'Tourner à droite au feu rouge, quand un petit panneau triangulaire le prévoit.',
-    'Se placer au milieu de la voie pour éviter les portières et se rendre visible.']},
+    'Se placer au milieu de la voie pour éviter les portières et se rendre visible, en particulier à l’approche d’une intersection.',
+    'Se placer dans le sas vélo, devant la ligne d’arrêt aux feux : une voiture ne doit jamais s’y arrêter.']},
   {t:'schema', d:'depassement-cycliste'},
-  {t:'cle', titre:'Les trottinettes électriques', items:[
-    'Une seule personne par engin.',
-    '25 km/h maximum, 14 ans minimum.',
-    'Sur les pistes cyclables ou la chaussée, jamais sur le trottoir.',
-    'Écouteurs interdits, comme en voiture.']},
-  {t:'texte', txt:'Un enfant ne perçoit pas correctement les distances avant une dizaine d’années, et croit qu’être vu suffit à être protégé. C’est à toi d’anticiper.'}
+  {t:'cle', titre:'Un groupe de cyclistes ou de coureurs', items:[
+    'Se dépasse comme un seul véhicule, en une seule fois, jamais en coupant le groupe en deux.',
+    'Écart latéral d’au moins 1,50 m hors agglomération, comme pour un cycliste seul.',
+    'Devant un rassemblement, une manifestation ou une course cycliste : je ralentis, voire je m’arrête, et je suis les indications des organisateurs ou des forces de l’ordre.']},
+  {t:'piege', txt:'Le casque à vélo est obligatoire jusqu’à 12 ans, conducteur comme passager. Le gilet réfléchissant est obligatoire hors agglomération de nuit ou par visibilité réduite.'},
+
+  {t:'cle', titre:'Trottinettes électriques et engins de déplacement personnel', items:[
+    'Une seule personne par engin, 14 ans minimum, écouteurs interdits comme en voiture.',
+    '25 km/h maximum sur les pistes cyclables ou, à défaut, sur la chaussée limitée à 50 km/h.',
+    'Le trottoir leur est interdit, sauf autorisation locale, et l’engin doit alors être tenu à la main.',
+    'Interdits sur les autoroutes et voies rapides.']},
+
+  {t:'cle', titre:'Deux-roues motorisés', items:[
+    'Un deux-roues qui remonte une file de véhicules peut arriver très vite dans mon angle mort : contrôle renforcé avant tout changement de voie.',
+    'Un motard qui se lève sur ses repose-pieds ou tend une jambe signale souvent un danger sur la chaussée (gravillon, nid-de-poule) : attention particulière.']},
+
+  {t:'cle', titre:'Piétons : les situations à anticiper', items:[
+    'Hors passage protégé, un piéton peut traverser légalement s’il n’existe pas de passage à moins de 50 mètres, perpendiculairement à la chaussée.',
+    'Une personne aveugle ou malvoyante se reconnaît à une canne blanche, un chien guide ou un brassard jaune : je m’arrête sans klaxonner et j’attends la fin complète de la traversée.',
+    'Une personne âgée qui traverse lentement doit pouvoir terminer sans être pressée : klaxonner ou avancer pour la presser provoque des chutes.',
+    'Une personne en fauteuil roulant est assimilée à un piéton : large écart et vitesse très réduite.',
+    'Un piéton avec des écouteurs ou le regard sur son téléphone peut ne pas percevoir un véhicule approcher : le conducteur reste tenu de céder le passage malgré tout.',
+    'Un enfant ne perçoit pas correctement les distances et les vitesses avant une dizaine d’années, et croit qu’être vu suffit à être protégé : c’est à toi d’anticiper.']},
+  {t:'piege', txt:'À l’approche d’un arrêt de car scolaire (parfois signalé par des feux orange clignotants), je ralentis fortement et je reste prête à m’arrêter : un enfant caché derrière le car peut traverser sans regarder.'},
+  {t:'texte', txt:'Devant une sortie d’école, je m’attends à des traversées désordonnées et je ne me gare jamais sur le passage piéton ni en double file : le stationnement sauvage qui masque les enfants est le premier facteur d’accident aux abords des établissements.'},
+
+  {t:'cle', titre:'Autres usagers à connaître', items:[
+    'Un tramway ne peut ni s’écarter ni freiner rapidement : il est prioritaire dans la quasi-totalité des situations, et franchir sa plateforme demande une vérification systématique.',
+    'Un véhicule de transport en commun à l’arrêt peut masquer des piétons traversant devant ou derrière lui : à dépasser avec une grande prudence.',
+    'Les cavaliers et animaux de trait se dépassent très lentement et sans klaxonner ; un cheval effrayé devient imprévisible.',
+    'Les engins agricoles peuvent dépasser la largeur de la voie et masquer totalement la visibilité : le dépassement exige une très longue portion dégagée.',
+    'Les livreurs à vélo ou en scooter circulent souvent sous contrainte de temps et peuvent avoir des trajectoires imprévisibles : la marge de sécurité doit être augmentée, pas la sanction morale.']}
  ]},
 
 {k:'vehicule', n:'Véhicule & équipements', i:'vehicule', theme:'vehicule',
@@ -544,24 +604,42 @@ window.LESSONS = [
 {k:'technologie', n:'Aides à la conduite', i:'technologie', theme:'technologie',
  resume:'Depuis 2024, toutes les voitures neuves en sont équipées. Elles aident, elles ne conduisent pas.',
  blocs:[
-  {t:'retenir', txt:'Quel que soit l’équipement, c’est toi qui restes responsable de la conduite et des infractions.'},
+  {t:'retenir', txt:'Quel que soit l’équipement, c’est toi qui restes responsable de la conduite et des infractions. Une aide peut se tromper, être aveuglée ou se désactiver sans prévenir.'},
   {t:'cle', titre:'Ce que toute voiture neuve embarque depuis juillet 2024', items:[
-    'La lecture des panneaux de vitesse, qui alerte en cas de dépassement.',
-    'Le freinage d’urgence automatique.',
+    'L’adaptation intelligente de la vitesse (ISA) : lit les panneaux et alerte, voire freine légèrement l’accélération, en cas de dépassement.',
+    'Le freinage d’urgence automatique (AEB).',
     'L’aide au maintien dans la voie.',
-    'Une alerte de somnolence.',
-    'L’aide au recul et une boîte noire qui enregistre les secondes du choc.']},
-  {t:'cle', titre:'Ce qui les aveugle', items:[
+    'Une alerte de somnolence et de vigilance.',
+    'L’aide au recul et une boîte noire qui enregistre les secondes du choc.',
+    'Le système eCall : il appelle automatiquement le 112 en cas d’accident grave et transmet la position, même si personne ne peut parler.']},
+  {t:'piege', txt:'Ces systèmes peuvent être coupés, mais ils se remettent en marche à chaque démarrage. Ils gardent le conducteur pleinement responsable : une aide qui se trompe (panneau masqué, sortie d’autoroute) ne change rien à l’infraction ou à l’accident.'},
+
+  {t:'cle', titre:'Ce qui les aveugle ou les rend inefficaces', items:[
     'Un pare-brise sale, un capteur couvert de boue ou de givre.',
     'Le brouillard, la neige, un contre-jour.',
-    'Un marquage au sol effacé : plus de lignes, plus de maintien de voie.']},
-  {t:'piege', txt:'L’alerte d’angle mort ne voit pas toujours un deux-roues qui remonte vite. Le coup d’œil par-dessus l’épaule reste la seule vérification fiable.'},
+    'Un marquage au sol effacé ou une zone de travaux : plus de lignes, plus de maintien de voie.',
+    'L’aide au stationnement (radars, caméra de recul) a des zones aveugles près du pare-chocs et au ras du sol : elle peut manquer un objet bas ou un enfant accroupi.']},
+  {t:'piege', txt:'L’alerte d’angle mort ne voit pas toujours un deux-roues qui remonte vite : il peut entrer et sortir de la zone de détection sans déclencher l’alerte. Le coup d’œil par-dessus l’épaule reste la seule vérification fiable.'},
+  {t:'texte', txt:'Le régulateur adaptatif suit la voiture de devant sur voie rapide, mais ne comprend ni les feux, ni les piétons, ni un véhicule arrêté en travers. Si un système d’aide se désactive brutalement en roulant, la reprise en main doit être immédiate : c’est pour cela que les mains restent sur le volant.'},
+  {t:'cle', titre:'Conduite déléguée et autres systèmes', items:[
+    'En France, un système de niveau 3 n’est autorisé que dans des conditions très restreintes (voies à chaussées séparées, basse vitesse, sans piétons ni cyclistes) ; le conducteur doit rester capable de reprendre la main immédiatement.',
+    'Les feux adaptatifs (matriciels) ajustent le faisceau pour ne pas éblouir, mais si un cycliste ou un véhicule mal éclairé n’est pas détecté, rien ne s’occulte : au conducteur de corriger.',
+    'La boîte noire enregistre vitesse, freinage, accélération et port de ceinture sur les quelques secondes avant un choc, exploitable en enquête ; elle n’enregistre ni le son ni la position en continu.']},
+
   {t:'cle', titre:'La voiture électrique', items:[
-    'Plus lourde, donc plus longue à arrêter.',
-    'Très silencieuse en ville : elle surprend les piétons, d’où le son artificiel obligatoire.',
-    'Elle ralentit fortement au lever de pied, parfois sans allumer les feux stop.',
-    'Après un choc, sa batterie peut prendre feu plusieurs heures plus tard.']},
-  {t:'texte', txt:'Le régulateur adaptatif suit la voiture de devant. Il ne comprend ni les feux, ni les piétons, ni un véhicule arrêté en travers.'}
+    'Plus lourde qu’un thermique équivalent, donc plus longue à arrêter malgré le freinage régénératif : les distances de sécurité doivent être augmentées.',
+    'Très silencieuse en ville : elle surprend les piétons, d’où le son artificiel (AVAS) obligatoire jusqu’à environ 20 km/h sur les véhicules récents.',
+    'En conduite « une pédale », elle ralentit fortement au lever de pied, parfois sans allumer les feux stop : les véhicules suivants peuvent être surpris.',
+    'Après un choc, la batterie peut prendre feu avec retard, parfois plusieurs heures plus tard : on signale aux secours qu’il s’agit d’un véhicule électrique et on garde ses distances au moindre signe de fumée.',
+    'La recharge est plus rapide sur borne rapide en courant continu, mais ralentit nettement au-delà d’environ 80 % : sur long trajet, deux arrêts courts à 80 % battent souvent un seul arrêt à 100 %.',
+    'Avec un permis B, certains utilitaires électriques ou à hydrogène jusqu’à 4,25 t peuvent être conduits, sous conditions et après formation complémentaire.']},
+
+  {t:'cle', titre:'Réflexes qui restent valables avec ou sans technologie', items:[
+    'Programmer un GPS ou un écran tactile se fait à l’arrêt, en sécurité : deux secondes de regard détourné à 90 km/h, c’est 50 mètres parcourus à l’aveugle.',
+    'Téléphoner via le système intégré du véhicule reste autorisé si rien n’est tenu en main ni porté à l’oreille, mais la conversation reste une charge mentale qui augmente le temps de réaction.',
+    'Un pneu runflat se roule typiquement jusqu’à 80 km/h sur une distance limitée ; un kit anti-crevaison n’est qu’une solution provisoire, à faire contrôler rapidement.',
+    'Le témoin de pression des pneus (TPMS) s’allume souvent quand la perte est déjà importante : il ne dispense pas d’un contrôle manuel mensuel à froid.',
+    'Le permis dématérialisé dans l’application France Identité a la même valeur qu’un permis physique lors d’un contrôle en France ; à l’étranger, seul le document physique fait foi.']}
  ]},
 
 {k:'conditions', n:'Conditions difficiles', i:'conditions', theme:'conditions',
@@ -584,8 +662,19 @@ window.LESSONS = [
   {t:'cle', titre:'Neige et verglas', items:[
     'Tout en douceur : accélérer, freiner, tourner.',
     'Le verglas se forme d’abord sur les ponts et dans les zones à l’ombre.',
+    'Sur neige tassée, l’adhérence peut être divisée par cinq à dix : pneus hiver ou chaînes deviennent indispensables.',
     'Chaînes sur les roues motrices, 50 km/h maximum, retirées dès que la route est dégagée.']},
-  {t:'texte', txt:'Dans un tunnel : feux de croisement, lunettes de soleil enlevées. En cas d’incendie, on coupe le moteur, on laisse les clés et on rejoint la sortie à pied. La fumée tue avant les flammes.'}
+  {t:'piege', txt:'Si l’avant du véhicule part vers l’extérieur en virage (sous-virage), je lève le pied sans freiner brutalement et je regarde là où je veux aller : braquer davantage aggrave le décrochage des roues avant.'},
+
+  {t:'cle', titre:'Vent, chaleur et visibilité réduite', items:[
+    'Dépasser un poids lourd par vent violent expose à une rafale brutale à la sortie de son abri, surtout avec une remorque : je tiens fermement le volant.',
+    'Un pare-brise embué se traite par la ventilation et la climatisation, qui assèchent l’air bien plus vite ; frotter avec la main laisse un film gras qui éblouit la nuit.',
+    'Par forte chaleur, la vigilance baisse et la déshydratation accélère la fatigue : on boit régulièrement, et on ne laisse jamais un enfant ou un animal dans un véhicule à l’arrêt.',
+    'Des gravillons signalés réduisent l’adhérence, surtout en virage, et peuvent projeter des cailloux : on réduit nettement la vitesse.']},
+  {t:'piege', txt:'Une route ou une flaque inondée ne se traverse jamais : trente centimètres d’eau suffisent à noyer le moteur ou à emporter un véhicule léger, et la profondeur réelle est impossible à évaluer depuis le volant.'},
+
+  {t:'texte', txt:'Dans un tunnel : feux de croisement, lunettes de soleil enlevées. Un feu rouge clignotant à l’entrée interdit l’accès et signale un incident à l’intérieur ; une croix rouge au-dessus d’une voie interdit d’y circuler. En cas d’incendie, on coupe le moteur, on laisse les clés et on rejoint la sortie à pied : la fumée tue avant les flammes.'},
+  {t:'piege', txt:'À la sortie d’un tunnel par temps ensoleillé, l’éblouissement est brutal et l’œil met plusieurs secondes à s’adapter : la vitesse s’adapte avant de sortir, d’autant qu’un vent latéral peut s’y ajouter.'}
  ]},
 
 {k:'secours', n:'Premiers secours', i:'secours', theme:'secours',
@@ -609,19 +698,28 @@ window.LESSONS = [
     'Et surtout : ne jamais raccrocher le premier.']},
   {t:'schema', d:'pls'},
   {t:'cle', titre:'Secourir', items:[
-    'On ne déplace pas une victime, sauf danger vital immédiat.',
-    'Inconsciente mais elle respire : position latérale de sécurité.',
-    'Elle ne respire pas : massage cardiaque, 100 à 120 par minute.',
-    'Le casque d’un motard reste en place, sauf si elle ne respire pas.',
-    'Une hémorragie s’arrête en appuyant fort, sans relâcher.']},
-  {t:'piege', txt:'Jamais boire, jamais manger, jamais retirer un objet planté dans une plaie. Mais parler et rassurer, oui.'},
-  {t:'texte', txt:'Appeler le 112 est déjà porter secours. Personne n’est obligé de prendre un risque vital.'}
+    'On ne déplace pas une victime, sauf danger vital immédiat (incendie, immersion, explosion) : un déplacement peut aggraver une lésion vertébrale.',
+    'Consciente qui parle : elle respire, mais un état peut se dégrader en quelques minutes. On reste auprès d’elle, on la couvre, on la rassure sans relâche.',
+    'Inconsciente mais elle respire : position latérale de sécurité, respiration surveillée en continu jusqu’aux secours.',
+    'Pour vérifier la respiration : je bascule doucement la tête en arrière pour libérer les voies aériennes (la langue peut les obstruer), puis j’observe, j’écoute et je sens pendant environ dix secondes.',
+    'Elle ne respire pas : massage cardiaque sans attendre, 100 à 120 compressions par minute, au centre du thorax, 5 à 6 cm de profondeur. Un massage imparfait vaut infiniment mieux que pas de massage : chaque minute perdue réduit les chances de survie d’environ 10 %.',
+    'Le défibrillateur automatisé externe (DAE) peut être utilisé par toute personne : il analyse le rythme cardiaque et ne délivre un choc que si c’est nécessaire, il ne peut pas nuire.',
+    'Le casque d’un motard reste en place, sauf si elle ne respire pas (retrait alors indispensable, idéalement à deux, tête maintenue dans l’axe du corps).',
+    'Une hémorragie s’arrête en appuyant fort, sans relâcher, si possible avec un tissu propre.']},
+  {t:'piege', txt:'Jamais boire, jamais manger, jamais retirer un objet planté dans une plaie (on stabilise sans extraire, un retrait pouvant provoquer une hémorragie majeure). Mais parler et rassurer, oui.'},
+  {t:'cle', titre:'Cas particuliers', items:[
+    'Victime qui se plaint du dos ou du cou : ne surtout pas la mobiliser, la maintenir immobile et au calme.',
+    'Brûlure : arroser à l’eau tempérée plusieurs minutes, sans retirer les vêtements collés à la peau, sans crème ni corps gras.',
+    'Enfant : mêmes principes de prise en charge, en le maintenant au chaud (il perd sa chaleur plus vite) et sans jamais retarder l’alerte pour attendre un proche.',
+    'Véhicule en feu : on s’éloigne et on éloigne les curieux, un extincteur de voiture ne suffisant que sur un départ de feu minime ; sur un véhicule électrique, distance de sécurité au moindre signe de fumée.',
+    'Matières dangereuses (plaques oranges sur le véhicule) : rester à distance, se placer face au vent, et signaler les codes des plaques aux secours.']},
+  {t:'texte', txt:'Appeler le 112 est déjà porter secours. Personne n’est obligé de prendre un risque vital, mais la non-assistance à personne en danger est un délit puni de 5 ans de prison et 75 000 € d’amende.'}
  ]},
 
 {k:'sanctions', n:'Infractions & sanctions', i:'sanctions', theme:'sanctions',
  resume:'Les barèmes se retiennent par blocs. Une fois classés, ils ne bougent plus.',
  blocs:[
-  {t:'retenir', txt:'Contravention : une amende. Délit : un tribunal, et la prison devient possible.'},
+  {t:'retenir', txt:'Contravention (1re à 5e classe) : une amende, jamais de prison. Délit : un tribunal correctionnel, et la prison devient possible.'},
   {t:'cle', titre:'Ce qui coûte 4 points', items:[
     'Franchir un feu rouge.',
     'Ne pas respecter un stop.',
@@ -629,39 +727,70 @@ window.LESSONS = [
     'Rouler en sens interdit.']},
   {t:'cle', titre:'Ce qui coûte 3 points', items:[
     'Téléphone tenu en main.',
-    'Ceinture non bouclée.',
+    'Ceinture non bouclée (pour le conducteur ; chaque passager majeur non ceinturé est verbalisé personnellement).',
     'Franchir une ligne continue.',
     'Porter des écouteurs.']},
-  {t:'texte', txt:'Les premières ont un point commun : elles créent un risque de collision directe avec quelqu’un. Les secondes sont des fautes d’attention.'},
+  {t:'texte', txt:'Les premières ont un point commun : elles créent un risque de collision directe avec quelqu’un. Les secondes sont des fautes d’attention. Le barème des excès de vitesse suit la même logique par tranche de 10 km/h : 1 point de 5 à 19 km/h, 2 de 20 à 29, 3 de 30 à 39, 4 de 40 à 49, 6 à partir de 50. Depuis 2024, moins de 5 km/h ne retire plus de point, l’amende restant due.'},
+
   {t:'cle', titre:'Les délits routiers', items:[
     'Alcool à 0,8 g/L ou plus.',
-    'Conduite après usage de stupéfiants.',
+    'Conduite après usage de stupéfiants, ou refus de s’y soumettre.',
     'Défaut d’assurance.',
-    'Délit de fuite, même pour un simple rétroviseur cassé.',
-    'Conduite sans permis, ou malgré une suspension.']},
+    'Délit de fuite, même pour un simple rétroviseur cassé ou un accrochage sur un véhicule en stationnement : il faut laisser ses coordonnées.',
+    'Conduite sans permis (800 € d’amende forfaitaire), ou malgré une suspension ou une annulation, plus sévèrement punie encore.',
+    'Grand excès de vitesse de 50 km/h ou plus en cas de récidive dans les 3 ans, avec confiscation possible du véhicule.',
+    'Conduite en état d’ivresse ayant causé des blessures : peines aggravées selon la gravité, davantage encore en cas d’homicide involontaire.']},
+
   {t:'chiffres', titre:'Ce qui peut arriver au permis', lignes:[
-    ['Rétention','72 heures','le temps qu’une décision soit prise'],
+    ['Rétention','72 h (120 h si alcool/stupéfiants suspectés)','mesure provisoire, avant décision du préfet'],
     ['Suspension','durée fixée','le permis est rendu ensuite'],
-    ['Annulation','définitif','il faut le repasser'],
-    ['Solde à zéro','6 mois minimum','avant de pouvoir le repasser']]},
-  {t:'piege', txt:'Payer une amende revient à reconnaître l’infraction : les points partent avec. Si tu contestes, il faut le faire avant de payer.'}
+    ['Annulation','définitif','il faut repasser le permis'],
+    ['Solde à zéro','6 mois minimum','visite médicale et épreuves à repasser (lettre 48SI)']]},
+  {t:'piege', txt:'Payer une amende revient à reconnaître l’infraction : les points partent avec. Si tu contestes, il faut le faire avant de payer, ce qui fait perdre le bénéfice de l’amende minorée.'},
+  {t:'texte', txt:'Un stage de sensibilisation rend jusqu’à 4 points, une fois par an, sans jamais dépasser le plafond. Pour un permis probatoire, perdre 3 points ou plus en une fois rend le stage obligatoire dans les quatre mois.'},
+
+  {t:'cle', titre:'Les types de radars', items:[
+    'Radar fixe : peut contrôler les deux sens ; en tourelle, il surveille plusieurs voies et plusieurs sens à la fois.',
+    'Radar de chantier : vitesse abaissée signalée, pour protéger le personnel qui travaille à quelques mètres des voitures.',
+    'Radar tronçon (vitesse moyenne) : calcule le temps mis entre deux points, donc sanctionne tout le parcours. Freiner juste avant la borne d’arrivée ne sert à rien.',
+    'Radars mobiles embarqués et voitures-radar : non signalés, avec une marge technique doublée par rapport aux radars fixes.']},
+
+  {t:'cle', titre:'Après l’infraction', items:[
+    'L’amende forfaitaire minorée si l’on paie vite, forfaitaire dans le délai normal, majorée en cas de retard : le montant peut plus que doubler.',
+    'Le propriétaire d’un véhicule flashé reçoit l’avis à son nom, mais peut désigner le conducteur réel : sans désignation, il paie l’amende sans perdre de point s’il n’était pas au volant (une société non-désignante est elle-même sanctionnée).',
+    'Une infraction commise à l’étranger dans l’Union européenne peut être poursuivie en France (l’amende est recouvrée), mais ne retire aucun point : le retrait ne s’applique qu’aux infractions commises sur le territoire national.',
+    'La mise en fourrière peut être décidée pour un stationnement très gênant ou dangereux, un défaut d’assurance ou de contrôle technique : les frais sont à la charge du propriétaire, en plus de l’amende.']},
+  {t:'piege', txt:'Les sanctions sont aggravées quand l’infraction est commise en état d’alcoolémie ou sous stupéfiants, ou en récidive : le cumul alcool et stupéfiants double les peines encourues.'}
  ]},
 
 {k:'environnement', n:'Éco-conduite', i:'environnement', theme:'environnement',
  resume:'Conduire souple, c’est conduire sûr. Les deux vont ensemble, ce n’est pas un hasard.',
  blocs:[
-  {t:'retenir', txt:'Regarder loin permet de moins freiner, donc de moins accélérer. C’est 10 à 15 % de carburant en moins, et une conduite plus sûre.'},
+  {t:'retenir', txt:'Regarder loin permet de moins freiner, donc de moins accélérer. C’est 10 à 15 % de carburant en moins, et une conduite plus sûre : elle est aussi plus anticipée.'},
   {t:'cle', titre:'Les gestes qui comptent', items:[
-    'Passer les vitesses tôt : vers 2 000 tr/min en diesel, 2 500 en essence.',
-    'Ne pas faire chauffer le moteur à l’arrêt : c’est inutile et polluant.',
+    'Passer les vitesses tôt : vers 2 000 tr/min en diesel, 2 500 en essence, pour rester dans la plage de rendement optimal du moteur.',
+    'Ne pas faire chauffer le moteur à l’arrêt : c’est inutile, polluant, et interdit dans certaines communes. Le moteur chauffe plus vite en roulant doucement.',
+    'Le dispositif « Stop & Start » coupe le moteur à l’arrêt, particulièrement utile en ville où le temps passé immobile pèse dans la pollution locale.',
     'Retirer la galerie ou le coffre de toit quand on ne s’en sert pas.',
-    'Vérifier la pression des pneus : le geste le plus écologique est aussi le plus gratuit.']},
+    'Vérifier la pression des pneus : le geste le plus écologique est aussi le plus gratuit, et le plus sûr.']},
   {t:'chiffres', titre:'Ce que ça change', lignes:[
-    ['130 au lieu de 110','+20 % de carburant','pour 8 minutes gagnées sur 100 km'],
+    ['130 au lieu de 110 km/h','+20 % de carburant','pour 8 minutes gagnées sur 100 km'],
     ['Coffre de toit','+10 à 20 %',''],
-    ['Climatisation en ville','+10 à 20 %','mais utile au-delà de 70 km/h']]},
-  {t:'texte', txt:'Les vignettes Crit’Air vont de 0, pour l’électrique, à 5 pour les diesels anciens. Elles décident de l’accès aux zones à faibles émissions.'},
-  {t:'piege', txt:'Même une voiture électrique émet des particules : celles des freins et des pneus.'}
+    ['Climatisation en ville','+10 à 20 %','mais utile au-delà de 70 km/h'],
+    ['Conduite agressive en ville','plus de carburant','sans gagner de temps réel']]},
+  {t:'texte', txt:'La résistance de l’air augmente avec le carré de la vitesse : rouler à 110 km/h au lieu de 130 économise beaucoup de carburant pour quelques minutes seulement sur un trajet courant.'},
+
+  {t:'texte', txt:'Les vignettes Crit’Air vont de 0, pour l’électrique, à 5 pour les diesels anciens. Elles décident de l’accès aux zones à faibles émissions (ZFE), dont les règles et horaires varient d’une commune à l’autre : on se renseigne avant d’y circuler.'},
+  {t:'cle', titre:'En cas de pic de pollution', items:[
+    'La circulation différenciée peut interdire les véhicules les plus polluants selon leur vignette Crit’Air.',
+    'Les vitesses maximales peuvent être abaissées, souvent de 20 km/h.',
+    'Les transports en commun sont parfois rendus gratuits pour favoriser les alternatives à la voiture.']},
+  {t:'piege', txt:'Même une voiture électrique émet des particules : celles des freins et des pneus. Un moteur diesel utilisé uniquement pour de courts trajets urbains régénère mal son filtre à particules, qui peut se colmater et déclencher un témoin d’alerte.'},
+
+  {t:'cle', titre:'Le civisme, aussi une question d’environnement', items:[
+    'Jeter un mégot ou un déchet par la fenêtre est puni d’une amende pouvant atteindre 135 € et peut provoquer un incendie, surtout en été.',
+    'Le bruit d’un véhicule est une nuisance sanctionnable ; un échappement modifié non homologué entraîne une contre-visite au contrôle technique et une amende.',
+    'Le covoiturage réduit le nombre de véhicules en circulation et peut donner accès à des voies réservées, signalées par un losange blanc peint au sol et sur panneau.']}
  ]},
 
 {k:'admin', n:'Papiers & réglementation', i:'admin', theme:'admin',
@@ -671,23 +800,42 @@ window.LESSONS = [
     'Le permis de conduire.',
     'Le certificat d’immatriculation, autrement dit la carte grise.',
     'Une preuve d’assurance en cours.']},
-  {t:'retenir', txt:'Depuis avril 2024, la vignette verte collée au pare-brise n’existe plus. Les forces de l’ordre consultent un fichier. L’assurance reste obligatoire.'},
+  {t:'retenir', txt:'Depuis avril 2024, la vignette verte collée au pare-brise n’existe plus. Les forces de l’ordre consultent le fichier des véhicules assurés. L’assurance reste obligatoire, même pour un véhicule qui ne roule pas mais stationne sur la voie publique.'},
+  {t:'cle', titre:'L’assurance', items:[
+    'La responsabilité civile (« au tiers ») est le minimum obligatoire : elle couvre les dommages causés aux autres.',
+    'Conduire sans assurance est un délit : amende forfaitaire de 500 € (jusqu’à 3 750 € devant le tribunal), confiscation du véhicule et suspension du permis possibles.',
+    'Prêter son véhicule engage la responsabilité du propriétaire : à lui de s’assurer que le conducteur a le permis correspondant et est couvert par le contrat.']},
+
   {t:'chiffres', titre:'Les délais à retenir', lignes:[
-    ['Changement d’adresse','1 mois',''],
-    ['Carte grise après achat','1 mois',''],
-    ['Déclaration de vente','15 jours',''],
+    ['Changement d’adresse','1 mois','gratuit pour les 3 premiers changements'],
+    ['Carte grise après achat','1 mois','circulation possible avec le certificat de cession entre-temps'],
+    ['Déclaration de vente','15 jours','sinon le vendeur reçoit encore les amendes'],
     ['Constat à l’assureur','5 jours ouvrés',''],
-    ['Contre-visite','2 mois','après un contrôle technique refusé']]},
+    ['Contre-visite','2 mois','après un contrôle technique refusé'],
+    ['Véhicule importé','1 mois','pour l’immatriculer en France']]},
+  {t:'cle', titre:'Vendre ou acheter un véhicule d’occasion', items:[
+    'Le vendeur remet un certificat de cession, le déclare en ligne, et fournit un certificat de situation administrative (non-gage).',
+    'Pour un véhicule de plus de 4 ans, le contrôle technique fourni doit dater de moins de 6 mois (sauf vente à un professionnel).',
+    'Un véhicule importé de l’étranger doit être immatriculé en France dans le mois, avec un quitus fiscal et parfois une homologation.']},
+
   {t:'cle', titre:'Le contrôle technique', items:[
     'Premier passage à 4 ans, puis tous les 2 ans.',
     'Pour vendre une voiture de plus de 4 ans : contrôle de moins de 6 mois.',
-    'Obligatoire aussi pour les motos de plus de 125 cm³ depuis 2024.']},
+    'Obligatoire aussi pour les motos de plus de 125 cm³ depuis 2024.',
+    'Rouler sans contrôle technique valide expose à 135 € d’amende, une immobilisation possible et un retrait de carte grise.']},
   {t:'cle', titre:'Le bonus-malus', items:[
     'Coefficient à 1 au départ, qui baisse de 5 % par année sans accident responsable, jusqu’à un plancher de 0,50.',
     'Un accident entièrement responsable l’augmente de 25 %, un accident partagé de 12,5 %.',
     'Il suit le conducteur et se transmet à un nouveau contrat, pas à un nouveau véhicule.']},
-  {t:'texte', txt:'Le permis B couvre les véhicules jusqu’à 3,5 tonnes et 9 places, conducteur compris. Au-delà, il faut une autre catégorie.'},
-  {t:'piege', txt:'Un constat signé ne peut plus être modifié. En cas de désaccord, chacun remplit sa partie et note ses observations.'}
+
+  {t:'texte', txt:'Le permis B couvre les véhicules jusqu’à 3,5 tonnes de PTAC et 9 places, conducteur compris. Une remorque : jusqu’à 3,5 t d’ensemble avec le seul permis B, une formation B96 (7 heures) jusqu’à 4,25 t, le permis BE au-delà.'},
+  {t:'cle', titre:'Permis : cas particuliers', items:[
+    'La conduite accompagnée (AAC) est accessible dès 15 ans après l’obtention du code : 3 000 km minimum sur un an, période probatoire réduite à 2 ans, meilleur taux de réussite.',
+    'L’examen du code (ETG) se réussit avec au moins 35 bonnes réponses sur 40 ; le résultat reste valable 5 ans et pour 5 présentations à l’épreuve pratique.',
+    'En cas de perte ou de vol du permis, une déclaration permet d’obtenir un récépissé (validité limitée) le temps du duplicata, demandé en ligne.',
+    'Il n’existe pas en France de visite médicale périodique obligatoire pour le permis B ; elle s’impose après une invalidation, une annulation, ou pour certaines pathologies et permis professionnels.']},
+  {t:'texte', txt:'La plaque d’immatriculation suit le véhicule à vie depuis 2009 (système SIV) : elle doit rester lisible et non masquée, sous peine de 3 750 € d’amende et 6 points.'},
+  {t:'piege', txt:'Un constat signé ne peut plus être modifié : en cas de désaccord, chacun remplit sa partie et note ses observations plutôt que de signer sous la contrainte.'}
  ]},
 
 {k:'trajet', n:'Préparer son trajet', i:'trajet', theme:'trajet',
@@ -696,20 +844,42 @@ window.LESSONS = [
   {t:'cle', titre:'Avant de partir', items:[
     'Pression des pneus, à froid.',
     'Niveaux, éclairage, essuie-glaces.',
-    'Itinéraire réglé à l’arrêt, jamais en roulant.',
-    'Vignette Crit’Air vérifiée si le trajet traverse une grande ville.']},
-  {t:'retenir', txt:'Une pause de quinze à vingt minutes toutes les deux heures. À prendre même sans se sentir fatiguée : la vigilance baisse avant qu’on ne le sente.'},
+    'Itinéraire réglé à l’arrêt, jamais en roulant : manipuler un GPS au feu rouge reste une manipulation en conduite.',
+    'Vignette Crit’Air vérifiée si le trajet traverse une grande ville, y compris de passage.',
+    'Avec un véhicule inconnu (location, prêt) : régler siège, rétroviseurs et volant, repérer les commandes d’éclairage et d’essuie-glaces avant de démarrer.']},
+  {t:'retenir', txt:'Une pause de quinze à vingt minutes toutes les deux heures. À prendre même sans se sentir fatiguée : la vigilance baisse avant qu’on ne le sente. Le calcul du temps de trajet doit intégrer ces pauses, les pleins ou recharges, et une marge : un horaire trop serré pousse à rouler vite et à sauter les pauses.'},
+  {t:'piege', txt:'Sur un trajet de nuit, la vigilance baisse fortement entre 2 h et 5 h du matin : on peut s’endormir deux secondes, assez pour quitter la route. Une sieste avant le départ vaut mieux qu’un départ anticipé.'},
+
   {t:'cle', titre:'Le chargement', items:[
     'Les objets lourds en bas et vers l’avant.',
     'Rien ne doit masquer les feux ni la plaque.',
     'Tout est arrimé, même pour un trajet court.',
-    'Au-delà d’un mètre qui dépasse à l’arrière : dispositif réfléchissant obligatoire.']},
+    'Au-delà d’un mètre qui dépasse à l’arrière : dispositif réfléchissant obligatoire.',
+    'Une galerie ou un coffre de toit a une charge admissible limitée, souvent 50 à 75 kg, et remonte le centre de gravité : virages et freinages en deviennent moins stables.']},
   {t:'texte', txt:'À 50 km/h, un objet de 5 kg non attaché frappe avec l’équivalent de plus de 100 kg. Tout ce qui est libre dans l’habitacle devient un projectile.'},
   {t:'cle', titre:'Voiture chargée', items:[
     'Corriger la hauteur des phares, sinon on éblouit.',
     'Augmenter les distances : le freinage est plus long.',
-    'Regonfler les pneus selon la notice.']},
-  {t:'piege', txt:'À l’étranger, le permis numérique n’est pas reconnu. Seuls les documents papier font foi, et les règles changent dès la frontière.'}
+    'Regonfler les pneus selon la notice, souvent 0,2 à 0,4 bar de plus en charge.']},
+
+  {t:'cle', titre:'Avec une remorque ou une caravane', items:[
+    'Le PTRA (poids total roulant autorisé), sur la carte grise, est le poids maximal de l’ensemble véhicule et remorque chargés : le dépasser dégrade fortement le freinage.',
+    'Un ensemble de plus de 3,5 t est limité à 90 km/h sur autoroute et 80 km/h hors agglomération.',
+    'Le louvoiement d’une caravane se corrige en levant le pied, sans freiner brutalement ; il s’aggrave avec la vitesse, le vent latéral ou le dépassement d’un poids lourd. On charge lourd au-dessus de l’essieu, jamais à l’arrière.',
+    'Un porte-vélos ne doit masquer ni les feux ni la plaque : une plaque et des feux répétiteurs s’ajoutent si nécessaire.']},
+
+  {t:'cle', titre:'À l’étranger', items:[
+    'Le permis physique, le certificat d’immatriculation et une preuve d’assurance couvrant le pays visité sont nécessaires.',
+    'Les règles peuvent différer (vitesses, taux d’alcool à zéro, feux allumés de jour, équipements obligatoires) : elles s’imposent dès la frontière franchie.',
+    'Dans un pays où l’on roule à gauche, priorités et giratoires s’inversent : vigilance maximale aux intersections et sorties de parking, le réflexe de regarder du mauvais côté étant le principal danger.']},
+  {t:'piege', txt:'À l’étranger, le permis numérique n’est pas reconnu. Seuls les documents papier font foi.'},
+
+  {t:'cle', titre:'Sur la route', items:[
+    'Aux gares de péage : vitesse réduite à l’approche, file choisie tôt (les changements et freinages de dernière minute causent la plupart des accrochages), télépéage souvent limité à 30 km/h.',
+    'Sur une aire de repos : vitesse fortement réduite, piétons, enfants et animaux y circulent entre les véhicules.',
+    'Un animal voyage en caisse de transport ou attaché par un harnais : libre, il devient un projectile en cas de choc, et sur les genoux il constitue une entrave sanctionnée.',
+    'Un départ un jour de grand trafic se décale ou s’anticipe si possible : les fins de bouchon concentrent les collisions par l’arrière.']},
+  {t:'texte', txt:'Un véhicule immobilisé pour la nuit se ferme, sans objet de valeur visible, moteur coupé : le laisser tourner à l’arrêt est polluant, sanctionnable, et dangereux en espace confiné à cause du monoxyde de carbone.'}
  ]}
 
 ];
