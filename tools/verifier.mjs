@@ -167,26 +167,41 @@ test('XP conservée après rechargement', apresRechargement.xp === xpAvant, `${x
 
 /* ---------------- 6. cours ---------------- */
 bloc('6. Cours');
+
+/* Le lecteur montre une idée par écran plutôt qu'une longue page :
+   il faut donc avancer pas à pas (comme une vraie utilisatrice le
+   ferait) pour cumuler ce qui a été vu sur toute la leçon, au lieu
+   de tout lire d'un coup sur une seule capture du DOM. */
+async function parcourirLecon(max) {
+  const cumul = { panneaux: 0, retenir: 0, pieges: 0, schemas: 0 };
+  await p.click('[data-suivant]');           // « Commencer », depuis la couverture
+  await p.waitForTimeout(200);
+  for (let i = 0; i < (max || 25); i++) {
+    cumul.panneaux += await p.locator('.pan-d svg').count();
+    cumul.retenir += await p.locator('.bl-retenir').count();
+    cumul.pieges += await p.locator('.bl-piege').count();
+    cumul.schemas += await p.locator('.bl-schema svg.dg').count();
+    if ((await p.locator('[data-question]').count()) > 0) break;   // écran de fin atteint
+    await p.click('[data-suivant]');
+    await p.waitForTimeout(120);
+  }
+  return cumul;
+}
+
 await p.click('.tab[data-go="lessons"]');
 test('les 19 leçons sont listées', (await p.locator('[data-lecon]').count()) === 19);
 await p.click('[data-lecon="signalisation"]');
 await p.waitForTimeout(250);
-const lu = await p.evaluate(() => ({
-  titre: document.querySelector('.lecon h1').textContent,
-  panneaux: document.querySelectorAll('.pan-d svg').length,
-  retenir: document.querySelectorAll('.bl-retenir').length,
-  pieges: document.querySelectorAll('.bl-piege').length,
-  lue: !!Store.s.lessons.signalisation
-}));
-test('leçon ouverte', lu.titre === 'Signalisation', lu.titre);
+test('leçon ouverte', (await p.locator('.lecon-tete h1').textContent()) === 'Signalisation');
+const lu = await parcourirLecon();
 test('panneaux dessinés dans la leçon', lu.panneaux >= 8, lu.panneaux);
 test('bloc « à retenir » présent', lu.retenir >= 1);
 test('bloc « piège » présent', lu.pieges >= 1);
-test('leçon marquée comme lue', lu.lue === true);
+test('leçon marquée comme lue', await p.evaluate(() => !!Store.s.lessons.signalisation));
 await p.click('[data-lecon]:not([data-lecon="signalisation"]) >> nth=0');
 await p.waitForTimeout(200);
 test('leçon suivante accessible',
-  (await p.locator('.lecon h1').textContent()) !== 'Signalisation');
+  (await p.locator('.lecon-tete h1').textContent()) !== 'Signalisation');
 
 /* Un schéma au moins doit se dessiner : sinon la leçon retombe en
    texte seul, ce qu'on cherchait précisément à éviter. */
@@ -194,10 +209,13 @@ await p.click('[data-retour] >> nth=0');
 await p.waitForTimeout(200);
 await p.click('[data-lecon="priorites"]');
 await p.waitForTimeout(250);
-test('schémas dessinés', (await p.locator('.bl-schema svg.dg').count()) >= 2);
+const luPriorites = await parcourirLecon();
+test('schémas dessinés', luPriorites.schemas >= 2, luPriorites.schemas);
 
 /* ---------------- 6 bis. assistant ---------------- */
 bloc('6 bis. Assistant');
+/* parcourirLecon() s'arrête déjà sur l'écran de fin, où le bouton
+   de l'assistant est proposé. */
 await p.click('[data-question]');
 await p.waitForTimeout(250);
 for (const [question, attendu] of [
@@ -217,7 +235,7 @@ test('renvoi vers Claude proposé',
     .startsWith('https://claude.ai/new?q='));
 await p.click('.msg.bot button[data-lecon] >> nth=0').catch(() => {});
 await p.waitForTimeout(250);
-test('l’assistant ouvre la leçon citée', (await p.locator('.lecon h1').count()) === 1);
+test('l’assistant ouvre la leçon citée', (await p.locator('.lecon-tete h1').count()) === 1);
 
 /* ---------------- 7. examen blanc ---------------- */
 bloc('7. Examen blanc');

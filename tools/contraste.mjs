@@ -132,6 +132,19 @@ const passer = async (p) => {
   await p.waitForTimeout(200);
 };
 
+/* Le lecteur de leçon montre une idée par écran : pour mesurer un
+   type de bloc précis (panneaux, chiffres...), on avance pas à pas
+   depuis la couverture jusqu'à ce que ce bloc apparaisse, plutôt que
+   de supposer combien de clics il faut (le contenu des leçons bouge). */
+const avancerJusqua = async (p, selecteur, max) => {
+  for (let i = 0; i < (max || 20); i++) {
+    if ((await p.locator(selecteur).count()) > 0) return;
+    if ((await p.locator('[data-suivant]').count()) === 0) return;
+    await p.click('[data-suivant]');
+    await p.waitForTimeout(120);
+  }
+};
+
 const ECRANS = [
   { n: 'onboarding', aller: async () => {} },
   { n: 'accueil', aller: passer },
@@ -156,12 +169,21 @@ const ECRANS = [
   { n: 'parcours', aller: async (p) => { await passer(p); await p.click('.tab[data-go="train"]'); } },
   { n: 'examen', aller: async (p) => { await passer(p); await p.click('.tab[data-go="exam"]'); } },
   { n: 'cours', aller: async (p) => { await passer(p); await p.click('.tab[data-go="lessons"]'); } },
-  { n: 'leçon panneaux', aller: async (p) => {
+  { n: 'leçon couverture', aller: async (p) => {
       await passer(p); await p.click('.tab[data-go="lessons"]');
       await p.click('[data-lecon="signalisation"]'); } },
+  { n: 'leçon panneaux', aller: async (p) => {
+      await passer(p); await p.click('.tab[data-go="lessons"]');
+      await p.click('[data-lecon="signalisation"]');
+      await avancerJusqua(p, '.pan-d svg'); } },
   { n: 'leçon chiffres', aller: async (p) => {
       await passer(p); await p.click('.tab[data-go="lessons"]');
-      await p.click('[data-lecon="memo"]'); } },
+      await p.click('[data-lecon="memo"]');
+      await avancerJusqua(p, '.tbl'); } },
+  { n: 'leçon fin', aller: async (p) => {
+      await passer(p); await p.click('.tab[data-go="lessons"]');
+      await p.click('[data-lecon="memo"]');
+      await avancerJusqua(p, '[data-question]'); } },
   { n: 'assistant', aller: async (p) => {
       await passer(p); await p.click('.tab[data-go="lessons"]'); await p.click('[data-chat]');
       await p.fill('#msg', 'distance de sécurité'); await p.press('#msg', 'Enter');

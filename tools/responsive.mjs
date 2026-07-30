@@ -21,12 +21,21 @@ const ECRANS = [
   { n: 'parcours', aller: async (p) => { await passer(p); await p.click('.tab[data-go="train"]'); } },
   { n: 'examen', aller: async (p) => { await passer(p); await p.click('.tab[data-go="exam"]'); } },
   { n: 'cours', aller: async (p) => { await passer(p); await p.click('.tab[data-go="lessons"]'); } },
-  { n: 'lecon', aller: async (p) => {
+  { n: 'lecon-couverture', aller: async (p) => {
       await passer(p); await p.click('.tab[data-go="lessons"]');
       await p.click('[data-lecon="signalisation"]'); } },
+  { n: 'lecon-panneaux', aller: async (p) => {
+      await passer(p); await p.click('.tab[data-go="lessons"]');
+      await p.click('[data-lecon="signalisation"]');
+      await avancerJusqua(p, '.pan-d svg'); } },
   { n: 'lecon-chiffres', aller: async (p) => {
       await passer(p); await p.click('.tab[data-go="lessons"]');
-      await p.click('[data-lecon="memo"]'); } },
+      await p.click('[data-lecon="memo"]');
+      await avancerJusqua(p, '.tbl'); } },
+  { n: 'lecon-fin', aller: async (p) => {
+      await passer(p); await p.click('.tab[data-go="lessons"]');
+      await p.click('[data-lecon="memo"]');
+      await avancerJusqua(p, '[data-question]'); } },
   { n: 'assistant', aller: async (p) => {
       await passer(p); await p.click('.tab[data-go="lessons"]');
       await p.click('[data-chat]');
@@ -42,6 +51,18 @@ async function passer(p) {
   await p.click('[data-next]');
   await p.click('[data-done]');
   await p.waitForTimeout(150);
+}
+
+/* Le lecteur de leçon montre une idée par écran : on avance pas à pas
+   depuis la couverture jusqu'à ce que le bloc recherché apparaisse,
+   plutôt que de supposer combien de clics il faut. */
+async function avancerJusqua(p, selecteur, max) {
+  for (let i = 0; i < (max || 20); i++) {
+    if ((await p.locator(selecteur).count()) > 0) return;
+    if ((await p.locator('[data-suivant]').count()) === 0) return;
+    await p.click('[data-suivant]');
+    await p.waitForTimeout(120);
+  }
 }
 
 /* Relevé dans la page : ce qui dépasse, ce qui est démesuré */

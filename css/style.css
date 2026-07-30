@@ -607,18 +607,24 @@ p{margin:0}
 .assist-t{display:block;font-size:14.5px;font-weight:500;letter-spacing:-.015em}
 .assist-s{display:block;font-size:12.5px;color:var(--txt-3);margin-top:2px;line-height:1.4}
 
-/* ---------- lecteur ---------- */
+/* ---------- lecteur : une idée par écran ---------- */
 .ttl.fondu{opacity:0}
 .ttl{transition:opacity .18s var(--ease)}
-.lecon{margin-top:4px}
+.lecon-etape{margin-top:8px;min-height:calc(100dvh - 140px)}
 .lecon-tete{padding-bottom:4px}
+.lecon-tete.center{align-items:center}
 .lecon-ico{
   width:44px;height:44px;border-radius:14px;
   background:var(--accent-soft);color:var(--accent-txt);
   display:grid;place-items:center;
 }
-.lecon h1{font-size:clamp(23px,6vw,29px);text-wrap:balance}
+.lecon-ico.ok{background:var(--ok-soft);color:var(--ok)}
+.lecon-tete h1{font-size:clamp(23px,6vw,29px);text-wrap:balance}
 .lecon-r{font-size:15px;color:var(--txt-2);line-height:1.55;text-wrap:pretty}
+/* Le bloc de l'étape en cours est centré dans l'espace disponible :
+   étirer sa propre carte donnerait un pavé de couleur à moitié vide
+   pour les blocs courts (retenir, piège). */
+.lecon-corps{flex:1;display:flex;flex-direction:column;justify-content:center}
 
 /* la seule phrase à garder */
 .bl-retenir{

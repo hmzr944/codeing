@@ -184,8 +184,14 @@ window.Cours = (function () {
   }
 
   /* ============================================================
-     Lecteur
+     Lecteur - une idée par écran, comme une série de fiches plutôt
+     qu'une longue page à faire défiler. C'est ce qui manquait :
+     on peut dessiner sept formes de blocs, mais en empiler quinze
+     sur une seule page, ça reste un pavé qu'on abandonne à mi-chemin.
      ============================================================ */
+
+  var lecon = null;      // la leçon en cours de lecture
+  var etape = 0;         // 0 = intro, 1..N = blocs[0..N-1], N+1 = fin
 
   function lire(k) {
     var l = window.LESSONS.filter(function (x) { return x.k === k; })[0];
@@ -197,62 +203,119 @@ window.Cours = (function () {
     var bar = document.getElementById('tabbar');
     if (bar) bar.hidden = true;
 
-    var suivante = leconSuivante(l);
-    var nb = l.theme ? Store.all.filter(function (q) { return q.t === l.theme; }).length : 0;
-
-    UI.mount(
-      /* Le titre de la barre reste caché tant que le grand titre est
-         visible : sinon le nom de la leçon s'affiche deux fois. */
-      '<header class="topbar">' +
-        '<button class="back" data-retour aria-label="Retour aux cours">' +
-          Icons.svg('retour', 18) + '</button>' +
-        '<div class="grow"><div class="ttl fondu" id="ttl">' + UI.esc(l.n) + '</div></div>' +
-      '</header>' +
-
-      '<article class="lecon stack g24">' +
-        '<div class="lecon-tete stack g10">' +
-          '<span class="lecon-ico">' + Icons.svg(l.i, 24) + '</span>' +
-          '<h1>' + UI.esc(l.n) + '</h1>' +
-          '<p class="lecon-r">' + UI.esc(l.resume) + '</p>' +
-        '</div>' +
-        l.blocs.map(bloc).join('') +
-      '</article>' +
-
-      '<div class="stack g10" style="margin-top:24px">' +
-        (nb ? '<button class="btn primary block" data-reviser="' + l.theme + '">' +
-          'Réviser ce thème · ' + nb + ' questions</button>' : '') +
-        '<button class="btn ghost block" data-resume>Me résumer cette leçon</button>' +
-        '<button class="btn ghost block" data-question>Poser une question à l’assistant</button>' +
-        (suivante ? '<button class="btn ghost block" data-lecon="' + suivante.k + '">' +
-          'Leçon suivante · ' + UI.esc(suivante.n) + '</button>' : '') +
-        '<button class="btn ghost block" data-retour>Retour aux cours</button>' +
-      '</div>' +
-      '<div style="height:20px"></div>'
-    );
-
+    lecon = l;
+    etape = 0;
     marquerLue(l);
-    suivreDefilement();
+    brancherBalayage();
+    rendreEtape();
+  }
+
+  function rendreEtape() {
+    var total = lecon.blocs.length;
+    var couverture = etape === 0;
+    var fin = etape === total + 1;
+
+    UI.mount(entete(total, couverture, fin) + corpsEtape(total, couverture, fin));
+    UI.animateGauges();
 
     UI.on('[data-retour]', 'click', function () { App.go('lessons'); });
     UI.on('[data-lecon]', 'click', function () { lire(this.getAttribute('data-lecon')); });
-    UI.on('[data-question]', 'click', function () { Chat.view(l); });
-    UI.on('[data-resume]', 'click', function () { Chat.resumer(l); });
+    UI.on('[data-question]', 'click', function () { Chat.view(lecon); });
+    UI.on('[data-resume]', 'click', function () { Chat.resumer(lecon); });
     UI.on('[data-reviser]', 'click', function () {
       var t = this.getAttribute('data-reviser');
       Quiz.start({ mode: 'train', theme: t, questions: Store.trainSet(t, 10) });
     });
+    UI.on('[data-suivant]', 'click', suivant);
+    UI.on('[data-precedent]', 'click', precedent);
   }
 
-  /* Un seul écouteur pour toute la durée de vie de la page : le
-     lecteur est rouvert souvent, et on ne veut pas en empiler un
-     par leçon lue. */
-  var defilementBranche = false;
-  function suivreDefilement() {
-    if (defilementBranche) return;
-    defilementBranche = true;
-    window.addEventListener('scroll', function () {
-      var t = document.getElementById('ttl');
-      if (t) t.classList.toggle('fondu', window.scrollY < 76);
+  function entete(total, couverture, fin) {
+    if (couverture || fin) {
+      return '<header class="topbar">' +
+        '<button class="back" data-retour aria-label="Retour aux cours">' + Icons.svg('retour', 18) + '</button>' +
+        '<div class="grow"><div class="ttl">' + UI.esc(lecon.n) + '</div></div>' +
+      '</header>';
+    }
+    return '<header class="topbar">' +
+      '<button class="back" data-retour aria-label="Retour aux cours">' + Icons.svg('retour', 18) + '</button>' +
+      '<div class="grow"><div class="gauge thin">' +
+        '<i data-anime="--pct" style="--pct:' + (etape / total) + '"></i>' +
+      '</div></div>' +
+      '<div class="tiny dim num" style="flex:0 0 auto">' + etape + ' / ' + total + '</div>' +
+    '</header>';
+  }
+
+  function corpsEtape(total, couverture, fin) {
+    if (couverture) {
+      return '<div class="lecon-etape stack g20">' +
+        '<div class="lecon-tete stack g10 center">' +
+          '<span class="lecon-ico">' + Icons.svg(lecon.i, 24) + '</span>' +
+          '<h1>' + UI.esc(lecon.n) + '</h1>' +
+          '<p class="lecon-r">' + UI.esc(lecon.resume) + '</p>' +
+          '<div class="tiny dim">' + total + ' étapes, à ton rythme</div>' +
+        '</div>' +
+        '<button class="btn primary block" data-suivant>Commencer</button>' +
+      '</div>';
+    }
+    if (fin) {
+      var suivante = leconSuivante(lecon);
+      var nb = lecon.theme ? Store.all.filter(function (q) { return q.t === lecon.theme; }).length : 0;
+      return '<div class="lecon-etape stack g20">' +
+        '<div class="lecon-tete stack g10 center">' +
+          '<span class="lecon-ico ok">' + Icons.svg('valide', 24) + '</span>' +
+          '<h1>Leçon terminée</h1>' +
+          '<p class="lecon-r">' + UI.esc(lecon.n) + ', c’est vu.</p>' +
+        '</div>' +
+        '<div class="stack g10">' +
+          (nb ? '<button class="btn primary block" data-reviser="' + lecon.theme + '">' +
+            'Réviser ce thème · ' + nb + ' questions</button>' : '') +
+          '<button class="btn ghost block" data-resume>Me résumer cette leçon</button>' +
+          '<button class="btn ghost block" data-question>Poser une question à l’assistant</button>' +
+          (suivante ? '<button class="btn ghost block" data-lecon="' + suivante.k + '">' +
+            'Leçon suivante · ' + UI.esc(suivante.n) + '</button>' : '') +
+          '<button class="btn ghost block" data-retour>Retour aux cours</button>' +
+        '</div>' +
+      '</div>';
+    }
+    return '<div class="lecon-etape stack g20">' +
+      '<div class="lecon-corps">' + bloc(lecon.blocs[etape - 1]) + '</div>' +
+      '<div class="row g10">' +
+        (etape > 1 ? '<button class="btn ghost" data-precedent>Précédent</button>' : '') +
+        '<button class="btn primary block grow" data-suivant>' +
+          (etape >= total ? 'Terminer' : 'Suivant') +
+        '</button>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function suivant() {
+    var total = lecon.blocs.length;
+    if (etape <= total) { etape++; rendreEtape(); }
+  }
+
+  function precedent() {
+    if (etape > 0) { etape--; rendreEtape(); }
+  }
+
+  /* Glisser à gauche ou à droite fait la même chose que les boutons :
+     un seul écouteur, posé une fois, qui vérifie à chaque geste si
+     le lecteur de leçon est bien à l'écran. */
+  var balayageBranche = false;
+  function brancherBalayage() {
+    if (balayageBranche) return;
+    balayageBranche = true;
+    var x0 = null, y0 = null;
+    document.addEventListener('touchstart', function (e) {
+      if (!document.querySelector('.lecon-etape')) return;
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+    }, { passive: true });
+    document.addEventListener('touchend', function (e) {
+      if (x0 === null || !document.querySelector('.lecon-etape')) { x0 = null; return; }
+      var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+      x0 = null;
+      if (Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 1.4) return;
+      if (dx < 0) suivant(); else precedent();
     }, { passive: true });
   }
 
