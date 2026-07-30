@@ -645,6 +645,13 @@ window.Q_PLUS_PRATIQUE = [
  o:['Le titulaire et son adresse à jour','Les caractéristiques du véhicule dont le PTAC','Le nom de l’assureur'],
  a:[0,1],
  e:'L’assurance ne figure pas sur la carte grise. Une adresse non mise à jour empêche de recevoir les avis de contravention.',
- tip:'La carte grise décrit le véhicule, pas le contrat.'}
+ tip:'La carte grise décrit le véhicule, pas le contrat.'},
+
+{id:'AD27', t:'admin', d:2,
+ q:'Le coefficient de bonus-malus de l’assurance :',
+ o:['Baisse de 5 % par année sans accident responsable','Augmente de 25 % après un accident entièrement responsable','Repart à 1 dès le premier accident, quelle que soit la faute'],
+ a:[0,1],
+ e:'Le coefficient part de 1 et descend de 5 % chaque année sans sinistre responsable, jusqu’à un plancher de 0,50. Seul un accident responsable le fait remonter, pas un accident sans faute.',
+ tip:'Le malus ne sanctionne que la responsabilité, pas l’accident en lui-même.'}
 
 ];

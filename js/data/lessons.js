@@ -468,6 +468,10 @@ window.LESSONS = [
     'Premier passage à 4 ans, puis tous les 2 ans.',
     'Pour vendre une voiture de plus de 4 ans : contrôle de moins de 6 mois.',
     'Obligatoire aussi pour les motos de plus de 125 cm³ depuis 2024.']},
+  {t:'cle', titre:'Le bonus-malus', items:[
+    'Coefficient à 1 au départ, qui baisse de 5 % par année sans accident responsable, jusqu’à un plancher de 0,50.',
+    'Un accident entièrement responsable l’augmente de 25 %, un accident partagé de 12,5 %.',
+    'Il suit le conducteur et se transmet à un nouveau contrat, pas à un nouveau véhicule.']},
   {t:'texte', txt:'Le permis B couvre les véhicules jusqu’à 3,5 tonnes et 9 places, conducteur compris. Au-delà, il faut une autre catégorie.'},
   {t:'piege', txt:'Un constat signé ne peut plus être modifié. En cas de désaccord, chacun remplit sa partie et note ses observations.'}
  ]},

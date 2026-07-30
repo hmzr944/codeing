@@ -39,7 +39,7 @@ window.Exam = (function () {
 
     var html =
       UI.topbar('Examen blanc', 'Les conditions du jour J, sans la pression', false) +
-      '<div class="stack g16">' +
+      '<div class="stack g20">' +
 
         '<section class="card stack g14">' +
           '<div class="stack g10">' +
@@ -93,7 +93,7 @@ window.Sprint = (function () {
   function intro() {
     var html =
       UI.topbar('Sprint 60 secondes', 'Pour les jours où il n’y a pas le temps') +
-      '<div class="stack g16">' +
+      '<div class="stack g20">' +
         '<section class="card stack g14">' +
           '<h2>Une minute, un maximum de bonnes réponses</h2>' +
           '<p class="small muted">Uniquement des questions à réponse unique. Le chrono tourne en continu : ' +
@@ -130,7 +130,7 @@ window.Survie = (function () {
     var best = Store.s.survivalBest;
     var html =
       UI.topbar('Survie', 'Trois erreurs et la partie s’arrête') +
-      '<div class="stack g16">' +
+      '<div class="stack g20">' +
         '<section class="card stack g14">' +
           '<div class="row g6" style="color:var(--ko)">' +
             Icons.svg('survie', 26) + Icons.svg('survie', 26) + Icons.svg('survieContour', 26) + '</div>' +

@@ -57,7 +57,7 @@ window.Stats = (function () {
 
     var html =
       UI.topbar('Progrès', 'Tout est calculé sur ce téléphone', false) +
-      '<div class="stack g16">' +
+      '<div class="stack g20">' +
 
         '<section class="card level">' +
           '<div class="lv num">' + lvl.n + '</div>' +

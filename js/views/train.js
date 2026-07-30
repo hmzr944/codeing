@@ -80,7 +80,7 @@ window.Train = (function () {
 
     var html =
       UI.topbar('Parcours', 'Jusqu’à trois étoiles par thème, seize à décrocher', false) +
-      '<div class="stack g16">' +
+      '<div class="stack g20">' +
 
         '<section class="card stack g12">' +
           '<div class="row between">' +

@@ -1,7 +1,7 @@
 /* ============================================================
    ASSISTANT - poser une question avec ses mots.
 
-   Il ne devine rien : il cherche dans les 19 leçons et les 459
+   Il ne devine rien : il cherche dans les 19 leçons et les 460
    questions, et il connaît par cœur le vocabulaire du code, qu'il
    relit directement dans les leçons plutôt que d'en garder une
    copie qui finirait par diverger.

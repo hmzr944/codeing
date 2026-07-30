@@ -8,7 +8,7 @@
    cours dit 80.
 
    Les extraits viennent de la recherche hors ligne, qui travaille
-   sur les 19 leçons et les 459 questions vérifiées. Si elle ne
+   sur les 19 leçons et les 460 questions vérifiées. Si elle ne
    trouve rien, on n'appelle pas le modèle : il n'aurait rien à
    reformuler et se mettrait à improviser.
    ============================================================ */

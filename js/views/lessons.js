@@ -208,7 +208,7 @@ window.Cours = (function () {
         '<div class="grow"><div class="ttl fondu" id="ttl">' + UI.esc(l.n) + '</div></div>' +
       '</header>' +
 
-      '<article class="lecon stack g16">' +
+      '<article class="lecon stack g24">' +
         '<div class="lecon-tete stack g10">' +
           '<span class="lecon-ico">' + Icons.svg(l.i, 24) + '</span>' +
           '<h1>' + UI.esc(l.n) + '</h1>' +

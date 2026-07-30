@@ -81,7 +81,7 @@ const d = await p.evaluate(() => ({
   stockage: Store.persistant,
   doublons: Store.all.length - new Set(Store.all.map(q => q.id)).size
 }));
-test('459 questions chargées', d.questions === 459, d.questions);
+test('460 questions chargées', d.questions === 460, d.questions);
 test('16 thèmes', d.themes === 16, d.themes);
 test('19 leçons', d.lecons === 19, d.lecons);
 test('blocs de cours', d.blocs > 100, d.blocs);
@@ -278,7 +278,7 @@ await ctx.setOffline(true);
 await p.goto(BASE, { waitUntil: 'domcontentloaded' }).catch(() => {});
 await p.waitForTimeout(600);
 const horsLigne = await p.evaluate(() => (window.Store && Store.all.length) || 0).catch(() => 0);
-test('application chargée sans réseau', horsLigne === 459, horsLigne + ' question(s)');
+test('application chargée sans réseau', horsLigne === 460, horsLigne + ' question(s)');
 await ctx.setOffline(false);
 
 /* ---------------- bilan ---------------- */

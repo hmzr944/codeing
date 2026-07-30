@@ -8,7 +8,7 @@ window.Settings = (function () {
 
     var html =
       UI.topbar('Réglages', 'Tout reste sur cet appareil') +
-      '<div class="stack g16">' +
+      '<div class="stack g20">' +
 
         '<section class="card stack g20">' +
           '<div class="field">' +

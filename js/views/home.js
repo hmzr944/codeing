@@ -158,7 +158,7 @@ window.Home = (function () {
           Icons.svg('reglages', 19) + '</button>' +
       '</header>' +
 
-      '<div class="stack g16">' +
+      '<div class="stack g20">' +
 
         /* Bloc d'accueil : salutation, série, semaine */
         '<section class="hero stack g16">' +

@@ -13,7 +13,7 @@ navigateur et fonctionne hors ligne.
 
 | | |
 |---|---|
-| **459 questions** | 16 thèmes, chacune avec une explication et souvent une astuce mémo |
+| **460 questions** | 16 thèmes, chacune avec une explication et souvent une astuce mémo |
 | **66 panneaux** | dessinés en SVG, forme et couleurs fidèles, pictogrammes simplifiés |
 | **19 leçons** | le cours par thème, en blocs illustrés plutôt qu'en pavés : à retenir, pièges, chiffres, panneaux, schémas. Plus « les chiffres à connaître par cœur », un **lexique en mots simples** et **ce qui a changé récemment** |
 | **11 schémas** | dessinés en SVG pour ce qui ne s'explique pas par des mots : distance d'arrêt, giratoire, angle mort, PLS, panne sur autoroute |
@@ -87,7 +87,7 @@ Il sait faire trois choses :
   est faux ».
 
 La recherche fonctionne **hors ligne**, bloc par bloc, sur les 19 leçons et les
-459 questions. Un petit dictionnaire traduit le langage courant vers le
+460 questions. Un petit dictionnaire traduit le langage courant vers le
 vocabulaire du code, parce que personne ne tape « alcoolémie en période
 probatoire » mais plutôt « je peux boire combien ». Les expressions sont
 traitées avant les mots isolés, sans quoi « rond point » serait compris comme
@@ -151,7 +151,7 @@ deux crans.
 | Revient dans | le jour même | 1 j | 3 j | 7 j | 16 j | 35 j |
 
 Concrètement : ce qui est raté revient tout de suite, ce qui est su disparaît de
-la circulation. C'est ce qui permet de couvrir 459 questions sans les revoir
+la circulation. C'est ce qui permet de couvrir 460 questions sans les revoir
 toutes chaque jour.
 
 ### Le retour quotidien
