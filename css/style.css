@@ -941,12 +941,6 @@ p{margin:0}
 }
 .fb-aide:active{color:var(--txt)}
 
-/* ---------- étapes du parcours d'apprentissage ---------- */
-.steps{display:flex;gap:4px}
-.steps i{flex:1;height:4px;border-radius:2px;background:var(--surface-3)}
-.steps i.done{background:var(--ok)}
-.steps i.now{background:var(--accent)}
-
 /* ============================================================
    PROGRÈS
    ============================================================ */

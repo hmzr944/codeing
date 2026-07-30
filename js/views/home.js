@@ -85,11 +85,6 @@ window.Home = (function () {
             ? 'Tous les thèmes sont étoilés. Continue à entretenir, et passe l’examen sereinement.'
             : j.etape.d) + '</div>' +
         '</div>' +
-        '<div class="steps" aria-hidden="true">' +
-          j.etapes.map(function (e, i) {
-            return '<i class="' + (i < j.i || j.fini ? 'done' : i === j.i ? 'now' : '') + '"></i>';
-          }).join('') +
-        '</div>' +
         '<div class="gauge thin"><i data-anime="--pct" style="--pct:' + (jPct / 100) + '"></i></div>' +
         (j.fini ? '' : '<button class="btn sm ghost" data-etape="' + j.etape.action + '">' +
           UI.esc(j.etape.cta) + '</button>') +
