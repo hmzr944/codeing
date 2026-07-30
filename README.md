@@ -252,7 +252,7 @@ tools/responsive.mjs   débordements et cibles tactiles de 320 à 430 px
 tools/build-icons.mjs  extrait les icônes Phosphor dans js/icons.js
 tools/build-single.mjs génère la version en un seul fichier
 tools/build-artifact.mjs génère la version pour page publiée
-tools/build-font.mjs   intègre Montserrat en base64 dans css/font.css
+tools/build-font.mjs   intègre Lexend en base64 dans css/font.css
 tools/verifier.mjs     parcours complet de bout en bout (58 contrôles)
 tools/test-worker.mjs  garde-fous du relais IA, sans le déployer
 tools/test-ia.mjs      assistant branché sur un faux relais

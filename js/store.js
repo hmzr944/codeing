@@ -27,7 +27,7 @@ window.Store = (function () {
   function blank() {
     return {
       v: 1,
-      profile: { name: '', examDate: '', goal: 20, reminder: '', theme: 'auto' },
+      profile: { name: '', examDate: '', goal: 20, reminder: '', theme: 'jour' },
       xp: 0,
       cards: {},                                  // id -> fiche SRS
       themes: {},                                 // clé thème -> {seen, ok}

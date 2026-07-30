@@ -17,12 +17,14 @@
 <div id="app" class="app"></div>
 
 <nav id="tabbar" class="tabbar" hidden aria-label="Navigation principale">
-  <button class="tab" data-go="home">Accueil</button>
-  <button class="tab" data-go="train">Parcours</button>
-  <button class="tab" data-go="exam">Examen</button>
-  <button class="tab" data-go="lessons">Cours</button>
-  <button class="tab" data-go="stats">Progrès</button>
+  <button class="tab" data-go="home"><span class="tab-label">Accueil</span></button>
+  <button class="tab" data-go="train"><span class="tab-label">Parcours</span></button>
+  <button class="tab" data-go="exam"><span class="tab-label">Examen</span></button>
+  <button class="tab" data-go="lessons"><span class="tab-label">Cours</span></button>
+  <button class="tab" data-go="stats"><span class="tab-label">Progrès</span></button>
 </nav>
+
+<button id="chat-fab" class="chat-fab" aria-label="Poser une question à l’assistant"></button>
 
 <div id="toaster" class="toaster" aria-live="polite"></div>
 

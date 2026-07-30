@@ -77,6 +77,11 @@ window.App = (function () {
 
   /* ---------------- démarrage ---------------- */
 
+  /* Une icône par onglet, en plus du libellé : cinq mots courts
+     suffisaient à l'œil qui les relit chaque jour, mais pas au
+     premier passage, où l'icône est ce qui accroche le regard. */
+  var ICONE_ONGLET = { home: 'maison', train: 'parcours', exam: 'examen', lessons: 'livre', stats: 'graphique' };
+
   function boot() {
     applyTheme();
     window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function () {
@@ -84,8 +89,19 @@ window.App = (function () {
     });
 
     document.querySelectorAll('.tab').forEach(function (b) {
-      b.addEventListener('click', function () { go(b.getAttribute('data-go')); });
+      var go1 = b.getAttribute('data-go');
+      b.insertAdjacentHTML('afterbegin', Icons.svg(ICONE_ONGLET[go1], 21));
+      b.addEventListener('click', function () { go(go1); });
     });
+
+    /* La bulle de l'assistant : posée une fois pour toutes, elle suit
+       Mina quel que soit l'écran, en dehors des moments où l'assistant
+       est déjà atteignable autrement (lecture d'une leçon, épreuve
+       chronométrée) — voir la règle CSS qui la masque avec la barre
+       d'onglets. */
+    var bulle = document.getElementById('chat-fab');
+    bulle.innerHTML = Icons.svg('chat', 22);
+    bulle.addEventListener('click', function () { Chat.ouvrir(); });
 
     if (!Store.s.flags.onboarded) {
       Onboarding.view();

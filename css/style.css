@@ -61,9 +61,10 @@
   --pad:clamp(16px,4.6vw,22px);
   --maxw:600px;
 
-  /* Montserrat : équivalent libre de Gotham, même famille géométrique.
+  /* Lexend : conçue pour la lisibilité (proportions ouvertes, espacement
+     généreux), plus adaptée à une révision d'examen que Montserrat.
      Intégrée en base64 dans css/font.css, donc jamais absente. */
-  --font:'Montserrat',ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --font:'Lexend',ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --ease:cubic-bezier(.2,.8,.25,1);
 }
 
@@ -891,8 +892,9 @@ p{margin:0}
 
 /* ============================================================
    BARRE D'ONGLETS
-   Pas d'icônes : 5 libellés courts + un trait d'accent sur l'actif.
-   Plus lisible qu'une rangée d'emoji, et sans dépendance externe.
+   Une icône (Phosphor, embarquée) au-dessus de chaque libellé : au
+   premier passage, c'est elle qui accroche le regard, le mot ne fait
+   que confirmer. Un trait d'accent marque l'onglet actif.
    ============================================================ */
 .tabbar{
   position:fixed;left:0;right:0;bottom:0;z-index:40;
@@ -905,15 +907,36 @@ p{margin:0}
    sans ceci, la barre masquée continue d'intercepter les clics */
 .tabbar[hidden]{display:none}
 .tab{
-  flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;
-  padding:0 2px 8px;color:var(--txt-3);font-size:11px;font-weight:700;letter-spacing:-.01em;
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;
+  padding:10px 2px 8px;color:var(--txt-3);font-size:11px;font-weight:700;letter-spacing:-.01em;
 }
+.tab-label{display:block}
 .tab::before{
   content:"";display:block;width:26px;height:3px;border-radius:0 0 3px 3px;
   background:transparent;transition:background .18s var(--ease);
 }
-.tab.on{color:var(--txt)}
+.tab.on{color:var(--accent-txt)}
 .tab.on::before{background:var(--accent)}
+
+/* ---------- bulle de l'assistant, posée sur tous les écrans ---------- */
+.chat-fab{
+  position:fixed;right:16px;z-index:39;
+  bottom:calc(70px + 16px + env(safe-area-inset-bottom));
+  width:52px;height:52px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--accent);color:var(--accent-ink);
+  box-shadow:var(--shadow);
+  transition:transform .16s var(--ease);
+}
+.chat-fab:active{transform:scale(.92)}
+/* masquée partout où la barre d'onglets l'est aussi : lecture d'une
+   leçon, page de l'assistant, épreuve chronométrée — des écrans qui
+   ont déjà leur propre porte d'entrée vers l'assistant, ou (l'épreuve)
+   qui doit rester sans aide. */
+body.no-tabbar .chat-fab{display:none}
+@media (prefers-reduced-motion:reduce){
+  .chat-fab{transition:none}
+}
 
 /* ============================================================
    NOTIFICATIONS & CONFETTIS
