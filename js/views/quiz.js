@@ -156,7 +156,8 @@ window.Quiz = (function () {
         '<span class="k">' + letters[i] + '</span><span class="grow">' + UI.esc(q.o[i]) + '</span></button>';
     }
     body += '</div>' +
-      (aideDispo() && !Q.hintUsed
+      '<div id="indice"></div>' +
+      (aideDispo() && !Q.hintUsed && q.tip
         ? '<button class="hint-btn" data-hint>' + Icons.svg('ampoule', 16) + 'Un indice</button>'
         : '') +
       '<div id="fb"></div></div>';
@@ -226,21 +227,19 @@ window.Quiz = (function () {
     });
   }
 
-  /* Un indice par question, jamais plus : il écarte une seule mauvaise
-     réponse (jamais choisie), pour réduire le doute sans donner la
-     solution. */
+  /* Un indice par question, jamais plus : le vrai indice écrit pour
+     cette question (q.tip), pas une réponse écartée au hasard. Rien
+     n'est demandé à un modèle : l'indice vient déjà du cours. */
   function hint() {
     if (Q.locked || Q.hintUsed) return;
     var q = current();
-    var candidats = [];
-    for (var i = 0; i < q.o.length; i++) {
-      if (q.a.indexOf(i) < 0 && Q.sel.indexOf(i) < 0) candidats.push(i);
-    }
-    if (!candidats.length) return;
+    if (!q.tip) return;
     Q.hintUsed = true;
-    var choix = candidats[Math.floor(Math.random() * candidats.length)];
-    var node = document.querySelector('.ans[data-i="' + choix + '"]');
-    if (node) { node.disabled = true; node.classList.add('eliminee'); }
+    var zone = document.getElementById('indice');
+    if (zone) {
+      zone.innerHTML = '<div class="indice rise">' + Icons.svg('ampoule', 16) +
+        '<p>' + UI.esc(q.tip) + '</p></div>';
+    }
     var btn = document.querySelector('[data-hint]');
     if (btn) btn.remove();
     UI.buzz(8);

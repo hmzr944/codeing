@@ -419,9 +419,6 @@ p{margin:0}
 .ans.bad .k{background:var(--ko);color:var(--ko-ink)}
 .ans.miss{border-style:dashed;border-color:var(--ok)}
 .ans[disabled]{pointer-events:none}
-/* Écartée par l'indice : ni fausse (rouge), ni juste barrée — juste
-   mise en retrait, pour ne pas ressembler à une correction. */
-.ans.eliminee{opacity:.4;text-decoration:line-through}
 
 .hint-btn{
   display:inline-flex;align-items:center;gap:7px;align-self:flex-start;
@@ -431,6 +428,16 @@ p{margin:0}
   transition:background .15s var(--ease);
 }
 .hint-btn:active{background:var(--surface-3)}
+
+/* L'indice : un vrai indice écrit pour cette question précise, pas
+   une réponse écartée au hasard. */
+.indice{
+  display:flex;gap:10px;align-items:flex-start;
+  padding:12px 14px;border-radius:var(--r-card);
+  background:var(--accent-soft);border:1px solid var(--accent-line);
+}
+.indice svg.ico{color:var(--accent-txt);margin-top:1px;flex:0 0 auto}
+.indice p{font-size:13.5px;line-height:1.5;color:var(--txt)}
 
 /* Correction */
 .fb{border-radius:var(--r-card);padding:16px;border:1px solid}
