@@ -28,7 +28,7 @@ window.Quiz = (function () {
     Q = {
       mode: cfg.mode, conf: m, theme: cfg.theme || '',
       list: cfg.questions, i: 0,
-      sel: [], locked: false,
+      sel: [], locked: false, hintUsed: false,
       results: [],                       // {q, correct, chosen}
       combo: 0, bestCombo: 0,
       lives: m.lives,
@@ -155,7 +155,11 @@ window.Quiz = (function () {
       body += '<button class="ans" data-i="' + i + '">' +
         '<span class="k">' + letters[i] + '</span><span class="grow">' + UI.esc(q.o[i]) + '</span></button>';
     }
-    body += '</div><div id="fb"></div></div>';
+    body += '</div>' +
+      (aideDispo() && !Q.hintUsed
+        ? '<button class="hint-btn" data-hint>' + Icons.svg('ampoule', 16) + 'Un indice</button>'
+        : '') +
+      '<div id="fb"></div></div>';
 
     var cta = '<div class="cta-bar">' +
       '<button class="btn primary block" id="go" disabled>Valider</button></div>';
@@ -214,11 +218,32 @@ window.Quiz = (function () {
       if (Q.results.length === 0 || confirm('Quitter la session ? La progression de cette session sera perdue.')) quit();
     });
     UI.on('.ans', 'click', function () { pick(+this.getAttribute('data-i')); });
+    UI.on('[data-hint]', 'click', hint);
     UI.on('[data-assist]', 'click', ouvrirAide);
     var go = document.getElementById('go');
     go.addEventListener('click', function () {
       if (Q.locked) next(); else validate(false);
     });
+  }
+
+  /* Un indice par question, jamais plus : il écarte une seule mauvaise
+     réponse (jamais choisie), pour réduire le doute sans donner la
+     solution. */
+  function hint() {
+    if (Q.locked || Q.hintUsed) return;
+    var q = current();
+    var candidats = [];
+    for (var i = 0; i < q.o.length; i++) {
+      if (q.a.indexOf(i) < 0 && Q.sel.indexOf(i) < 0) candidats.push(i);
+    }
+    if (!candidats.length) return;
+    Q.hintUsed = true;
+    var choix = candidats[Math.floor(Math.random() * candidats.length)];
+    var node = document.querySelector('.ans[data-i="' + choix + '"]');
+    if (node) { node.disabled = true; node.classList.add('eliminee'); }
+    var btn = document.querySelector('[data-hint]');
+    if (btn) btn.remove();
+    UI.buzz(8);
   }
 
   function pick(i) {
@@ -271,7 +296,20 @@ window.Quiz = (function () {
     }
   }
 
+  /* La petite pique amicale sur une mauvaise réponse : un mème choisi
+     au hasard dans js/data/memes.js, jamais deux fois la même logique
+     que l'explication qui suit juste en dessous. */
+  function memeAleatoire() {
+    if (!window.MEMES || !window.MEMES.length) return '';
+    var m = window.MEMES[Math.floor(Math.random() * window.MEMES.length)];
+    return '<figure class="fb-meme">' +
+      '<img src="' + UI.esc(m.img) + '" alt="" loading="lazy">' +
+      '<figcaption>' + UI.esc(m.legende) + '</figcaption></figure>';
+  }
+
   function revealCorrection(q, correct, timedOut) {
+    var hintBtn = document.querySelector('[data-hint]');
+    if (hintBtn) hintBtn.remove();
     var nodes = document.querySelectorAll('.ans');
     for (var i = 0; i < nodes.length; i++) {
       nodes[i].disabled = true;
@@ -286,6 +324,7 @@ window.Quiz = (function () {
     var ico = timedOut ? 'chrono' : (correct ? 'valide' : 'fermer');
     var fb = '<div class="fb ' + (correct ? 'ok' : 'ko') + ' rise"><div class="stack g10">' +
       '<div class="fb-h">' + Icons.svg(ico, 19) + head + '</div>' +
+      (correct ? '' : memeAleatoire()) +
       '<p class="fb-b">' + UI.esc(q.e) + '</p>' +
       (q.tip ? '<div class="tip"><b>Astuce mémo.</b> ' + UI.esc(q.tip) + '</div>' : '') +
       /* Deux sorties de secours quand l'explication ne suffit pas :
@@ -332,7 +371,7 @@ window.Quiz = (function () {
   function next() {
     if (Q.conf.lives && Q.lives <= 0) { stop(); finish(); return; }
     Q.i++;
-    Q.sel = []; Q.locked = false; Q.tLeft = Q.tPerQ;
+    Q.sel = []; Q.locked = false; Q.hintUsed = false; Q.tLeft = Q.tPerQ;
     if (Q.i >= Q.list.length) { stop(); finish(); return; }
     render();
     paintTimer();
