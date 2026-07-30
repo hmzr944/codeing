@@ -1,6 +1,6 @@
 # 002 — Réutiliser le token --ease pour la sortie du toast
 
-- **Status**: TODO
+- **Status**: DONE
 - **Commit**: 2690117
 - **Severity**: LOW
 - **Category**: Cohésion & tokens

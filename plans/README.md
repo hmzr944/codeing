@@ -7,10 +7,10 @@ levier (impact ÷ effort) décroissant.
 
 | # | Titre | Sévérité | Fichiers | Statut |
 |---|---|---|---|---|
-| [001](001-gauge-width-to-transform.md) | Jauges : `width` → `transform` | HIGH | `css/style.css`, `js/views/*.js` | TODO |
-| [002](002-toast-exit-shared-ease.md) | Sortie du toast : réutiliser `--ease` | LOW | `js/ui.js` | TODO |
-| [003](003-grid-entrance-stagger.md) | Décalage à l'entrée des grilles | LOW | `css/style.css` | TODO |
-| [004](004-reduced-motion-keep-fade.md) | `prefers-reduced-motion` : garder un fondu | LOW | `css/style.css` | TODO |
+| [001](001-gauge-width-to-transform.md) | Jauges : `width` → `transform` | HIGH | `css/style.css`, `js/views/*.js` | DONE |
+| [002](002-toast-exit-shared-ease.md) | Sortie du toast : réutiliser `--ease` | LOW | `js/ui.js` | DONE |
+| [003](003-grid-entrance-stagger.md) | Décalage à l'entrée des grilles | LOW | `css/style.css` | DONE |
+| [004](004-reduced-motion-keep-fade.md) | `prefers-reduced-motion` : garder un fondu | LOW | `css/style.css` | DONE |
 
 ## Dépendances
 

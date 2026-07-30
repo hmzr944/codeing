@@ -197,7 +197,11 @@ for (const theme of ['nuit', 'jour']) {
     }, theme);
     await p.reload({ waitUntil: 'networkidle' });
     try { await ecran.aller(p); } catch { /* écran inatteignable à cette étape */ }
-    await p.waitForTimeout(250);
+    /* 600ms et non 250 : les grilles à entrée décalée (médailles, succès,
+       panneaux) mettent jusqu'à 480ms (200ms de délai + 280ms de durée)
+       avant que leur dernier élément soit stabilisé. Un audit de contraste
+       juge l'état stabilisé, pas une image prise en plein fondu. */
+    await p.waitForTimeout(600);
 
     const releve = await p.evaluate(RELEVE);
     mesures += releve.length;

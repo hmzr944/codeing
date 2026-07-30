@@ -24,10 +24,16 @@ const bloc = (n) => console.log(`\n${n}`);
 
 const p = await ctx.newPage();
 p.on('pageerror', (e) => erreurs.push('JS: ' + e.message));
-p.on('console', (m) => { if (m.type() === 'error') erreurs.push('console: ' + m.text()); });
 /* Un relais IA injoignable n'est pas un défaut : l'assistant est
    conçu pour retomber sur le cours. Ce chemin est vérifié à part,
-   dans tools/test-ia.mjs, contre un relais maîtrisé. */
+   dans tools/test-ia.mjs, contre un relais maîtrisé. Ici, l'origine
+   locale de test n'étant pas dans la liste blanche du relais réel, le
+   rejet CORS est attendu et n'indique aucune régression. */
+p.on('console', (m) => {
+  if (m.type() !== 'error') return;
+  if (/workers\.dev|CORS policy|net::ERR_FAILED/.test(m.text())) return;
+  erreurs.push('console: ' + m.text());
+});
 p.on('requestfailed', (r) => {
   if (!/workers\.dev|IA_URL/.test(r.url())) erreurs.push('requête: ' + r.url());
 });

@@ -1,6 +1,6 @@
 # 001 — Animer les barres de progression via transform plutôt que width
 
-- **Status**: TODO
+- **Status**: DONE
 - **Commit**: 2690117
 - **Severity**: HIGH
 - **Category**: Performance

@@ -1,6 +1,6 @@
 # 003 — Décalage (stagger) à l'entrée des grilles de médailles, succès et panneaux
 
-- **Status**: TODO
+- **Status**: DONE
 - **Commit**: 2690117
 - **Severity**: LOW
 - **Category**: Occasion manquée / Cohésion

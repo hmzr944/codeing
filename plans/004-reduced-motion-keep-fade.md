@@ -1,10 +1,21 @@
 # 004 — Garder un fondu d'opacité sous prefers-reduced-motion, pas un arrêt sec
 
-- **Status**: TODO
+- **Status**: DONE
 - **Commit**: 2690117
 - **Severity**: LOW
 - **Category**: Accessibilité
 - **Estimated scope**: 1 fichier CSS, 1 bloc `@media`
+
+> **Note post-exécution** : ce plan ne mentionnait que deux blocs
+> `@media (prefers-reduced-motion:reduce)` dans le fichier (celui de la
+> feuille, ligne 750, et le bloc global, ligne 967 après application des
+> plans 001/003). Un troisième existait déjà avant même ce plan, à la ligne
+> 699 : `.pense i{animation:none;opacity:.6}` — sans rapport avec ce plan
+> (l'indicateur "l'assistant réfléchit"), à laisser strictement intact.
+> L'agent exécuteur a correctement respecté la clause d'arrêt du plan
+> ("si un troisième bloc existe, STOP") ; ce troisième bloc étant confirmé
+> hors périmètre, le plan a ensuite été appliqué tel quel sur le bloc visé
+> (ligne 750), sans toucher aux deux autres.
 
 ## Problem
 
