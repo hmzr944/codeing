@@ -146,7 +146,7 @@ window.Home = (function () {
 
     var html =
       '<header class="topbar">' +
-        '<div class="brand grow"><div class="brand-mark" aria-hidden="true">FV</div>' +
+        '<div class="brand grow"><div class="brand-mark">' + UI.logo() + '</div>' +
         '<div><div class="brand-name">Feu Vert</div>' +
         '<div class="brand-sub">Code de la route 2026</div></div></div>' +
         '<button class="back" data-go="settings" aria-label="Réglages">' +

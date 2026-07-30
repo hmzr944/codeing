@@ -203,11 +203,35 @@ p{margin:0}
 .brand-mark{
   width:40px;height:40px;flex:0 0 40px;border-radius:13px;
   background:var(--accent);color:var(--accent-ink);
-  display:grid;place-items:center;font-weight:700;font-size:17px;letter-spacing:-.04em;
+  display:grid;place-items:center;
 }
 .brand-name{font-size:16px;font-weight:700;letter-spacing:-.03em}
 .brand-sub{font-size:11.5px;color:var(--txt-3)}
-.brand-mark.lg{width:64px;height:64px;border-radius:20px;font-size:24px}
+.brand-mark.lg{width:64px;height:64px;border-radius:20px}
+
+/* ---------- marque : le feu vert ---------- */
+.logo-fv{width:60%;height:60%}
+.logo-fv-halo,.logo-fv-lit{transform-box:fill-box;transform-origin:center}
+.logo-fv-lit{transition:transform .16s var(--ease)}
+.logo-fv-halo{opacity:0}
+/* Vue une seule fois par ouverture sur la porte d'entrée, la grande
+   marque peut se permettre de vivre un peu : la même dans la barre du
+   haut, elle, reste calme, parce qu'elle est sous les yeux en continu
+   à chaque visite de l'accueil. */
+.brand-mark.lg .logo-fv-halo{animation:logoSignal 2.6s var(--ease) infinite}
+@keyframes logoSignal{
+  0%{transform:scale(.7);opacity:.3}
+  70%{transform:scale(1.9);opacity:0}
+  100%{opacity:0}
+}
+/* Le feu passe au vert au moment où on entre : un signal net, une
+   seule fois, pile pendant que l'écran s'efface. */
+.brand-mark.lg .logo-fv-declenche .logo-fv-halo{animation:logoFlare .42s var(--ease) forwards}
+.logo-fv-declenche .logo-fv-lit{transform:scale(1.3)}
+@keyframes logoFlare{
+  0%{transform:scale(.7);opacity:.6}
+  100%{transform:scale(2.6);opacity:0}
+}
 
 /* ---------- entrée de session ---------- */
 .entree{

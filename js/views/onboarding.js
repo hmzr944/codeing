@@ -32,7 +32,7 @@ window.Onboarding = (function () {
   function intro() {
     UI.mount(shell(
       '<div class="stack g20" style="flex:1">' +
-        '<div class="brand"><div class="brand-mark" aria-hidden="true">FV</div>' +
+        '<div class="brand"><div class="brand-mark">' + UI.logo() + '</div>' +
         '<div><div class="brand-name">Feu Vert</div>' +
         '<div class="brand-sub">Code de la route 2026</div></div></div>' +
 

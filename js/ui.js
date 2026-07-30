@@ -119,6 +119,22 @@ window.UI = (function () {
     setTimeout(function () { wrap.remove(); }, 3600);
   }
 
+  /* ---------- marque ---------- */
+  /* Le feu passe au vert : deux lentilles éteintes, une allumée en bas,
+     qui respire doucement et envoie un signal en anneau. Toujours en
+     currentColor, comme le reste des icônes : la marque suit l'encre
+     du badge qui la porte plutôt que d'imposer sa propre couleur. */
+  function logo() {
+    return '<svg class="logo-fv" viewBox="0 0 40 40" aria-hidden="true">' +
+      '<rect x="14" y="5" width="12" height="24" rx="6" fill="currentColor" opacity=".16"/>' +
+      '<circle cx="20" cy="12" r="3" fill="currentColor" opacity=".35"/>' +
+      '<circle cx="20" cy="19.5" r="3" fill="currentColor" opacity=".35"/>' +
+      '<circle class="logo-fv-halo" cx="20" cy="27.5" r="6" fill="currentColor"/>' +
+      '<circle class="logo-fv-lit" cx="20" cy="27.5" r="3.6" fill="currentColor"/>' +
+      '<rect x="9" y="34" width="22" height="3" rx="1.5" fill="currentColor" opacity=".55"/>' +
+    '</svg>';
+  }
+
   /* ---------- retour tactile discret ---------- */
   function buzz(ms) {
     if (navigator.vibrate) { try { navigator.vibrate(ms || 12); } catch (e) {} }
@@ -146,6 +162,6 @@ window.UI = (function () {
     root: root, esc: esc, mount: mount, on: on, topbar: topbar,
     toast: toast, celebrate: celebrate, confetti: confetti, buzz: buzz,
     empty: empty, pct: pct, plural: plural, dateFR: dateFR,
-    tween: tween, animateGauges: animateGauges
+    tween: tween, animateGauges: animateGauges, logo: logo
   };
 })();

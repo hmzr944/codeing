@@ -21,6 +21,12 @@ const lire = (f) => fs.readFileSync(path.join(root, f), 'utf8');
 const css = lire('css/style.css');
 const police = lire('css/font.css');
 
+/* La marque elle-même : lue dans js/ui.js plutôt que redessinée, pour
+   la même raison que les tokens ne sont jamais redéclarés à la main. */
+const uiJs = lire('js/ui.js');
+const MARQUE = uiJs.slice(uiJs.indexOf("'<svg class=\"logo-fv\""), uiJs.indexOf("';", uiJs.indexOf("'<svg class=\"logo-fv\"")))
+  .replace(/' \+\s*\n\s*'/g, '').replace(/^'|'$/g, '');
+
 /* ---------------- tokens ---------------- */
 
 /* On lit les deux blocs de variables plutôt que de les redéclarer :
@@ -183,8 +189,9 @@ h1{font-size:clamp(30px,7vw,52px);font-weight:850;letter-spacing:-.04em;line-hei
 .marque i{
   width:46px;height:46px;flex:0 0 46px;border-radius:14px;
   background:var(--accent);color:var(--accent-ink);
-  display:grid;place-items:center;font-weight:850;font-size:19px;letter-spacing:-.05em;font-style:normal;
+  display:grid;place-items:center;font-style:normal;
 }
+.marque i svg{width:60%;height:60%}
 .marque b{font-size:15px;font-weight:800;letter-spacing:-.02em;display:block}
 .marque span{font-size:12px;color:var(--txt-3)}
 
@@ -289,7 +296,7 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--line);
 
 <div class="page">
 
-  <div class="marque"><i>FV</i><div><b>Feu Vert</b><span>Révision du code de la route 2026</span></div></div>
+  <div class="marque"><i>${MARQUE}</i><div><b>Feu Vert</b><span>Révision du code de la route 2026</span></div></div>
 
   <h1>Un seul accent, deux couleurs qui ne mentent jamais.</h1>
   <p class="premisse">Le jaune n’est pas un choix décoratif : c’est la couleur de la
