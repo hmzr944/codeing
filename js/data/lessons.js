@@ -315,16 +315,40 @@ window.LESSONS = [
     'Je mets le clignotant.',
     'Je déboîte et je dépasse.',
     'Je vois la voiture dépassée entière dans mon rétroviseur intérieur.',
-    'Alors seulement, je me rabats.']},
+    'Alors seulement, je me rabats, sans rester inutilement à gauche.']},
   {t:'schema', d:'depassement-cycliste'},
+  {t:'retenir', txt:'Écart latéral minimal pour dépasser un cycliste : 1,50 m hors agglomération, 1 m en agglomération. Sans cet espace, je patiente.'},
   {t:'cle', titre:'Quand dépasser est interdit', items:[
     'Quand je ne vois pas assez loin : virage, sommet de côte.',
     'Sur un passage à niveau ou un passage piéton.',
     'Dans un carrefour où je ne suis pas prioritaire.',
-    'Quand la voiture devant moi est déjà en train de doubler.']},
+    'Quand la voiture devant moi est déjà en train de doubler (dépassement en cascade).']},
   {t:'piege', txt:'Accélérer pendant qu’on te double est une infraction, et une cause classique de choc frontal. Serre à droite et laisse faire.'},
-  {t:'texte', txt:'Marche arrière et demi-tour sont interdits sur autoroute et voie rapide, sur un passage à niveau, et dans tout virage sans visibilité.'},
-  {t:'retenir', txt:'Ouvre ta portière avec la main opposée. Ton corps pivote tout seul et tes yeux voient le cycliste qui arrive.'}
+  {t:'cle', titre:'Dépasser par la droite : les deux seules exceptions', items:[
+    'Le véhicule devant signale son intention de tourner à gauche.',
+    'En circulation à files continues et à vitesse réduite : une file peut avancer plus vite qu’une autre sans que ce soit un dépassement.',
+    'En dehors de ces deux cas, dépasser par la droite est une infraction sanctionnée de 3 points et 135 €.']},
+  {t:'texte', txt:'Le dépassement d’un poids lourd demande une distance de visibilité importante : doubler un ensemble de 16 mètres à 90 km/h prend plusieurs centaines de mètres, et le déport d’air au croisement surprend surtout les véhicules légers et les deux-roues.'},
+
+  {t:'cle', titre:'Changer de voie ou s’insérer', items:[
+    'Sur une route à plusieurs voies, je change une voie à la fois, avec un contrôle complet à chaque fois : l’angle mort peut cacher un véhicule rapide arrivant de la voie la plus à gauche.',
+    'Je me place sur la voie de gauche suffisamment tôt : un placement anticipé rend ma trajectoire lisible, un changement au dernier moment surprend toujours.',
+    'Depuis un stop, je m’insère dans une file dense sans bénéficier d’aucune priorité : j’attends un espace suffisant, sans forcer le passage.',
+    'La règle du zip (fermeture éclair) : s’insérer alternativement, un véhicule sur deux, au dernier moment plutôt que de se rabattre trop tôt, fluidifie le trafic.']},
+  {t:'piege', txt:'Franchir un terre-plein central ou un îlot, même pour faire demi-tour, est interdit et peut être sanctionné comme un franchissement de ligne continue : ces séparateurs existent pour éviter le choc frontal.'},
+
+  {t:'texte', txt:'Marche arrière et demi-tour sont interdits sur autoroute et voie rapide, sur un passage à niveau, sur un pont et dans tout virage sans visibilité. Les deux exigent un contrôle visuel direct et constant, la caméra de recul ne montrant qu’un secteur.'},
+  {t:'cle', titre:'Se garer et repartir', items:[
+    'Stationner en marche arrière à l’arrivée permet de repartir en marche avant, avec une visibilité complète : c’est la manœuvre la plus sûre sur un parking fréquenté.',
+    'Un créneau se prépare en signalant l’intention avant de s’arrêter, puis en contrôlant l’ensemble de l’environnement pendant toute la manœuvre.',
+    'Le démarrage en côte peut s’aider du frein de stationnement ou d’une assistance au maintien, mais n’évite pas de vérifier l’absence de recul.']},
+  {t:'retenir', txt:'Ouvre ta portière avec la main opposée. Ton corps pivote tout seul et tes yeux voient le cycliste qui arrive.'},
+
+  {t:'cle', titre:'Autres réflexes de manœuvre', items:[
+    'Croisement sur route étroite avec un obstacle de mon côté : c’est moi qui empiète sur la voie opposée, donc moi qui cède le passage.',
+    'Pour tourner à droite dans une rue étroite, je serre à droite plutôt que de me déporter à gauche, ce qui inviterait un deux-roues à s’engager dans l’espace créé.',
+    'Franchir une ligne continue pour dépasser un cycliste ou un piéton est toléré si la visibilité est suffisante et sans gêner un véhicule venant en face ; klaxonner peut le déséquilibrer.',
+    'Face à un conducteur agressif qui colle ou provoque, la bonne réaction est d’augmenter ma propre marge et de le laisser passer, jamais de freiner pour lui donner une leçon.']}
  ]},
 
 {k:'autoroute', n:'Autoroute & voies rapides', i:'autoroute', theme:'autoroute',
@@ -332,21 +356,38 @@ window.LESSONS = [
  blocs:[
   {t:'cle', titre:'Entrer', items:[
     'La voie d’insertion sert à prendre de la vitesse, pas à hésiter.',
-    'Je n’ai aucune priorité : je m’insère dans un espace libre.',
-    'S’arrêter en bout de voie d’insertion est très dangereux.']},
+    'Je n’ai aucune priorité : j’ajuste ma vitesse pour m’intercaler dans un espace suffisant.',
+    'S’arrêter en bout de voie d’insertion est très dangereux.',
+    'Le véhicule déjà sur l’autoroute est prioritaire, mais il facilite l’insertion en se déportant s’il le peut : la coopération évite le freinage brutal.']},
   {t:'cle', titre:'Circuler', items:[
-    'Voie de droite par défaut. La gauche sert à dépasser, puis on se rabat.',
-    'Sur la voie de gauche, il faut pouvoir tenir au moins 80 km/h.',
-    'Interdits : piétons, vélos, cyclomoteurs, tout véhicule trop lent.',
-    'Marche arrière et demi-tour : interdits, sans exception.']},
+    'Voie de droite par défaut. Les voies de gauche servent au dépassement, puis on se rabat.',
+    'Sur la voie la plus à gauche, par bonne visibilité et en palier, il faut pouvoir tenir au moins 80 km/h.',
+    'Occuper durablement la voie du milieu ou de gauche quand la droite est libre est une infraction : ça pousse aux dépassements par la droite.',
+    'Interdits : piétons, vélos, cyclomoteurs, tout véhicule ne pouvant pas dépasser 80 km/h en palier.',
+    'Marche arrière et demi-tour : interdits, sans exception, sous peine de délit.']},
+  {t:'texte', txt:'La bande d’arrêt d’urgence est réservée aux urgences et aux véhicules d’intervention : l’emprunter indûment coûte 3 points et 135 €. La voie d’entrecroisement, entre une entrée et une sortie proches, mérite une vigilance accrue : ceux qui entrent et ceux qui sortent s’y croisent sur une courte distance.'},
   {t:'cle', titre:'Sortir', items:[
     'Je me rabats à droite bien avant la sortie.',
-    'Je ralentis sur la bretelle, pas sur l’autoroute.',
+    'Je ralentis sur la bretelle de décélération, pas sur l’autoroute.',
     'Sortie ratée ? La suivante. Jamais de marche arrière.']},
+
   {t:'schema', d:'panne-autoroute'},
-  {t:'retenir', txt:'En panne : feux de détresse, gilet enfilé dans la voiture, sortie par la droite, et on passe derrière la glissière. Les bornes d’appel sont tous les 2 km.'},
-  {t:'piege', txt:'La bande d’arrêt d’urgence n’est pas un endroit sûr. On ne reste jamais dans la voiture arrêtée dessus.'},
-  {t:'texte', txt:'La fatigue est la première cause d’accident mortel sur autoroute. Une pause de quinze minutes toutes les deux heures, même sans se sentir fatiguée.'}
+  {t:'retenir', txt:'En panne : feux de détresse, gilet enfilé dans la voiture, sortie par la droite, et on passe derrière la glissière. Les bornes d’appel sont tous les 2 km et localisent automatiquement l’appel.'},
+  {t:'piege', txt:'La bande d’arrêt d’urgence n’est pas un endroit sûr : elle concentre de nombreux accidents mortels. On ne reste jamais dans la voiture arrêtée dessus, on sort par la droite et on se met derrière la glissière.'},
+
+  {t:'texte', txt:'La fatigue est la première cause d’accident mortel sur autoroute : une pause de quinze à vingt minutes toutes les deux heures, même sans se sentir fatiguée. La monotonie du paysage, la régularité de la vitesse et un usage prolongé du régulateur aggravent la baisse de vigilance sans qu’on s’en aperçoive.'},
+  {t:'cle', titre:'Face à un imprévu', items:[
+    'Embouteillage : le « corridor de sécurité » se forme en se serrant à gauche pour ceux sur la voie de gauche, à droite pour les autres, afin de laisser un passage central aux secours.',
+    'Un véhicule à contresens roule le plus souvent sur ce qui est, pour lui, la voie de droite, donc sur votre voie de gauche : je serre à droite, je ralentis et j’allume mes feux de détresse.',
+    'Un poids lourd qui en dépasse un autre très lentement : je patiente sans coller ni faire d’appels de phares, le dépassement par la droite restant interdit.',
+    'Forte pluie et aquaplaning : si le véhicule se met à flotter, je lâche l’accélérateur, je ne freine pas brutalement et je tiens le volant droit. Le risque augmente avec la vitesse et l’usure des pneus.']},
+
+  {t:'cle', titre:'Signalisation propre à l’autoroute', items:[
+    'Fond bleu : direction ou information liée à l’autoroute (le vert vaut pour les grandes liaisons hors autoroute, le blanc pour les directions locales).',
+    'Une voie réservée au covoiturage est signalée par un losange blanc peint au sol et sur panneau ; son usage indu est sanctionné.',
+    'Un panneau à message variable a valeur réglementaire dès son affichage : une vitesse réduite qui y apparaît remplace la limitation habituelle et est contrôlée.',
+    'Un portique de contrôle ou de gabarit impose de connaître la hauteur du véhicule chargé : un coffre de toit ou des vélos ajoutent facilement 40 centimètres.']},
+  {t:'texte', txt:'Sur un péage sans arrêt (flux libre), la plaque est enregistrée et facturée après le passage : sans badge, il faut régler en ligne dans le délai indiqué, sous peine de majoration.'}
  ]},
 
 {k:'stationnement', n:'Arrêt & stationnement', i:'stationnement', theme:'stationnement',
@@ -379,24 +420,53 @@ window.LESSONS = [
     ['Permis probatoire','0,2 g/L','un seul verre fait dépasser'],
     ['Délit à partir de','0,8 g/L','4 500 €, 6 points, prison possible'],
     ['Élimination','0,10 à 0,15 g/L','par heure, et rien ne l’accélère']]},
-  {t:'retenir', txt:'Le café réveille, il ne fait pas baisser l’alcool. Seul le temps compte.'},
+  {t:'retenir', txt:'Le café réveille, il ne fait pas baisser l’alcool. Seul le temps compte : ni douche froide, ni sport, ni café ne l’accélèrent.'},
   {t:'cle', titre:'Ce que l’alcool fait vraiment', items:[
     'Il allonge le temps de réaction.',
-    'Il rétrécit le champ de vision.',
-    'Il augmente la prise de risque, tout en donnant l’impression de bien conduire.']},
-  {t:'texte', txt:'Pour les stupéfiants, il n’existe aucun seuil. La moindre trace est un délit, et le test salivaire détecte bien après la disparition des effets.'},
+    'Il rétrécit le champ de vision (vision en tunnel, sensibilité accrue à l’éblouissement).',
+    'Il augmente la prise de risque, tout en donnant l’impression de bien conduire.',
+    'Il est impliqué dans environ 30 % des accidents mortels.']},
+  {t:'piege', txt:'Refuser un dépistage d’alcoolémie est un délit puni aussi lourdement que la conduite en état d’ivresse : 4 500 €, 6 points, 2 ans de prison et suspension du permis. Refuser n’est jamais une stratégie.'},
+
+  {t:'cle', titre:'Stupéfiants et médicaments', items:[
+    'Aucun seuil de tolérance : la moindre trace de stupéfiant au volant est un délit (4 500 €, 6 points, jusqu’à 2 ans de prison), et les peines s’aggravent si l’alcool s’y ajoute.',
+    'Le cannabis reste détectable plusieurs jours après la prise, bien après la disparition des effets ressentis.',
+    'Les médicaments portent un pictogramme de niveau 1 à 3 : niveau 1 (jaune) prudence, niveau 2 (orange) avis d’un professionnel de santé nécessaire, niveau 3 (rouge) ne pas conduire.']},
+
   {t:'cle', titre:'Les signes qu’il faut s’arrêter', items:[
     'Les bâillements qui reviennent.',
     'Les paupières lourdes, le regard fixe.',
-    'La voiture qui flotte dans la voie.']},
+    'La voiture qui flotte dans la voie ou des difficultés à maintenir sa trajectoire.']},
   {t:'retenir', txt:'Face à ces signes, une seule réponse marche : une sieste de quinze à vingt minutes. La musique et la fenêtre ouverte ne servent à rien.'},
+  {t:'cle', titre:'Ce qui use la vigilance sans qu’on s’en rende compte', items:[
+    'Dormir moins de cinq heures produit des altérations comparables à une alcoolémie de 0,5 g/L : dix-sept heures de veille suffisent à en approcher les effets.',
+    'Après un repas copieux ou en début d’après-midi, la vigilance baisse naturellement : une pause de quinze minutes vaut mieux que n’importe quel excitant.',
+    'Le stress, la colère ou une dispute récente réduisent la capacité d’analyse et augmentent la prise de risque : quelques minutes d’arrêt avant de démarrer valent mieux qu’un trajet sous tension.',
+    'La fatigue est la première cause d’accident mortel sur autoroute.']},
+  {t:'texte', txt:'Le champ visuel se rétrécit à mesure que la vitesse augmente : d’environ 100 degrés à l’arrêt, il tombe sous 30 degrés à vitesse élevée, comme dans un tunnel. Une raison de plus de ralentir en ville, là où les surprises viennent des côtés.'},
+
   {t:'chiffres', titre:'Le permis à points', lignes:[
-    ['Permis probatoire','6 points','12 après 3 ans sans infraction'],
-    ['Après conduite accompagnée','2 ans','au lieu de 3'],
+    ['Permis probatoire','6 points','12 après 3 ans sans infraction, +2 par an'],
+    ['Après conduite accompagnée','2 ans','+3 points par an au lieu de 2'],
     ['Stage de récupération','4 points','une fois par an au maximum'],
+    ['Récupération sans nouvelle infraction','6 mois à 3 ans','6 mois pour un point isolé, 3 ans pour les infractions graves'],
     ['Téléphone en main','3 points','135 €, même à l’arrêt au feu rouge'],
-    ['Ceinture non bouclée','3 points','135 €']]},
-  {t:'piege', txt:'Les écouteurs et les oreillettes sont interdits au volant. Seul le kit intégré à la voiture est autorisé.'}
+    ['Ceinture non bouclée','3 points','135 €, pour le conducteur et chaque passager majeur']]},
+  {t:'piege', txt:'À zéro point, le permis est invalidé : il faut attendre 6 mois (1 an en cas de récidive), repasser une visite médicale, des tests d’aptitude, puis les épreuves du permis.'},
+  {t:'texte', txt:'Un éthylotest anti-démarrage (EAD) peut être imposé par le préfet ou le juge après une infraction grave liée à l’alcool, en alternative à la suspension : le véhicule ne démarre qu’après un souffle conforme.'},
+
+  {t:'cle', titre:'Permis probatoire : les obligations qui vont avec', items:[
+    'Le disque « A » reste apposé à l’arrière du véhicule pendant toute la période (3 ans, ou 2 ans après conduite accompagnée) ; son absence coûte 35 €.',
+    'Les vitesses maximales sont réduites (voir la leçon Vitesses & distances).',
+    'Un conducteur novice sous-estime souvent le temps nécessaire pour s’arrêter et la difficulté d’anticiper le comportement des autres : l’expérience se construit en kilomètres, pas en confiance.']},
+
+  {t:'cle', titre:'Ceinture et enfants', items:[
+    'La ceinture est obligatoire à l’avant comme à l’arrière, pour le conducteur et tous les passagers.',
+    'Un enfant voyage dans un dispositif de retenue homologué jusqu’à 10 ans ou jusqu’à une taille suffisante (environ 1,35 m).',
+    'Un siège dos à la route ne doit jamais être installé devant un airbag passager actif.',
+    'Transporter des passagers augmente la charge mentale du conducteur, et le rend responsable du port de la ceinture des mineurs à bord.']},
+  {t:'piege', txt:'Les écouteurs et les oreillettes sont interdits au volant, casque audio compris. Seul le kit mains libres intégré à la voiture est autorisé.'},
+  {t:'texte', txt:'Une vue déficiente non corrigée peut rendre la conduite non conforme aux mentions du permis, s’il impose le port de lunettes ou de lentilles : mieux vaut garder une paire de secours à bord. De même, une hypoglycémie ou un malaise impose de s’arrêter en sécurité dès les premiers signes, et parfois un avis médical avant de reprendre la route.'}
  ]},
 
 {k:'usagers', n:'Les autres usagers', i:'usagers', theme:'usagers',
@@ -427,22 +497,48 @@ window.LESSONS = [
  resume:'Cinq minutes de vérification évitent trois heures d’attente sur une bande d’arrêt d’urgence.',
  blocs:[
   {t:'retenir', txt:'Obligatoires à bord : le gilet, rangé dans l’habitacle, et le triangle. L’éthylotest ne l’est plus depuis 2020.'},
+
   {t:'cle', titre:'Les pneus', items:[
-    'Profondeur minimale des rainures : 1,6 mm.',
-    'Pression vérifiée à froid, une fois par mois, roue de secours comprise.',
-    'Un pneu sous-gonflé consomme plus, s’use sur les bords et peut éclater.']},
+    'Profondeur minimale des rainures : 1,6 mm. En dessous, le pneu est lisse au sens de la loi : 135 € par pneu et immobilisation possible.',
+    'Pression vérifiée à froid, une fois par mois, roue de secours comprise. Un sous-gonflage de seulement 0,5 bar dégrade déjà la tenue de route.',
+    'Un pneu sous-gonflé consomme plus, s’use sur les bords et risque davantage l’éclatement.',
+    'La gomme vieillit même sans rouler : un contrôle s’impose au-delà de 5 à 6 ans (date de fabrication en code à 4 chiffres sur le flanc).',
+    'Monter des pneus différents sur un même essieu (dimension, structure, type) est interdit : ça déséquilibre le freinage et la tenue de route.']},
+  {t:'piege', txt:'Dans certaines communes de montagne signalées, des pneus hiver ou 4 saisons (ou des équipements amovibles comme des chaînes) sont obligatoires du 1er novembre au 31 mars.'},
+
   {t:'chiffres', titre:'Les feux', lignes:[
     ['Feux de croisement','30 m','de portée'],
     ['Feux de route','100 m','à éteindre dès qu’on croise quelqu’un'],
     ['Brouillard avant','pluie, neige, brouillard',''],
     ['Brouillard arrière','brouillard ou neige','jamais sous la pluie']]},
-  {t:'piege', txt:'Les feux de brouillard arrière sous la pluie éblouissent et masquent les feux stop. C’est interdit.'},
+  {t:'piege', txt:'Les feux de brouillard arrière sous la pluie éblouissent et masquent les feux stop. C’est interdit. Un seul feu de croisement grillé fait aussi ressembler la voiture à un deux-roues, ce qui fausse l’estimation de distance des autres : il se remplace sans délai.'},
+  {t:'texte', txt:'Les feux de détresse signalent un danger (immobilisation, ralentissement brutal sur autoroute) : ils ne légalisent jamais un stationnement interdit. Un véhicule électrique ou hybride, très silencieux à basse vitesse, doit émettre un son artificiel (AVAS) s’il est récent : restez attentif près des piétons malgré tout.'},
+
   {t:'cle', titre:'Les témoins du tableau de bord', items:[
-    'Rouge : je m’arrête dès que possible.',
+    'Rouge : anomalie grave, je m’arrête dès que possible. Une perte de pression d’huile, par exemple, détruit le moteur en quelques dizaines de secondes.',
     'Orange : à faire vérifier rapidement.',
     'Vert ou bleu : tout va bien, c’est une information.']},
-  {t:'texte', txt:'L’ABS empêche les roues de se bloquer : il permet de continuer à tourner le volant en freinant à fond. Il ne raccourcit pas toujours la distance.'},
-  {t:'retenir', txt:'La ceinture tient sur l’os : l’épaule et les hanches, jamais sur le ventre.'}
+  {t:'cle', titre:'Freinage et aides électroniques', items:[
+    'L’ABS empêche les roues de se bloquer : je continue à diriger en freinant à fond, sans relâcher la pédale. Sur gravillons ou neige, il peut allonger la distance.',
+    'L’ESP corrige un début de dérapage en agissant sur les freins et le moteur, mais reste soumis aux lois physiques : sur le verglas ou à vitesse excessive, il ne peut plus rien.',
+    'Un bruit métallique au freinage, une pédale plus longue ou spongieuse : plaquettes usées ou air dans le circuit hydraulique.',
+    'Le liquide de frein absorbe l’humidité avec le temps ; chargé d’eau, il peut bouillir en descente prolongée et faire perdre le freinage.',
+    'Des amortisseurs usés allongent aussi la distance de freinage et rendent le véhicule instable en virage, souvent sans qu’on le remarque.']},
+
+  {t:'cle', titre:'Poids et chargement', items:[
+    'Le PTAC (poids total autorisé en charge) figure sur la carte grise : le dépasser dégrade fortement le freinage et la tenue de route.',
+    'Un chargement dépassant de plus d’un mètre à l’arrière doit porter un dispositif réfléchissant, et ne doit jamais masquer les feux ni la plaque.',
+    'Une voiture chargée freine moins bien, se déporte davantage en virage et « cabre », ce qui éblouit les autres : le correcteur d’assiette des phares doit être ajusté en conséquence.']},
+
+  {t:'cle', titre:'Confort et position de conduite', items:[
+    'Poignets posés en haut du volant, bras légèrement fléchis ; jambes légèrement fléchies pédale enfoncée.',
+    'L’appuie-tête se règle avec son sommet au niveau du sommet du crâne, au plus près de la tête : mal réglé, il n’évite pas le « coup du lapin » lors d’un choc arrière.',
+    'Essuie-glaces à changer dès qu’ils laissent des traces ou sautent, environ une fois par an : un voile aveuglant sous la pluie de nuit se forme vite.']},
+
+  {t:'texte', txt:'Un pare-brise fissuré dans le champ de vision doit être réparé ou remplacé : il tient la structure du véhicule et sert d’appui à l’airbag passager. Un échappement percé peut laisser entrer du monoxyde de carbone, inodore, dans l’habitacle : toute odeur d’échappement ressentie impose une aération immédiate.'},
+
+  {t:'retenir', txt:'La ceinture tient sur l’os : l’épaule et les hanches, jamais sur le ventre, sans vrille et sans vêtement épais qui en réduit l’efficacité.'},
+  {t:'piege', txt:'L’airbag complète la ceinture, il ne la remplace jamais : sans ceinture, ou trop près du volant, il peut lui-même blesser en se déployant à plus de 200 km/h.'}
  ]},
 
 {k:'technologie', n:'Aides à la conduite', i:'technologie', theme:'technologie',
