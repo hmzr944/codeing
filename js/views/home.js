@@ -90,7 +90,7 @@ window.Home = (function () {
             return '<i class="' + (i < j.i || j.fini ? 'done' : i === j.i ? 'now' : '') + '"></i>';
           }).join('') +
         '</div>' +
-        '<div class="gauge thin"><i style="--pct:' + (jPct / 100) + '"></i></div>' +
+        '<div class="gauge thin"><i data-anime="--pct" style="--pct:' + (jPct / 100) + '"></i></div>' +
         (j.fini ? '' : '<button class="btn sm ghost" data-etape="' + j.etape.action + '">' +
           UI.esc(j.etape.cta) + '</button>') +
       '</section>';
@@ -141,7 +141,7 @@ window.Home = (function () {
             return '<button class="bar" data-theme="' + w.k + '" style="width:100%">' +
               '<div class="l">' + UI.esc(window.themeByKey(w.k).n) + '</div>' +
               '<div class="grow"><div class="gauge thin ' + (p < 50 ? 'ko' : p >= 80 ? 'ok' : '') + '">' +
-              '<i style="--pct:' + (p / 100) + '"></i></div></div>' +
+              '<i data-anime="--pct" style="--pct:' + (p / 100) + '"></i></div></div>' +
               '<div class="v num">' + p + ' %</div></button>';
           }).join('') +
         '</div>';
@@ -160,17 +160,19 @@ window.Home = (function () {
 
       '<div class="stack g20">' +
 
-        /* Bloc d'accueil : salutation, série, semaine */
+        /* Bloc d'accueil : salutation, série, semaine — chaque ligne
+           entre en cascade plutôt que d'apparaître d'un bloc, pour que
+           ce premier regard de la journée ait un peu de vie. */
         '<section class="hero stack g16">' +
           '<div class="row between top">' +
             '<div class="grow">' +
-              '<div class="hero-greet">' + greeting() + (name ? ', ' + UI.esc(name) : '') + '</div>' +
-              '<div class="hero-h">' + UI.esc(line(streak, doneToday, goal)) + '</div>' +
+              '<div class="hero-greet rise">' + greeting() + (name ? ', ' + UI.esc(name) : '') + '</div>' +
+              '<div class="hero-h rise" style="animation-delay:70ms">' + UI.esc(line(streak, doneToday, goal)) + '</div>' +
             '</div>' +
-            '<div class="streak">' + Icons.svg('serie', 17) +
+            '<div class="streak rise' + (streak >= 3 ? ' serie-active' : '') + '" style="animation-delay:140ms">' + Icons.svg('serie', 17) +
             '<span class="n num">' + streak + '</span></div>' +
           '</div>' +
-          '<div class="week">' + week + '</div>' +
+          '<div class="week rise" style="animation-delay:200ms">' + week + '</div>' +
         '</section>' +
 
         countdown +
@@ -179,7 +181,7 @@ window.Home = (function () {
         /* Mission du jour */
         '<section class="card ' + (missionDone ? '' : 'accent') + ' stack g14">' +
           '<div class="mission">' +
-            '<div class="ring" style="--p:' + pct + '"><span class="num">' + pct + '%</span></div>' +
+            '<div class="ring" data-anime="--p" style="--p:' + pct + '"><span class="num">' + pct + '%</span></div>' +
             '<div class="grow stack g4">' +
               '<div style="font-weight:500;font-size:16px;letter-spacing:-.02em">' +
                 (missionDone ? 'Objectif atteint' : 'Défi du jour') + '</div>' +
@@ -225,6 +227,7 @@ window.Home = (function () {
       '</div>';
 
     UI.mount(html);
+    UI.animateGauges();
 
     UI.on('[data-daily]', 'click', function () {
       Quiz.start({ mode: 'daily', questions: Store.dailySet(Math.min(goal, 20)) });

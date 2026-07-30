@@ -63,6 +63,44 @@ window.UI = (function () {
     });
   }
 
+  /* ---------- petit motion design partagé ---------- */
+
+  /* Anime un nombre pendant une durée donnée : le score final est déjà
+     dans le DOM (rendu synchrone), cette fonction rejoue juste le
+     trajet de 0 jusqu'à cette valeur pendant que l'œil regarde. */
+  function tween(duration, onFrame) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { onFrame(1); return; }
+    var t0 = null;
+    function step(t) {
+      if (!t0) t0 = t;
+      var p = Math.min(1, (t - t0) / duration);
+      onFrame(1 - Math.pow(1 - p, 3));           // easeOutCubic
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* Une jauge (--pct) ou un anneau (--p) porte déjà sa valeur finale
+     en style inline dès le rendu, et une transition CSS déjà posée
+     dessus (voir les plans de mouvement) : mais peindre directement
+     la valeur finale au tout premier cadre ne déclenche jamais cette
+     transition. On repart donc de 0, puis on rejoue vers la valeur
+     déjà écrite. */
+  function animateGauges(root) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var els = (root || document).querySelectorAll('[data-anime]');
+    for (var i = 0; i < els.length; i++) {
+      (function (el) {
+        var prop = el.getAttribute('data-anime');
+        var val = el.style.getPropertyValue(prop);
+        el.style.setProperty(prop, 0);
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () { el.style.setProperty(prop, val); });
+        });
+      })(els[i]);
+    }
+  }
+
   /* ---------- confettis (uniquement sur une vraie réussite) ---------- */
   function confetti() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -107,6 +145,7 @@ window.UI = (function () {
   return {
     root: root, esc: esc, mount: mount, on: on, topbar: topbar,
     toast: toast, celebrate: celebrate, confetti: confetti, buzz: buzz,
-    empty: empty, pct: pct, plural: plural, dateFR: dateFR
+    empty: empty, pct: pct, plural: plural, dateFR: dateFR,
+    tween: tween, animateGauges: animateGauges
   };
 })();

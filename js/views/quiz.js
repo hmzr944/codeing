@@ -485,17 +485,18 @@ window.Results = (function () {
       '<div class="stack g20">' +
 
         '<div class="stack g12 center">' +
-          '<div class="score' + (passed ? '' : ' ko') + '" style="--p:' + pct + '">' +
-            '<div><div><div class="score-n num">' + r.score + '<span style="font-size:20px;color:var(--txt-3)">/' + r.total + '</span></div>' +
-            '<div class="score-l"><span class="num">' + pct + ' %</span><br>de réussite</div></div></div>' +
+          '<div class="score' + (passed ? '' : ' ko') + '" data-anime="--p" style="--p:' + pct + '">' +
+            '<div><div><div class="score-n num"><span id="score-num">0</span>' +
+            '<span style="font-size:20px;color:var(--txt-3)">/' + r.total + '</span></div>' +
+            '<div class="score-l"><span class="num" id="score-pct">0</span><span class="num"> %</span><br>de réussite</div></div></div>' +
           '</div>' +
           '<div class="stack g4">' +
-            '<h1>' + UI.esc(verdict) + '</h1>' +
-            '<p class="muted small">' + UI.esc(sub) + '</p>' +
+            '<h1 class="rise">' + UI.esc(verdict) + '</h1>' +
+            '<p class="muted small rise" style="animation-delay:70ms">' + UI.esc(sub) + '</p>' +
           '</div>' +
         '</div>' +
 
-        '<p class="small center" style="color:var(--accent-txt);font-weight:500">' + UI.esc(motivation) + '</p>' +
+        '<p class="small center rise" style="color:var(--accent-txt);font-weight:500;animation-delay:140ms">' + UI.esc(motivation) + '</p>' +
 
         (isExam ? examScale(r.score) : '') +
         (isBoss ? bossScale(r.score) : '') +
@@ -506,7 +507,7 @@ window.Results = (function () {
         '<div class="card quiet stack g10">' +
           '<div class="row between"><div class="sec-t">Niveau ' + lvl.n + ' · ' + UI.esc(lvl.name) + '</div>' +
           '<div class="tiny dim num">' + Store.s.xp + ' XP</div></div>' +
-          '<div class="gauge thin"><i style="--pct:' + (lvl.pct / 100) + '"></i></div>' +
+          '<div class="gauge thin"><i data-anime="--pct" style="--pct:' + (lvl.pct / 100) + '"></i></div>' +
         '</div>' +
 
         '<div class="stack g10">' +
@@ -523,6 +524,14 @@ window.Results = (function () {
       '</div>';
 
     UI.mount(html);
+    UI.animateGauges();
+    var numEl = document.getElementById('score-num'), pctEl = document.getElementById('score-pct');
+    if (numEl && pctEl) {
+      UI.tween(700, function (e) {
+        numEl.textContent = Math.round(r.score * e);
+        pctEl.textContent = Math.round(pct * e);
+      });
+    }
 
     UI.on('[data-home]', 'click', function () { App.go('home'); });
     /* Après l'épreuve, l'assistant redevient accessible dans tous les
