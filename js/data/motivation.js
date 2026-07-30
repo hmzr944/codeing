@@ -39,7 +39,8 @@ window.MOTIVATION = (function () {
     examReussi: [
       'Bam. Ce score, c’est celui qui décroche le code.',
       'T’as tout arraché. Le code, c’est presque signé.',
-      'Ce niveau-là le jour J, et le code est à toi. Direct.'
+      'Ce niveau-là le jour J, et le code est à toi. Direct.',
+      'Triple monstre. T’es un tigre.'
     ],
     examRate: [
       'Pas encore, mais t’es pas loin. La prochaine, tu l’arraches.',
@@ -49,7 +50,8 @@ window.MOTIVATION = (function () {
     parfait: [
       'Sans faute. T’as juste tout défoncé.',
       'Parfait. À ce rythme, le code, c’est couru d’avance.',
-      'Zéro erreur. T’es une machine.'
+      'Zéro erreur. T’es une machine.',
+      'Triple monstre. T’es un tigre.'
     ],
     bien: [
       'Solide. Encore deux-trois séries comme ça et t’as le code.',
