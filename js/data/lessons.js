@@ -112,29 +112,109 @@ window.LESSONS = [
 {k:'signalisation', n:'Signalisation', i:'signalisation', theme:'signalisation',
  resume:'La forme et la couleur d’un panneau disent déjà tout. Le dessin ne fait que préciser.',
  blocs:[
-  {t:'retenir', txt:'Triangle = danger. Rond = ordre ou interdiction. Carré = information.'},
-  {t:'panneaux', titre:'Les formes à reconnaître', signes:[
-    ['danger-enfants','Triangle rouge : un danger arrive'],
-    ['stop','Octogone : arrêt complet, roues immobiles'],
-    ['cedez','Triangle pointe en bas : je laisse passer'],
-    ['limite-50','Rond à bord rouge : interdiction'],
-    ['obl-tout-droit','Rond bleu : obligation'],
-    ['parking','Carré bleu : simple information'],
-    ['route-prioritaire','Losange jaune : je suis prioritaire'],
-    ['fin-interdictions','Rond gris barré : la règle précédente s’arrête']]},
+  {t:'retenir', txt:'Triangle = danger. Rond à bord rouge = interdiction. Rond bleu = obligation. Carré ou rectangle bleu = information.'},
+
   {t:'cle', titre:'Qui commande, quand tout se contredit', items:[
-    'Un agent qui règle la circulation passe avant tout le reste.',
+    'Un agent qui règle la circulation passe avant tout le reste, y compris un feu rouge.',
     'Ensuite les feux tricolores.',
     'Ensuite les panneaux.',
     'Ensuite les lignes peintes au sol.',
     'Et en dernier seulement, les règles générales comme la priorité à droite.']},
-  {t:'cle', titre:'Les lignes au sol', items:[
-    'Ligne continue : je ne la franchis pas. Seule exception, dépasser un cycliste si je vois loin.',
+
+  {t:'panneaux', titre:'Le danger : triangle rouge', signes:[
+    ['danger-enfants','Enfants : abords d’école'],
+    ['danger-pietons','Passage piétons proche'],
+    ['danger-cyclistes','Débouché de cyclistes'],
+    ['danger-animaux','Animaux sauvages'],
+    ['danger-travaux','Travaux'],
+    ['danger-glissant','Chaussée glissante'],
+    ['danger-retrecissement','Chaussée rétrécie'],
+    ['danger-descente','Descente dangereuse'],
+    ['danger-vent','Vent latéral'],
+    ['danger-train','Passage à niveau'],
+    ['danger-feux','Feux tricolores annoncés'],
+    ['danger-bouchon','Risque de bouchon']]},
+  {t:'texte', txt:'Un triangle rouge n’interdit ni n’oblige rien : il prévient. La bonne réaction est toujours la même, lever le pied et anticiper, quel que soit le danger dessiné dedans.'},
+
+  {t:'panneaux', titre:'La priorité : qui décide au carrefour', signes:[
+    ['stop','Arrêt obligatoire, roues immobiles'],
+    ['cedez','Céder le passage, sans forcément m’arrêter'],
+    ['route-prioritaire','Route prioritaire jusqu’au panneau de fin'],
+    ['fin-route-prioritaire','Fin de route prioritaire'],
+    ['priorite-a-droite','Annonce d’un carrefour où je cède à droite'],
+    ['cedez-giratoire','Céder le passage à l’entrée du giratoire'],
+    ['sens-giratoire','Sens de circulation dans le giratoire']]},
+  {t:'piege', txt:'Un rond-point sans aucun panneau à l’entrée inverse la règle : ce sont ceux qui entrent qui passent, pas ceux déjà dans l’anneau. C’est rare, et ça tombe à l’examen.'},
+
+  {t:'panneaux', titre:'L’interdiction : rond à bord rouge', signes:[
+    ['sens-interdit','Sens interdit dans ce sens'],
+    ['circulation-interdite','Interdit dans les deux sens'],
+    ['interdit-depasser','Dépassement interdit'],
+    ['interdit-demi-tour','Demi-tour interdit'],
+    ['interdit-klaxon','Avertisseur sonore interdit'],
+    ['stationnement-interdit','Stationnement interdit (l’arrêt reste permis)'],
+    ['arret-stationnement-interdit','Arrêt et stationnement interdits'],
+    ['limite-50','Vitesse maximale : 50 km/h'],
+    ['fin-limite-70','Fin de la limitation à 70'],
+    ['fin-interdictions','Fin de toutes les interdictions en cours']]},
+  {t:'cle', titre:'Deux confusions classiques', items:[
+    'Sens interdit (barre blanche sur rond rouge) ne concerne qu’un seul sens ; circulation interdite (rond rouge entièrement vide) barre les deux sens.',
+    'Stationnement interdit (une barre) laisse l’arrêt possible pour monter ou descendre quelqu’un ; arrêt et stationnement interdits (croix) ne tolère aucune immobilisation.']},
+
+  {t:'panneaux', titre:'L’obligation : rond bleu', signes:[
+    ['obl-tout-droit','Direction obligatoire : tout droit'],
+    ['obl-droite','Obligation de tourner à droite'],
+    ['contournement-droite','Contournement obligatoire par la droite'],
+    ['obl-velo','Piste ou bande cyclable obligatoire'],
+    ['vitesse-mini-30','Vitesse minimale : 30 km/h']]},
+  {t:'texte', txt:'Le bleu ordonne, il n’interdit jamais. Un rond bleu à vélo oblige les cyclistes à emprunter l’aménagement ; la même icône sur fond carré bleu ne fait que le conseiller.'},
+
+  {t:'panneaux', titre:'Les feux tricolores', signes:[
+    ['feu-rouge','Rouge fixe : arrêt'],
+    ['feu-orange','Orange fixe : je m’arrête si je peux le faire sans danger'],
+    ['feu-jaune-clignotant','Orange clignotant : le feu ne régule plus le carrefour']]},
+  {t:'cle', titre:'Ce que chaque feu impose', items:[
+    'Rouge : arrêt avant la ligne d’effet (la large bande blanche) ou, à défaut, avant le feu, sans empiéter sur le passage piéton.',
+    'Orange fixe : je m’arrête, sauf si je ne peux plus le faire sans risquer une collision par l’arrière.',
+    'Orange clignotant : le carrefour n’est plus régulé, j’avance prudemment et j’applique les panneaux ou la priorité à droite.',
+    'Un agent qui règle la circulation prime toujours sur les feux, même au rouge.']},
+
+  {t:'panneaux', titre:'L’indication : carré ou rectangle bleu', signes:[
+    ['agglomeration','Entrée d’agglomération'],
+    ['fin-agglomeration','Sortie d’agglomération'],
+    ['zone-30','Zone 30'],
+    ['zone-rencontre','Zone de rencontre'],
+    ['autoroute','Autoroute'],
+    ['voie-rapide','Route à accès réglementé (voie rapide)'],
+    ['impasse','Voie sans issue'],
+    ['passage-pietons','Passage piétons'],
+    ['parking','Parking'],
+    ['hopital','Établissement de santé']]},
+
+  {t:'chiffres', titre:'Les vitesses par défaut, sans panneau', lignes:[
+    ['Agglomération','50 km/h','sauf 30 signalé'],
+    ['Sortie d’agglomération','80 km/h','90 dans certains départements signalés'],
+    ['Autoroute','130 km/h','110 par temps de pluie'],
+    ['Route à accès réglementé','110 km/h','100 par temps de pluie'],
+    ['Zone 30','30 km/h',''],
+    ['Zone de rencontre','20 km/h','']]},
+  {t:'piege', txt:'Le nom de la ville EST un panneau de limitation : entrer en agglomération impose 50 km/h même sans panneau de vitesse.'},
+
+  {t:'cle', titre:'Le marquage au sol', items:[
+    'Ligne continue : je ne la franchis pas. Seule exception, dépasser un cycliste ou un piéton si je vois loin et sans les gêner.',
     'Ligne discontinue : je peux la franchir.',
-    'Traits qui s’allongent : une ligne continue arrive, je me range.',
-    'Zébras : c’est une zone interdite, je n’y roule pas.']},
-  {t:'piege', txt:'C’est toujours la ligne de ton côté qui compte, pas celle d’en face.'},
-  {t:'texte', txt:'Sur un chantier, les panneaux à fond jaune remplacent les panneaux habituels et les lignes peintes. Le jaune gagne toujours.'}
+    'Traits qui s’allongent, espaces qui raccourcissent : une ligne continue arrive, je termine ou j’annule mon dépassement.',
+    'Zébras bordés de lignes continues : zone interdite, je n’y roule ni ne la traverse.',
+    'Flèche de rabattement peinte au sol : ma voie va disparaître, je me range en douceur.']},
+  {t:'piege', txt:'Entre deux lignes différentes, c’est toujours celle de mon côté qui compte, jamais celle du côté d’en face.'},
+
+  {t:'cle', titre:'Autres réflexes utiles', items:[
+    'Un panonceau sous un panneau le précise ou le restreint (distance, catégorie de véhicule, horaires) : il se lit toujours avec le panneau qu’il complète.',
+    'Une hauteur limitée se compte chargement compris : coffre de toit, vélo ou remorque surélevée peuvent faire dépasser la limite.',
+    'Le vent latéral surprend surtout à la sortie d’un tunnel, d’un pont, ou juste après avoir doublé un poids lourd.',
+    'L’avertisseur sonore n’est légal qu’en cas de danger immédiat, jamais pour saluer ou s’agacer.']},
+
+  {t:'texte', txt:'Sur un chantier, la signalisation temporaire à fond jaune remplace les panneaux habituels et l’emporte aussi sur le marquage au sol déjà en place. Le jaune temporaire gagne toujours sur le blanc permanent.'}
  ]},
 
 {k:'priorites', n:'Priorités & intersections', i:'priorites', theme:'priorites',
@@ -168,15 +248,53 @@ window.LESSONS = [
  resume:'La vitesse affichée est un maximum, jamais un objectif. Et une voiture ne s’arrête pas où on croit.',
  blocs:[
   {t:'schema', d:'vitesses'},
+  {t:'chiffres', titre:'Les limites par défaut, temps sec', lignes:[
+    ['Agglomération','50 km/h','sauf 30 signalé'],
+    ['Route à double sens sans séparateur','80 km/h','90 dans certains départements signalés'],
+    ['Route à chaussées séparées','110 km/h',''],
+    ['Autoroute','130 km/h','']]},
+  {t:'chiffres', titre:'Ce qui change par temps de pluie', lignes:[
+    ['Autoroute','110 km/h','au lieu de 130'],
+    ['Route à chaussées séparées','100 km/h','au lieu de 110'],
+    ['Route à double sens sans séparateur','70 km/h','au lieu de 80 (ou 90)'],
+    ['Agglomération','50 km/h','inchangé, mais à adapter']]},
+  {t:'piege', txt:'Les vitesses « pluie » s’appliquent sans qu’aucun panneau ne le rappelle, même quand le panneau affiche encore la limite par temps sec. C’est au conducteur de les connaître.'},
+  {t:'piege', txt:'Visibilité inférieure à 50 mètres (brouillard, forte pluie, neige) : 50 km/h partout, autoroute comprise.'},
+  {t:'cle', titre:'Période probatoire (permis récent)', items:[
+    '110 km/h sur autoroute, 100 sur route à chaussées séparées, 80 sur les autres routes hors agglomération.',
+    'Ce sont les mêmes valeurs que par temps de pluie, mais elles s’appliquent tout le temps, même par beau temps.',
+    'Elle dure 3 ans, ou 2 ans après une conduite accompagnée. Le disque « A » reste collé à l’arrière du véhicule.']},
+  {t:'texte', txt:'Un ensemble routier de plus de 3,5 t (voiture avec une remorque lourde, par exemple) reste limité à 90 km/h sur autoroute au lieu de 130 : la masse allonge fortement la distance d’arrêt.'},
+
   {t:'cle', titre:'Où ralentir, même sans panneau', items:[
     'Dans un virage, ou au sommet d’une côte.',
-    'À l’approche d’un passage piéton ou d’une école.',
+    'À l’approche d’un passage piéton ou d’une école, même sans panneau : la présence d’enfants suffit.',
     'Quand on croise quelqu’un sur une route étroite.',
-    'Par mauvais temps, ou dans un trafic dense.']},
+    'Sur un chantier, ou par mauvais temps, ou dans un trafic dense.']},
+  {t:'piege', txt:'Rouler nettement en dessous de la vitesse autorisée, sans motif, peut aussi être sanctionné : cela crée des ralentissements et pousse les autres à des dépassements risqués.'},
+
   {t:'schema', d:'distance-arret'},
+  {t:'cle', titre:'La distance d’arrêt, en chiffres', items:[
+    'Elle se compose de la distance de réaction (≈ 1 seconde, le temps de percevoir et de réagir) et de la distance de freinage.',
+    'Astuce sur sol sec : distance d’arrêt ≈ le chiffre des dizaines au carré. À 50 km/h : 5×5 = 25 m. À 90 km/h : 9×9 = 81 m. À 130 km/h : 13×13 = 169 m.',
+    'Sur chaussée mouillée, la distance de freinage double environ.',
+    'Le temps de réaction double avec la fatigue, l’alcool ou l’usage du téléphone : la distance parcourue avant même de freiner double aussi.']},
   {t:'schema', d:'deux-secondes'},
-  {t:'retenir', txt:'Deux secondes d’écart minimum. Trois sur route mouillée. C’est une durée, donc elle s’adapte toute seule à la vitesse.'},
-  {t:'texte', txt:'Rouler deux fois plus vite ne double pas le choc : il devient quatre fois plus violent. C’est pour cela que 20 km/h de moins change tout.'},
+  {t:'retenir', txt:'Deux secondes d’écart minimum avec le véhicule qui précède. Trois sur route mouillée. C’est une durée, donc elle s’adapte toute seule à la vitesse.'},
+  {t:'cle', titre:'Quand augmenter la distance de sécurité', items:[
+    'Par temps de pluie ou de brouillard.',
+    'Derrière un deux-roues, qui peut freiner ou chuter très vite.',
+    'Derrière un véhicule qui masque la visibilité (poids lourd, utilitaire) : la distance permet aussi de voir plus loin devant.',
+    'Sur autoroute, l’écart se contrôle avec les traits ou chevrons peints au sol : il faut voir au moins deux traits entre soi et le véhicule qui précède.']},
+
+  {t:'texte', txt:'Rouler deux fois plus vite ne double pas le choc : l’énergie à dissiper au freinage est multipliée par quatre, tout comme la force centrifuge dans un virage. C’est pour cela que 20 km/h de moins change tout.'},
+  {t:'piege', txt:'Un choc frontal entre deux véhicules roulant chacun à 90 km/h équivaut à un impact à 180 km/h contre un obstacle fixe : les vitesses se cumulent. C’est ce qui rend un dépassement sans visibilité si dangereux.'},
+
+  {t:'cle', titre:'Régulateur et limiteur : deux outils différents', items:[
+    'Le régulateur maintient seul la vitesse choisie : il est déconseillé sur chaussée glissante ou dans un trafic dense, car il ne tient compte ni de l’adhérence ni des autres véhicules.',
+    'Le limiteur empêche seulement de dépasser une vitesse fixée, mais laisse le contrôle de l’accélérateur : plus adapté en ville ou sur une route à vitesse changeante.']},
+  {t:'texte', txt:'Sur une descente prolongée, la vitesse augmente naturellement si l’on ne rétrograde pas : le frein moteur maîtrise la vitesse sans faire chauffer les freins jusqu’à leur perte d’efficacité.'},
+
   {t:'chiffres', titre:'Ce que coûte un excès', lignes:[
     ['Moins de 5 km/h','0 point','l’amende reste due'],
     ['5 à 19 km/h','1 point',''],
@@ -184,7 +302,7 @@ window.LESSONS = [
     ['30 à 39 km/h','3 points',''],
     ['40 à 49 km/h','4 points',''],
     ['50 km/h et plus','6 points','1 500 € et suspension possible']]},
-  {t:'piege', txt:'Les vitesses « pluie » s’appliquent sans qu’aucun panneau ne le rappelle. C’est à toi de les connaître.'}
+  {t:'piege', txt:'Un radar embarqué mobile applique une marge technique deux fois plus large qu’un radar fixe (5 km/h jusqu’à 100 km/h, puis 5 % au-delà) : l’infraction reste valable même sans interception immédiate.'}
  ]},
 
 {k:'manoeuvres', n:'Dépassement & manœuvres', i:'manoeuvres', theme:'manoeuvres',
