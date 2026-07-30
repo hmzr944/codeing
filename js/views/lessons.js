@@ -192,6 +192,8 @@ window.Cours = (function () {
 
   var lecon = null;      // la leçon en cours de lecture
   var etape = 0;         // 0 = intro, 1..N = blocs[0..N-1], N+1 = fin
+  var sens = 'd';        // 'd' (suivant, glisse depuis la droite) ou 'g' (précédent)
+  var derniereProgression = 0;   // pct de la barre affichée avant ce rendu
 
   function lire(k) {
     var l = window.LESSONS.filter(function (x) { return x.k === k; })[0];
@@ -205,6 +207,8 @@ window.Cours = (function () {
 
     lecon = l;
     etape = 0;
+    sens = 'd';
+    derniereProgression = 0;
     marquerLue(l);
     brancherBalayage();
     rendreEtape();
@@ -214,9 +218,22 @@ window.Cours = (function () {
     var total = lecon.blocs.length;
     var couverture = etape === 0;
     var fin = etape === total + 1;
+    var pct = couverture ? 0 : fin ? 1 : etape / total;
 
-    UI.mount(entete(total, couverture, fin) + corpsEtape(total, couverture, fin));
-    UI.animateGauges();
+    UI.mount(entete(total, couverture, fin) + corpsEtape(total, couverture, fin, sens));
+
+    /* La barre de progression reste ouverte pendant toute la lecture :
+       elle doit avancer (ou reculer) depuis là où elle en était, jamais
+       repartir de zéro à chaque étape comme le ferait le rejeu générique
+       des autres jauges de l'appli. */
+    var barre = document.querySelector('.lecon-progres');
+    if (barre && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      barre.style.setProperty('--pct', derniereProgression);
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { barre.style.setProperty('--pct', pct); });
+      });
+    }
+    derniereProgression = pct;
 
     UI.on('[data-retour]', 'click', function () { App.go('lessons'); });
     UI.on('[data-lecon]', 'click', function () { lire(this.getAttribute('data-lecon')); });
@@ -240,15 +257,15 @@ window.Cours = (function () {
     return '<header class="topbar">' +
       '<button class="back" data-retour aria-label="Retour aux cours">' + Icons.svg('retour', 18) + '</button>' +
       '<div class="grow"><div class="gauge thin">' +
-        '<i data-anime="--pct" style="--pct:' + (etape / total) + '"></i>' +
+        '<i class="lecon-progres" style="--pct:' + (etape / total) + '"></i>' +
       '</div></div>' +
       '<div class="tiny dim num" style="flex:0 0 auto">' + etape + ' / ' + total + '</div>' +
     '</header>';
   }
 
-  function corpsEtape(total, couverture, fin) {
+  function corpsEtape(total, couverture, fin, sens) {
     if (couverture) {
-      return '<div class="lecon-etape stack g20">' +
+      return '<div class="lecon-etape stack g20 glisse-' + sens + '">' +
         '<div class="lecon-tete stack g10 center">' +
           '<span class="lecon-ico">' + Icons.svg(lecon.i, 24) + '</span>' +
           '<h1>' + UI.esc(lecon.n) + '</h1>' +
@@ -261,7 +278,7 @@ window.Cours = (function () {
     if (fin) {
       var suivante = leconSuivante(lecon);
       var nb = lecon.theme ? Store.all.filter(function (q) { return q.t === lecon.theme; }).length : 0;
-      return '<div class="lecon-etape stack g20">' +
+      return '<div class="lecon-etape stack g20 glisse-' + sens + '">' +
         '<div class="lecon-tete stack g10 center">' +
           '<span class="lecon-ico ok">' + Icons.svg('valide', 24) + '</span>' +
           '<h1>Leçon terminée</h1>' +
@@ -278,7 +295,7 @@ window.Cours = (function () {
         '</div>' +
       '</div>';
     }
-    return '<div class="lecon-etape stack g20">' +
+    return '<div class="lecon-etape stack g20 glisse-' + sens + '">' +
       '<div class="lecon-corps">' + bloc(lecon.blocs[etape - 1]) + '</div>' +
       '<div class="row g10">' +
         (etape > 1 ? '<button class="btn ghost" data-precedent>Précédent</button>' : '') +
@@ -291,11 +308,11 @@ window.Cours = (function () {
 
   function suivant() {
     var total = lecon.blocs.length;
-    if (etape <= total) { etape++; rendreEtape(); }
+    if (etape <= total) { sens = 'd'; etape++; rendreEtape(); }
   }
 
   function precedent() {
-    if (etape > 0) { etape--; rendreEtape(); }
+    if (etape > 0) { sens = 'g'; etape--; rendreEtape(); }
   }
 
   /* Glisser à gauche ou à droite fait la même chose que les boutons :

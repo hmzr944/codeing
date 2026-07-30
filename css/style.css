@@ -645,6 +645,14 @@ p{margin:0}
 .ttl.fondu{opacity:0}
 .ttl{transition:opacity .18s var(--ease)}
 .lecon-etape{margin-top:8px;min-height:calc(100dvh - 140px)}
+/* Chaque étape glisse dans le sens du geste (bouton ou balayage) qui
+   l'a amenée : « suivant » entre depuis la droite, « précédent » depuis
+   la gauche, comme les pages d'un vrai carnet plutôt qu'un fondu neutre
+   qui ne dit pas dans quel sens on avance. */
+.lecon-etape.glisse-d{animation:glisseD .32s var(--ease) both}
+.lecon-etape.glisse-g{animation:glisseG .32s var(--ease) both}
+@keyframes glisseD{from{opacity:0;transform:translateX(22px)}}
+@keyframes glisseG{from{opacity:0;transform:translateX(-22px)}}
 .lecon-tete{padding-bottom:4px}
 .lecon-tete.center{align-items:center}
 .lecon-ico{
@@ -653,6 +661,11 @@ p{margin:0}
   display:grid;place-items:center;
 }
 .lecon-ico.ok{background:var(--ok-soft);color:var(--ok)}
+/* Sur la couverture et l'écran de fin, l'icône se pose un instant
+   après que la page a glissé : ces deux écrans marquent un vrai palier
+   (« on commence », « c'est fait »), ils méritent un peu plus qu'un
+   simple passager du glissement de page. */
+.lecon-etape.glisse-d .lecon-ico,.lecon-etape.glisse-g .lecon-ico{animation:pop .34s var(--ease) .12s both}
 .lecon-tete h1{font-size:clamp(23px,6vw,29px);text-wrap:balance}
 .lecon-r{font-size:15px;color:var(--txt-2);line-height:1.55;text-wrap:pretty}
 /* Le bloc de l'étape en cours est centré dans l'espace disponible :
@@ -962,11 +975,11 @@ p{margin:0}
 }
 
 .badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
-.medal-row > *,.pan-g > *,.badges > *{animation:rise .28s var(--ease) both}
-.medal-row > :nth-child(1),.pan-g > :nth-child(1),.badges > :nth-child(1){animation-delay:0ms}
-.medal-row > :nth-child(2),.pan-g > :nth-child(2),.badges > :nth-child(2){animation-delay:40ms}
-.medal-row > :nth-child(3),.pan-g > :nth-child(3),.badges > :nth-child(3){animation-delay:80ms}
-.medal-row > :nth-child(4),.pan-g > :nth-child(4),.badges > :nth-child(4){animation-delay:120ms}
+.medal-row > *,.pan-g > *,.badges > *,.tiles > *{animation:rise .28s var(--ease) both}
+.medal-row > :nth-child(1),.pan-g > :nth-child(1),.badges > :nth-child(1),.tiles > :nth-child(1){animation-delay:0ms}
+.medal-row > :nth-child(2),.pan-g > :nth-child(2),.badges > :nth-child(2),.tiles > :nth-child(2){animation-delay:40ms}
+.medal-row > :nth-child(3),.pan-g > :nth-child(3),.badges > :nth-child(3),.tiles > :nth-child(3){animation-delay:80ms}
+.medal-row > :nth-child(4),.pan-g > :nth-child(4),.badges > :nth-child(4),.tiles > :nth-child(4){animation-delay:120ms}
 .medal-row > :nth-child(5),.pan-g > :nth-child(5),.badges > :nth-child(5){animation-delay:160ms}
 .medal-row > :nth-child(n+6),.pan-g > :nth-child(n+6),.badges > :nth-child(n+6){animation-delay:200ms}
 .bdg{
