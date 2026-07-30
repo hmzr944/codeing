@@ -58,6 +58,13 @@ window.Settings = (function () {
               return '<button data-theme="' + t[0] + '" class="' + (t[0] === P.theme ? 'on' : '') + '">' + t[1] + '</button>';
             }).join('') +
           '</div>' +
+          '<button class="switch" data-son>' +
+            '<span class="stack g4" style="text-align:left">' +
+              '<span class="t">Effets sonores</span>' +
+              '<span class="s">Un petit son quand le score dépasse la moyenne.</span>' +
+            '</span>' +
+            '<span class="knob' + (P.son !== false ? ' on' : '') + '"></span>' +
+          '</button>' +
         '</section>' +
 
         '<section class="card stack g10">' +
@@ -102,6 +109,14 @@ window.Settings = (function () {
       App.applyTheme();
       var b = document.querySelectorAll('#theme button');
       for (var i = 0; i < b.length; i++) b[i].classList.toggle('on', b[i] === this);
+    });
+
+    UI.on('[data-son]', 'click', function () {
+      var actif = !Store.s.profile.son;
+      Store.s.profile.son = actif;
+      Store.saveNow();
+      this.querySelector('.knob').classList.toggle('on', actif);
+      if (actif) Son.succes();
     });
 
     UI.on('[data-ics]', 'click', downloadIcs);

@@ -88,6 +88,14 @@ window.App = (function () {
       if ((Store.s.profile.theme || 'auto') === 'auto') applyTheme();
     });
 
+    /* iOS n'autorise l'audio qu'après un vrai geste : ce tout premier
+       appui, où qu'il ait lieu, suffit à garder le son prêt pour plus
+       tard, y compris depuis un écran de résultat affiché après coup. */
+    document.addEventListener('pointerdown', function armerSon() {
+      document.removeEventListener('pointerdown', armerSon);
+      if (window.Son) Son.armer();
+    }, { once: true });
+
     document.querySelectorAll('.tab').forEach(function (b) {
       var go1 = b.getAttribute('data-go');
       b.insertAdjacentHTML('afterbegin', Icons.svg(ICONE_ONGLET[go1], 21));

@@ -554,6 +554,7 @@ window.Results = (function () {
     });
 
     if (passed && r.total >= 9) UI.confetti();
+    if (pct > 50) Son.succes();
     UI.celebrate(r.badges);
   }
 
