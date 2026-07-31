@@ -22,8 +22,15 @@ const test = (nom, condition, detail) => {
 };
 const bloc = (n) => console.log(`\n${n}`);
 
+/* Le bloc 10 coupe le réseau exprès pour vérifier le mode hors ligne :
+   les échecs de requête qui en résultent sont le résultat attendu du
+   test, pas une régression. Sans ce garde-fou, le test réussissait
+   ("0 échec(s)") mais le processus sortait quand même en erreur à
+   cause de l'ERR_INTERNET_DISCONNECTED qu'il avait lui-même provoqué. */
+let horsLigneExpres = false;
+
 const p = await ctx.newPage();
-p.on('pageerror', (e) => erreurs.push('JS: ' + e.message));
+p.on('pageerror', (e) => { if (!horsLigneExpres) erreurs.push('JS: ' + e.message); });
 /* Un relais IA injoignable n'est pas un défaut : l'assistant est
    conçu pour retomber sur le cours. Ce chemin est vérifié à part,
    dans tools/test-ia.mjs, contre un relais maîtrisé. Ici, l'origine
@@ -31,10 +38,12 @@ p.on('pageerror', (e) => erreurs.push('JS: ' + e.message));
    rejet CORS est attendu et n'indique aucune régression. */
 p.on('console', (m) => {
   if (m.type() !== 'error') return;
+  if (horsLigneExpres) return;
   if (/workers\.dev|CORS policy|net::ERR_FAILED/.test(m.text())) return;
   erreurs.push('console: ' + m.text());
 });
 p.on('requestfailed', (r) => {
+  if (horsLigneExpres) return;
   if (!/workers\.dev|IA_URL/.test(r.url())) erreurs.push('requête: ' + r.url());
 });
 
@@ -305,12 +314,14 @@ await p.goto(BASE, { waitUntil: 'networkidle' });
 const sw = await p.evaluate(() => navigator.serviceWorker.ready.then(() => true).catch(() => false));
 test('service worker actif', sw === true);
 await p.waitForTimeout(1500);
+horsLigneExpres = true;
 await ctx.setOffline(true);
 await p.goto(BASE, { waitUntil: 'domcontentloaded' }).catch(() => {});
 await p.waitForTimeout(600);
 const horsLigne = await p.evaluate(() => (window.Store && Store.all.length) || 0).catch(() => 0);
 test('application chargée sans réseau', horsLigne === 460, horsLigne + ' question(s)');
 await ctx.setOffline(false);
+horsLigneExpres = false;
 
 /* ---------------- bilan ---------------- */
 await b.close();
