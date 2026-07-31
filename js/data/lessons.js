@@ -737,7 +737,7 @@ window.LESSONS = [
     'Ceinture non bouclée (pour le conducteur ; chaque passager majeur non ceinturé est verbalisé personnellement).',
     'Franchir une ligne continue.',
     'Porter des écouteurs.']},
-  {t:'texte', txt:'Les premières ont un point commun : elles créent un risque de collision directe avec quelqu’un. Les secondes sont des fautes d’attention. Le barème des excès de vitesse suit la même logique par tranche de 10 km/h : 1 point de 5 à 19 km/h, 2 de 20 à 29, 3 de 30 à 39, 4 de 40 à 49, 6 à partir de 50. Depuis 2024, moins de 5 km/h ne retire plus de point, l’amende restant due.'},
+  {t:'texte', txt:'Les premières ont un point commun : elles créent un risque de collision directe avec quelqu’un. Les secondes sont des fautes d’attention. Le barème des excès de vitesse suit la même logique par tranche de 10 km/h : 1 point de 5 à 19 km/h, 2 de 20 à 29, 3 de 30 à 39, 4 de 40 à 49, 6 à partir de 50. Depuis le 1er janvier 2025, un excès de moins de 5 km/h ne retire plus de point, l’amende restant due.'},
 
   {t:'cle', titre:'Les délits routiers', items:[
     'Alcool à 0,8 g/L ou plus.',
