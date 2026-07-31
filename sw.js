@@ -6,7 +6,7 @@
 /* Le nom change à chaque modification de la liste ci-dessous : sans
    cela, un ancien cache resservirait une coquille à laquelle il
    manque les nouveaux fichiers. */
-var CACHE = 'feuvert-v36';
+var CACHE = 'feuvert-v37';
 
 var SHELL = [
   './', './index.html', './manifest.webmanifest',
@@ -29,7 +29,7 @@ var SHELL = [
   './js/data/badges.js',
   './js/data/memes.js',
   './js/data/motivation.js',
-  './js/signs.js', './js/illustrations.js', './js/diagrams.js', './js/search.js', './js/ia.js', './js/store.js', './js/sound.js', './js/srs.js', './js/ui.js',
+  './js/signs.js', './js/illustrations.js', './js/diagrams.js', './js/search.js', './js/ia.js', './js/sessions.js', './js/store.js', './js/sound.js', './js/srs.js', './js/ui.js',
   './js/views/home.js', './js/views/train.js', './js/views/quiz.js',
   './js/views/exam.js', './js/views/lessons.js', './js/views/chat.js', './js/views/stats.js',
   './js/views/settings.js', './js/views/onboarding.js', './js/views/session.js',

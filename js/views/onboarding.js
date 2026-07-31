@@ -3,9 +3,15 @@
    ============================================================ */
 window.Onboarding = (function () {
 
-  /* Prénom pré-rempli : cette version est préparée pour Mina.
-     Le champ reste modifiable si quelqu'un d'autre l'utilise. */
-  var step = 0, draft = { name: 'Mina', examDate: '', delai: null, goal: 20 };
+  /* Prénom pré-rempli. Quand la session vient d'être créée depuis
+     l'écran d'entrée, on reprend le prénom qui vient d'y être tapé :
+     le redemander à l'écran suivant serait absurde. Sinon, cette
+     version est préparée pour Mina, et le champ reste modifiable. */
+  var prenomNeuf = '';
+  try { prenomNeuf = sessionStorage.getItem('feuvert-prenom-neuf') || ''; } catch (e) {}
+  if (prenomNeuf) { try { sessionStorage.removeItem('feuvert-prenom-neuf'); } catch (e2) {} }
+
+  var step = 0, draft = { name: prenomNeuf || 'Mina', examDate: '', delai: null, goal: 20 };
 
   function view() { step = 0; render(); }
 
@@ -154,6 +160,9 @@ window.Onboarding = (function () {
     var P = Store.s.profile;
     P.name = draft.name; P.examDate = draft.examDate; P.goal = draft.goal;
     Store.s.flags.onboarded = true;
+    /* Le nom de la session suit le prénom : c'est lui qu'on lira dans
+       la liste des sessions au prochain lancement. */
+    if (window.Sessions) Sessions.nommer(P.name);
     Store.saveNow();
     document.body.classList.remove('no-tabbar');
     document.getElementById('tabbar').hidden = false;

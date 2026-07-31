@@ -128,6 +128,10 @@ window.App = (function () {
       var CLE_SESSION = 'feuvert-session-ouverte';
       var dejaOuverte = false;
       try { dejaOuverte = sessionStorage.getItem(CLE_SESSION) === '1'; } catch (e) {}
+      /* Après « quitter la session », plus personne n'est entré : on
+         redemande, même au sein du même onglet. Sans cela, quitter
+         n'aurait aucun effet visible. */
+      if (window.Sessions && Sessions.aucuneOuverte()) dejaOuverte = false;
       if (dejaOuverte) {
         go(route);
         apresEntree();

@@ -74,6 +74,8 @@ window.Settings = (function () {
           '</button>' +
         '</section>' +
 
+        sectionSession() +
+
         '<section class="card stack g10">' +
           '<div class="sec-t">Données</div>' +
           '<div class="tiny dim">Aucun compte, aucun serveur : ta progression vit dans ce navigateur. ' +
@@ -95,9 +97,68 @@ window.Settings = (function () {
     bind();
   }
 
+  /* ---------------- sessions ----------------
+     Sur un téléphone partagé, chacun a la sienne. Le code à quatre
+     chiffres est une porte, pas un coffre-fort : on l'écrit noir sur
+     blanc plutôt que de laisser croire à un chiffrement. */
+  function sectionSession() {
+    if (!window.Sessions) return '';
+    var s = Sessions.actif();
+    var n = Sessions.liste().length;
+    var verrou = !!(s && s.code);
+    return '<section class="card stack g12">' +
+      '<div class="sec-t">Ma session</div>' +
+      '<div class="tiny dim">' +
+        (n > 1
+          ? UI.plural(n, 'session') + ' sur cet appareil. Chacune garde sa progression de son côté : ' +
+            'personne ne voit celle des autres.'
+          : 'Ta progression vit dans cette session. Tu peux en créer une autre pour quelqu’un ' +
+            'qui révise sur le même téléphone.') +
+      '</div>' +
+      '<button class="switch" data-verrou>' +
+        '<span class="stack g4" style="text-align:left">' +
+          '<span class="t">Demander un code à l’ouverture</span>' +
+          '<span class="s">Quatre chiffres, pour que personne n’ouvre ta session par curiosité. ' +
+            'Ça n’empêche pas quelqu’un de très motivé de fouiller le navigateur.</span>' +
+        '</span>' +
+        '<span class="knob' + (verrou ? ' on' : '') + '"></span>' +
+      '</button>' +
+      '<button class="btn ghost block" data-changer>Changer de session</button>' +
+    '</section>';
+  }
+
+  function bindSession() {
+    if (!window.Sessions) return;
+
+    UI.on('[data-verrou]', 'click', function () {
+      var s = Sessions.actif();
+      if (s && s.code) {
+        Sessions.definirCode('');
+        UI.toast('Code retiré.', 'cle');
+        view();
+        return;
+      }
+      var code = prompt('Choisis un code à quatre chiffres.');
+      if (code === null) return;
+      code = String(code).replace(/\D/g, '');
+      if (code.length !== 4) { UI.toast('Il faut exactement quatre chiffres.', 'alerte'); return; }
+      Sessions.definirCode(code);
+      UI.toast('Code enregistré. Note-le quelque part.', 'cle');
+      view();
+    });
+
+    UI.on('[data-changer]', 'click', function () {
+      Store.saveNow();
+      Sessions.quitter();
+      location.reload();
+    });
+  }
+
   function bind() {
+    bindSession();
     document.getElementById('f-name').addEventListener('input', function () {
       Store.s.profile.name = this.value.trim(); Store.save();
+      if (window.Sessions) Sessions.nommer(Store.s.profile.name);
     });
     UI.on('[data-delai]', 'click', function () {
       var j = +this.getAttribute('data-delai');

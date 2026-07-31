@@ -4,7 +4,10 @@
    ============================================================ */
 window.Store = (function () {
 
-  var KEY = 'feuvert.v1';
+  /* Chaque session a son propre coffre : la clé vient de
+     js/sessions.js, chargé juste avant celui-ci. Deux personnes sur
+     le même téléphone ne se voient donc jamais. */
+  var KEY = (window.Sessions && Sessions.cle()) || 'feuvert.v1';
   var CLE_SECOURS = KEY + '.secours';
 
   /* --- banque de questions consolidée --- */
