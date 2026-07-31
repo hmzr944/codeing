@@ -68,6 +68,9 @@
   /* Inter : neutre et lisible à toutes les tailles, chiffres tabulaires
      natifs. Intégrée en base64 dans css/font.css, donc jamais absente. */
   --font:'Inter',ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  /* Quelques teintes, uniquement pour repérer : elles ne remplacent
+     jamais --ok et --ko, qui veulent dire juste et faux. */
+  --c-exam:#5b9cff; --c-survie:#ff7a7a; --c-erreurs:#f0a53c; --c-sprint:#b08cf5;
   --ease:cubic-bezier(.2,.8,.25,1);
   /* Courbe de tiroir façon iOS (Ionic), amortissement critique sans
      rebond : réservée aux surfaces qui « arrivent » comme un matériau
@@ -393,6 +396,20 @@ p{margin:0}
 }
 .tile:active{transform:scale(.975)}
 .tile .ico{display:flex;color:var(--txt-2)}
+/* Chaque accès rapide porte sa teinte : on repère le sien d'un coup
+   d'œil sans lire, et l'accueil cesse d'être un aplat vert. */
+.tile[data-exam] .ico{color:var(--c-exam)}
+.tile[data-survie] .ico{color:var(--c-survie)}
+.tile[data-errors] .ico{color:var(--c-erreurs)}
+.tile[data-sprint] .ico{color:var(--c-sprint)}
+/* La teinte est posée en calque par-dessus la surface, et non en
+   color-mix : la couleur de fond calculée reste alors un rgb() lisible
+   — par l'audit de contraste comme par les vieux Safari. */
+.tile[data-exam]{background-image:linear-gradient(rgba(91,156,255,.09),rgba(91,156,255,.09))}
+.tile[data-survie]{background-image:linear-gradient(rgba(255,122,122,.09),rgba(255,122,122,.09))}
+.tile[data-errors]{background-image:linear-gradient(rgba(240,165,60,.10),rgba(240,165,60,.10))}
+.tile[data-sprint]{background-image:linear-gradient(rgba(176,140,245,.10),rgba(176,140,245,.10))}
+.tile .count{background:var(--c-erreurs);color:#1b1205}
 .tile .n{font-weight:500;font-size:14.5px;letter-spacing:-.02em}
 .tile .s{font-size:11.5px;color:var(--txt-3);line-height:1.35}
 .tile.wide{grid-column:1/-1;min-height:0;flex-direction:row;align-items:center;gap:13px}
