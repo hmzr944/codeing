@@ -386,8 +386,53 @@ window.Cours = (function () {
      défilement inertiel. C'est ce point-là qui décide, et non la
      position au moment précis où le doigt se lève. */
   function projection(vitesse) {
-    var d = 0.998;
+    /* 0,99 et non 0,998 : la seconde est la constante du défilement
+       inertiel, faite pour des vitesses de lancer. Pour décider de
+       tourner une page elle est bien trop généreuse — elle ajoute
+       50 px pour un doigt à 100 px/s, si bien qu'un glissement lent
+       et court tournait la page alors qu'il n'en avait pas
+       l'intention. */
+    var d = 0.99;
     return (vitesse / 1000) * d / (1 - d);
+  }
+
+  /* Le retour de page est un ressort, pas une durée fixe. Une durée
+     fixe ignore la vitesse qu'avait le doigt au moment du relâcher :
+     il reste une couture visible entre le glissement, qui allait vite,
+     et l'animation, qui repart de zéro. Un ressort part au contraire
+     de la position ET de la vitesse du geste, donc rien ne se voit.
+     Il repart aussi toujours de la valeur affichée, ce qui le rend
+     interruptible : reprendre la page en plein retour la reprend là où
+     elle est, sans saut. */
+  function ressortVers0(el, depart, vitesse, fini) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.style.transform = ''; if (fini) fini(); return;
+    }
+    /* Amortissement critique : la page revient sans osciller. Le geste
+       n'a pas suffi à tourner, donc rien ne justifie un rebond — ce
+       serait un rebond de jouet.
+       La vitesse est bornée avant d'entrer dans le ressort : deux
+       points de mesure très rapprochés donnent une vitesse énorme, et
+       la page partait alors à 320 px hors de l'écran avant de revenir.
+       Un doigt réel dépasse rarement 1 200 px/s. */
+    vitesse = Math.max(-1200, Math.min(1200, vitesse || 0));
+    var z = 1, w = 2 * Math.PI / 0.34;
+    var x = depart, v = vitesse, dernier = null;
+    function pas(t) {
+      if (dernier === null) dernier = t;
+      var dt = Math.min((t - dernier) / 1000, 0.032);
+      dernier = t;
+      v += (-w * w * x - 2 * z * w * v) * dt;
+      x += v * dt;
+      if (Math.abs(x) < 0.4 && Math.abs(v) < 12) {
+        el.style.transform = ''; el.style.willChange = '';
+        if (fini) fini();
+        return;
+      }
+      el.style.transform = 'translateX(' + x.toFixed(2) + 'px)';
+      requestAnimationFrame(pas);
+    }
+    requestAnimationFrame(pas);
   }
 
   function brancherBalayage() {
@@ -461,9 +506,10 @@ window.Cours = (function () {
         courant.style.opacity = '0';
         setTimeout(function () { if (versSuiv) suivant(); else precedent(); }, 150);
       } else {
-        /* Rien ne se passe : la page revient se poser, sans à-coup. */
-        courant.style.transition = 'transform .3s var(--ease)';
-        courant.style.transform = 'translateX(0)';
+        /* Rien ne se passe : la page revient se poser, en reprenant la
+           vitesse qu'avait le doigt plutôt qu'en repartant de zéro. */
+        courant.style.transition = 'none';
+        ressortVers0(courant, poser(dx), v);
       }
     }
 
