@@ -48,9 +48,11 @@ window.UI = (function () {
       '<span>' + esc(msg) + '</span>';
     toaster.appendChild(n);
     setTimeout(function () {
-      n.style.transition = 'opacity .3s var(--ease), transform .3s var(--ease)';
+      /* L'entrée est le moment qu'on regarde : 300ms pour la remarquer.
+         La sortie n'a rien à annoncer, elle s'efface, donc plus vite. */
+      n.style.transition = 'opacity .2s var(--ease), transform .2s var(--ease)';
       n.style.opacity = '0'; n.style.transform = 'translateY(-10px)';
-      setTimeout(function () { n.remove(); }, 320);
+      setTimeout(function () { n.remove(); }, 210);
     }, 2600);
   }
 
