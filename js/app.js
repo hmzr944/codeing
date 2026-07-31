@@ -52,7 +52,7 @@ window.App = (function () {
       (pref === 'auto' && !window.matchMedia('(prefers-color-scheme: light)').matches);
     document.documentElement.setAttribute('data-theme', dark ? 'nuit' : 'jour');
     var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', dark ? '#0e1116' : '#f4f5f8');
+    if (meta) meta.setAttribute('content', dark ? '#1a201e' : '#e9ece8');
   }
 
   /* ---------------- rappel local ---------------- */

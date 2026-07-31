@@ -3,13 +3,28 @@
 
    SYSTÈME DE DESIGN (verrouillé, à ne pas contourner localement)
 
-   Couleur    un seul accent : un vert sarcelle, cohérent avec le nom
-              de l'application (--accent).
-              --ok / --ko sont SÉMANTIQUES : ils ne signifient jamais
-              autre chose que "bonne réponse" / "mauvaise réponse".
-              Aucune autre teinte décorative dans l'interface.
-              Les rouges/bleus/verts vifs n'existent que dans les
-              panneaux SVG, où ils sont le sujet et non la décoration.
+   Couleur    TROIS couleurs, pas une de plus.
+
+              1. le socle — un neutre teinté de vert, jamais du noir
+                 ni du blanc. C'est lui qui met « de la couleur un peu
+                 partout » sans jamais crier : chaque surface de
+                 l'appli est déjà dans la famille.
+              2. l'accent (--accent) — le vert sarcelle de Feu Vert.
+                 Il porte TOUTE l'action : boutons, jauges, états
+                 choisis. Une seule couleur d'action dans l'appli.
+              3. le signal (--signal) — un ambre sourd, l'autre feu du
+                 tricolore. Réservé à ce qui réclame l'attention : les
+                 erreurs à reprendre, la série, le coffre. Jamais
+                 décoratif, jamais pour « faire joli ».
+
+              --ok / --ko sont SÉMANTIQUES et hors quota : ils ne
+              signifient jamais autre chose que "bonne réponse" /
+              "mauvaise réponse". Une appli de quiz ne peut pas s'en
+              passer.
+
+              Rien d'autre. Pas de bleu, pas de violet, pas de rouge
+              décoratif. Les rouges/bleus/verts vifs n'existent que
+              dans les panneaux SVG, où ils sont le sujet.
 
    Forme      3 rayons, aucun autre :
               --r-card 18px  surfaces, panneaux, blocs
@@ -40,27 +55,30 @@
   --ok:#3ad57f;   --ok-ink:#04170c;  --ok-soft:rgba(58,213,127,.13);  --ok-line:rgba(58,213,127,.34);
   --ko:#ff6076;   --ko-ink:#22050a;  --ko-soft:rgba(255,96,118,.13);  --ko-line:rgba(255,96,118,.34);
 
-  /* --- neutres (nuit) --- */
-  --bg:#0e1116;
-  --surface:#161a21;
-  --surface-2:#1d222b;
-  --surface-3:#262d38;
-  --line:#2b3340;
-  --line-soft:#212832;
+  /* --- socle teinté (nuit) ---
+     Pas du noir : un vert de nuit très désaturé (~165°, S≈9%). Un
+     fond #0e1116 était un thème sombre générique, celui de toutes les
+     applis ; celui-ci appartient à Feu Vert. Assez clair pour qu'on
+     voie qu'il est teinté, assez sombre pour se lire au lit. */
+  --bg:#1a201e;
+  --surface:#212825;
+  --surface-2:#28302d;
+  --surface-3:#323b38;
+  --line:#3a4441;
+  --line-soft:#2c3532;
 
-  --txt:#eceff4;
-  --txt-2:#a3adbb;
-  /* Mesuré, pas supposé : tools/contraste.mjs relève 4,8:1 au minimum
-     pour cette teinte, sur les quatre surfaces du thème. La valeur
-     précédente tombait à 3,1:1 sur --surface-3. */
-  --txt-3:#8e99aa;
+  --txt:#e9edeb;
+  --txt-2:#a7b2ae;
+  /* Mesuré, pas supposé : relevé par tools/contraste.mjs sur les
+     quatre surfaces du thème, pas choisi à l'œil. */
+  --txt-3:#93a09b;
 
   /* --- formes --- */
   --r-card:18px;
   --r-ctl:14px;
   --r-pill:999px;
 
-  --shadow:0 16px 40px -22px rgba(0,0,0,.85);
+  --shadow:0 16px 40px -22px rgba(0,0,0,.72);
 
   --pad:clamp(18px,4.8vw,24px);
   --maxw:600px;
@@ -68,9 +86,15 @@
   /* Inter : neutre et lisible à toutes les tailles, chiffres tabulaires
      natifs. Intégrée en base64 dans css/font.css, donc jamais absente. */
   --font:'Inter',ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  /* Quelques teintes, uniquement pour repérer : elles ne remplacent
-     jamais --ok et --ko, qui veulent dire juste et faux. */
-  --c-exam:#5b9cff; --c-survie:#ff7a7a; --c-erreurs:#f0a53c; --c-sprint:#b08cf5;
+  /* La troisième couleur : l'ambre du tricolore. Elle ne dit qu'une
+     chose — « regarde par ici » — et ne sert que là où c'est vrai.
+     Elle remplace les quatre teintes décoratives d'avant (bleu, rouge,
+     orange, violet), qui donnaient à l'accueil des airs de palette
+     d'échantillons. */
+  --signal:#dda94a;
+  --signal-ink:#201804;
+  --signal-soft:rgba(221,169,74,.13);
+  --signal-line:rgba(221,169,74,.34);
   --ease:cubic-bezier(.2,.8,.25,1);
   /* Courbe de tiroir façon iOS (Ionic), amortissement critique sans
      rebond : réservée aux surfaces qui « arrivent » comme un matériau
@@ -80,25 +104,28 @@
   --ease-drawer:cubic-bezier(.32,.72,0,1);
 
   /* --- matériau translucide (nuit) : verre dépoli sur --surface-2 --- */
-  --glass:rgba(29,34,43,.72);
+  --glass:rgba(40,48,45,.72);
   --glass-edge:rgba(255,255,255,.08);
   /* chrome flottante (barre du haut) : le même fond que la page, mais
      laissé passer en transparence — jamais un autre ton, sinon la barre
      se remarque comme une pièce rapportée plutôt qu'un même matériau. */
-  --bg-glass:rgba(14,17,22,.75);
+  --bg-glass:rgba(26,32,30,.78);
 }
 
 html[data-theme="jour"]{
   color-scheme: light;
-  --bg:#f4f5f8;
-  --surface:#ffffff;
-  --surface-2:#f0f2f6;
-  --surface-3:#e4e8ef;
-  --line:#d7dde6;
-  --line-soft:#e6eaf1;
-  --txt:#12161d;
-  --txt-2:#4e5a6b;
-  --txt-3:#596576;
+  /* Pas du blanc : un papier teinté du même vert que la nuit. Une
+     carte posée dessus est plus claire que le fond, donc elle lève —
+     l'inverse du blanc sur blanc, où plus rien ne se détache. */
+  --bg:#e9ece8;
+  --surface:#f6f8f5;
+  --surface-2:#e2e6e0;
+  --surface-3:#d5dbd4;
+  --line:#c6cec5;
+  --line-soft:#dae0d8;
+  --txt:#141a18;
+  --txt-2:#4b5652;
+  --txt-3:#57625e;
   /* Contrastes mesurés par tools/contraste.mjs sur fond clair. */
   --accent:#0f6358;
   --accent-ink:#ffffff;
@@ -110,12 +137,18 @@ html[data-theme="jour"]{
   --accent-line:rgba(15,99,88,.3);
   --ok:#0b7a45;   --ok-ink:#ffffff;  --ok-soft:rgba(11,122,69,.11);  --ok-line:rgba(11,122,69,.3);
   --ko:#c41f38;   --ko-ink:#ffffff;  --ko-soft:rgba(196,31,56,.10);  --ko-line:rgba(196,31,56,.3);
-  --shadow:0 14px 34px -24px rgba(18,22,29,.5);
+  /* L'ambre du jour est assombri jusqu'à tenir comme texte sur le
+     papier : la même couleur, pas la même luminosité. */
+  --signal:#8a5c0d;
+  --signal-ink:#ffffff;
+  --signal-soft:rgba(138,92,13,.12);
+  --signal-line:rgba(138,92,13,.32);
+  --shadow:0 14px 34px -24px rgba(20,26,24,.45);
 
   /* --- matériau translucide (jour) : verre clair sur blanc --- */
-  --glass:rgba(255,255,255,.78);
+  --glass:rgba(246,248,245,.80);
   --glass-edge:rgba(255,255,255,.55);
-  --bg-glass:rgba(244,245,248,.72);
+  --bg-glass:rgba(233,236,232,.76);
 }
 
 *,*::before,*::after{box-sizing:border-box}
@@ -406,12 +439,17 @@ p{margin:0}
 .hero-greet{font-size:13px;color:var(--txt-2);font-weight:400}
 .hero-h{font-size:clamp(22px,5.8vw,28px);font-weight:600;letter-spacing:-.035em;margin-top:3px}
 
+/* La série porte l'ambre, et elle est à peu près la seule. C'est le
+   seul endroit de l'accueil qui dit « tu as quelque chose en cours,
+   ne le lâche pas » — exactement ce que la troisième couleur signifie.
+   En vert, elle se noyait dans les six autres éléments verts de
+   l'écran et ne se remarquait plus. */
 .streak{
   display:flex;align-items:center;gap:9px;
   padding:9px 13px;border-radius:var(--r-pill);
-  background:var(--accent-soft);border:1px solid var(--accent-line);
+  background:var(--signal-soft);border:1px solid var(--signal-line);
 }
-.streak > svg.ico{color:var(--accent-txt)}
+.streak > svg.ico{color:var(--signal)}
 .streak .n{font-size:20px;font-weight:500;letter-spacing:-.04em;line-height:1}
 /* Une série de 3 jours ou plus mérite un signe de vie discret : la
    flamme respire au lieu de rester un pictogramme figé. */
@@ -456,20 +494,19 @@ p{margin:0}
 }
 .tile:active{transform:scale(.975)}
 .tile .ico{display:flex;color:var(--txt-2)}
-/* Chaque accès rapide porte sa teinte : on repère le sien d'un coup
-   d'œil sans lire, et l'accueil cesse d'être un aplat vert. */
-.tile[data-exam] .ico{color:var(--c-exam)}
-.tile[data-survie] .ico{color:var(--c-survie)}
-.tile[data-errors] .ico{color:var(--c-erreurs)}
-.tile[data-sprint] .ico{color:var(--c-sprint)}
-/* La teinte est posée en calque par-dessus la surface, et non en
-   color-mix : la couleur de fond calculée reste alors un rgb() lisible
-   — par l'audit de contraste comme par les vieux Safari. */
-.tile[data-exam]{background-image:linear-gradient(rgba(91,156,255,.09),rgba(91,156,255,.09))}
-.tile[data-survie]{background-image:linear-gradient(rgba(255,122,122,.09),rgba(255,122,122,.09))}
-.tile[data-errors]{background-image:linear-gradient(rgba(240,165,60,.10),rgba(240,165,60,.10))}
-.tile[data-sprint]{background-image:linear-gradient(rgba(176,140,245,.10),rgba(176,140,245,.10))}
-.tile .count{background:var(--c-erreurs);color:#1b1205}
+/* Quatre teintes différentes donnaient à l'accueil des airs de
+   nuancier. L'icône porte l'accent, unique couleur d'action de
+   l'appli, et c'est le dessin de l'icône qui distingue les tuiles —
+   il le faisait déjà, la couleur ne servait qu'à faire du bruit.
+   Seul « Mes erreurs » passe à l'ambre : c'est la seule tuile qui
+   veut dire « il y a quelque chose à reprendre ». */
+.tile .ico{color:var(--accent-txt)}
+.tile[data-errors] .ico{color:var(--signal)}
+/* La teinte du fond est posée en calque plutôt qu'en color-mix : la
+   couleur calculée reste un rgb() lisible — par l'audit de contraste
+   comme par les vieux Safari. */
+.tile[data-errors]{background-image:linear-gradient(var(--signal-soft),var(--signal-soft))}
+.tile .count{background:var(--signal);color:var(--signal-ink)}
 .tile .n{font-weight:500;font-size:14.5px;letter-spacing:-.02em}
 .tile .s{font-size:11.5px;color:var(--txt-3);line-height:1.35}
 .tile.wide{grid-column:1/-1;min-height:0;flex-direction:row;align-items:center;gap:13px}
@@ -619,7 +656,8 @@ p{margin:0}
 
 /* ---------- coffre du jour ---------- */
 .chest{width:100%;text-align:left}
-.chest-ico{display:flex;color:var(--accent-txt)}
+/* Le coffre est une récompense qui attend : ambre, comme la série. */
+.chest-ico{display:flex;color:var(--signal)}
 .chest.opened .chest-ico{animation:burst .6s var(--ease)}
 @keyframes burst{
   40%{transform:scale(1.4) rotate(-8deg)}
