@@ -1188,10 +1188,26 @@ hr.sep{height:1px;background:var(--line-soft);border:0;margin:0}
 }
 
 @media (prefers-reduced-motion:reduce){
+  /* « Réduire les animations » vise le mouvement, pas l'opacité : ce
+     sont les déplacements, les zooms et les rotations qui gênent, pas
+     un fondu. Tout couper laissait une interface qui claque d'un écran
+     à l'autre, sans le moindre repère visuel — et donnait l'impression
+     que l'application n'avait aucune animation du tout. On garde donc
+     les fondus, courts, et on retire ce qui bouge. */
   *,*::before,*::after{
-    animation-duration:.01ms !important;animation-iteration-count:1 !important;
-    transition-duration:.01ms !important;
+    animation-duration:.22s !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.18s !important;
   }
+  /* Les entrées qui déplacent deviennent de simples apparitions. */
+  .rise,.msg,.enter,
+  .lecon-etape.glisse-d,.lecon-etape.glisse-g,
+  .medal-row > *,.pan-g > *,.badges > *,.tiles > *{
+    animation-name:fade !important;
+  }
+  /* Ce qui respire en boucle s'arrête net : une pulsation sans fin est
+     exactement ce que le réglage cherche à faire taire. */
+  .streak.serie-active > svg.ico,.pense i{animation:none !important}
   .confetti{display:none}
 }
 
