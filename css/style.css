@@ -708,6 +708,21 @@ p{margin:0}
 .ill-l{stroke:currentColor;opacity:.26;fill:none;stroke-width:2;stroke-linecap:round}
 .ill-la{stroke:var(--accent);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 .ill-vitre{fill:var(--bg);opacity:.72}
+/* ---------- réponse au toucher ----------
+   « Respond on pointer-down, not on release » : une surface tappable
+   doit s'enfoncer à l'instant où le doigt se pose. Sans cela l'écran
+   paraît mort pendant toute la durée du geste, même quand le reste de
+   l'application est rapide — c'est la latence qu'on ressent en premier.
+   Ces six-là n'avaient aucun retour. */
+.tab,.seg button,.switch,.bar,button.card,.chest{
+  transition:transform .1s var(--ease),background .15s var(--ease);
+}
+.tab:active,.seg button:active,.switch:active,
+.bar:active,button.card:active,.chest:active{transform:scale(.972)}
+/* L'onglet actif ne s'enfonce pas : on ne « repart » pas là où on est
+   déjà, et le voir bouger pour rien brouille le repère de position. */
+.tab.on:active{transform:none}
+
 /* Le dessin d'un terme, sous la ligne qui le définit. Un panneau est
    carré et se lit en petit ; un schéma a besoin de toute la largeur. */
 /* Le schéma d'une correction : pleine largeur de la carte. */
