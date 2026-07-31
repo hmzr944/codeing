@@ -196,7 +196,10 @@ window.App = (function () {
 
     if ('serviceWorker' in navigator && location.protocol !== 'file:' && !window.__SINGLE_FILE__) {
       navigator.serviceWorker.register('sw.js')
-        .then(veillerMaj)
+        .then(function (reg) {
+          veillerMaj(reg);
+          verifierVersionReelle();
+        })
         .catch(function () {});
     }
   }
@@ -210,6 +213,38 @@ window.App = (function () {
      croit alors que rien n'a changé. */
 
   var majPrete = false;
+
+  /* Le mécanisme natif du navigateur (registration.update(), et sa
+     propre vérification périodique) respecte le Cache-Control posé
+     par GitHub Pages sur sw.js (10 minutes) : tant que ce délai n'est
+     pas écoulé, une vraie nouvelle version peut passer inaperçue,
+     même après plusieurs relances de l'appli à froid — c'était la
+     cause exacte de « je ne vois jamais mes changements ». On vérifie
+     donc nous-mêmes le contenu réel de sw.js, avec un fetch qui
+     ignore ce cache, plutôt que d'attendre le minutage du navigateur. */
+  function verifierVersionReelle() {
+    if (!('caches' in window)) return;
+    Promise.all([
+      fetch('sw.js', { cache: 'no-store' }).then(function (r) { return r.text(); }),
+      caches.keys()
+    ]).then(function (res) {
+      var texte = res[0], cles = res[1];
+      var m = texte.match(/CACHE = '([^']+)'/);
+      if (!m || !cles.length) return;          // rien à comparer
+      if (cles.indexOf(m[1]) !== -1) return;    // déjà à jour
+      /* Recharger effacerait une série en cours, qui ne vit qu'en
+         mémoire : on attend le prochain moment calme plutôt que de
+         lui faire perdre ses réponses (même logique qu'appliquerMaj). */
+      if (window.Quiz && Quiz.enCours && Quiz.enCours()) return;
+      /* Une version différente existe vraiment sur le serveur, mais
+         le navigateur ne la verra pas de lui-même avant un moment :
+         on force la main plutôt que d'attendre. */
+      Promise.all(cles.map(function (k) { return caches.delete(k); }))
+        .then(function () { return navigator.serviceWorker.getRegistrations(); })
+        .then(function (regs) { return Promise.all(regs.map(function (r) { return r.unregister(); })); })
+        .then(function () { location.reload(); });
+    }).catch(function () {});
+  }
 
   function veillerMaj(reg) {
     if (!reg) return;
@@ -234,7 +269,7 @@ window.App = (function () {
     document.addEventListener('visibilitychange', function () {
       if (document.visibilityState !== 'visible') return;
       if (majPrete) appliquerMaj();
-      else reg.update().catch(function () {});
+      else { reg.update().catch(function () {}); verifierVersionReelle(); }
     });
   }
 

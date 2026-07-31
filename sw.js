@@ -6,7 +6,7 @@
 /* Le nom change à chaque modification de la liste ci-dessous : sans
    cela, un ancien cache resservirait une coquille à laquelle il
    manque les nouveaux fichiers. */
-var CACHE = 'feuvert-v44';
+var CACHE = 'feuvert-v45';
 
 var SHELL = [
   './', './index.html', './manifest.webmanifest',
@@ -80,6 +80,15 @@ self.addEventListener('activate', function (e) {
    continuait de gagner. */
 self.addEventListener('fetch', function (e) {
   if (e.request.method !== 'GET') return;
+  /* sw.js lui-même ne doit jamais passer par ce cache : sinon la toute
+     première fois qu'une page le récupère (y compris pour vérifier
+     s'il existe une version plus récente — voir verifierVersionReelle()
+     dans app.js), sa réponse se fait mettre en cache ici, et plus
+     aucune vérification ultérieure ne voit jamais le vrai fichier :
+     hit gagne toujours sur live, même quand live a bien reçu le
+     contenu à jour. On le laisse filer tel quel vers le réseau, où
+     son propre Cache-Control s'applique. */
+  if (/\/sw\.js(\?|$)/.test(e.request.url)) return;
   e.respondWith(
     caches.open(CACHE).then(function (c) {
       return c.match(e.request).then(function (hit) {
