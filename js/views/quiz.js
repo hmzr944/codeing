@@ -403,7 +403,11 @@ window.Quiz = (function () {
     document.getElementById('tabbar').hidden = false;
   }
 
-  return { start: start, quit: quit };
+  /* Une série vit en mémoire : savoir qu'elle est en cours permet à
+     l'application de ne pas se recharger au mauvais moment. */
+  function enCours() { return !!Q; }
+
+  return { start: start, quit: quit, enCours: enCours };
 })();
 
 

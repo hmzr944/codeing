@@ -6,7 +6,7 @@
 /* Le nom change à chaque modification de la liste ci-dessous : sans
    cela, un ancien cache resservirait une coquille à laquelle il
    manque les nouveaux fichiers. */
-var CACHE = 'feuvert-v21';
+var CACHE = 'feuvert-v24';
 
 var SHELL = [
   './', './index.html', './manifest.webmanifest',
@@ -47,7 +47,17 @@ var SHELL = [
 self.addEventListener('install', function (e) {
   e.waitUntil(
     caches.open(CACHE)
-      .then(function (c) { return c.addAll(SHELL); })
+      .then(function (c) {
+        /* cache:'reload' est indispensable : sans lui, addAll() se sert
+           dans le cache HTTP du navigateur. GitHub Pages sert la
+           coquille avec max-age=600, donc la NOUVELLE version se
+           remplissait avec les ANCIENS fichiers — on changeait de numéro
+           de cache sans rien changer du contenu. C'est ce qui donnait
+           « j'ai publié, et je ne vois toujours rien ». */
+        return c.addAll(SHELL.map(function (u) {
+          return new Request(u, { cache: 'reload' });
+        }));
+      })
       .then(function () { return self.skipWaiting(); })
   );
 });
@@ -62,18 +72,23 @@ self.addEventListener('activate', function (e) {
   );
 });
 
+/* On cherche dans SON cache, jamais avec caches.match() : celui-ci
+   fouille TOUTES les versions présentes et peut donc resservir un
+   fichier d'une ancienne coquille, même après la publication d'une
+   nouvelle. C'était la vraie cause du « je ne vois aucun changement » :
+   la nouvelle version était bien téléchargée, mais l'ancienne
+   continuait de gagner. */
 self.addEventListener('fetch', function (e) {
   if (e.request.method !== 'GET') return;
   e.respondWith(
-    caches.match(e.request).then(function (hit) {
-      var live = fetch(e.request).then(function (res) {
-        if (res && res.status === 200 && res.type === 'basic') {
-          var copy = res.clone();
-          caches.open(CACHE).then(function (c) { c.put(e.request, copy); });
-        }
-        return res;
-      }).catch(function () { return hit; });
-      return hit || live;
+    caches.open(CACHE).then(function (c) {
+      return c.match(e.request).then(function (hit) {
+        var live = fetch(e.request).then(function (res) {
+          if (res && res.status === 200 && res.type === 'basic') c.put(e.request, res.clone());
+          return res;
+        }).catch(function () { return hit; });
+        return hit || live;
+      });
     })
   );
 });

@@ -26,6 +26,10 @@ window.App = (function () {
     paintTabs();
     bindBack();
     try { history.replaceState({ r: route }, '', '#' + route); } catch (e) {}
+    /* Changer d'écran est le moment calme par excellence : si une
+       nouvelle version attendait la fin d'une série, elle s'applique
+       ici. */
+    appliquerMaj();
   }
 
   function paintTabs() {
@@ -187,8 +191,57 @@ window.App = (function () {
     }
 
     if ('serviceWorker' in navigator && location.protocol !== 'file:' && !window.__SINGLE_FILE__) {
-      navigator.serviceWorker.register('sw.js').catch(function () {});
+      navigator.serviceWorker.register('sw.js')
+        .then(veillerMaj)
+        .catch(function () {});
     }
+  }
+
+  /* ---------------- mises à jour de l'application ----------------
+     Le service worker sert la coquille depuis le cache : c'est ce qui
+     fait marcher l'app dans le métro, mais sans le guet ci-dessous une
+     version fraîchement publiée n'apparaît qu'au lancement SUIVANT.
+     Installée sur l'écran d'accueil, l'app est mise en veille plutôt
+     que fermée : ce « lancement suivant » peut ne jamais venir, et on
+     croit alors que rien n'a changé. */
+
+  var majPrete = false;
+
+  function veillerMaj(reg) {
+    if (!reg) return;
+
+    /* On attend le changement de pilote plutôt que la fin de
+       l'installation : entre les deux, c'est encore l'ancien service
+       worker qui répond, et recharger là ramènerait très exactement la
+       version qu'on cherche à remplacer.
+       La toute première prise de contrôle ne compte pas : cette
+       page-là a déjà été servie par le réseau, elle est à jour, et la
+       recharger couperait l'onboarding en deux. */
+    var pilotee = !!navigator.serviceWorker.controller;
+
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+      if (!pilotee) { pilotee = true; return; }
+      majPrete = true;
+      appliquerMaj();
+    });
+
+    /* Le retour au premier plan est le vrai moment où il faut aller
+       voir s'il y a du neuf : c'est là qu'on rouvre l'app. */
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState !== 'visible') return;
+      if (majPrete) appliquerMaj();
+      else reg.update().catch(function () {});
+    });
+  }
+
+  /* Recharger efface la série en cours, qui ne vit qu'en mémoire :
+     on attend le prochain écran calme plutôt que de lui faire perdre
+     ses réponses. */
+  function appliquerMaj() {
+    if (!majPrete) return;
+    if (window.Quiz && Quiz.enCours && Quiz.enCours()) return;
+    majPrete = false;
+    location.reload();
   }
 
   return { go: go, applyTheme: applyTheme, boot: boot };
