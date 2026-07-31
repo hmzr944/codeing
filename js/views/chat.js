@@ -82,6 +82,44 @@ window.Chat = (function () {
     return { def: def, res: res, sur: !!(def || res.blocs.length || res.questions.length) };
   }
 
+  /* Un mot expliqué se retient mieux avec l'image sous les yeux. On
+     montre donc le schéma du sujet quand il en existe un — c'est le
+     plus parlant — et sinon le dessin de la leçon citée, qui existe
+     toujours. Rien n'est inventé ni téléchargé : tous ces dessins
+     sont déjà dans l'application, et fonctionnent hors ligne. */
+  var SCHEMA_DU_MOT = [
+    [/distance de s|deux secondes|intervalle|s[ée]curit[ée]/i, 'deux-secondes'],
+    [/distance d.arr|freinage|temps de r[ée]action/i, 'distance-arret'],
+    [/priorit[ée] [àa] droite|c[ée]der le passage|cedez/i, 'priorite-droite'],
+    [/giratoire|rond.?point/i, 'giratoire'],
+    [/angle mort/i, 'angle-mort'],
+    [/cycliste|v[ée]lo/i, 'depassement-cycliste'],
+    [/alcool|boire|verre|gramme|alcool[ée]mie/i, 'alcool-temps'],
+    [/pneu|usure|sculpture|t[ée]moin/i, 'usure-pneu'],
+    [/phare|feux de croisement|plein phare|codes/i, 'portee-feux'],
+    [/neige|verglas|adh[ée]rence|pluie/i, 'adherence-neige'],
+    [/pause|fatigue|somnolen/i, 'pause-2h'],
+    [/position lat[ée]rale|pls|inconscient/i, 'pls'],
+    [/panne|bande d.arr[êe]t|triangle/i, 'panne-autoroute'],
+    [/point|retrait de permis|infraction/i, 'parcours-sanction'],
+    [/vitesse|km\/h|limitation/i, 'vitesses'],
+    [/bo[îi]te noire|aide [àa] la conduite|r[ée]gulateur/i, 'aides-conduite']
+  ];
+
+  function visuel(question, lecon) {
+    for (var i = 0; i < SCHEMA_DU_MOT.length; i++) {
+      var d = SCHEMA_DU_MOT[i];
+      if (d[0].test(question) && Diagrams.has(d[1])) {
+        return '<div class="chat-bloc"><figure class="bl-schema">' +
+          Diagrams.render(d[1]) + '</figure></div>';
+      }
+    }
+    if (lecon && window.Illus && Illus.has(lecon.k)) {
+      return '<div class="chat-illus">' + Illus.render(lecon.k) + '</div>';
+    }
+    return '';
+  }
+
   function repondre(txt, trouve) {
     if (trouve.politesse) {
       return { html: '<p>' + UI.esc(trouve.politesse) + '</p>', sur: true };
@@ -95,13 +133,18 @@ window.Chat = (function () {
     if (def) {
       sur = true;
       out += '<p><b>' + UI.esc(def.terme) + '</b> — ' + UI.esc(def.def) + '</p>' +
+        visuel(txt, def.lecon) +
         lien(def.lecon, 'Lire « ' + def.lecon.n + ' »');
     }
 
     if (!def && res.blocs.length) {
       sur = true;
       var b = res.blocs[0];
+      /* Un bloc « panneaux » ou « schéma » se dessine déjà tout seul :
+         n'ajouter une image que lorsque le passage cité est du texte. */
+      var dejaDessine = b.bloc.t === 'panneaux' || b.bloc.t === 'schema';
       out += '<div class="chat-bloc">' + Cours.bloc(b.bloc) + '</div>' +
+        (dejaDessine ? '' : visuel(txt, b.lecon)) +
         lien(b.lecon, 'Lire « ' + b.lecon.n + ' »');
     }
 
@@ -140,10 +183,13 @@ window.Chat = (function () {
   /* Réponse reformulée par le modèle. Le passage du cours qui l'a
      nourrie reste consultable juste en dessous : une explication
      qu'on ne peut pas recouper ne vaut rien pour un examen. */
-  function avecSource(texte, local) {
+  /* Le dessin accompagne la réponse du modèle, il ne se range pas
+     dans « d'où ça vient » : une image repliée derrière un volet
+     n'aide personne à comprendre. */
+  function avecSource(texte, local, image) {
     return texte.split(/\n+/).filter(Boolean).map(function (p) {
       return '<p>' + UI.esc(p) + '</p>';
-    }).join('') +
+    }).join('') + (image || '') +
       '<details class="src"><summary>D’où ça vient</summary>' +
       '<div class="src-c">' + local + '</div></details>';
   }
@@ -400,34 +446,37 @@ window.Chat = (function () {
     }
 
     var local = repondre(txt, trouve).html;
+    var lecon = (trouve.def && trouve.def.lecon) ||
+      (trouve.res.blocs[0] && trouve.res.blocs[0].lecon) || null;
+    var image = visuel(txt, lecon);
     if (contexte && contexte.question) {
       txt += '\n(elle est sur cette question d’examen : ' + contexte.question + ')';
     }
-    interroger({ mode: 'expliquer', demande: txt, res: trouve.res, def: trouve.def }, local);
+    interroger({ mode: 'expliquer', demande: txt, res: trouve.res, def: trouve.def }, local, image);
   }
 
   /* Poser une demande qui ne vient pas du champ de saisie : le
      résumé d'une leçon, l'explication d'une erreur. On écrit la
      bulle de Mina pour elle, puis on suit le même chemin. */
-  function lancer(d, libelle, local) {
+  function lancer(d, libelle, local, image) {
     aDemande = true;
     var idees = el('idees');
     if (idees) idees.hidden = true;
     ajouter({ de: 'moi', html: '<p>' + UI.esc(libelle) + '</p>' });
-    interroger(d, local);
+    interroger(d, local, image);
   }
 
   /* Le modèle reformule, le cours reste la source. Sans relais, sans
      réseau, ou s'il ne répond pas, la réponse hors ligne est déjà
      prête : l'attente ne peut jamais laisser Mina sans rien. */
-  function interroger(d, local) {
+  function interroger(d, local, image) {
     if (!IA.disponible()) {
       ajouter({ de: 'bot', html: local });
       return;
     }
     var attente = ajouter({ de: 'bot', html: reflechit() });
     IA.demander(d)
-      .then(function (texte) { remplacer(attente, avecSource(texte, local)); })
+      .then(function (texte) { remplacer(attente, avecSource(texte, local, image)); })
       .catch(function () { remplacer(attente, local); });
   }
 

@@ -691,6 +691,8 @@ p{margin:0}
 .ill-l{stroke:currentColor;opacity:.26;fill:none;stroke-width:2;stroke-linecap:round}
 .ill-la{stroke:var(--accent);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 .ill-vitre{fill:var(--bg);opacity:.72}
+/* Le dessin qui accompagne une réponse de l'assistant. */
+.chat-illus{max-width:200px;margin:8px 0 2px;color:var(--txt)}
 .ill-t{fill:currentColor;opacity:.5;font-weight:600}
 .ill-t-acc{fill:var(--accent-ink);font-weight:600}
 /* Ce que la leçon met en avant se pose après le reste du dessin. */
