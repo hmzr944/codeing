@@ -676,6 +676,28 @@ p{margin:0}
   display:grid;place-items:center;
 }
 .lecon-ico.ok{background:var(--ok-soft);color:var(--ok)}
+
+/* ---------- illustration de couverture d'une leçon ---------- */
+.lecon-illus{
+  width:100%;max-width:280px;margin:0 auto 2px;
+  color:var(--txt);
+  animation:rise .4s var(--ease) both;
+}
+.ill{display:block;width:100%;height:auto}
+.ill-bg{fill:currentColor;opacity:.09}
+.ill-mid{fill:currentColor;opacity:.24}
+.ill-fort{fill:currentColor;opacity:.45}
+.ill-acc{fill:var(--accent)}
+.ill-l{stroke:currentColor;opacity:.26;fill:none;stroke-width:2;stroke-linecap:round}
+.ill-la{stroke:var(--accent);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.ill-vitre{fill:var(--bg);opacity:.72}
+.ill-t{fill:currentColor;opacity:.5;font-weight:600}
+.ill-t-acc{fill:var(--accent-ink);font-weight:600}
+/* Ce que la leçon met en avant se pose après le reste du dessin. */
+.lecon-illus .ill-acc,.lecon-illus .ill-la{
+  animation:illPose .45s var(--ease) .18s both;
+}
+@keyframes illPose{from{opacity:0}}
 /* Sur la couverture et l'écran de fin, l'icône se pose un instant
    après que la page a glissé : ces deux écrans marquent un vrai palier
    (« on commence », « c'est fait »), ils méritent un peu plus qu'un

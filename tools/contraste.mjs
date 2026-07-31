@@ -192,7 +192,16 @@ const ECRANS = [
   { n: 'réglages', aller: async (p) => { await passer(p); await p.click('[data-go="settings"]'); } },
   { n: 'survie', aller: async (p) => {
       await passer(p); await p.click('[data-survie]'); await p.click('[data-go]');
-      await p.waitForTimeout(250); } }
+      await p.waitForTimeout(250); } },
+  /* Le bandeau passager, mesuré à pleine opacité : c'est le seul état
+     dans lequel on le lit. Sans cette entrée dédiée il n'était mesuré
+     que par hasard, au gré du temps mis pour atteindre l'écran —
+     parfois en plein fondu de sortie, à 15 % d'opacité, ce qui faisait
+     échouer l'audit sur un contraste que personne ne voit jamais. */
+  { n: 'bandeau', gardeBandeau: true, aller: async (p) => {
+      await passer(p);
+      await p.evaluate(() => UI.toast('Lisibilité du bandeau de notification', 'valide'));
+      await p.waitForTimeout(400); } }
 ];
 
 /* ---------- parcours ---------- */
@@ -224,6 +233,17 @@ for (const theme of ['nuit', 'jour']) {
        avant que leur dernier élément soit stabilisé. Un audit de contraste
        juge l'état stabilisé, pas une image prise en plein fondu. */
     await p.waitForTimeout(600);
+    /* Un bandeau de notification s'affiche puis s'efface tout seul.
+       Le surprendre pendant son fondu de sortie mesure un contraste
+       qui n'existe qu'une fraction de seconde, et fait échouer l'audit
+       au hasard du temps mis pour atteindre l'écran. On attend donc
+       qu'il soit parti — sauf sur l'écran qui l'examine exprès. */
+    if (!ecran.gardeBandeau) {
+      await p.waitForFunction(() => {
+        const t = document.getElementById('toaster');
+        return !t || t.children.length === 0;
+      }, null, { timeout: 8000 }).catch(() => {});
+    }
 
     const releve = await p.evaluate(RELEVE);
     mesures += releve.length;

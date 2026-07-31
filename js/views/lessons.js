@@ -265,9 +265,14 @@ window.Cours = (function () {
 
   function corpsEtape(total, couverture, fin, sens) {
     if (couverture) {
+      /* Un dessin plutôt qu'une pastille : c'est la première chose
+         qu'on voit en ouvrant la leçon, et ça annonce le sujet sans
+         une ligne de texte de plus. */
       return '<div class="lecon-etape stack g20 glisse-' + sens + '">' +
         '<div class="lecon-tete stack g10 center">' +
-          '<span class="lecon-ico">' + Icons.svg(lecon.i, 24) + '</span>' +
+          (Illus.has(lecon.k)
+            ? '<div class="lecon-illus">' + Illus.render(lecon.k) + '</div>'
+            : '<span class="lecon-ico">' + Icons.svg(lecon.i, 24) + '</span>') +
           '<h1>' + UI.esc(lecon.n) + '</h1>' +
           '<p class="lecon-r">' + UI.esc(lecon.resume) + '</p>' +
           '<div class="tiny dim">' + total + ' étapes, à ton rythme</div>' +
