@@ -6,7 +6,7 @@
 /* Le nom change à chaque modification de la liste ci-dessous : sans
    cela, un ancien cache resservirait une coquille à laquelle il
    manque les nouveaux fichiers. */
-var CACHE = 'feuvert-v46';
+var CACHE = 'feuvert-v47';
 
 var SHELL = [
   './', './index.html', './manifest.webmanifest',

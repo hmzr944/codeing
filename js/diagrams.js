@@ -19,27 +19,53 @@ window.Diagrams = (function () {
 
   /* Vue de dessus, orientable. Sur un plan d'intersection c'est le
      bon point de vue, et des rectangles se pivotent sans se
-     déformer, contrairement au profil. Le pare-brise indique le sens. */
+     déformer, contrairement au profil. Pare-brise ET lunette arrière,
+     plus les rétroviseurs qui dépassent de la carrosserie : sans eux
+     un rectangle ne se distingue pas d'un carton. */
   function voitureDessus(cx, cy, l, rot, cls) {
-    var w = l * 0.46;
+    var w = l * 0.46, mw = l * 0.07, mh = w * 0.2;
     return '<g class="' + (cls || 'dg-veh') + '" transform="translate(' + cx + ',' + cy +
       ') rotate(' + (rot || 0) + ')">' +
       '<rect x="' + (-l / 2) + '" y="' + (-w / 2) + '" width="' + l + '" height="' + w +
       '" rx="' + (w * 0.3).toFixed(1) + '"/>' +
-      '<rect class="dg-vitre" x="' + (l * 0.08) + '" y="' + (-w * 0.32) + '" width="' +
-      (l * 0.26) + '" height="' + (w * 0.64) + '" rx="2"/></g>';
+      '<rect x="' + (l * 0.16) + '" y="' + (-w / 2 - mh) + '" width="' + mw + '" height="' + mh + '" rx="1.2"/>' +
+      '<rect x="' + (l * 0.16) + '" y="' + (w / 2) + '" width="' + mw + '" height="' + mh + '" rx="1.2"/>' +
+      '<rect class="dg-vitre" x="' + (l * 0.06) + '" y="' + (-w * 0.30) + '" width="' +
+      (l * 0.24) + '" height="' + (w * 0.60) + '" rx="2"/>' +
+      '<rect class="dg-vitre" x="' + (-l * 0.40) + '" y="' + (-w * 0.26) + '" width="' +
+      (l * 0.16) + '" height="' + (w * 0.52) + '" rx="2"/></g>';
   }
 
-  /* Petite voiture vue de côté, réutilisée partout */
+  /* Petite voiture vue de côté, réutilisée partout : même silhouette
+     détaillée que la voiture de couverture des leçons (deux vitres
+     séparées, jantes creusées) plutôt qu'un simple galet plein, mais
+     paramétrée en x/y/largeur pour se poser telle quelle sur une
+     route de schéma. */
   function voiture(x, y, l, cls) {
-    var h = l * 0.42;
-    return '<g class="' + (cls || 'dg-veh') + '" transform="translate(' + x + ',' + y + ')">' +
-      '<path d="M0 ' + h + ' h' + l + ' a3 3 0 0 0 3-3 v-' + (h * 0.42) +
-      ' a3 3 0 0 0-2.4-2.9 l-' + (l * 0.17) + '-0.9 -' + (l * 0.13) + '-' + (h * 0.42) +
-      ' a4 4 0 0 0-3-1.6 h-' + (l * 0.42) + ' a4 4 0 0 0-3 1.6 l-' + (l * 0.13) + '-' + (h * 0.42) +
-      ' -' + (l * 0.17) + ' 0.9 a3 3 0 0 0-2.4 2.9 v' + (h * 0.42) + ' a3 3 0 0 0 3 3 z"/>' +
-      '<circle cx="' + (l * 0.24) + '" cy="' + (h + 1) + '" r="' + (l * 0.1) + '"/>' +
-      '<circle cx="' + (l * 0.76) + '" cy="' + (h + 1) + '" r="' + (l * 0.1) + '"/></g>';
+    var k = l / 100;
+    return '<g class="' + (cls || 'dg-veh') + '" transform="translate(' + x + ',' +
+      (y + 0.13 * l).toFixed(2) + ') scale(' + k.toFixed(4) + ')">' +
+      '<path d="M3 26 Q3 20 10 18.5 L30 17 L42 6.5 L64 6 L76 17 L90 18.5 Q96 19.5 96 26 ' +
+        'L96 29 L85 29 A7.5 7.5 0 0 0 70 29 L37 29 A7.5 7.5 0 0 0 22 29 L3 29 Z"/>' +
+      '<path class="dg-vitre" d="M33 17 L43.5 8 L52 8 L52 17 Z"/>' +
+      '<path class="dg-vitre" d="M56 8 L63 8 L72.5 17 L56 17 Z"/>' +
+      '<path class="dg-cote" d="M54 18 L54 28"/>' +
+      '<path class="dg-cote" d="M58 22 h6"/>' +
+      '<rect class="dg-vitre" x="3.5" y="20" width="6" height="4" rx="1.5"/>' +
+      '<circle cx="29.5" cy="27" r="7"/><circle cx="77.5" cy="27" r="7"/>' +
+      '<circle class="dg-vitre" cx="29.5" cy="27" r="2.8"/>' +
+      '<circle class="dg-vitre" cx="77.5" cy="27" r="2.8"/></g>';
+  }
+
+  /* Un membre : capsule pleine reliant deux points, utilisée pour
+     construire une silhouette humaine articulée (PLS) sans dépendre
+     d'un contour à main levée. */
+  function membre(x1, y1, x2, y2, w, cls) {
+    var dx = x2 - x1, dy = y2 - y1, len = Math.sqrt(dx * dx + dy * dy);
+    var ang = Math.atan2(dy, dx) * 180 / Math.PI;
+    return '<rect class="' + (cls || 'dg-veh') + '" x="0" y="' + (-w / 2).toFixed(1) +
+      '" width="' + len.toFixed(1) + '" height="' + w + '" rx="' + (w / 2).toFixed(1) +
+      '" transform="translate(' + x1.toFixed(1) + ',' + y1.toFixed(1) + ') rotate(' + ang.toFixed(2) + ')"/>';
   }
 
   var D = {
@@ -117,6 +143,13 @@ window.Diagrams = (function () {
         '<path d="M62 130 L240 130 L240 148 L62 148 Z" class="dg-danger-z"/>' +
         '<rect x="62" y="30" width="70" height="62" rx="5" class="dg-veh"/>' +
         '<rect x="136" y="18" width="104" height="86" rx="4" class="dg-veh"/>' +
+        '<rect x="66" y="36" width="20" height="50" rx="3" class="dg-vitre"/>' +
+        /* Les rétroviseurs, justement ceux qu'on ne voit pas depuis
+           la zone d'angle mort : les dessiner rend le titre du schéma
+           concret plutôt qu'une simple formule. */
+        '<rect x="100" y="21" width="10" height="10" rx="2" class="dg-veh"/>' +
+        '<rect x="100" y="91" width="10" height="10" rx="2" class="dg-veh"/>' +
+        '<rect x="140" y="59" width="96" height="4" rx="2" class="dg-accent-f" opacity=".85"/>' +
         '<circle cx="86" cy="100" r="9" class="dg-veh"/>' +
         '<circle cx="200" cy="112" r="9" class="dg-veh"/>' +
         T(34, 78, 'angle', 'dg-lg-ko', 9) + T(34, 89, 'mort', 'dg-lg-ko', 9) +
@@ -131,10 +164,16 @@ window.Diagrams = (function () {
       return svg('0 0 300 130',
         '<rect x="0" y="26" width="300" height="80" class="dg-route"/>' +
         '<path d="M0 66 H300" class="dg-bande"/>' +
-        '<g class="dg-veh"><circle cx="52" cy="88" r="7" fill="none" stroke-width="2.5"/>' +
-        '<circle cx="76" cy="88" r="7" fill="none" stroke-width="2.5"/>' +
-        '<path d="M52 88 L64 76 L76 88 M64 76 L68 66" fill="none" stroke-width="2.5"/>' +
-        '<circle cx="70" cy="60" r="4.5"/></g>' +
+        /* Les deux roues étaient posées avec fill="none" et sans
+           contour : invisibles, faute d'une seule propriété capable
+           de les peindre. Des roues pleines avec un moyeu clair,
+           comme sur les voitures, se voient et restent cohérentes. */
+        '<circle cx="52" cy="88" r="7" class="dg-veh"/>' +
+        '<circle cx="76" cy="88" r="7" class="dg-veh"/>' +
+        '<circle cx="52" cy="88" r="3" class="dg-vitre"/>' +
+        '<circle cx="76" cy="88" r="3" class="dg-vitre"/>' +
+        '<path d="M52 88 L64 76 L76 88 M64 76 L68 66 M59 82 L73 82" class="dg-cote" fill="none" stroke-width="2.2"/>' +
+        '<circle cx="70" cy="60" r="4.5" class="dg-veh"/>' +
         voiture(168, 34, 58, 'dg-veh-acc') +
         '<path d="M80 58 H166" class="dg-cote"/>' +
         '<path d="M80 52 V64 M166 52 V64" class="dg-cote"/>' +
@@ -153,10 +192,10 @@ window.Diagrams = (function () {
         '<path d="M0 82 H300" class="dg-continue"/>' +
         '<path d="M0 116 H300" class="dg-glissiere"/>' +
         '<path d="M40 112 V124 M120 112 V124 M200 112 V124 M280 112 V124" class="dg-glissiere"/>' +
-        voiture(60, 86, 46) +
+        voiture(100, 86, 46) +
         '<g class="dg-accent-f">' + Icons.raw('p_pieton', 26, 216, 128) + '</g>' +
         T(150, 14, 'Je sors par la droite et je passe la glissière', 'dg-titre', 11) +
-        T(60, 100, 'BAU', 'dg-lg', 9, 'start') +
+        T(15, 99, 'BAU', 'dg-lg', 9, 'start') +
         T(258, 134, 'à l’abri', 'dg-lg-acc', 10),
         'En panne sur autoroute, on se met à l’abri derrière la glissière');
     },
@@ -179,10 +218,24 @@ window.Diagrams = (function () {
 
     /* ---- Position latérale de sécurité ---- */
     'pls': function () {
+      /* Une vraie silhouette articulée plutôt que l'icône piétonne
+         générique pivotée : la jambe repliée devant et la tête
+         basculée sont justement les deux détails que cette leçon
+         demande de repérer, ils doivent donc se voir clairement. */
+      var epaule = [132, 74], hanche = [192, 82], tete = [118, 63],
+        main = [104, 56], genou = [218, 57], pied = [233, 93], talon = [248, 90];
       return svg('0 0 300 120',
         '<path d="M20 100 H280" class="dg-sol"/>' +
-        '<g class="dg-veh" transform="rotate(-90 150 74)">' +
-        Icons.raw('p_pieton', 78, 150, 74) + '</g>' +
+        membre(hanche[0], hanche[1], talon[0], talon[1], 15) +
+        membre(epaule[0], epaule[1], hanche[0], hanche[1], 22) +
+        membre(hanche[0], hanche[1], genou[0], genou[1], 15) +
+        membre(genou[0], genou[1], pied[0], pied[1], 13) +
+        '<circle cx="' + genou[0] + '" cy="' + genou[1] + '" r="7.5" class="dg-veh"/>' +
+        '<circle cx="' + hanche[0] + '" cy="' + hanche[1] + '" r="10" class="dg-veh"/>' +
+        membre(epaule[0], epaule[1], main[0], main[1], 10) +
+        '<circle cx="' + epaule[0] + '" cy="' + epaule[1] + '" r="10" class="dg-veh"/>' +
+        '<circle cx="' + main[0] + '" cy="' + main[1] + '" r="6" class="dg-veh"/>' +
+        '<circle cx="' + tete[0] + '" cy="' + tete[1] + '" r="13" class="dg-veh"/>' +
         '<path d="M92 44 q16 6 24 16" class="dg-fleche-c"/>' +
         '<path d="M110 54 l8 12 3-14 z" class="dg-fleche-p"/>' +
         T(150, 20, 'Inconsciente mais elle respire : sur le côté', 'dg-titre', 11) +
@@ -212,10 +265,14 @@ window.Diagrams = (function () {
         '<path d="M10 90 L290 40" class="dg-sol"/>' +
         '<g transform="rotate(-10 110 60)">' + voiture(80, 48, 60) + '</g>' +
         '<path d="M150 96 h60" class="dg-trottoir"/>' +
-        '<g class="dg-accent-f" transform="translate(96,84) rotate(-10)">' +
-        '<rect x="-7" y="-4" width="14" height="9" rx="2"/></g>' +
+        /* Une flèche vers la roue avant plutôt qu'un pavé posé
+           dessus : la voiture est assez détaillée maintenant pour
+           que masquer la roue soit dommage, et une flèche fait le
+           même travail sans rien cacher. */
+        '<path d="M120 98 Q126 82 129 74" class="dg-fleche-c"/>' +
+        '<path d="M123 80 l7 -3 -1.5 9 z" class="dg-fleche-p"/>' +
         T(150, 16, 'En descente, je braque vers le trottoir', 'dg-titre', 11) +
-        T(96, 110, 'roues tournées', 'dg-lg-acc', 10),
+        T(128, 110, 'roues tournées', 'dg-lg-acc', 10),
         'Roues braquées vers le trottoir en stationnement en pente');
     },
 
@@ -281,10 +338,10 @@ window.Diagrams = (function () {
     /* ---- Ce que surveille une voiture récente ---- */
     'aides-conduite': function () {
       return svg('0 0 300 190',
-        T(150, 14, 'Ce que surveille une voiture récente', 'dg-titre', 11) +
+        T(150, 10, 'Ce que surveille une voiture récente', 'dg-titre', 11) +
         voitureDessus(150, 100, 70, -90) +
-        '<path d="M150 58 V22" class="dg-cote"/>' +
-        T(150, 18, 'ISA + freinage d’urgence', 'dg-lg-acc', 9.5) +
+        '<path d="M150 58 V28" class="dg-cote"/>' +
+        T(150, 24, 'ISA + freinage d’urgence', 'dg-lg-acc', 9.5) +
         '<path d="M114 100 H36" class="dg-cote"/>' +
         T(36, 92, 'Maintien', 'dg-lg', 9.5, 'start') + T(36, 104, 'de voie', 'dg-lg', 9.5, 'start') +
         '<path d="M186 100 H264" class="dg-cote"/>' +
