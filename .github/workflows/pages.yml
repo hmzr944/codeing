@@ -18,9 +18,16 @@ permissions:
   pages: write
   id-token: write
 
-# Une seule publication à la fois, sans interrompre celle en cours
+# Une seule publication à la fois, sans interrompre celle en cours.
+#
+# Le groupe dépend de la branche, sinon un simple contrôle de branche
+# et une publication depuis main se retrouvent dans la même file :
+# la publication attend derrière un run qui, lui, ne publie rien, et
+# celui qui arrive en troisième se fait annuler. C'est de là que
+# venaient les runs « cancelled » qu'on prenait pour des échecs.
+# Seul main publie, donc un seul groupe peut atteindre le déploiement.
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
