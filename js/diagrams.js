@@ -447,6 +447,188 @@ window.Diagrams = (function () {
         '<rect x="10" y="94" width="30" height="22" rx="4" class="dg-neutre"/>' +
         T(52, 109, 'adhérence divisée par 5 à 10', 'dg-lg-ko', 10, 'start'),
         'Sur neige tassée, l’adhérence peut être divisée par cinq à dix par rapport à une route sèche');
+    },
+
+    /* ---- Qui commande, en cas de contradiction ---- */
+    'hierarchie-priorite': function () {
+      var niveaux = [
+        ['1', 'Un agent qui règle la circulation'],
+        ['2', 'Les feux tricolores'],
+        ['3', 'Les panneaux'],
+        ['4', 'Le marquage au sol'],
+        ['5', 'La priorité à droite']
+      ];
+      var y0 = 30, h = 28, gap = 8, n = niveaux.length;
+      var yc0 = y0 + h / 2, ycN = y0 + (n - 1) * (h + gap) + h / 2;
+      var s = T(150, 14, 'En cas de contradiction, dans cet ordre', 'dg-titre', 11) +
+        '<path d="M40 ' + yc0 + ' V' + (ycN - 15) + '" class="dg-fleche-c"/>' +
+        '<path d="M40 ' + (ycN - 15) + ' l-5 -9 10 0 z" class="dg-fleche-p"/>';
+      niveaux.forEach(function (niv, i) {
+        var y = y0 + i * (h + gap), yc = y + h / 2, fort = i === 0;
+        s += '<rect x="56" y="' + y + '" width="200" height="' + h + '" rx="6" class="' +
+          (fort ? 'dg-accent-f' : 'dg-neutre') + '"/>' +
+          '<circle cx="40" cy="' + yc + '" r="13" class="' + (fort ? 'dg-accent-f' : 'dg-neutre') + '"/>' +
+          T(40, yc + 4, niv[0], fort ? 'dg-sur-acc' : 'dg-sur', 12) +
+          T(66, yc + 4, niv[1], fort ? 'dg-sur-acc' : 'dg-sur', 10.5, 'start');
+      });
+      return svg('0 0 300 ' + (y0 + n * (h + gap)), s,
+        'En cas de contradiction, l’agent prime sur les feux, qui priment sur les panneaux, puis le marquage au sol, et enfin la priorité à droite');
+    },
+
+    /* ---- Les gestes de l'agent qui règle la circulation ---- */
+    'agent-circulation': function () {
+      /* Épaules décalées de part et d'autre de la tête (pas dessous) :
+         sinon le bras levé traverse visuellement le crâne. */
+      function bonhomme(cx, brasHaut, brasHoriz) {
+        var s = '<circle cx="' + cx + '" cy="38" r="9" class="dg-veh"/>' +
+          '<circle cx="' + cx + '" cy="47" r="9" class="dg-veh"/>' +
+          membre(cx, 48, cx, 80, 20) +
+          membre(cx, 80, cx - 12, 102, 12) +
+          membre(cx, 80, cx + 12, 102, 12) +
+          '<circle cx="' + cx + '" cy="80" r="10" class="dg-veh"/>';
+        s += brasHaut
+          ? membre(cx - 13, 50, cx - 13, 14, 9)
+          : membre(cx - 13, 50, cx - 10, 76, 9);
+        s += '<circle cx="' + (cx - 13) + '" cy="50" r="9" class="dg-veh"/>';
+        s += brasHoriz
+          ? membre(cx + 13, 50, cx + 42, 46, 9)
+          : membre(cx + 13, 50, cx + 10, 76, 9);
+        s += '<circle cx="' + (cx + 13) + '" cy="50" r="9" class="dg-veh"/>';
+        return s;
+      }
+      return svg('0 0 300 156',
+        T(150, 12, 'Les gestes de l’agent priment sur feux et panneaux', 'dg-titre', 10) +
+        bonhomme(65, true, true) +
+        bonhomme(230, false, false) +
+        '<path d="M190 116 H260" class="dg-fleche-c"/>' +
+        '<path d="M252 110 l8 6 -8 6 z" class="dg-fleche-p"/>' +
+        T(65, 132, 'Tous s’arrêtent', 'dg-lg-acc', 10) +
+        T(230, 132, 'Le passage est libre', 'dg-lg', 10) +
+        T(65, 146, 'bras levé, ou vu de face', 'dg-lg', 8.5) +
+        T(230, 146, 'agent vu de profil', 'dg-lg', 8.5),
+        'Bras levé ou agent vu de face : tout le monde s’arrête. Bras tendu horizontalement : ceux vers qui il pointe s’arrêtent. Agent vu de profil : le passage est autorisé');
+    },
+
+    /* ---- Le corridor de sécurité, en cas de bouchon ---- */
+    'corridor-securite': function () {
+      return svg('0 0 220 190',
+        T(110, 12, 'Bouchon : un couloir libre au centre', 'dg-titre', 10) +
+        '<rect x="20" y="22" width="180" height="156" class="dg-route"/>' +
+        '<path d="M110 22 V178" class="dg-bande"/>' +
+        voitureDessus(48, 56, 38, -90) +
+        voitureDessus(48, 134, 38, -90) +
+        voitureDessus(172, 56, 38, -90) +
+        voitureDessus(172, 134, 38, -90) +
+        '<path d="M28 56 H12" class="dg-fleche-c"/><path d="M16 51 l-6 5 6 5 z" class="dg-fleche-p"/>' +
+        '<path d="M28 134 H12" class="dg-fleche-c"/><path d="M16 129 l-6 5 6 5 z" class="dg-fleche-p"/>' +
+        '<path d="M192 56 H208" class="dg-fleche-c"/><path d="M204 51 l6 5 -6 5 z" class="dg-fleche-p"/>' +
+        '<path d="M192 134 H208" class="dg-fleche-c"/><path d="M204 129 l6 5 -6 5 z" class="dg-fleche-p"/>' +
+        voitureDessus(110, 95, 42, -90, 'dg-accent-f') +
+        '<rect x="105" y="88" width="10" height="6" rx="1.5" class="dg-vitre"/>' +
+        T(40, 168, 'à gauche', 'dg-lg', 9) +
+        T(180, 168, 'à droite', 'dg-lg', 9) +
+        T(110, 168, 'secours', 'dg-lg-acc', 9),
+        'En cas de bouchon, les véhicules de la voie de gauche se serrent à gauche, tous les autres à droite, pour laisser un couloir libre au centre aux secours');
+    },
+
+    /* ---- Les 5 mètres avant un passage piéton ---- */
+    'zone-passage-pietons': function () {
+      return svg('0 0 300 140',
+        T(150, 14, 'Les 5 m avant un passage restent libres', 'dg-titre', 10.5) +
+        '<rect x="0" y="44" width="300" height="52" class="dg-route"/>' +
+        '<path d="M0 70 H300" class="dg-bande"/>' +
+        '<rect x="234" y="44" width="8" height="52" class="dg-ilot"/>' +
+        '<rect x="248" y="44" width="8" height="52" class="dg-ilot"/>' +
+        '<rect x="262" y="44" width="8" height="52" class="dg-ilot"/>' +
+        '<rect x="276" y="44" width="8" height="52" class="dg-ilot"/>' +
+        '<path d="M174 32 H228" class="dg-cote"/>' +
+        '<path d="M174 28 V36 M228 28 V36" class="dg-cote"/>' +
+        T(201, 26, '5 m', 'dg-titre', 11) +
+        voiture(88, 54, 44) +
+        '<path d="M100 44 l6 8 10 -14" class="dg-check"/>' +
+        voiture(183, 54, 44) +
+        '<path d="M193 42 l14 14 M207 42 l-14 14" class="dg-neg"/>' +
+        T(110, 122, 'correct', 'dg-lg-acc', 10) +
+        T(205, 122, 'interdit', 'dg-lg-ko', 10),
+        'Se garer dans les cinq mètres avant un passage piéton est interdit, pour que le piéton reste visible avant de traverser');
+    },
+
+    /* ---- La nuit, je vois moins loin qu'il ne faut pour m'arrêter ---- */
+    'nuit-eclairage': function () {
+      return svg('0 0 300 145',
+        T(150, 12, 'La nuit, je vois moins loin qu’il ne faut pour m’arrêter', 'dg-titre', 9.5) +
+        '<path d="M0 96 H300" class="dg-sol"/>' +
+        '<path d="M54 78 L160 66 L160 96 Z" class="dg-accent-f" opacity=".38"/>' +
+        '<rect x="160" y="60" width="120" height="38" rx="2" class="dg-danger-z"/>' +
+        voiture(6, 62, 46) +
+        '<path d="M54 108 H160" class="dg-cote"/><path d="M54 104 V112 M160 104 V112" class="dg-cote"/>' +
+        T(107, 122, '30 m : mes feux de croisement', 'dg-lg-acc', 9) +
+        '<path d="M54 130 H280" class="dg-cote"/><path d="M54 126 V134 M280 126 V134" class="dg-cote"/>' +
+        T(167, 143, '81 m : distance d’arrêt à 90 km/h', 'dg-lg-ko', 9),
+        'La nuit, les feux de croisement éclairent à 30 mètres, mais il faut 81 mètres pour s’arrêter à 90 km/h : au-delà de 30 mètres, je roule sur ce que je ne vois pas');
+    },
+
+    /* ---- Où poser le triangle de présignalisation ---- */
+    'triangle-secours': function () {
+      return svg('0 0 300 130',
+        T(150, 14, 'Le triangle se pose à 30 m, plus loin avant un virage', 'dg-titre', 10) +
+        '<path d="M0 90 H300" class="dg-sol"/>' +
+        '<path d="M112 68 L100 88 H124 Z" fill="var(--surface)" stroke="var(--ko)" stroke-width="3" stroke-linejoin="round"/>' +
+        '<path d="M104 88 l-4 7 M120 88 l4 7" class="dg-cote"/>' +
+        voiture(210, 64, 50) +
+        '<rect x="212" y="82" width="5" height="5" rx="1" class="dg-accent-f"/>' +
+        '<rect x="248" y="82" width="5" height="5" rx="1" class="dg-accent-f"/>' +
+        '<path d="M112 56 H210" class="dg-cote"/><path d="M112 52 V60 M210 52 V60" class="dg-cote"/>' +
+        T(161, 48, '30 m', 'dg-titre', 12) +
+        T(150, 116, 'feux de détresse allumés, gilet enfilé avant de sortir', 'dg-lg', 9.5),
+        'Le triangle de présignalisation se pose à environ 30 mètres du véhicule, bien plus loin avant un virage ou un sommet de côte');
+    },
+
+    /* ---- Le sas vélo, devant la ligne d'arrêt des voitures ---- */
+    'sas-velo': function () {
+      return svg('0 0 300 130',
+        T(150, 14, 'Le sas vélo : jamais une voiture dessus', 'dg-titre', 11) +
+        '<rect x="0" y="40" width="300" height="56" class="dg-route"/>' +
+        '<path d="M0 68 H88" class="dg-bande"/>' +
+        '<rect x="95" y="40" width="65" height="56" class="dg-accent-f" opacity=".22"/>' +
+        '<path d="M90 40 V96" class="dg-cote"/>' +
+        '<path d="M160 40 V96" class="dg-cote"/>' +
+        voiture(28, 50, 46) +
+        '<circle cx="112" cy="82" r="7" class="dg-veh"/><circle cx="136" cy="82" r="7" class="dg-veh"/>' +
+        '<circle cx="112" cy="82" r="3" class="dg-vitre"/><circle cx="136" cy="82" r="3" class="dg-vitre"/>' +
+        '<path d="M112 82 L124 68 L136 82 M124 68 L128 58 M119 76 L131 76" class="dg-cote" fill="none" stroke-width="2.2"/>' +
+        '<circle cx="128" cy="55" r="4.5" class="dg-veh"/>' +
+        '<rect x="185" y="44" width="4" height="34" class="dg-veh"/>' +
+        '<rect x="178" y="40" width="18" height="16" rx="3" class="dg-veh"/>' +
+        '<circle cx="187" cy="48" r="4.5" fill="#ff2d20"/>' +
+        T(127, 116, 'sas vélo', 'dg-lg-acc', 10) +
+        T(28, 116, 'voiture', 'dg-lg', 9.5, 'start'),
+        'Le sas vélo, entre la ligne d’arrêt des voitures et le feu, laisse les cyclistes s’avancer et démarrer en premier, bien visibles');
+    },
+
+    /* ---- La règle du zip, un véhicule sur deux ---- */
+    'fermeture-eclair': function () {
+      /* Deux voies qui se resserrent en une seule, avec un vrai
+         entonnoir dessiné (pas juste une flèche) : c'est le
+         rétrécissement qui explique pourquoi on alterne. Les numéros
+         sont posés à côté de chaque voiture, jamais au-dessus, pour
+         ne pas se superposer au titre. */
+      var cars = [[95, 48, '4'], [95, 92, '3'], [172, 48, '2'], [172, 92, '1']];
+      var s = T(150, 12, 'Je m’insère un véhicule sur deux', 'dg-titre', 11) +
+        '<rect x="0" y="28" width="210" height="84" class="dg-route"/>' +
+        '<path d="M210 28 L232 50 L232 90 L210 112 Z" class="dg-route"/>' +
+        '<rect x="232" y="50" width="58" height="40" class="dg-route"/>' +
+        '<path d="M0 70 H210" class="dg-bande"/>' +
+        '<path d="M172 92 Q206 92 210 78" class="dg-fleche-c"/>' +
+        '<path d="M203 80 l7 -2 0 8 z" class="dg-fleche-p"/>';
+      cars.forEach(function (c) {
+        s += voitureDessus(c[0], c[1], 30) +
+          '<circle cx="' + (c[0] - 24) + '" cy="' + c[1] + '" r="10" class="dg-accent-f"/>' +
+          T(c[0] - 24, c[1] + 4, c[2], 'dg-sur-acc', 11);
+      });
+      s += T(150, 128, 'une seule voie ensuite', 'dg-lg', 10);
+      return svg('0 0 300 138', s,
+        'À l’approche d’un rétrécissement, on s’insère alternativement, un véhicule sur deux, au dernier moment plutôt que de se rabattre trop tôt');
     }
   };
 

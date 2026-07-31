@@ -120,6 +120,7 @@ window.LESSONS = [
     'Ensuite les panneaux.',
     'Ensuite les lignes peintes au sol.',
     'Et en dernier seulement, les règles générales comme la priorité à droite.']},
+  {t:'schema', d:'hierarchie-priorite'},
 
   {t:'panneaux', titre:'Le danger : triangle rouge', signes:[
     ['danger-enfants','Enfants : abords d’école'],
@@ -252,6 +253,7 @@ window.LESSONS = [
     'Bras levé verticalement, ou agent vu de face ou de dos : arrêt pour tous.',
     'Bras tendu horizontalement : les usagers vers qui pointe le bras s’arrêtent.',
     'Agent vu de profil : passage autorisé.']},
+  {t:'schema', d:'agent-circulation'},
 
   {t:'cle', titre:'Zones et voies particulières', items:[
     'Sur une voie verte, la circulation motorisée est interdite : piétons et cyclistes y sont prioritaires, sauf véhicules de service.',
@@ -354,6 +356,7 @@ window.LESSONS = [
     'Je me place sur la voie de gauche suffisamment tôt : un placement anticipé rend ma trajectoire lisible, un changement au dernier moment surprend toujours.',
     'Depuis un stop, je m’insère dans une file dense sans bénéficier d’aucune priorité : j’attends un espace suffisant, sans forcer le passage.',
     'La règle du zip (fermeture éclair) : s’insérer alternativement, un véhicule sur deux, au dernier moment plutôt que de se rabattre trop tôt, fluidifie le trafic.']},
+  {t:'schema', d:'fermeture-eclair'},
   {t:'piege', txt:'Franchir un terre-plein central ou un îlot, même pour faire demi-tour, est interdit et peut être sanctionné comme un franchissement de ligne continue : ces séparateurs existent pour éviter le choc frontal.'},
 
   {t:'texte', txt:'Marche arrière et demi-tour sont interdits sur autoroute et voie rapide, sur un passage à niveau, sur un pont et dans tout virage sans visibilité. Les deux exigent un contrôle visuel direct et constant, la caméra de recul ne montrant qu’un secteur.'},
@@ -401,6 +404,7 @@ window.LESSONS = [
     'Un véhicule à contresens roule le plus souvent sur ce qui est, pour lui, la voie de droite, donc sur votre voie de gauche : je serre à droite, je ralentis et j’allume mes feux de détresse.',
     'Un poids lourd qui en dépasse un autre très lentement : je patiente sans coller ni faire d’appels de phares, le dépassement par la droite restant interdit.',
     'Forte pluie et aquaplaning : si le véhicule se met à flotter, je lâche l’accélérateur, je ne freine pas brutalement et je tiens le volant droit. Le risque augmente avec la vitesse et l’usure des pneus.']},
+  {t:'schema', d:'corridor-securite'},
 
   {t:'cle', titre:'Signalisation propre à l’autoroute', items:[
     'Fond bleu : direction ou information liée à l’autoroute (le vert vaut pour les grandes liaisons hors autoroute, le blanc pour les directions locales).',
@@ -424,6 +428,7 @@ window.LESSONS = [
     'Sur une place réservée aux personnes handicapées, un arrêt de bus, une voie de bus : 135 € et mise en fourrière fréquente, sans tolérance même pour deux minutes.',
     'Devant une bouche d’incendie ou un accès pompiers : mise en fourrière immédiate, car cela peut conditionner l’arrivée des secours.',
     'Sur un pont, dans un tunnel, sur la bande d’arrêt d’urgence.']},
+  {t:'schema', d:'zone-passage-pietons'},
   {t:'schema', d:'pente'},
   {t:'cle', titre:'Bon à savoir', items:[
     'Plus de 7 jours au même endroit : c’est abusif, la fourrière peut venir (délai parfois réduit par arrêté municipal).',
@@ -521,6 +526,7 @@ window.LESSONS = [
     'Tourner à droite au feu rouge, quand un petit panneau triangulaire le prévoit.',
     'Se placer au milieu de la voie pour éviter les portières et se rendre visible, en particulier à l’approche d’une intersection.',
     'Se placer dans le sas vélo, devant la ligne d’arrêt aux feux : une voiture ne doit jamais s’y arrêter.']},
+  {t:'schema', d:'sas-velo'},
   {t:'schema', d:'depassement-cycliste'},
   {t:'cle', titre:'Un groupe de cyclistes ou de coureurs', items:[
     'Se dépasse comme un seul véhicule, en une seule fois, jamais en coupant le groupe en deux.',
@@ -665,6 +671,7 @@ window.LESSONS = [
     'En feux de croisement, je vois à 30 mètres. Au-delà de 80 km/h, je roule plus loin que ce que je vois.',
     'Éblouie, je regarde le bord droit de la chaussée et je ralentis.',
     'Un piéton habillé de sombre n’est visible qu’à une trentaine de mètres.']},
+  {t:'schema', d:'nuit-eclairage'},
   {t:'cle', titre:'Neige et verglas', items:[
     'Tout en douceur : accélérer, freiner, tourner.',
     'Le verglas se forme d’abord sur les ponts et dans les zones à l’ombre.',
@@ -693,6 +700,7 @@ window.LESSONS = [
     'Gilet enfilé avant de sortir de la voiture.',
     'Triangle posé à environ 30 mètres, bien plus loin avant un virage.',
     'Moteurs coupés, personne ne fume.']},
+  {t:'schema', d:'triangle-secours'},
   {t:'chiffres', titre:'Alerter', lignes:[
     ['112','partout en Europe','même sans carte SIM'],
     ['15','SAMU',''],
