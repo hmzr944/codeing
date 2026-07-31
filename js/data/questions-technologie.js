@@ -135,7 +135,7 @@ window.Q_TECHNOLOGIE = [
  q:'Les feux adaptatifs (matriciels) :',
  o:['Adaptent le faisceau pour ne pas éblouir les autres usagers','Restent sous la responsabilité du conducteur','Dispensent de repasser en feux de croisement'],
  a:[0,1],
- e:'Si le système ne détecte pas un cycliste ou un véhicule mal éclairé, il n’occulte rien. Le conducteur doit corriger dès qu’il constate un éblouissement.',
+ e:'Si le système ne détecte pas un cycliste ou un véhicule mal éclairé, il ne cache rien. Le conducteur doit corriger dès qu’il constate un éblouissement.',
  tip:'Si l’autre fait des appels de phares, c’est que le système a raté quelque chose.'},
 
 {id:'TE20', t:'technologie', d:2,

@@ -209,7 +209,7 @@ window.Q_VEHICULE = [
 
 {id:'EN09', t:'environnement', d:3,
  q:'Le covoiturage et les voies réservées :',
- o:['Réduisent la congestion et les émissions','Peuvent bénéficier de voies dédiées signalées par un losange blanc','Sont interdits sur autoroute'],
+ o:['Réduisent les embouteillages et la pollution','Peuvent bénéficier de voies dédiées signalées par un losange blanc','Sont interdits sur autoroute'],
  a:[0,1],
  e:'Le losange blanc peint au sol et sur panneau signale une voie réservée (covoiturage, bus, taxis). Y circuler sans y avoir droit est sanctionné.',
  tip:'Losange blanc = voie réservée, pas voie rapide.'},

@@ -219,7 +219,7 @@ window.Q_PLUS_PRATIQUE = [
  q:'Le véhicule commence à glisser en virage, l’avant part vers l’extérieur :',
  o:['Je lève le pied sans freiner brutalement','Je regarde là où je veux aller','Je braque davantage'],
  a:[0,1],
- e:'Braquer davantage aggrave le sous-virage : les roues avant décrochent totalement. Le regard dirige naturellement la trajectoire.',
+ e:'Braquer davantage aggrave le sous-virage (la voiture continue tout droit malgré le volant) : les roues avant décrochent totalement. Le regard dirige naturellement la trajectoire.',
  tip:'On regarde la sortie du virage, pas l’obstacle.'},
 
 {id:'CD20', t:'conditions', d:2,
@@ -274,7 +274,7 @@ window.Q_PLUS_PRATIQUE = [
 /* ---------------- LE CONDUCTEUR ---------------- */
 
 {id:'CO23', t:'conducteur', d:2,
- q:'Conduire en état de forte contrariété ou après une dispute :',
+ q:'Conduire très énervée, juste après une dispute :',
  o:['Altère le jugement et augmente la prise de risque','Justifie d’attendre quelques minutes avant de démarrer','N’a pas d’effet mesurable'],
  a:[0,1],
  e:'La colère rétrécit l’attention aux seuls éléments perçus comme hostiles. Quelques minutes d’arrêt valent mieux qu’un trajet sous tension.',
@@ -449,7 +449,7 @@ window.Q_PLUS_PRATIQUE = [
  q:'Le liquide de frein :',
  o:['Se dégrade en absorbant l’humidité','Doit être remplacé périodiquement selon la notice','Se conserve indéfiniment'],
  a:[0,1],
- e:'Un liquide chargé d’eau bout lors d’un freinage prolongé, ce qui rend la pédale spongieuse et peut faire perdre le freinage en descente.',
+ e:'Un liquide chargé d’eau bout lors d’un freinage prolongé, ce qui rend la pédale molle et spongieuse et peut faire perdre le freinage en descente.',
  tip:'Vieux liquide de frein plus longue descente : pédale au plancher.'},
 
 {id:'VE28', t:'vehicule', d:2,
@@ -595,12 +595,12 @@ window.Q_PLUS_PRATIQUE = [
  q:'Le contrôle technique des motos et scooters de plus de 125 cm³ :',
  o:['Est obligatoire depuis 2024','Suit un calendrier propre selon la date de mise en circulation','N’existe pas en France'],
  a:[0,1],
- e:'La périodicité est proche de celle des voitures. Le défaut de contrôle expose à une amende et à une immobilisation.',
+ e:'Le rythme des contrôles est proche de celui des voitures. Le défaut de contrôle expose à une amende et à une immobilisation.',
  tip:'Depuis 2024, les deux-roues passent aussi au contrôle.'},
 
 {id:'AD20', t:'admin', d:2,
  q:'En cas de perte ou de vol du permis de conduire :',
- o:['Une déclaration doit être faite','Un récépissé permet de conduire temporairement','Il est interdit de conduire jusqu’au nouveau titre'],
+ o:['Une déclaration doit être faite','Un récépissé, le papier remis en attendant, permet de conduire','Il est interdit de conduire jusqu’au nouveau titre'],
  a:[0,1],
  e:'Le récépissé de déclaration a une validité limitée. La demande de duplicata se fait en ligne.',
  tip:'Permis perdu : déclaration, récépissé, duplicata.'},
@@ -617,7 +617,7 @@ window.Q_PLUS_PRATIQUE = [
  o:['Est obligatoire même si le véhicule ne roule pas','Couvre a minima les dommages causés aux tiers','Peut être suspendue pendant l’hiver'],
  a:[0,1],
  e:'Un véhicule stationné sur la voie publique doit être assuré. Le fichier des véhicules assurés permet un contrôle automatisé.',
- tip:'Garé n’est pas dispensé : l’assurance reste obligatoire.'},
+ tip:'Garée ne veut pas dire non assurée : l’assurance reste obligatoire.'},
 
 {id:'AD23', t:'admin', d:2,
  q:'Le constat amiable :',

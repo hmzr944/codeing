@@ -30,7 +30,7 @@ window.Q_USAGERS = [
  q:'Un poids lourd qui tourne à droite :',
  o:['Peut d’abord se déporter vers la gauche','Ne doit jamais être dépassé par la droite à ce moment-là','Ne présente aucun risque'],
  a:[0,1],
- e:'Le porte-à-faux impose au camion d’élargir sa trajectoire. S’intercaler à sa droite expose au risque d’écrasement, cause fréquente d’accidents mortels de cyclistes.'},
+ e:'Le porte-à-faux (la partie du camion qui déborde derrière les roues) l’oblige à élargir sa trajectoire. S’intercaler à sa droite expose au risque d’écrasement, cause fréquente d’accidents mortels de cyclistes.'},
 
 {id:'US05', t:'usagers', d:2,
  q:'Un cycliste peut légalement :',

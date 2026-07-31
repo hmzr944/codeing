@@ -113,7 +113,7 @@ window.Q_CIRCULATION = [
  q:'Sur une voie réservée aux bus, je peux circuler :',
  o:['Seulement si la signalisation l’autorise pour ma catégorie de véhicule','Dès que je suis pressé','Uniquement la nuit'],
  a:[0],
- e:'Le couloir de bus est interdit sauf mention contraire (taxis, vélos, véhicules d’urgence). Y circuler indûment est sanctionné.',
+ e:'Le couloir de bus est interdit sauf mention contraire (taxis, vélos, véhicules d’urgence). Y circuler sans y avoir droit est sanctionné.',
  tip:'Un couloir de bus n’est jamais un raccourci.'},
 
 {id:'PR15', t:'priorites', d:3,
@@ -370,7 +370,7 @@ window.Q_CIRCULATION = [
  q:'La bande d’arrêt d’urgence peut être utilisée :',
  o:['En cas de panne ou d’urgence uniquement','Pour dépasser par la droite dans les bouchons','Pour téléphoner tranquillement'],
  a:[0],
- e:'La BAU est réservée aux urgences et aux véhicules d’intervention. L’emprunter indûment coûte 3 points et 135 €.',
+ e:'La BAU est réservée aux urgences et aux véhicules d’intervention. L’emprunter sans raison valable coûte 3 points et 135 €.',
  tip:'BAU = urgence, pas raccourci ni salon de téléphone.'},
 
 {id:'AU03', t:'autoroute', d:2,

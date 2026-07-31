@@ -22,7 +22,7 @@ window.Q_SANCTIONS = [
  q:'Depuis 2024, un excès de vitesse inférieur à 5 km/h :',
  o:['N’entraîne plus de retrait de point','Reste sanctionné par une amende','N’est plus du tout sanctionné'],
  a:[0,1],
- e:'La contravention et l’amende subsistent, seul le retrait de point a été supprimé pour ces très petits dépassements. Au-delà de 5 km/h, le barème habituel reprend.',
+ e:'La contravention et l’amende restent dues, seul le retrait de point a été supprimé pour ces très petits dépassements. Au-delà de 5 km/h, le barème habituel reprend.',
  tip:'Moins de 5 km/h : l’amende reste, le point est sauvé.'},
 
 {id:'SA04', t:'sanctions', d:2,
@@ -162,7 +162,7 @@ window.Q_SANCTIONS = [
  q:'Les sanctions sont aggravées lorsque l’infraction est commise :',
  o:['En état d’alcoolémie ou sous stupéfiants','En récidive','Par un conducteur en permis probatoire'],
  a:[0,1],
- e:'Le cumul alcool et stupéfiants double les peines encourues. Le permis probatoire n’aggrave pas la sanction, mais le faible capital de points la rend bien plus lourde de conséquences.',
+ e:'Le cumul alcool et stupéfiants double les peines. Le permis probatoire n’aggrave pas la sanction, mais le faible capital de points la rend bien plus lourde de conséquences.',
  tip:'Avec 6 points seulement, une seule faute grave suffit.'},
 
 {id:'SA24', t:'sanctions', d:3,

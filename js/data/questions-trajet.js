@@ -47,7 +47,7 @@ window.Q_TRAJET = [
  tip:'Attelé, on freine plus tôt et on double moins.'},
 
 {id:'TR07', t:'trajet', d:3,
- q:'Le phénomène de louvoiement d’une caravane :',
+ q:'Le louvoiement, quand la caravane se met à zigzaguer :',
  o:['Se corrige en levant le pied sans freiner brutalement','Est aggravé par un chargement mal réparti vers l’arrière','Se corrige en accélérant fortement'],
  a:[0,1],
  e:'Le louvoiement s’amplifie avec la vitesse, le vent latéral ou le dépassement d’un poids lourd. On charge lourd au-dessus de l’essieu, jamais à l’arrière.',
