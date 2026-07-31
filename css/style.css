@@ -824,6 +824,7 @@ p{margin:0}
 .ill-fort{fill:currentColor;opacity:.45}
 .ill-acc{fill:var(--accent)}
 .ill-l{stroke:currentColor;opacity:.26;fill:none;stroke-width:2;stroke-linecap:round}
+.ill-lf{stroke:currentColor;opacity:.55;fill:none;stroke-width:2;stroke-linecap:round}
 .ill-la{stroke:var(--accent);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 .ill-vitre{fill:var(--bg);opacity:.72}
 /* ---------- réponse au toucher ----------

@@ -57,39 +57,61 @@ window.Illus = (function () {
 
   var I = {
 
-    /* Les chiffres qu'on récite : trois plaques de vitesse. */
+    /* Les chiffres qu'on récite : trois vrais panneaux de limitation,
+       pas des pastilles abstraites. Signs.render dessine déjà le
+       panneau exact (disque blanc, cercle rouge, chiffre noir) pour
+       les questions du quiz ; le réutiliser ici plutôt qu'en
+       inventer une version simplifiée est à la fois plus vite fait
+       et plus fidèle à ce qu'on voit vraiment sur la route. */
     memo: function () {
+      /* Panneau réel = viewBox 100×100. À l'échelle .36 il fait 36×36 :
+         trois posés avec 4 d'écart tiennent tout juste dans les 120
+         de large sans se chevaucher — au double de cette taille, ils
+         se recouvraient et « 130 » sortait du cadre. */
+      var panneau = function (x, cle) {
+        return '<g transform="translate(' + x + ',12) scale(.36)">' + Signs.render(cle) + '</g>';
+      };
       return svg(
-        '<rect class="ill-bg" x="12" y="24" width="28" height="28" rx="7"/>' +
-        '<rect class="ill-bg" x="46" y="24" width="28" height="28" rx="7"/>' +
-        '<rect class="ill-acc" x="80" y="24" width="28" height="28" rx="7"/>' +
-        T(26, 43, '50') + T(60, 43, '80') + T(94, 43, '130', 'ill-t-acc', 11) + SOL,
+        panneau(2, 'limite-50') + panneau(42, 'limite-80') + panneau(82, 'limite-130') + SOL,
         'Les vitesses à connaître par cœur');
     },
 
-    /* Le mot qu'on cherche, et la loupe qui le trouve. */
+    /* Un dictionnaire ouvert, pas une simple feuille : deux pages qui
+       se rejoignent sur une reliure, chacune avec ses lignes de texte
+       — c'est la forme qui dit « lexique » avant même de lire. La
+       loupe se pose sur le mot qu'on cherche, côté droit. */
     lexique: function () {
       return svg(
-        '<rect class="ill-bg" x="20" y="18" width="62" height="44" rx="6"/>' +
-        '<rect class="ill-mid" x="28" y="27" width="30" height="3.5" rx="1.75"/>' +
-        '<rect class="ill-mid" x="28" y="36" width="44" height="3.5" rx="1.75"/>' +
-        '<rect class="ill-mid" x="28" y="45" width="24" height="3.5" rx="1.75"/>' +
-        '<circle class="ill-la" cx="82" cy="46" r="14"/>' +
-        '<path class="ill-la" d="M92 56 L104 68"/>',
+        '<path class="ill-bg" d="M14 20 Q34 15 58 20 V62 Q34 57 14 62 Z"/>' +
+        '<path class="ill-bg" d="M106 20 Q86 15 62 20 V62 Q86 57 106 62 Z"/>' +
+        '<path class="ill-l" d="M60 19 V61" stroke-width="2"/>' +
+        '<path class="ill-mid" d="M22 29 Q34 26 50 29" stroke-width="2.6" fill="none"/>' +
+        '<path class="ill-mid" d="M22 37 Q34 34 50 37" stroke-width="2.6" fill="none"/>' +
+        '<path class="ill-mid" d="M22 45 Q34 42 44 45" stroke-width="2.6" fill="none"/>' +
+        '<path class="ill-fort" d="M70 29 Q82 26 98 29" stroke-width="2.6" fill="none"/>' +
+        '<path class="ill-mid" d="M70 37 Q82 34 92 37" stroke-width="2.6" fill="none"/>' +
+        '<circle class="ill-la" cx="86" cy="50" r="12"/>' +
+        '<path class="ill-la" d="M94.5 58.5 L104 68"/>',
         'Un mot du code expliqué simplement');
     },
 
-    /* Ce qui vient de changer : une page de calendrier qui brille. */
+    /* Un calendrier, avec ses deux anneaux de reliure en haut — ce qui
+       distingue un vrai calendrier d'un simple rectangle à bandeau —
+       et un jour entouré : celui où le texte a changé. L'étoile en
+       coin dit « c'est nouveau » sans écrire le mot. */
     nouveautes: function () {
       return svg(
-        '<rect class="ill-bg" x="30" y="16" width="60" height="50" rx="8"/>' +
-        '<rect class="ill-acc" x="30" y="16" width="60" height="12" rx="8"/>' +
-        '<rect class="ill-acc" x="30" y="22" width="60" height="6"/>' +
-        '<rect class="ill-mid" x="38" y="36" width="12" height="10" rx="2"/>' +
-        '<rect class="ill-mid" x="54" y="36" width="12" height="10" rx="2"/>' +
-        '<rect class="ill-mid" x="38" y="50" width="12" height="10" rx="2"/>' +
-        '<rect class="ill-acc" x="54" y="50" width="12" height="10" rx="2"/>' +
-        '<path class="ill-la" d="M96 30 v10 M91 35 h10"/>',
+        '<rect class="ill-bg" x="26" y="18" width="58" height="48" rx="7"/>' +
+        '<rect class="ill-acc" x="26" y="18" width="58" height="12" rx="7"/>' +
+        '<rect class="ill-acc" x="26" y="24" width="58" height="6"/>' +
+        '<rect class="ill-fort" x="35" y="12" width="4" height="10" rx="2"/>' +
+        '<rect class="ill-fort" x="71" y="12" width="4" height="10" rx="2"/>' +
+        '<rect class="ill-mid" x="33" y="37" width="10" height="8" rx="1.5"/>' +
+        '<rect class="ill-mid" x="49" y="37" width="10" height="8" rx="1.5"/>' +
+        '<rect class="ill-mid" x="33" y="50" width="10" height="8" rx="1.5"/>' +
+        '<rect class="ill-mid" x="65" y="37" width="10" height="8" rx="1.5"/>' +
+        '<circle class="ill-la" cx="54" cy="54" r="8.5" stroke-width="2.4"/>' +
+        '<path class="ill-acc" d="M100 20 l3 7 7 1 -5.5 5 1.5 7.5 -6.5-3.5 -6.5 3.5 1.5-7.5 -5.5-5 7-1 z"/>',
         'Les nouveautés récentes du code');
     },
 
@@ -155,16 +177,29 @@ window.Illus = (function () {
         'Deux voitures à un carrefour et le panneau de priorité');
     },
 
-    /* Le compteur, et la distance qu'il faut derrière. */
+    /* Un vrai cadran de compteur : graduations tout autour, aiguille
+       qui pointe dans la zone haute plutôt qu'un simple arc à moitié
+       coloré. La distance de sécurité, à droite, se lit comme une
+       cote de plan : deux flèches qui se font face entre deux traits. */
     vitesse: function () {
+      var grad = '', i, a, r1, r2;
+      for (i = 0; i <= 10; i++) {
+        a = Math.PI * 0.82 + i * (Math.PI * 1.36 / 10);
+        r1 = i % 5 === 0 ? 19 : 21.5;
+        grad += '<path class="' + (i >= 8 ? 'ill-la' : 'ill-l') + '" d="M' +
+          (50 + r1 * Math.cos(a)).toFixed(1) + ' ' + (54 + r1 * Math.sin(a)).toFixed(1) + ' L' +
+          (50 + 24 * Math.cos(a)).toFixed(1) + ' ' + (54 + 24 * Math.sin(a)).toFixed(1) +
+          '" stroke-width="' + (i % 5 === 0 ? 2.4 : 1.6) + '"/>';
+      }
+      var aAig = Math.PI * 0.82 + 8.3 * (Math.PI * 1.36 / 10);
       return svg(
-        '<path class="ill-l" d="M22 54 A28 28 0 0 1 78 54" stroke-width="7"/>' +
-        '<path class="ill-la" d="M22 54 A28 28 0 0 1 40 28" stroke-width="7"/>' +
-        '<circle class="ill-fort" cx="50" cy="54" r="4"/>' +
-        '<path class="ill-la" d="M50 54 L38 36" stroke-width="3"/>' +
-        '<rect class="ill-acc" x="84" y="30" width="26" height="10" rx="5"/>' +
-        T(97, 38, '2 s', 'ill-t-acc', 8) +
-        '<path class="ill-l" d="M84 50 h26 M84 46 v8 M110 46 v8"/>' + SOL,
+        '<circle class="ill-bg" cx="50" cy="54" r="26"/>' + grad +
+        '<path class="ill-lf" d="M50 54 L' + (50 + 20 * Math.cos(aAig)).toFixed(1) +
+          ' ' + (54 + 20 * Math.sin(aAig)).toFixed(1) + '" stroke-width="2.6"/>' +
+        '<circle class="ill-fort" cx="50" cy="54" r="3.2"/>' +
+        '<path class="ill-la" d="M90 30 v34 M90 30 l-3 5 M90 30 l3 5 M90 64 l-3 -5 M90 64 l3 -5" stroke-width="2.4"/>' +
+        '<path class="ill-l" d="M84 30 h6 M84 64 h6" stroke-width="2"/>' +
+        T(101, 50, '2 s', 'ill-t-acc', 9),
         'La vitesse et la distance de sécurité');
     },
 
@@ -212,17 +247,18 @@ window.Illus = (function () {
     conducteur: function () {
       return svg(
         /* Un conducteur au volant, de face : la tête et les épaules
-           derrière, le volant devant, les mains posées dessus. Le
-           volant seul ne montrait personne, et la silhouette seule ne
-           montrait pas qu'elle conduisait. */
-        '<path class="ill-mid" d="M36 70 a24 24 0 0 1 48 0 z"/>' +
-        '<rect class="ill-mid" x="55" y="20" width="10" height="14" rx="4"/>' +
-        '<circle class="ill-mid" cx="60" cy="17" r="10.5"/>' +
-        '<circle class="ill-la" cx="60" cy="49" r="20" stroke-width="5"/>' +
-        '<circle class="ill-acc" cx="60" cy="49" r="6"/>' +
-        '<path class="ill-la" d="M43 47 h11 M77 47 h-11 M60 55 v14" stroke-width="4"/>' +
-        '<rect class="ill-fort" x="36" y="44" width="9" height="9" rx="4.5"/>' +
-        '<rect class="ill-fort" x="75" y="44" width="9" height="9" rx="4.5"/>',
+           derrière, le volant devant, les mains posées dessus. Tête,
+           cou et épaules proches les uns des autres — l'écart d'avant
+           les faisait lire comme trois pièces détachées plutôt qu'une
+           seule personne. */
+        '<path class="ill-mid" d="M33 72 a27 24 0 0 1 54 0 z"/>' +
+        '<rect class="ill-mid" x="54" y="24" width="12" height="10" rx="4"/>' +
+        '<circle class="ill-mid" cx="60" cy="19" r="12"/>' +
+        '<circle class="ill-la" cx="60" cy="50" r="18" stroke-width="4.6"/>' +
+        '<circle class="ill-acc" cx="60" cy="50" r="5.5"/>' +
+        '<path class="ill-la" d="M45.3 46.5 h9.5 M74.7 46.5 h-9.5 M60 55.5 v12.5" stroke-width="3.8"/>' +
+        '<rect class="ill-fort" x="38" y="42" width="9" height="9" rx="4.5"/>' +
+        '<rect class="ill-fort" x="73" y="42" width="9" height="9" rx="4.5"/>',
         'Le conducteur : vigilance, fatigue, alcool');
     },
 
@@ -284,14 +320,29 @@ window.Illus = (function () {
         'Pneus, feux et équipements du véhicule');
     },
 
-    /* La voiture qui voit à votre place. */
+    /* La voiture qui voit à votre place : le radar mesure la voiture
+       qui la précède, pas le vide. Sans elle, les ondes ne racontaient
+       rien de précis — n'importe quel capteur émet des ondes. */
     technologie: function () {
       return svg(
-        auto(12, 49, 46, 'ill-mid') +
-        '<circle class="ill-acc" cx="57" cy="60" r="3.5"/>' +
-        '<path class="ill-la" d="M64 50 a12 12 0 0 1 0 20"/>' +
-        '<path class="ill-la" d="M74 43 a22 22 0 0 1 0 34" opacity=".6"/>' +
-        '<path class="ill-la" d="M84 36 a32 32 0 0 1 0 48" opacity=".35"/>' + SOL,
+        auto(6, 49, 40, 'ill-mid') +
+        '<circle class="ill-acc" cx="47" cy="60" r="3.2"/>' +
+        '<path class="ill-la" d="M53 51 a11 11 0 0 1 0 18" opacity=".7"/>' +
+        '<path class="ill-la" d="M62 45 a20 20 0 0 1 0 30" opacity=".4"/>' +
+        /* la voiture précédente, vue de l'arrière : plus petite, plus
+           loin, feux arrière allumés — celle que le radar détecte.
+           Réduite (scale .6) et reculée pour tenir entière dans le
+           cadre : sans cette échelle elle faisait presque la taille
+           de la voiture principale et débordait à droite. */
+        '<g transform="translate(90,49) scale(.6)">' +
+          '<path class="ill-fort" d="M2 22 Q2 17 7 16 L12 6 Q14 3 18 3 h4 Q26 3 28 6 L33 16 Q38 17 38 22 ' +
+            'L38 24 L2 24 Z"/>' +
+          '<rect class="ill-vitre" x="10" y="8" width="20" height="8" rx="2"/>' +
+          '<rect class="ill-acc" x="1" y="18" width="4" height="4" rx="1"/>' +
+          '<rect class="ill-acc" x="35" y="18" width="4" height="4" rx="1"/>' +
+          '<circle class="ill-fort" cx="11" cy="24" r="3.4"/>' +
+          '<circle class="ill-fort" cx="29" cy="24" r="3.4"/>' +
+        '</g>' + SOL,
         'Les aides électroniques à la conduite');
     },
 
@@ -323,15 +374,21 @@ window.Illus = (function () {
         'Protéger, alerter, secourir');
     },
 
-    /* Le papier qu'on ne veut pas recevoir. */
+    /* Le papier qu'on ne veut pas recevoir : un coin corné, comme un
+       vrai formulaire qu'on détache, et un tampon légèrement penché
+       plutôt qu'un cercle bien droit — un tampon parfaitement aligné
+       ne ressemble à rien de réel. */
     sanctions: function () {
       return svg(
-        '<rect class="ill-bg" x="24" y="14" width="58" height="52" rx="6"/>' +
-        '<rect class="ill-mid" x="32" y="24" width="34" height="4" rx="2"/>' +
-        '<rect class="ill-mid" x="32" y="34" width="42" height="4" rx="2"/>' +
-        '<rect class="ill-mid" x="32" y="44" width="26" height="4" rx="2"/>' +
-        '<circle class="ill-acc" cx="86" cy="52" r="17"/>' +
-        T(86, 58, '-6', 'ill-t-acc', 14),
+        '<path class="ill-bg" d="M24 14 H70 L82 26 V66 H24 Z"/>' +
+        '<path class="ill-mid" d="M70 14 V26 H82 Z" opacity=".5"/>' +
+        '<rect class="ill-fort" x="32" y="34" width="30" height="3.5" rx="1.75"/>' +
+        '<rect class="ill-mid" x="32" y="43" width="38" height="3.5" rx="1.75"/>' +
+        '<rect class="ill-mid" x="32" y="52" width="22" height="3.5" rx="1.75"/>' +
+        '<g transform="translate(90,44) rotate(-14)">' +
+          '<circle class="ill-la" cx="0" cy="0" r="17" stroke-width="2.6" stroke-dasharray="4 2.4"/>' +
+          T(0, 6, '-6', 'ill-t-acc', 15) +
+        '</g>',
         'Amendes et retraits de points');
     },
 
@@ -350,14 +407,19 @@ window.Illus = (function () {
         'Conduire souple et consommer moins');
     },
 
-    /* Les papiers qu'on doit pouvoir présenter. */
+    /* Deux vraies cartes au format permis/carte grise (proportion
+       carte bancaire, coins arrondis), une photo d'identité en
+       médaillon plutôt qu'un rond plein — c'est ce détail qui dit
+       « papier officiel » plutôt que « post-it ». */
     admin: function () {
       return svg(
-        '<rect class="ill-bg" x="18" y="22" width="48" height="34" rx="5" transform="rotate(-7 42 39)"/>' +
-        '<rect class="ill-mid" x="30" y="28" width="48" height="34" rx="5" transform="rotate(4 54 45)"/>' +
-        '<circle class="ill-bg" cx="46" cy="42" r="7"/>' +
-        '<rect class="ill-fort" x="58" y="38" width="18" height="3" rx="1.5"/>' +
-        '<rect class="ill-fort" x="58" y="46" width="14" height="3" rx="1.5"/>' +
+        '<rect class="ill-bg" x="14" y="26" width="52" height="33" rx="4" transform="rotate(-6 40 42.5)"/>' +
+        '<rect class="ill-mid" x="26" y="22" width="52" height="33" rx="4" transform="rotate(3 52 38.5)"/>' +
+        '<circle class="ill-bg" cx="40" cy="36" r="7.5"/>' +
+        '<path class="ill-fort" d="M34.5 40.5 a5.7 5.2 0 0 1 11 0 z"/>' +
+        '<rect class="ill-fort" x="53" y="30" width="19" height="3" rx="1.5"/>' +
+        '<rect class="ill-fort" x="53" y="38" width="15" height="3" rx="1.5"/>' +
+        '<rect class="ill-mid" x="53" y="46" width="11" height="3" rx="1.5"/>' +
         '<circle class="ill-acc" cx="92" cy="50" r="14"/>' +
         '<path d="M86 50 l4 4 8 -9" stroke="var(--accent-ink)" stroke-width="3" fill="none" ' +
           'stroke-linecap="round" stroke-linejoin="round"/>',
