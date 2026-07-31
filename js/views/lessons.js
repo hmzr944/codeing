@@ -361,24 +361,119 @@ window.Cours = (function () {
     if (etape > 0) { sens = 'g'; etape--; rendreEtape(); }
   }
 
-  /* Glisser à gauche ou à droite fait la même chose que les boutons :
-     un seul écouteur, posé une fois, qui vérifie à chaque geste si
-     le lecteur de leçon est bien à l'écran. */
+  /* Glisser fait suivre la page au doigt, et non déclencher une
+     animation à la fin du geste. La différence se sent : tant que la
+     page ne bouge pas pendant qu'on la pousse, l'écran paraît mort le
+     temps du glissement, et on ne sait pas si le geste est pris en
+     compte avant de l'avoir terminé.
+
+     Trois détails y suffisent : la page colle au doigt au pixel près,
+     elle résiste progressivement quand il n'y a plus rien derrière —
+     plutôt que de se bloquer net, ce qui se lit comme un plantage —,
+     et au relâcher c'est l'élan qui décide, pas seulement la distance.
+     Un geste vif et court doit tourner la page ; un geste lent et long
+     qui revient en arrière ne doit pas. */
   var balayageBranche = false;
+
+  /* Plus on tire au-delà du bord, moins la page suit : c'est ce que
+     font les choses réelles avant de s'arrêter. */
+  function resistance(depassement, largeur) {
+    var k = 0.55;
+    return (depassement * largeur * k) / (largeur + k * Math.abs(depassement));
+  }
+
+  /* Où le geste finirait s'il continuait sur son élan, comme le
+     défilement inertiel. C'est ce point-là qui décide, et non la
+     position au moment précis où le doigt se lève. */
+  function projection(vitesse) {
+    var d = 0.998;
+    return (vitesse / 1000) * d / (1 - d);
+  }
+
   function brancherBalayage() {
     if (balayageBranche) return;
     balayageBranche = true;
-    var x0 = null, y0 = null;
-    document.addEventListener('touchstart', function (e) {
-      if (!document.querySelector('.lecon-etape')) return;
-      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+
+    var page = null, x0 = 0, y0 = 0, suit = false, hist = [];
+
+    function largeur() { return page ? page.getBoundingClientRect().width : 320; }
+    function peutPrec() { return etape > 0; }
+    function peutSuiv() { return etape <= lecon.blocs.length; }
+
+    function poser(dx) {
+      /* dx > 0 : on revient en arrière. dx < 0 : on avance. */
+      var l = largeur();
+      if ((dx > 0 && !peutPrec()) || (dx < 0 && !peutSuiv())) return resistance(dx, l);
+      return dx;
+    }
+
+    document.addEventListener('pointerdown', function (e) {
+      page = document.querySelector('.lecon-etape');
+      if (!page) return;
+      /* Un geste qui part d'un bouton lui appartient. */
+      if (e.target.closest && e.target.closest('button,a,summary,input')) { page = null; return; }
+      x0 = e.clientX; y0 = e.clientY; suit = false;
+      hist = [{ x: e.clientX, t: e.timeStamp }];
     }, { passive: true });
-    document.addEventListener('touchend', function (e) {
-      if (x0 === null || !document.querySelector('.lecon-etape')) { x0 = null; return; }
-      var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
-      x0 = null;
-      if (Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 1.4) return;
-      if (dx < 0) suivant(); else precedent();
+
+    document.addEventListener('pointermove', function (e) {
+      if (!page) return;
+      var dx = e.clientX - x0, dy = e.clientY - y0;
+      if (!suit) {
+        /* Dix pixels avant de s'engager : en dessous, c'est une
+           hésitation, pas un geste. Et un mouvement plus vertical
+           qu'horizontal appartient au défilement. */
+        if (Math.abs(dx) < 10) return;
+        if (Math.abs(dx) < Math.abs(dy) * 1.2) { page = null; return; }
+        suit = true;
+        page.style.transition = 'none';
+        page.style.willChange = 'transform';
+      }
+      hist.push({ x: e.clientX, t: e.timeStamp });
+      if (hist.length > 5) hist.shift();
+      page.style.transform = 'translateX(' + poser(dx).toFixed(1) + 'px)';
+      if (e.cancelable) e.preventDefault();
+    }, { passive: false });
+
+    function relacher(e) {
+      if (!page) return;
+      var courant = page;
+      page = null;
+      if (!suit) return;
+
+      var dx = e.clientX - x0;
+      var v = 0;
+      if (hist.length > 1) {
+        var a = hist[0], b = hist[hist.length - 1];
+        var dt = b.t - a.t;
+        if (dt > 0) v = (b.x - a.x) / dt * 1000;      // px par seconde
+      }
+      var vise = dx + projection(v);
+      var seuil = largeur() * 0.28;
+
+      courant.style.willChange = '';
+      var versSuiv = vise < -seuil && peutSuiv();
+      var versPrec = vise > seuil && peutPrec();
+
+      if (versSuiv || versPrec) {
+        courant.style.transition = 'transform .18s var(--ease), opacity .18s var(--ease)';
+        courant.style.transform = 'translateX(' + (versSuiv ? -largeur() : largeur()) + 'px)';
+        courant.style.opacity = '0';
+        setTimeout(function () { if (versSuiv) suivant(); else precedent(); }, 150);
+      } else {
+        /* Rien ne se passe : la page revient se poser, sans à-coup. */
+        courant.style.transition = 'transform .3s var(--ease)';
+        courant.style.transform = 'translateX(0)';
+      }
+    }
+
+    document.addEventListener('pointerup', relacher, { passive: true });
+    document.addEventListener('pointercancel', function () {
+      if (page && suit) {
+        page.style.transition = 'transform .3s var(--ease)';
+        page.style.transform = 'translateX(0)';
+      }
+      page = null;
     }, { passive: true });
   }
 
