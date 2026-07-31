@@ -337,7 +337,6 @@ window.Cours = (function () {
           '<button class="btn ghost block" data-question>Poser une question à l’assistant</button>' +
           (suivante ? '<button class="btn ghost block" data-lecon="' + suivante.k + '">' +
             'Leçon suivante · ' + UI.esc(suivante.n) + '</button>' : '') +
-          '<button class="btn ghost block" data-retour>Retour aux cours</button>' +
         '</div>' +
       '</div>';
     }
