@@ -149,10 +149,16 @@ a{color:var(--txt);text-underline-offset:3px}
    desserrait h1 pas assez. */
 /* Le gras est réservé aux titres qui le méritent : h1 seul reste
    franchement gras, h2/h3 ne font que structurer sans crier. */
-h1,h2,h3{margin:0;line-height:1.12}
-h1{font-size:clamp(25px,6.6vw,32px);letter-spacing:-.03em;font-weight:700}
-h2{font-size:clamp(18px,4.8vw,21px);letter-spacing:-.02em;font-weight:600}
-h3{font-size:15px;font-weight:600;letter-spacing:-.015em}
+/* L'interlignage suit l'inverse de la taille : serré sur un grand
+   titre, où les lignes sont déjà loin l'une de l'autre, plus ouvert à
+   mesure qu'on descend vers la taille du texte courant. Une valeur
+   unique pour h1 à h3 — de 32 px à 15 px — était forcément trop serrée
+   en bas de l'échelle, et ça se voyait dès qu'un petit titre passait
+   sur deux lignes. */
+h1,h2,h3{margin:0}
+h1{font-size:clamp(25px,6.6vw,32px);letter-spacing:-.03em;font-weight:700;line-height:1.08}
+h2{font-size:clamp(18px,4.8vw,21px);letter-spacing:-.02em;font-weight:600;line-height:1.2}
+h3{font-size:15px;font-weight:600;letter-spacing:-.015em;line-height:1.34}
 p{margin:0}
 
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
