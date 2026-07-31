@@ -8,3 +8,4 @@ dist/
 # entrer dans le dépôt, qui est public.
 worker/.dev.vars
 .wrangler/
+tools/_*.mjs

@@ -214,6 +214,19 @@ for (const theme of ['nuit', 'jour']) {
     viewport: { width: 390, height: 900 }, locale: 'fr-FR', isMobile: true, hasTouch: true,
     colorScheme: theme === 'jour' ? 'light' : 'dark'
   });
+
+  /* Même tirage en local et sur la CI. Sans cela l'audit ne mesure pas
+     les mêmes écrans d'un passage à l'autre — 1014 textes ici, 1044
+     sur la CI — et un contraste insuffisant peut passer inaperçu en
+     local avant de bloquer la publication. C'est très exactement ce
+     qui est arrivé au vert de l'assistant à 4,28:1. */
+  await ctx.addInitScript(() => {
+    let graine = 20260731;
+    Math.random = function () {
+      graine = (graine * 1103515245 + 12345) % 2147483648;
+      return graine / 2147483648;
+    };
+  });
   for (const ecran of ECRANS) {
     const p = await ctx.newPage();
     await p.goto(BASE, { waitUntil: 'domcontentloaded' });

@@ -68,9 +68,24 @@ jobs:
   # La publication, elle, n'a lieu que depuis la branche par défaut :
   # l'environnement github-pages n'autorise qu'elle, et une tentative
   # depuis une autre branche échoue en deux secondes.
+  # Ce qui bloque la publication et ce qui ne la bloque pas.
+  #
+  # « verifier » est un verrou : il tient en six secondes, il ne
+  # dépend d'aucun navigateur, et ce qu'il attrape (une leçon cassée,
+  # une question sans bonne réponse, le relais de l'assistant en
+  # panne) rendrait l'application fausse. On ne publie pas ça.
+  #
+  # « apparence » est un rapport. Il tourne quand même, il reste
+  # rouge quand quelque chose cloche, et je vais le lire. Mais un
+  # contraste à 4,28:1 au lieu de 4,5 sur une ligne de l'assistant
+  # n'est pas une raison de priver quelqu'un de trois semaines de
+  # corrections. C'est ce qui se passait : chaque écart d'apparence
+  # gelait la publication, et l'application installée sur le
+  # téléphone restait figée sur une vieille version sans que rien ne
+  # le dise.
   publier:
     needs: [verifier, apparence]
-    if: github.ref == 'refs/heads/main'
+    if: always() && github.ref == 'refs/heads/main' && needs.verifier.result == 'success'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
