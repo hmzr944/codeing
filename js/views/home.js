@@ -69,26 +69,36 @@ window.Home = (function () {
     }
 
     /* --- l'étape en cours du parcours : la réponse à « je fais quoi
-           maintenant ? », qui est la vraie question du débutant --- */
+           maintenant ? », qui est la vraie question du débutant ---
+
+       Quand cette étape consiste justement à faire le défi du jour
+       (le cas de la toute première étape, « Faire connaissance »),
+       elle ne devient PAS une carte à part : son bouton ferait
+       exactement la même chose que celui de la Mission du jour,
+       juste en dessous. Deux cartes vertes, deux boutons, une seule
+       action possible — la première chose que Mina voit à l'ouverture
+       de l'appli n'a pas à être un choix entre deux portes identiques.
+       Le contexte de l'étape rejoint alors la mission ci-dessous ; la
+       carte séparée ne reste que pour les étapes qui mènent ailleurs
+       (les fiches, le parcours, l'examen). */
     var j = Store.journey();
-    var jPct = Math.round((j.etape.cur / j.etape.goal) * 100);
-    var parcoursBlock =
+    var etapeRejointMission = !j.fini && j.etape.action === 'daily';
+    var parcoursBlock = (j.fini || etapeRejointMission) ? '' :
       '<section class="card stack g12">' +
         '<div class="row between">' +
           '<div class="sec-t">Étape ' + (j.i + 1) + ' sur ' + j.etapes.length + '</div>' +
           '<div class="tiny dim num">' + j.etape.cur + ' / ' + j.etape.goal + '</div>' +
         '</div>' +
         '<div class="stack g4">' +
-          '<div style="font-weight:500;font-size:16px;letter-spacing:-.02em">' +
-            UI.esc(j.fini ? 'Prête pour le jour J' : j.etape.n) + '</div>' +
-          '<div class="small muted">' + UI.esc(j.fini
-            ? 'Tous les thèmes sont étoilés. Continue à entretenir, et passe l’examen sereinement.'
-            : j.etape.d) + '</div>' +
+          '<div style="font-weight:500;font-size:16px;letter-spacing:-.02em">' + UI.esc(j.etape.n) + '</div>' +
+          '<div class="small muted">' + UI.esc(j.etape.d) + '</div>' +
         '</div>' +
-        '<div class="gauge thin"><i data-anime="--pct" style="--pct:' + (jPct / 100) + '"></i></div>' +
-        (j.fini ? '' : '<button class="btn sm ghost" data-etape="' + j.etape.action + '">' +
-          UI.esc(j.etape.cta) + '</button>') +
+        '<button class="btn sm ghost" data-etape="' + j.etape.action + '">' +
+          UI.esc(j.etape.cta) + '</button>' +
       '</section>';
+    var stageCtx = etapeRejointMission
+      ? '<div class="tiny dim">Étape ' + (j.i + 1) + ' sur ' + j.etapes.length + ' · ' + UI.esc(j.etape.n) + '</div>'
+      : (j.fini ? '<div class="tiny dim">Prête pour le jour J : tous les thèmes sont étoilés.</div>' : '');
 
     /* --- coffre du jour : la petite récompense qui fait terminer
            la série au lieu de s'arrêter à la moitié --- */
@@ -173,8 +183,11 @@ window.Home = (function () {
         countdown +
         parcoursBlock +
 
-        /* Mission du jour */
+        /* Mission du jour. Porte aussi le contexte du parcours quand
+           l'étape en cours n'est rien d'autre que ce défi (voir plus
+           haut) : un seul repère de progression suffit, deux gênent. */
         '<section class="card ' + (missionDone ? '' : 'accent') + ' stack g14">' +
+          stageCtx +
           '<div class="mission">' +
             '<div class="ring" data-anime="--p" style="--p:' + pct + '"><span class="num">' + pct + '%</span></div>' +
             '<div class="grow stack g4">' +

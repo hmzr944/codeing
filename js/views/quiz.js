@@ -166,7 +166,13 @@ window.Quiz = (function () {
     var cta = '<div class="cta-bar">' +
       '<button class="btn primary block" id="go" disabled>Valider</button></div>';
 
-    UI.mount(head + body + cta + assistant());
+    /* Le bouton Valider doit toujours se tenir en bas de l'écran, que
+       la question ait trois réponses courtes ou cinq réponses
+       longues. En position naturelle, une question courte le
+       laissait flotter au milieu d'un grand vide : rien ne forçait la
+       page à occuper tout l'écran. .quiz-screen le fait en colonne
+       flexible, #qbody absorbant l'espace en trop. */
+    UI.mount('<div class="quiz-screen">' + head + body + cta + '</div>' + assistant());
     bind();
   }
 

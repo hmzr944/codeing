@@ -639,6 +639,14 @@ p{margin:0}
   padding:12px 0 calc(12px + env(safe-area-inset-bottom));
   background:linear-gradient(transparent,var(--bg) 38%);
 }
+/* position:sticky ne colle au bas de l'écran que si la page dépasse
+   déjà la hauteur de l'écran : sur une question à trois réponses
+   courtes, rien ne le forçait, et le bouton flottait au milieu d'un
+   grand vide. La colonne flexible force l'écran à occuper toute la
+   hauteur, #qbody absorbe l'espace en trop, le bouton se retrouve
+   toujours en bas. */
+.quiz-screen{display:flex;flex-direction:column;min-height:100dvh}
+.quiz-screen #qbody{flex:1}
 
 /* ---------- couche jeu : vies, combo ---------- */
 
