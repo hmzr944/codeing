@@ -143,7 +143,7 @@ window.Chat = (function () {
       /* Un bloc « panneaux » ou « schéma » se dessine déjà tout seul :
          n'ajouter une image que lorsque le passage cité est du texte. */
       var dejaDessine = b.bloc.t === 'panneaux' || b.bloc.t === 'schema';
-      out += '<div class="chat-bloc">' + Cours.bloc(b.bloc) + '</div>' +
+      out += '<div class="chat-bloc">' + Cours.bloc(b.bloc, b.lecon) + '</div>' +
         (dejaDessine ? '' : visuel(txt, b.lecon)) +
         lien(b.lecon, 'Lire « ' + b.lecon.n + ' »');
     }
@@ -307,7 +307,7 @@ window.Chat = (function () {
     });
     if (!gardes.length) gardes = lecon.blocs.slice(0, 2);
     return '<p>Voici ce qu’il faut retenir de « ' + UI.esc(lecon.n) + ' ».</p>' +
-      '<div class="chat-bloc stack g10">' + gardes.map(Cours.bloc).join('') + '</div>' +
+      '<div class="chat-bloc stack g10">' + gardes.map(function (g) { return Cours.bloc(g); }).join('') + '</div>' +
       lien(lecon, 'Relire la leçon en entier');
   }
 
@@ -328,7 +328,7 @@ window.Chat = (function () {
       '<p>' + UI.esc(q.e) + '</p>' +
       (q.tip ? '<p class="chat-note">Astuce : ' + UI.esc(q.tip) + '</p>' : '') +
       (res.blocs.length
-        ? '<div class="chat-bloc">' + Cours.bloc(res.blocs[0].bloc) + '</div>' +
+        ? '<div class="chat-bloc">' + Cours.bloc(res.blocs[0].bloc, res.blocs[0].lecon) + '</div>' +
           lien(res.blocs[0].lecon, 'Lire « ' + res.blocs[0].lecon.n + ' »')
         : '');
   }

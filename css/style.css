@@ -691,6 +691,13 @@ p{margin:0}
 .ill-l{stroke:currentColor;opacity:.26;fill:none;stroke-width:2;stroke-linecap:round}
 .ill-la{stroke:var(--accent);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 .ill-vitre{fill:var(--bg);opacity:.72}
+/* Le dessin d'un terme, sous la ligne qui le définit. Un panneau est
+   carré et se lit en petit ; un schéma a besoin de toute la largeur. */
+.li-dessin{margin:9px 0 4px}
+.li-dessin.pan-d{width:66px}
+.li-dessin.bl-schema{margin-left:-24px;width:calc(100% + 24px)}
+.liste li:has(.li-dessin){margin-bottom:4px}
+
 /* Le dessin qui accompagne une réponse de l'assistant. */
 .chat-illus{max-width:200px;margin:8px 0 2px;color:var(--txt)}
 .ill-t{fill:currentColor;opacity:.5;font-weight:600}

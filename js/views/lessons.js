@@ -32,8 +32,49 @@ window.Cours = (function () {
      Blocs
      ============================================================ */
 
+  /* Quelques termes se comprennent d'un coup d'œil si on les montre.
+     La correspondance est rangée par leçon, et non par mot seul :
+     « Rouge » désigne un feu tricolore dans Signalisation et un voyant
+     du tableau de bord dans Véhicule — un dessin choisi sur le mot
+     seul se tromperait une fois sur deux. */
+  var VIGNETTES = {
+    lexique: {
+      'BAU':               ['d', 'panne-autoroute'],
+      'Agglomération':     ['p', 'agglomeration'],
+      'Giratoire':         ['d', 'giratoire'],
+      'Céder le passage':  ['p', 'cedez'],
+      'Marquer l’arrêt':   ['p', 'stop'],
+      'Frein moteur':      ['d', 'pente'],
+      'Angle mort':        ['d', 'angle-mort'],
+      'ADAS':              ['d', 'aides-conduite'],
+      'PLS':               ['d', 'pls']
+    },
+    signalisation: {
+      'Rouge':             ['p', 'feu-rouge'],
+      'Orange fixe':       ['p', 'feu-orange'],
+      'Orange clignotant': ['p', 'feu-jaune-clignotant']
+    },
+    vehicule: {
+      'Profondeur minimale des rainures': ['d', 'usure-pneu']
+    }
+  };
+
+  function vignette(lecon, item) {
+    if (!lecon || !lecon.k) return '';
+    var t = /^([^:]{2,34}) : /.exec(item);
+    var m = t && VIGNETTES[lecon.k] && VIGNETTES[lecon.k][t[1].trim()];
+    if (!m) return '';
+    if (m[0] === 'p' && Signs.has(m[1])) {
+      return '<div class="li-dessin pan-d">' + Signs.render(m[1]) + '</div>';
+    }
+    if (m[0] === 'd' && Diagrams.has(m[1])) {
+      return '<figure class="li-dessin bl-schema">' + Diagrams.render(m[1]) + '</figure>';
+    }
+    return '';
+  }
+
   /* Le seul endroit où une leçon devient du HTML. */
-  function bloc(b) {
+  function bloc(b, lecon) {
     switch (b.t) {
 
       /* la phrase à garder si on ne retient qu'une chose */
@@ -53,7 +94,7 @@ window.Cours = (function () {
         return '<section class="bl-sec">' +
           titreBloc(b.titre) +
           '<ul class="liste">' + b.items.map(function (i) {
-            return '<li>' + gras(i) + '</li>';
+            return '<li>' + gras(i) + vignette(lecon, i) + '</li>';
           }).join('') + '</ul></section>';
 
       /* un tableau de valeurs, alignées pour être comparées d'un coup d'œil */
@@ -301,7 +342,7 @@ window.Cours = (function () {
       '</div>';
     }
     return '<div class="lecon-etape stack g20 glisse-' + sens + '">' +
-      '<div class="lecon-corps">' + bloc(lecon.blocs[etape - 1]) + '</div>' +
+      '<div class="lecon-corps">' + bloc(lecon.blocs[etape - 1], lecon) + '</div>' +
       '<div class="row g10">' +
         (etape > 1 ? '<button class="btn ghost" data-precedent>Précédent</button>' : '') +
         '<button class="btn primary block grow" data-suivant>' +
