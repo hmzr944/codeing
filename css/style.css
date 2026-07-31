@@ -693,6 +693,10 @@ p{margin:0}
 .ill-vitre{fill:var(--bg);opacity:.72}
 /* Le dessin d'un terme, sous la ligne qui le définit. Un panneau est
    carré et se lit en petit ; un schéma a besoin de toute la largeur. */
+/* Le schéma d'une correction : pleine largeur de la carte. */
+.fb-schema{margin:2px 0 0;padding:0}
+.fb-schema svg.dg{width:100%;height:auto;display:block}
+
 .li-dessin{margin:9px 0 4px}
 .li-dessin.pan-d{width:66px}
 .li-dessin.bl-schema{margin-left:-24px;width:calc(100% + 24px)}

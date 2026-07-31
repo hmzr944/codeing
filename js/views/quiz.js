@@ -307,6 +307,45 @@ window.Quiz = (function () {
       '<figcaption>' + UI.esc(m.legende) + '</figcaption></figure>';
   }
 
+  /* Le schéma qui explique la question, montré UNIQUEMENT dans la
+     correction. À côté de l'énoncé il vendrait la mèche : le dessin
+     de la priorité à droite, par exemple, donne la réponse avant
+     même qu'on ait réfléchi. Après avoir répondu, il n'y a plus rien
+     à gâcher — et c'est là qu'on cherche à comprendre.
+     On lit l'énoncé ET l'explication : le mot-clé est souvent dans
+     la seconde seulement. */
+  var SCHEMA_CORRECTION = [
+    [/distance de s[ée]curit|deux secondes|intervalle/i, 'deux-secondes'],
+    [/distance d.arr[êe]t|distance de freinage|temps de r[ée]action/i, 'distance-arret'],
+    [/priorit[ée] [àa] droite/i, 'priorite-droite'],
+    [/giratoire|rond-?point/i, 'giratoire'],
+    [/angle mort/i, 'angle-mort'],
+    [/d[ée]pass\w*[^.]{0,40}(cycliste|v[ée]lo)|(cycliste|v[ée]lo)[^.]{0,40}d[ée]pass/i, 'depassement-cycliste'],
+    [/alcool[ée]mie|g\/l|verre d.alcool/i, 'alcool-temps'],
+    [/bande d.arr[êe]t d.urgence|panne sur autoroute|triangle de pr[ée]signalisation/i, 'panne-autoroute'],
+    [/profondeur des rainures|usure du pneu|1,6 mm/i, 'usure-pneu'],
+    [/feux de croisement|feux de route|port[ée]e des feux/i, 'portee-feux'],
+    [/verglas|route enneig|sur la neige|perte d.adh[ée]rence/i, 'adherence-neige'],
+    [/position lat[ée]rale de s[ée]curit|pls/i, 'pls'],
+    [/toutes les deux heures|pause[^.]{0,30}(conduite|route|heures)|somnolence|fatigue au volant/i, 'pause-2h'],
+    [/frein moteur|descente prolong/i, 'pente'],
+    [/champ visuel|vision p[ée]riph/i, 'champ-visuel']
+  ];
+
+  function schemaCorrection(q) {
+    /* Une question qui montre déjà un panneau n'a pas besoin d'un
+       second dessin : elle en a un sous les yeux. */
+    if (q.sign) return '';
+    var texte = q.q + ' ' + q.e;
+    for (var i = 0; i < SCHEMA_CORRECTION.length; i++) {
+      var d = SCHEMA_CORRECTION[i];
+      if (d[0].test(texte) && Diagrams.has(d[1])) {
+        return '<figure class="fb-schema">' + Diagrams.render(d[1]) + '</figure>';
+      }
+    }
+    return '';
+  }
+
   function revealCorrection(q, correct, timedOut) {
     var hintBtn = document.querySelector('[data-hint]');
     if (hintBtn) hintBtn.remove();
@@ -326,6 +365,7 @@ window.Quiz = (function () {
       '<div class="fb-h">' + Icons.svg(ico, 19) + head + '</div>' +
       (correct ? '' : memeAleatoire()) +
       '<p class="fb-b">' + UI.esc(q.e) + '</p>' +
+      schemaCorrection(q) +
       (q.tip ? '<div class="tip"><b>Astuce mémo.</b> ' + UI.esc(q.tip) + '</div>' : '') +
       /* Deux sorties de secours quand l'explication ne suffit pas :
          l'assistant, tout de suite et hors ligne, puis Claude avec
