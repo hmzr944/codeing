@@ -566,6 +566,14 @@ p{margin:0}
   background:var(--surface-2);border:1px solid var(--line-soft);
 }
 .q-sign svg{width:min(138px,40vw);height:auto;display:block}
+/* Une scène de question est un dessin de situation (deux voitures,
+   un piéton, un tableau de bord), pas un pictogramme carré comme un
+   panneau : elle prend toute la largeur, comme un schéma de leçon. */
+.q-scene{
+  padding:10px 8px;border-radius:var(--r-card);
+  background:var(--surface-2);border:1px solid var(--line-soft);
+}
+.q-scene svg{width:100%;height:auto;display:block}
 .q-ctx{
   padding:14px 16px;border-radius:var(--r-card);
   background:var(--surface-2);border-left:3px solid var(--accent);
@@ -1398,6 +1406,10 @@ hr.sep{height:1px;background:var(--line-soft);border:0;margin:0}
 .dg-sol{stroke:var(--line);stroke-width:3}
 .dg-trottoir{stroke:var(--txt-3);stroke-width:5;stroke-linecap:round}
 .dg-glissiere{stroke:var(--txt-3);stroke-width:2.5}
+/* Trait fin de la même teinte que l'accent, sans épaisseur imposée :
+   contrairement à dg-fleche-c, l'appelant fixe son propre
+   stroke-width (jante de volant, gouttes de pluie, sangle...). */
+.dg-la{stroke:var(--accent);fill:none;stroke-linecap:round;stroke-linejoin:round}
 .dg-fleche{stroke:var(--accent);stroke-width:3;fill:none;marker-end:none}
 .dg-fleche-c{stroke:var(--accent);stroke-width:3.5;fill:none;stroke-linecap:round}
 .dg-fleche-p{fill:var(--accent)}

@@ -629,6 +629,273 @@ window.Diagrams = (function () {
       s += T(150, 128, 'une seule voie ensuite', 'dg-lg', 10);
       return svg('0 0 300 138', s,
         'À l’approche d’un rétrécissement, on s’insère alternativement, un véhicule sur deux, au dernier moment plutôt que de se rabattre trop tôt');
+    },
+
+    /* ==================================================================
+       Scènes de questions - un dessin pour situer une question de quiz
+       qui n'a pas la chance d'être un panneau. Mêmes briques (voiture,
+       voitureDessus, membre), même exigence de détail que les schémas
+       de leçon : ce sont les mêmes yeux qui les lisent.
+       ================================================================== */
+
+    /* ---- Le barème des points selon l'excès de vitesse ---- */
+    'bareme-points': function () {
+      var lignes = [['< 5', '0 pt'], ['5 à 19', '1 pt'], ['20 à 29', '2 pts'],
+        ['30 à 39', '3 pts'], ['40 à 49', '4 pts'], ['≥ 50', '6 pts']];
+      var s = T(150, 14, 'Points retirés selon l’excès de vitesse', 'dg-titre', 11);
+      lignes.forEach(function (l, i) {
+        var y = 30 + i * 22, fort = i >= 4;
+        s += '<rect x="30" y="' + y + '" width="130" height="18" rx="4" class="dg-neutre"/>' +
+          T(95, y + 13, l[0] + ' km/h', 'dg-sur', 10) +
+          '<rect x="168" y="' + y + '" width="70" height="18" rx="4" class="' +
+          (fort ? 'dg-accent-f' : 'dg-neutre') + '"/>' +
+          T(203, y + 13, l[1], fort ? 'dg-sur-acc' : 'dg-sur', 10.5);
+      });
+      return svg('0 0 300 174', s,
+        'Le barème des points retirés suit des tranches de 10 km/h, de 1 point entre 5 et 19 km/h à 6 points au-delà de 50 km/h');
+    },
+
+    /* ---- Bien charger la voiture ---- */
+    'chargement-voiture': function () {
+      /* Coordonnées reprises du gabarit de voiture() (translate/scale
+         calculés à partir de x=66,y=66,l=130) : le toit plat va de
+         120 à 150 en x, à y=91 ; le coffre bas se trouve vers
+         x=70-95, y=100-117. Poser les objets au jugé les faisait
+         flotter à côté de la carrosserie plutôt que dessus. */
+      return svg('0 0 300 150',
+        T(150, 12, 'Bien charger la voiture', 'dg-titre', 11) +
+        '<path d="M0 118 H300" class="dg-sol"/>' +
+        voiture(66, 66, 130) +
+        '<rect x="118" y="75" width="34" height="16" rx="3" class="dg-accent-f"/>' +
+        '<rect x="73" y="101" width="20" height="15" rx="2" class="dg-veh"/>' +
+        T(135, 54, 'coffre de toit :', 'dg-lg-acc', 9) +
+        T(135, 64, 'centre de gravité plus haut', 'dg-lg-acc', 9) +
+        T(150, 138, 'lourd, bas, à l’avant du coffre', 'dg-lg', 10),
+        'Les objets lourds se placent bas et vers l’avant du coffre ; un coffre de toit remonte le centre de gravité et rend les virages moins stables');
+    },
+
+    /* ---- Les signes de la fatigue au volant ---- */
+    'fatigue-conduite': function () {
+      return svg('0 0 300 140',
+        T(150, 14, 'Les signes qui doivent alerter', 'dg-titre', 11) +
+        '<circle cx="80" cy="52" r="23" class="dg-veh"/>' +
+        '<path d="M67 46 q6 -6 13 -1 M87 46 q6 -6 13 -1" class="dg-cote" stroke-width="2.2" fill="none"/>' +
+        '<ellipse cx="80" cy="63" rx="6" ry="8" class="dg-vitre"/>' +
+        T(118, 46, 'z', 'dg-lg-acc', 18) + T(133, 35, 'z', 'dg-lg-acc', 14) + T(146, 27, 'z', 'dg-lg-acc', 10) +
+        '<circle cx="80" cy="106" r="20" fill="none" class="dg-la" stroke-width="5"/>' +
+        '<circle cx="80" cy="106" r="5" class="dg-veh"/>' +
+        '<path d="M60 106 H68 M92 106 H100 M80 116 V124" class="dg-la" stroke-width="5"/>' +
+        T(160, 60, 'bâillements', 'dg-lg', 9.5, 'start') +
+        T(160, 78, 'paupières lourdes', 'dg-lg', 9.5, 'start') +
+        T(160, 96, 'la voiture flotte', 'dg-lg', 9.5, 'start'),
+        'Bâillements qui reviennent, paupières lourdes, difficulté à tenir sa trajectoire : les signes de la fatigue au volant, à ne jamais ignorer');
+    },
+
+    /* ---- La pluie fait baisser les vitesses maximales ---- */
+    'meteo-vitesse': function () {
+      return svg('0 0 300 130',
+        T(150, 14, 'Par temps de pluie, les vitesses baissent', 'dg-titre', 10.5) +
+        '<circle cx="78" cy="46" r="17" class="dg-accent-f"/>' +
+        '<path d="M78 16 V8 M78 84 V76 M46 46 H38 M118 46 H110 M55 23 l-6 -6 M101 23 l6 -6 M55 69 l-6 6 M101 69 l6 6" ' +
+        'class="dg-cote" stroke-width="2.6"/>' +
+        '<rect x="46" y="96" width="64" height="24" rx="5" class="dg-accent-f"/>' +
+        T(78, 112, '130 km/h', 'dg-sur-acc', 12) +
+        '<path d="M195 40 a17 17 0 0 1 32 -8 a15 15 0 0 1 21 15 a12 12 0 0 1 -4 11 H207 a14 14 0 0 1 -7 -18 z" class="dg-neutre"/>' +
+        '<path d="M208 64 l-4 11 M222 64 l-4 13 M236 64 l-4 11" class="dg-la" stroke-width="2.6" fill="none"/>' +
+        '<rect x="190" y="96" width="64" height="24" rx="5" class="dg-neutre"/>' +
+        T(222, 112, '110 km/h', 'dg-lg-ko', 12),
+        'Sur autoroute, la vitesse maximale passe de 130 à 110 km/h dès qu’il pleut, sans qu’aucun panneau ne le rappelle');
+    },
+
+    /* ---- Contrôler, signaler, puis dépasser une voiture ---- */
+    'depassement-securise': function () {
+      return svg('0 0 300 140',
+        T(150, 14, 'Je contrôle, je signale, puis j’agis', 'dg-titre', 11) +
+        '<rect x="0" y="30" width="300" height="80" class="dg-route"/>' +
+        '<path d="M0 70 H300" class="dg-bande"/>' +
+        voiture(196, 40, 44) +
+        voiture(96, 68, 44, 'dg-veh-acc') +
+        '<rect x="30" y="50" width="20" height="14" rx="2" class="dg-vitre"/>' +
+        '<path d="M30 50 h20 v14 h-20 z" fill="none" class="dg-cote"/>' +
+        T(40, 44, 'rétro + épaule', 'dg-lg', 8.5) +
+        T(150, 126, 'angle mort vérifié, clignotant, je dépasse', 'dg-lg', 9.5),
+        'Avant de dépasser : rétroviseurs, angle mort par-dessus l’épaule, clignotant, puis seulement le déboîtement');
+    },
+
+    /* ---- Ce que dit le marquage au sol ---- */
+    'marquage-sol-types': function () {
+      return svg('0 0 300 140',
+        T(150, 14, 'Ce que dit le marquage au sol', 'dg-titre', 11) +
+        '<rect x="4" y="30" width="88" height="52" class="dg-route"/>' +
+        '<path d="M4 56 H92" class="dg-continue"/>' +
+        T(48, 96, 'continue :', 'dg-lg-ko', 9.5) + T(48, 108, 'infranchissable', 'dg-lg-ko', 9.5) +
+        '<rect x="106" y="30" width="88" height="52" class="dg-route"/>' +
+        '<path d="M106 56 H194" class="dg-bande"/>' +
+        T(150, 96, 'discontinue :', 'dg-lg-acc', 9.5) + T(150, 108, 'je peux franchir', 'dg-lg-acc', 9.5) +
+        '<rect x="208" y="30" width="88" height="52" class="dg-route"/>' +
+        '<path d="M212 36 L292 36 L292 76 L212 76 Z" fill="none" class="dg-cote"/>' +
+        '<path d="M216 40 L288 72 M228 40 L288 58 M240 40 L280 40 M216 52 L272 72" class="dg-cote"/>' +
+        T(252, 96, 'zébras :', 'dg-lg', 9.5) + T(252, 108, 'je n’y roule pas', 'dg-lg', 9.5),
+        'Ligne continue : infranchissable. Ligne discontinue : je peux la franchir. Zébras bordés de continues : zone interdite');
+    },
+
+    /* ---- Un piéton s'engage sur le passage ---- */
+    'pieton-traverse': function () {
+      return svg('0 0 300 130',
+        T(150, 14, 'Un piéton s’engage : je m’arrête', 'dg-titre', 11) +
+        '<rect x="0" y="40" width="300" height="56" class="dg-route"/>' +
+        '<path d="M0 68 H140" class="dg-bande"/>' +
+        '<rect x="200" y="40" width="8" height="56" class="dg-ilot"/>' +
+        '<rect x="214" y="40" width="8" height="56" class="dg-ilot"/>' +
+        '<rect x="228" y="40" width="8" height="56" class="dg-ilot"/>' +
+        '<rect x="242" y="40" width="8" height="56" class="dg-ilot"/>' +
+        voiture(20, 50, 52) +
+        '<circle cx="192" cy="30" r="7" class="dg-veh"/>' +
+        membre(192, 37, 192, 58, 10) +
+        membre(192, 58, 182, 76, 8) +
+        membre(192, 58, 204, 74, 8) +
+        '<circle cx="192" cy="58" r="6" class="dg-veh"/>',
+        'Un piéton qui s’engage sur un passage impose l’arrêt, même s’il ne regarde pas dans ma direction');
+    },
+
+    /* ---- Dans un tunnel ---- */
+    'tunnel-dangers': function () {
+      return svg('0 0 300 140',
+        T(150, 14, 'Dans un tunnel', 'dg-titre', 11) +
+        '<path d="M0 100 V62 A150 36 0 0 1 300 62 V100 Z" class="dg-route"/>' +
+        '<path d="M0 100 H300" class="dg-bande"/>' +
+        '<circle cx="55" cy="62" r="4" class="dg-accent-f"/>' +
+        '<circle cx="150" cy="52" r="4" class="dg-accent-f"/>' +
+        '<circle cx="245" cy="62" r="4" class="dg-accent-f"/>' +
+        '<rect x="128" y="62" width="42" height="26" rx="2" fill="#ff2d20" opacity=".85"/>' +
+        '<path d="M136 68 l26 14 M164 68 l-26 14" stroke="#fff" stroke-width="3"/>' +
+        voiture(18, 78, 42) +
+        T(150, 124, 'feux de croisement, lunettes de soleil retirées', 'dg-lg', 9.5),
+        'Feux de croisement obligatoires, lunettes de soleil enlevées ; une croix rouge au-dessus d’une voie interdit d’y circuler');
+    },
+
+    /* ---- La ceinture sur l'os, et le siège enfant ---- */
+    'ceinture-enfant': function () {
+      return svg('0 0 300 140',
+        T(150, 14, 'La ceinture tient sur l’os, jamais sur le ventre', 'dg-titre', 10) +
+        '<circle cx="88" cy="36" r="13" class="dg-veh"/>' +
+        '<path d="M75 58 a19 24 0 0 1 26 0 v36 h-26 z" class="dg-veh"/>' +
+        '<path d="M76 42 L96 100" class="dg-la" stroke-width="4.5"/>' +
+        '<path d="M75 82 H101" class="dg-la" stroke-width="4.5"/>' +
+        '<rect x="182" y="42" width="46" height="52" rx="8" class="dg-neutre"/>' +
+        '<circle cx="205" cy="58" r="9" class="dg-veh"/>' +
+        '<path d="M193 82 a12 10 0 0 1 24 0 z" class="dg-veh"/>' +
+        T(88, 122, 'épaule + hanches', 'dg-lg-acc', 9.5) +
+        T(205, 122, 'siège homologué', 'dg-lg', 9.5),
+        'La ceinture passe sur l’épaule et les hanches, jamais sur le cou ni le ventre ; un enfant voyage dans un siège homologué jusqu’à environ 1,35 m');
+    },
+
+    /* ---- La voiture électrique : plus lourde, plus silencieuse ---- */
+    'voiture-electrique': function () {
+      return svg('0 0 300 130',
+        T(150, 14, 'Plus lourde, plus silencieuse', 'dg-titre', 11) +
+        voiture(58, 50, 92, 'dg-veh-acc') +
+        '<path d="M42 62 q-8 4 0 10 M32 56 q-15 8 0 22" class="dg-la" stroke-width="2.4" fill="none"/>' +
+        '<rect x="220" y="42" width="12" height="20" rx="2" class="dg-accent-f"/>' +
+        '<rect x="224" y="34" width="4" height="10" class="dg-accent-f"/>' +
+        T(210, 52, 'batterie', 'dg-lg', 9.5, 'end') +
+        T(210, 64, 'plus lourde', 'dg-lg', 9.5, 'end') +
+        T(104, 100, 'AVAS : un son artificiel', 'dg-lg-acc', 9.5) +
+        T(104, 112, 'jusqu’à 20 km/h', 'dg-lg-acc', 9.5),
+        'Plus lourde qu’un thermique équivalent, la voiture électrique freine moins vite ; très silencieuse, elle émet un son artificiel obligatoire jusqu’à 20 km/h');
+    },
+
+    /* ---- Ne jamais se garer ici ---- */
+    'stationnement-interdit-generique': function () {
+      return svg('0 0 300 140',
+        T(150, 14, 'Ne jamais se garer ici', 'dg-titre', 11) +
+        '<rect x="0" y="40" width="300" height="56" class="dg-route"/>' +
+        '<rect x="18" y="40" width="8" height="56" class="dg-ilot"/>' +
+        '<rect x="32" y="40" width="8" height="56" class="dg-ilot"/>' +
+        '<rect x="46" y="40" width="8" height="56" class="dg-ilot"/>' +
+        voiture(4, 50, 48) +
+        '<path d="M18 40 l16 16 M34 40 l-16 16" class="dg-neg"/>' +
+        '<path d="M172 42 a8 8 0 0 1 16 0 v10 a4 4 0 0 1 -4 4 h-8 a4 4 0 0 1 -4 -4 z" class="dg-accent-f"/>' +
+        '<rect x="184" y="56" width="4" height="16" class="dg-accent-f"/>' +
+        voiture(220, 50, 48) +
+        '<path d="M230 42 l16 16 M246 42 l-16 16" class="dg-neg"/>' +
+        T(55, 116, 'passage piéton', 'dg-lg-ko', 9.5) +
+        T(245, 116, 'bouche d’incendie', 'dg-lg-ko', 9.5),
+        'Se garer sur un passage piéton ou devant une bouche d’incendie est interdit dans tous les cas, sans tolérance');
+    },
+
+    /* ---- Autoroute : la voie de droite par défaut ---- */
+    'autoroute-3-voies': function () {
+      return svg('0 0 300 150',
+        T(150, 12, 'La voie de droite, par défaut', 'dg-titre', 10.5) +
+        '<rect x="30" y="26" width="240" height="124" class="dg-route"/>' +
+        '<path d="M110 26 V150 M190 26 V150" class="dg-bande"/>' +
+        voitureDessus(230, 100, 40, -90, 'dg-veh-acc') +
+        voitureDessus(150, 60, 38, -90) +
+        T(70, 40, 'gauche', 'dg-lg', 9) + T(70, 52, 'dépassement', 'dg-lg', 9) +
+        T(150, 40, 'milieu', 'dg-lg', 9) +
+        T(230, 40, 'droite', 'dg-lg-acc', 9) + T(230, 52, 'par défaut', 'dg-lg-acc', 9),
+        'Sur autoroute, je circule sur la voie de droite par défaut ; les voies de gauche ne servent qu’au dépassement, avant de s’y rabattre');
+    },
+
+    /* ---- Aquaplaning : je lâche, je ne freine pas ---- */
+    'aquaplaning': function () {
+      return svg('0 0 300 130',
+        T(150, 14, 'Aquaplaning : je lâche, je ne freine pas', 'dg-titre', 10.5) +
+        '<rect x="0" y="70" width="300" height="30" class="dg-accent-f" opacity=".28"/>' +
+        '<path d="M0 78 q10 -5 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0" ' +
+        'class="dg-la" stroke-width="2" fill="none"/>' +
+        voiture(88, 44, 72) +
+        '<path d="M120 92 q-10 8 -22 6 M150 92 q10 8 22 6" class="dg-la" stroke-width="2.6" fill="none"/>' +
+        T(150, 118, 'volant droit, j’attends que ça reprenne', 'dg-lg', 9.5),
+        'Si le véhicule se met à flotter sur l’eau : lâcher l’accélérateur, ne pas freiner brutalement, garder le volant droit');
+    },
+
+    /* ---- Ce que disent les voyants du tableau de bord ---- */
+    'tableau-bord-alerte': function () {
+      return svg('0 0 300 130',
+        T(150, 14, 'Ce que disent les voyants', 'dg-titre', 11) +
+        '<rect x="40" y="26" width="220" height="80" rx="10" class="dg-neutre"/>' +
+        '<circle cx="75" cy="66" r="16" fill="#ff2d20"/>' +
+        '<circle cx="150" cy="66" r="16" fill="#ffb100"/>' +
+        '<circle cx="225" cy="66" r="16" fill="#22d36a"/>' +
+        T(75, 118, 'je m’arrête', 'dg-lg', 8.5) +
+        T(150, 118, 'à vérifier', 'dg-lg', 8.5) +
+        T(225, 118, 'tout va bien', 'dg-lg', 8.5),
+        'Rouge : anomalie grave, je m’arrête dès que possible. Orange : à faire vérifier rapidement. Vert ou bleu : simple information');
+    },
+
+    /* ---- Le téléphone en main, même à l'arrêt ---- */
+    'telephone-volant': function () {
+      return svg('0 0 300 130',
+        T(150, 14, 'Le téléphone en main coûte 3 points', 'dg-titre', 11) +
+        '<circle cx="130" cy="72" r="26" fill="none" class="dg-la" stroke-width="5"/>' +
+        '<circle cx="130" cy="72" r="6" class="dg-veh"/>' +
+        membre(130, 72, 172, 40, 10) +
+        '<rect x="164" y="16" width="20" height="34" rx="4" class="dg-veh"/>' +
+        '<rect x="167" y="20" width="14" height="22" rx="1" class="dg-vitre"/>' +
+        '<path d="M156 26 l16 16 M172 26 l-16 16" class="dg-neg"/>' +
+        T(150, 118, 'seul le kit mains libres intégré est autorisé', 'dg-lg', 9.5),
+        'Tenir son téléphone en main au volant, même à l’arrêt à un feu rouge, coûte 3 points et 135 euros');
+    },
+
+    /* ---- Un car scolaire à l'arrêt cache un enfant ---- */
+    'bus-scolaire-enfant': function () {
+      return svg('0 0 300 130',
+        T(150, 14, 'Un enfant peut surgir devant le car', 'dg-titre', 11) +
+        '<rect x="0" y="60" width="300" height="40" class="dg-route"/>' +
+        '<rect x="40" y="30" width="110" height="46" rx="6" class="dg-neutre"/>' +
+        '<rect x="52" y="38" width="18" height="14" rx="2" class="dg-vitre"/>' +
+        '<rect x="76" y="38" width="18" height="14" rx="2" class="dg-vitre"/>' +
+        '<rect x="100" y="38" width="18" height="14" rx="2" class="dg-vitre"/>' +
+        '<circle cx="55" cy="80" r="8" class="dg-veh"/><circle cx="135" cy="80" r="8" class="dg-veh"/>' +
+        '<circle cx="34" cy="34" r="5" fill="#ffb100"/>' +
+        '<circle cx="167" cy="60" r="6" class="dg-accent-f"/>' +
+        membre(167, 66, 167, 82, 8, 'dg-accent-f') +
+        membre(167, 82, 159, 94, 6, 'dg-accent-f') +
+        membre(167, 82, 175, 94, 6, 'dg-accent-f') +
+        T(150, 122, 'je ralentis fortement, prête à m’arrêter', 'dg-lg', 9.5),
+        'Un enfant peut traverser sans regarder juste devant ou derrière un car scolaire à l’arrêt : je ralentis fortement');
     }
   };
 

@@ -14,7 +14,7 @@ window.Q_PLUS_ROUTE = [
  e:'Les lignes jaunes temporaires annulent les lignes blanches. En cas de contradiction, on suit toujours le jaune.',
  tip:'Jaune contre blanc : le jaune gagne.'},
 
-{id:'SG52', t:'signalisation', d:2,
+{id:'SG52', t:'signalisation', d:2, scene:'marquage-sol-types',
  q:'Une ligne blanche continue bordant le côté droit de la chaussée :',
  o:['Délimite la bande d’arrêt d’urgence ou l’accotement','Ne doit pas être franchie sauf urgence','Peut être franchie pour doubler'],
  a:[0,1],
@@ -70,7 +70,7 @@ window.Q_PLUS_ROUTE = [
  e:'Le bleu correspond aux autoroutes, le vert aux grands itinéraires, le blanc aux directions locales, le jaune aux déviations temporaires.',
  tip:'Bleu, vert, blanc, jaune : autoroute, grand axe, local, déviation.'},
 
-{id:'SG60', t:'signalisation', d:2,
+{id:'SG60', t:'signalisation', d:2, scene:'priorite-droite',
  q:'Des feux tricolores en panne, tous éteints :',
  o:['Imposent d’appliquer la signalisation en place','Et à défaut la priorité à droite','Donnent la priorité au véhicule le plus rapide'],
  a:[0,1],
@@ -84,7 +84,7 @@ window.Q_PLUS_ROUTE = [
  e:'Une limitation ponctuelle prend fin à l’intersection suivante, sauf si un panneau la reconduit. Une zone 30 fonctionne différemment : elle couvre tout un secteur.',
  tip:'Panneau isolé : jusqu’à la prochaine intersection. Zone : tout le secteur.'},
 
-{id:'SG62', t:'signalisation', d:3,
+{id:'SG62', t:'signalisation', d:3, scene:'marquage-sol-types',
  q:'Une ligne discontinue à traits courts et espaces longs :',
  o:['Est une ligne de délimitation ordinaire de voies','Peut être franchie pour changer de voie ou dépasser','Annonce une ligne continue'],
  a:[0,1],
@@ -124,7 +124,7 @@ window.Q_PLUS_ROUTE = [
  e:'Bras tendu horizontalement : les usagers vers qui pointe le bras doivent s’arrêter. Agent vu de face ou de dos : arrêt. Agent vu de profil : passage autorisé.',
  tip:'De face ou de dos, je m’arrête. De profil, je passe.'},
 
-{id:'PR21', t:'priorites', d:2,
+{id:'PR21', t:'priorites', d:2, scene:'corridor-securite',
  ctx:'Un véhicule de secours est bloqué derrière moi dans un embouteillage, sirène en marche.',
  q:'Je dois :',
  o:['Me déporter au maximum pour créer un passage','Rester attentif aux piétons pendant la manœuvre','Monter sur le trottoir dans tous les cas'],
@@ -169,7 +169,7 @@ window.Q_PLUS_ROUTE = [
  e:'Dans les zones 30 et les zones de rencontre, le double-sens cyclable est la règle sauf décision contraire. Le cycliste arrive donc de face dans une rue à sens unique.',
  tip:'Sens unique en zone 30 : un vélo peut arriver en face.'},
 
-{id:'PR27', t:'priorites', d:2,
+{id:'PR27', t:'priorites', d:2, scene:'sas-velo',
  q:'Un panneau « cédez le passage cycliste au feu rouge » :',
  o:['Autorise le cycliste à franchir le feu rouge dans la direction indiquée','En cédant le passage aux autres usagers','Autorise aussi les cyclomoteurs'],
  a:[0,1],
@@ -184,7 +184,7 @@ window.Q_PLUS_ROUTE = [
  e:'Toute manœuvre impose de ne gêner ni surprendre personne. La responsabilité pèse entièrement sur celui qui manœuvre.',
  tip:'Celui qui manœuvre n’a jamais la priorité.'},
 
-{id:'PR29', t:'priorites', d:3,
+{id:'PR29', t:'priorites', d:3, scene:'priorite-droite',
  q:'À une intersection en T où je circule sur la barre du T :',
  o:['La priorité dépend uniquement de la signalisation en place','Sans signalisation, la priorité à droite s’applique','Je suis prioritaire car je ne tourne pas'],
  a:[0,1],
@@ -200,14 +200,14 @@ window.Q_PLUS_ROUTE = [
 
 /* ---------------- VITESSE & DISTANCES ---------------- */
 
-{id:'VI19', t:'vitesse', d:2,
+{id:'VI19', t:'vitesse', d:2, scene:'bus-scolaire-enfant',
  q:'La vitesse doit être réduite à 30 km/h ou moins :',
  o:['Aux abords des écoles aux heures d’entrée et de sortie','Dans une zone 30 signalée','Sur toute route de campagne'],
  a:[0,1],
  e:'Le code impose d’adapter sa vitesse dès qu’un groupe d’enfants est présent, même sans panneau. Le panneau ne fait que rappeler une obligation générale.',
  tip:'Des enfants au bord de la route : on lève le pied sans attendre un panneau.'},
 
-{id:'VI20', t:'vitesse', d:3,
+{id:'VI20', t:'vitesse', d:3, scene:'distance-arret',
  q:'À 130 km/h, une seconde d’inattention représente environ :',
  o:['36 mètres parcourus','La longueur de trois camions','Moins de 10 mètres'],
  a:[0,1],
@@ -221,7 +221,7 @@ window.Q_PLUS_ROUTE = [
  e:'Les ensembles lourds sont en revanche limités à 90 km/h sur autoroute au lieu de 130. La masse allonge fortement la distance d’arrêt.',
  tip:'Attelé, la vitesse baisse et les distances montent.'},
 
-{id:'VI22', t:'vitesse', d:2,
+{id:'VI22', t:'vitesse', d:2, scene:'deux-secondes',
  q:'La distance de sécurité doit être augmentée :',
  o:['Par temps de pluie ou de brouillard','Derrière un deux-roues','Derrière un véhicule masquant la visibilité','Sur une route rectiligne, sèche et dégagée'],
  a:[0,1,2],
@@ -235,7 +235,7 @@ window.Q_PLUS_ROUTE = [
  e:'La marge est de 5 km/h jusqu’à 100 km/h, puis de 5 % au-delà pour les radars fixes, et le double pour les contrôles en mouvement.',
  tip:'La marge existe, mais elle est faible et elle ne se négocie pas.'},
 
-{id:'VI24', t:'vitesse', d:2,
+{id:'VI24', t:'vitesse', d:2, scene:'deux-secondes',
  ctx:'Je circule à 80 km/h sur une route mouillée, derrière un véhicule à deux secondes.',
  q:'Cette distance est :',
  o:['Insuffisante, car la chaussée est mouillée','À porter à trois secondes environ','Suffisante en toutes circonstances'],
@@ -257,14 +257,14 @@ window.Q_PLUS_ROUTE = [
  e:'Doubler la vitesse dans un virage multiplie par quatre la force qui déporte le véhicule. On freine avant le virage, jamais dedans.',
  tip:'On ralentit avant la courbe, on accélère à la sortie.'},
 
-{id:'VI27', t:'vitesse', d:2,
+{id:'VI27', t:'vitesse', d:2, scene:'meteo-vitesse',
  q:'Sur route mouillée, un excès de vitesse est sanctionné :',
  o:['Par rapport à la limitation « pluie » applicable','Même si le panneau affiche la vitesse par temps sec','Uniquement si la pluie est forte'],
  a:[0,1],
  e:'Les vitesses réduites par temps de pluie s’appliquent sans qu’aucun panneau ne les rappelle. Le conducteur doit les connaître.',
  tip:'La pluie change la limite sans changer le panneau.'},
 
-{id:'VI28', t:'vitesse', d:2,
+{id:'VI28', t:'vitesse', d:2, scene:'distance-arret',
  q:'Le temps de réaction augmente notamment :',
  o:['Avec la fatigue et l’alcool','Avec l’usage du téléphone','Avec la connaissance de la route'],
  a:[0,1],
@@ -287,7 +287,7 @@ window.Q_PLUS_ROUTE = [
 
 /* ---------------- MANŒUVRES ---------------- */
 
-{id:'MA15', t:'manoeuvres', d:2,
+{id:'MA15', t:'manoeuvres', d:2, scene:'deux-secondes',
  ctx:'Un véhicule me colle de très près sur route.',
  q:'La bonne réaction est :',
  o:['D’augmenter ma propre distance avec le véhicule devant moi','De le laisser passer dès que possible','De freiner sèchement pour l’avertir'],
@@ -302,14 +302,14 @@ window.Q_PLUS_ROUTE = [
  e:'Dépasser un ensemble de 16 mètres à 90 km/h prend plusieurs centaines de mètres. Le déport d’air surprend surtout les véhicules légers et les deux-roues.',
  tip:'Un camion se double avec de la place et de la reprise.'},
 
-{id:'MA17', t:'manoeuvres', d:3,
+{id:'MA17', t:'manoeuvres', d:3, scene:'depassement-securise',
  q:'Je m’apprête à dépasser et un véhicule derrière moi a déjà entamé son dépassement :',
  o:['Je renonce et je reste sur ma voie','Je vérifie systématiquement le rétroviseur extérieur gauche et l’angle mort','Je m’engage, j’étais le premier à décider'],
  a:[0,1],
  e:'Le dépassement en cascade est une cause classique d’accident. Le contrôle de l’angle mort doit être fait juste avant de déboîter.',
  tip:'Le clignotant n’efface pas celui qui double déjà.'},
 
-{id:'MA18', t:'manoeuvres', d:2,
+{id:'MA18', t:'manoeuvres', d:2, scene:'angle-mort',
  q:'Pour tourner à droite dans une rue étroite :',
  o:['Je serre à droite pour ne pas laisser passer un deux-roues','Je contrôle l’angle mort avant de braquer','Je me déporte à gauche pour élargir'],
  a:[0,1],
@@ -323,7 +323,7 @@ window.Q_PLUS_ROUTE = [
  e:'La marche arrière impose un contrôle constant : piétons, cyclistes, véhicules qui arrivent. La caméra ne montre qu’un secteur.',
  tip:'Pendant un créneau, le regard tourne en permanence.'},
 
-{id:'MA20', t:'manoeuvres', d:2,
+{id:'MA20', t:'manoeuvres', d:2, scene:'fermeture-eclair',
  ctx:'Je souhaite m’insérer dans une file dense en ville, à un rétrécissement.',
  q:'La règle du zip (fermeture éclair) consiste à :',
  o:['S’insérer alternativement, un véhicule sur deux','Ce qui fluidifie le trafic','Forcer le passage le plus tôt possible'],
@@ -345,7 +345,7 @@ window.Q_PLUS_ROUTE = [
  e:'L’aide au démarrage en côte maintient la pression de freinage quelques secondes. Elle ne dispense pas de contrôler avant de repartir.',
  tip:'En côte, le recul de 30 cm suffit à toucher celui de derrière.'},
 
-{id:'MA23', t:'manoeuvres', d:2,
+{id:'MA23', t:'manoeuvres', d:2, scene:'fermeture-eclair',
  ctx:'Je circule sur une voie qui se termine et un panneau annonce un rabattement.',
  q:'Je dois :',
  o:['Anticiper et me rabattre sans forcer','Adapter ma vitesse à celle de la file','Accélérer pour doubler un maximum de véhicules'],
@@ -353,7 +353,7 @@ window.Q_PLUS_ROUTE = [
  e:'Le rabattement en force est à la fois dangereux et sanctionnable. La régularité vaut mieux que le gain de trois places.',
  tip:'Se rabattre, c’est s’intégrer, pas s’imposer.'},
 
-{id:'MA24', t:'manoeuvres', d:3,
+{id:'MA24', t:'manoeuvres', d:3, scene:'depassement-securise',
  q:'Le contrôle de l’angle mort se fait :',
  o:['Par un bref regard direct par-dessus l’épaule','Après le contrôle des rétroviseurs','Uniquement au rétroviseur, bien réglé'],
  a:[0,1],
@@ -375,7 +375,7 @@ window.Q_PLUS_ROUTE = [
  e:'Se garer en marche arrière permet de repartir en marche avant, avec une visibilité complète. C’est la manœuvre la plus sûre sur un parking fréquenté.',
  tip:'Se garer en reculant, repartir en avançant.'},
 
-{id:'MA27', t:'manoeuvres', d:2,
+{id:'MA27', t:'manoeuvres', d:2, scene:'depassement-securise',
  q:'Le dépassement par la droite est autorisé :',
  o:['Lorsque le véhicule devant signale son intention de tourner à gauche','En circulation à files continues à vitesse réduite','Dès que la voie de droite est libre'],
  a:[0,1],

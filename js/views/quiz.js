@@ -145,6 +145,7 @@ window.Quiz = (function () {
 
     var body = '<div class="stack g16" id="qbody">';
     if (q.sign && Signs.has(q.sign)) body += '<div class="q-sign">' + Signs.render(q.sign) + '</div>';
+    else if (q.scene && Diagrams.has(q.scene)) body += '<div class="q-scene">' + Diagrams.render(q.scene) + '</div>';
     if (q.ctx) body += '<div class="q-ctx">' + UI.esc(q.ctx) + '</div>';
     body += '<div class="stack g8">' +
       (multi ? '<div class="q-multi">Plusieurs réponses attendues</div>' : '') +

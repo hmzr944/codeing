@@ -17,7 +17,7 @@ window.Q_SECOURS = [
  e:'Le 112 fonctionne dans toute l’Union européenne, depuis un portable même sans crédit ni carte SIM. En France : 15 (SAMU), 18 (pompiers), 17 (police), 114 (sourds et malentendants, par SMS).',
  tip:'112 partout en Europe, 114 par SMS.'},
 
-{id:'SE03', t:'secours', d:2,
+{id:'SE03', t:'secours', d:2, scene:'triangle-secours',
  q:'Pour protéger une zone d’accident, je dois :',
  o:['Allumer mes feux de détresse','Enfiler mon gilet avant de sortir','Baliser avec le triangle si les conditions le permettent','Déplacer les véhicules accidentés pour dégager la voie'],
  a:[0,1,2],
@@ -38,7 +38,7 @@ window.Q_SECOURS = [
  e:'Déplacer une victime peut aggraver une lésion vertébrale. On ne dégage qu’en cas de danger vital immédiat (incendie, immersion, explosion).',
  tip:'On ne bouge pas une victime, sauf si rester la tue.'},
 
-{id:'SE06', t:'secours', d:2,
+{id:'SE06', t:'secours', d:2, scene:'pls',
  q:'Une victime inconsciente qui respire doit être placée :',
  o:['En position latérale de sécurité','Sur le dos, tête surélevée','Assise contre un mur'],
  a:[0],

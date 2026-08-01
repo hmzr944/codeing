@@ -14,7 +14,7 @@ window.Q_PLUS_PRATIQUE = [
  e:'Le dépassement par la droite est interdit. Coller ou faire des appels de phares provoque des freinages en chaîne.',
  tip:'Un camion qui en double un autre : on respire et on attend.'},
 
-{id:'AU13', t:'autoroute', d:2,
+{id:'AU13', t:'autoroute', d:2, scene:'panne-autoroute',
  q:'Sur autoroute, la bande d’arrêt d’urgence :',
  o:['N’est pas un espace sûr, il faut la quitter à pied','Est le lieu de nombreux accidents mortels','Permet d’attendre les secours dans le véhicule'],
  a:[0,1],
@@ -78,14 +78,14 @@ window.Q_PLUS_PRATIQUE = [
  e:'Ce système se généralise sur certaines autoroutes. Sans badge, il faut payer en ligne dans les jours suivants, faute de quoi une majoration s’applique.',
  tip:'Pas de barrière ne veut pas dire pas de péage.'},
 
-{id:'AU22', t:'autoroute', d:2,
+{id:'AU22', t:'autoroute', d:2, scene:'autoroute-3-voies',
  q:'Circuler durablement sur la voie du milieu d’une autoroute à trois voies alors que la droite est libre :',
  o:['Est une infraction','Gêne la fluidité et pousse aux dépassements par la droite','Est autorisé pour éviter les insertions'],
  a:[0,1],
  e:'La règle est de circuler le plus à droite possible. Les voies de gauche servent au dépassement.',
  tip:'La droite d’abord, la gauche pour doubler.'},
 
-{id:'AU23', t:'autoroute', d:3,
+{id:'AU23', t:'autoroute', d:3, scene:'fatigue-conduite',
  q:'La fatigue autoroutière est aggravée par :',
  o:['La monotonie du paysage et la régularité de la vitesse','L’usage prolongé du régulateur','La variété du trafic'],
  a:[0,1],
@@ -99,7 +99,7 @@ window.Q_PLUS_PRATIQUE = [
  e:'Les vitesses affichées sur panneau lumineux ont valeur réglementaire et sont contrôlées. Elles remplacent la limitation habituelle.',
  tip:'Le panneau lumineux fait loi tant qu’il est allumé.'},
 
-{id:'AU25', t:'autoroute', d:2,
+{id:'AU25', t:'autoroute', d:2, scene:'fermeture-eclair',
  q:'S’insérer sur autoroute alors que la voie de droite est occupée :',
  o:['Impose d’ajuster sa vitesse pour s’intercaler dans un espace','De ne jamais s’arrêter en bout de voie d’accélération','De forcer le passage, l’insertion étant prioritaire'],
  a:[0,1],
@@ -122,7 +122,7 @@ window.Q_PLUS_PRATIQUE = [
  e:'Occuper une place de recharge sans recharger est un stationnement gênant. Certaines bornes facturent aussi le temps d’occupation après la charge.',
  tip:'Place de recharge : on branche ou on se gare ailleurs.'},
 
-{id:'ST14', t:'stationnement', d:2,
+{id:'ST14', t:'stationnement', d:2, scene:'stationnement-interdit-generique',
  q:'Se garer devant une bouche d’incendie ou un accès pompiers :',
  o:['Constitue un stationnement très gênant','Peut empêcher une intervention de secours','Est toléré quelques minutes'],
  a:[0,1],
@@ -208,7 +208,7 @@ window.Q_PLUS_PRATIQUE = [
  e:'Le camion crée un mur qui coupe le vent, puis le laisse revenir d’un coup. La déviation de trajectoire est brutale, surtout avec une remorque.',
  tip:'À la sortie de l’abri, le vent frappe d’un seul coup.'},
 
-{id:'CD18', t:'conditions', d:2,
+{id:'CD18', t:'conditions', d:2, scene:'adherence-neige',
  q:'De la neige tassée sur la chaussée :',
  o:['Réduit fortement l’adhérence','Impose une conduite très douce et des distances multipliées','Se traite comme une chaussée mouillée'],
  a:[0,1],
@@ -229,7 +229,7 @@ window.Q_PLUS_PRATIQUE = [
  e:'La climatisation assèche l’air et désembue bien plus vite. Frotter avec la main laisse un film gras qui éblouit la nuit.',
  tip:'Buée : ventilation à fond, clim enclenchée.'},
 
-{id:'CD21', t:'conditions', d:2,
+{id:'CD21', t:'conditions', d:2, scene:'aquaplaning',
  q:'Rouler dans une flaque profonde ou une zone inondée :',
  o:['Peut noyer le moteur et faire perdre le contrôle','Doit être évité, la profondeur étant impossible à évaluer','Est sans risque à faible vitesse'],
  a:[0,1],
@@ -243,21 +243,21 @@ window.Q_PLUS_PRATIQUE = [
  e:'On boit régulièrement, on aère l’habitacle avant de partir et on ne laisse jamais un enfant ou un animal dans un véhicule à l’arrêt.',
  tip:'Chaleur : on boit, on aère, on ne laisse personne à bord.'},
 
-{id:'CD23', t:'conditions', d:3,
+{id:'CD23', t:'conditions', d:3, scene:'tunnel-dangers',
  q:'Un tunnel avec un feu rouge clignotant à l’entrée :',
  o:['Interdit l’accès','Signale un incident à l’intérieur','Autorise l’entrée avec prudence'],
  a:[0,1],
  e:'Les tunnels ont des feux, des panneaux indiquant les voies ouvertes et des haut-parleurs. Une croix rouge au-dessus d’une voie interdit d’y circuler.',
  tip:'Croix rouge au-dessus d’une voie : cette voie est fermée.'},
 
-{id:'CD24', t:'conditions', d:2,
+{id:'CD24', t:'conditions', d:2, scene:'tunnel-dangers',
  q:'À la sortie d’un tunnel par temps ensoleillé :',
  o:['L’éblouissement est brutal','La vitesse doit être adaptée avant de sortir','Le vent latéral peut surprendre','L’adhérence est meilleure qu’à l’intérieur du tunnel'],
  a:[0,1,2],
  e:'L’œil met plusieurs secondes à s’adapter. Les sorties de tunnel cumulent souvent éblouissement et rafale.',
  tip:'On ralentit avant de sortir du tunnel, pas après.'},
 
-{id:'CD25', t:'conditions', d:2,
+{id:'CD25', t:'conditions', d:2, scene:'nuit-eclairage',
  q:'De nuit, un piéton habillé de sombre hors agglomération :',
  o:['Est visible très tardivement en feux de croisement','Justifie une vitesse adaptée à la portée des phares','Est toujours détecté par les aides à la conduite'],
  a:[0,1],
@@ -273,14 +273,14 @@ window.Q_PLUS_PRATIQUE = [
 
 /* ---------------- LE CONDUCTEUR ---------------- */
 
-{id:'CO23', t:'conducteur', d:2,
+{id:'CO23', t:'conducteur', d:2, scene:'champ-visuel',
  q:'Conduire très énervée, juste après une dispute :',
  o:['Altère le jugement et augmente la prise de risque','Justifie d’attendre quelques minutes avant de démarrer','N’a pas d’effet mesurable'],
  a:[0,1],
  e:'La colère rétrécit l’attention aux seuls éléments perçus comme hostiles. Quelques minutes d’arrêt valent mieux qu’un trajet sous tension.',
  tip:'On ne prend pas le volant en colère, comme on ne le prend pas ivre.'},
 
-{id:'CO24', t:'conducteur', d:2,
+{id:'CO24', t:'conducteur', d:2, scene:'fatigue-conduite',
  q:'Un conducteur ayant dormi moins de cinq heures :',
  o:['Voit son risque d’accident fortement augmenté','Présente des altérations comparables à une alcoolémie','Compense par la concentration'],
  a:[0,1],
@@ -301,14 +301,14 @@ window.Q_PLUS_PRATIQUE = [
  e:'Certaines pathologies imposent un avis médical pour la conduite. Ignorer un malaise, c’est risquer une perte de connaissance à 90 km/h.',
  tip:'Un signe de malaise : on s’arrête, on ne négocie pas.'},
 
-{id:'CO27', t:'conducteur', d:2,
+{id:'CO27', t:'conducteur', d:2, scene:'champ-visuel',
  q:'Le champ visuel du conducteur :',
  o:['Se rétrécit à mesure que la vitesse augmente','Passe d’environ 100 degrés à l’arrêt à moins de 30 degrés à vitesse élevée','S’élargit avec la vitesse'],
  a:[0,1],
  e:'Plus on va vite, moins on voit sur les côtés, comme dans un tunnel. C’est une raison de plus de ralentir en ville.',
  tip:'Plus vite je roule, moins je vois sur les côtés.'},
 
-{id:'CO28', t:'conducteur', d:2,
+{id:'CO28', t:'conducteur', d:2, scene:'fatigue-conduite',
  q:'Après un repas copieux ou en début d’après-midi :',
  o:['La vigilance baisse naturellement','Une pause courte est préférable à un café','La conduite est plus sûre car on est reposé'],
  a:[0,1],
@@ -331,28 +331,28 @@ window.Q_PLUS_PRATIQUE = [
 
 /* ---------------- LES AUTRES USAGERS ---------------- */
 
-{id:'US17', t:'usagers', d:2,
+{id:'US17', t:'usagers', d:2, scene:'angle-mort',
  q:'Les véhicules de plus de 3,5 tonnes doivent porter :',
  o:['Une signalisation « angle mort » sur les côtés et l’arrière','Depuis 2021','Aucune signalisation particulière'],
  a:[0,1],
  e:'Ces autocollants rappellent aux cyclistes et piétons les zones où le chauffeur ne les voit pas. Ils ne suppriment pas l’angle mort.',
  tip:'L’autocollant prévient, il ne protège pas.'},
 
-{id:'US18', t:'usagers', d:2,
+{id:'US18', t:'usagers', d:2, scene:'pieton-traverse',
  q:'Un enfant à pied au bord de la chaussée :',
  o:['Peut traverser sans regarder','Ne perçoit pas correctement les distances et les vitesses avant une dizaine d’années','Se comporte comme un adulte prudent'],
  a:[0,1],
  e:'L’enfant a un champ visuel plus étroit, localise mal les sons et croit qu’être vu suffit à être protégé. Sa vitesse de course est imprévisible.',
  tip:'Un enfant vu = ralentir, sans attendre qu’il bouge.'},
 
-{id:'US19', t:'usagers', d:2,
+{id:'US19', t:'usagers', d:2, scene:'pieton-traverse',
  q:'Une personne âgée traversant lentement :',
  o:['Doit pouvoir terminer sa traversée sans être pressée','Peut avoir une audition ou une vision réduites','Doit accélérer si un véhicule approche'],
  a:[0,1],
  e:'Klaxonner ou avancer pour presser quelqu’un provoque des chutes. On attend, tout simplement.',
  tip:'On attend qu’elle ait fini, pas qu’elle se dépêche.'},
 
-{id:'US20', t:'usagers', d:3,
+{id:'US20', t:'usagers', d:3, scene:'depassement-cycliste',
  q:'Un cycliste peut se déporter vers le centre de sa voie :',
  o:['Pour éviter les portières des voitures stationnées','Pour être vu à l’approche d’une intersection','Ce qui constitue une infraction'],
  a:[0,1],
@@ -387,7 +387,7 @@ window.Q_PLUS_PRATIQUE = [
  e:'Les motards se préviennent des obstacles et des contrôles par des gestes. Un gravillon ou un nid-de-poule est bien plus dangereux pour eux.',
  tip:'Un geste de motard, c’est une information gratuite.'},
 
-{id:'US25', t:'usagers', d:2,
+{id:'US25', t:'usagers', d:2, scene:'pieton-traverse',
  q:'Un piéton muni d’écouteurs ou regardant son téléphone :',
  o:['Peut ne pas percevoir un véhicule approcher','Impose une vigilance renforcée','Est seul responsable en cas d’accident'],
  a:[0,1],
@@ -401,14 +401,14 @@ window.Q_PLUS_PRATIQUE = [
  e:'Un groupe se dépasse comme un seul véhicule, en une seule fois, avec 1,50 m d’écart hors agglomération.',
  tip:'Un peloton se double d’un seul trait.'},
 
-{id:'US27', t:'usagers', d:2,
+{id:'US27', t:'usagers', d:2, scene:'pieton-traverse',
  q:'Une personne en fauteuil roulant sur la chaussée :',
  o:['Est assimilée à un piéton','Doit bénéficier d’un large écart et d’une vitesse très réduite','Doit circuler sur la chaussée comme un cycliste'],
  a:[0,1],
  e:'Les personnes en fauteuil, à pied ou poussant un vélo sont des piétons. Un trottoir encombré peut les contraindre à descendre sur la chaussée.',
  tip:'Fauteuil roulant : c’est un piéton, avec moins de moyens de s’écarter.'},
 
-{id:'US28', t:'usagers', d:2,
+{id:'US28', t:'usagers', d:2, scene:'bus-scolaire-enfant',
  q:'Devant une sortie d’école :',
  o:['Je m’attends à des traversées désordonnées','Je ne me gare pas sur le passage piéton ni en double file','Les enfants respectent les passages protégés'],
  a:[0,1],
@@ -424,21 +424,21 @@ window.Q_PLUS_PRATIQUE = [
  e:'Des balais usés créent un voile qui devient aveuglant sous la pluie de nuit. Le liquide lave-glace adapté à la saison complète l’ensemble.',
  tip:'Des balais fatigués transforment la pluie en brouillard.'},
 
-{id:'VE24', t:'vehicule', d:2,
+{id:'VE24', t:'vehicule', d:2, scene:'tableau-bord-alerte',
  q:'Un feu de croisement grillé :',
  o:['Doit être remplacé sans délai','Peut être sanctionné lors d’un contrôle','Est acceptable si l’autre fonctionne'],
  a:[0,1],
  e:'Un seul feu allumé fait ressembler le véhicule à un deux-roues, ce qui fausse l’estimation de distance des autres conducteurs.',
  tip:'Un feu sur deux, c’est une moto aux yeux des autres.'},
 
-{id:'VE25', t:'vehicule', d:3,
+{id:'VE25', t:'vehicule', d:3, scene:'usure-pneu',
  q:'Le vieillissement des pneus :',
  o:['Se poursuit même sans rouler','Justifie un contrôle au-delà de cinq à six ans','Est sans importance si la sculpture est bonne'],
  a:[0,1],
  e:'La gomme durcit et se craquelle avec le temps. Une date de fabrication figure sur le flanc, sous la forme d’un code à quatre chiffres.',
  tip:'Un pneu neuf de dix ans n’est pas un pneu neuf.'},
 
-{id:'VE26', t:'vehicule', d:2,
+{id:'VE26', t:'vehicule', d:2, scene:'usure-pneu',
  q:'Monter des pneus différents sur un même essieu :',
  o:['Est interdit','Déséquilibre le freinage et la tenue de route','Est autorisé si les dimensions sont proches'],
  a:[0,1],
@@ -452,14 +452,14 @@ window.Q_PLUS_PRATIQUE = [
  e:'Un liquide chargé d’eau bout lors d’un freinage prolongé, ce qui rend la pédale molle et spongieuse et peut faire perdre le freinage en descente.',
  tip:'Vieux liquide de frein plus longue descente : pédale au plancher.'},
 
-{id:'VE28', t:'vehicule', d:2,
+{id:'VE28', t:'vehicule', d:2, scene:'ceinture-enfant',
  q:'La ceinture de sécurité doit :',
  o:['Passer sur l’épaule et sur les hanches, jamais sur le ventre','Être ajustée sans vrille','Être desserrée pour le confort'],
  a:[0,1],
  e:'Une sangle passant sur l’abdomen provoque des lésions internes graves. Un vêtement épais dégrade aussi fortement l’efficacité.',
  tip:'La ceinture tient l’os, pas le ventre.'},
 
-{id:'VE29', t:'vehicule', d:3,
+{id:'VE29', t:'vehicule', d:3, scene:'ceinture-enfant',
  q:'Un airbag :',
  o:['Complète la ceinture mais ne la remplace pas','Peut blesser un occupant mal positionné','Suffit seul à protéger'],
  a:[0,1],
@@ -489,7 +489,7 @@ window.Q_PLUS_PRATIQUE = [
  e:'Un état peut se dégrader en quelques minutes. On reste auprès de la victime, on la couvre et on la rassure jusqu’aux secours.',
  tip:'Qui parle respire. Mais qui parle peut cesser de parler.'},
 
-{id:'SE18', t:'secours', d:3,
+{id:'SE18', t:'secours', d:3, scene:'pls',
  q:'Pour vérifier la respiration d’une victime inconsciente :',
  o:['Je libère les voies aériennes en basculant doucement la tête en arrière','J’observe, j’écoute et je sens pendant environ dix secondes','Je secoue la victime'],
  a:[0,1],
