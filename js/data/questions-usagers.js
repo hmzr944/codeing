@@ -32,7 +32,7 @@ window.Q_USAGERS = [
  a:[0,1],
  e:'Le porte-à-faux (la partie du camion qui déborde derrière les roues) l’oblige à élargir sa trajectoire. S’intercaler à sa droite expose au risque d’écrasement, cause fréquente d’accidents mortels de cyclistes.'},
 
-{id:'US05', t:'usagers', d:2, scene:'depassement-cycliste',
+{id:'US05', t:'usagers', d:2,
  q:'Un cycliste peut légalement :',
  o:['Circuler à deux de front sur une chaussée, sauf la nuit ou si le trafic l’exige','Emprunter un double-sens cyclable en zone 30','Tourner à droite au feu rouge si un panneau le prévoit','Emprunter la bande d’arrêt d’urgence d’une autoroute'],
  a:[0,1,2],

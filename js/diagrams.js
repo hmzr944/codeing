@@ -78,7 +78,7 @@ window.Diagrams = (function () {
         '<rect x="93" y="30" width="187" height="22" rx="4" class="dg-accent-f"/>' +
         T(51, 45, '25 m', 'dg-sur', 11) + T(186, 45, '56 m', 'dg-sur-acc', 11) +
         T(51, 68, 'réaction', 'dg-lg', 10) + T(186, 68, 'freinage', 'dg-lg', 10) +
-        T(51, 80, '1 seconde', 'dg-lg2', 9) + T(186, 80, 'pédale enfoncée', 'dg-lg2', 9) +
+        T(51, 80, '1 seconde', 'dg-lg2', 10) + T(186, 80, 'pédale enfoncée', 'dg-lg2', 10) +
         '<path d="M10 96 H280" class="dg-cote"/>' +
         '<path d="M10 92 V100 M280 92 V100" class="dg-cote"/>' +
         T(145, 112, '81 mètres pour s’arrêter', 'dg-titre', 12),
@@ -111,27 +111,28 @@ window.Diagrams = (function () {
         T(180, 74, 'lui', 'dg-lg-acc', 10) +
         '<g class="dg-stop"><circle cx="66" cy="146" r="12"/>' +
         '<path d="M60 146 H72" class="dg-stop-barre"/></g>' +
-        T(110, 22, 'Il arrive à ma droite : il passe avant moi', 'dg-titre', 11),
+        T(110, 22, 'Priorité à celui qui vient de droite', 'dg-titre', 11),
         'Sans panneau, le véhicule venant de droite est prioritaire');
     },
 
     /* ---- Entrée dans un giratoire ---- */
     'giratoire': function () {
-      return svg('0 0 220 190',
-        '<circle cx="110" cy="95" r="62" class="dg-route-c"/>' +
-        '<circle cx="110" cy="95" r="26" class="dg-ilot"/>' +
-        '<rect x="94" y="157" width="32" height="33" class="dg-route"/>' +
-        '<rect x="94" y="0" width="32" height="33" class="dg-route"/>' +
-        '<rect x="0" y="79" width="48" height="32" class="dg-route"/>' +
-        '<rect x="172" y="79" width="48" height="32" class="dg-route"/>' +
-        '<path d="M110 40 A55 55 0 0 1 158 118" class="dg-fleche-c"/>' +
-        '<path d="M152 108 l12 12 -17 4 z" class="dg-fleche-p"/>' +
-        voitureDessus(110, 174, 34, -90, 'dg-veh-acc') +
-        '<g class="dg-stop"><circle cx="72" cy="174" r="11"/>' +
-        '<path d="M66 174 H78" class="dg-stop-barre"/></g>' +
-        T(166, 178, 'j’attends', 'dg-lg-acc', 10) +
-        T(110, 92, 'ils passent', 'dg-lg', 9) +
-        T(110, 104, 'd’abord', 'dg-lg', 9),
+      return svg('0 0 220 210',
+        T(110, 14, 'Priorité à ceux déjà dans l’anneau', 'dg-titre', 9) +
+        '<circle cx="110" cy="115" r="62" class="dg-route-c"/>' +
+        '<circle cx="110" cy="115" r="26" class="dg-ilot"/>' +
+        '<rect x="94" y="177" width="32" height="33" class="dg-route"/>' +
+        '<rect x="94" y="20" width="32" height="33" class="dg-route"/>' +
+        '<rect x="0" y="99" width="48" height="32" class="dg-route"/>' +
+        '<rect x="172" y="99" width="48" height="32" class="dg-route"/>' +
+        '<path d="M110 60 A55 55 0 0 1 158 138" class="dg-fleche-c"/>' +
+        '<path d="M152 128 l12 12 -17 4 z" class="dg-fleche-p"/>' +
+        voitureDessus(110, 194, 34, -90, 'dg-veh-acc') +
+        '<g class="dg-stop"><circle cx="72" cy="194" r="11"/>' +
+        '<path d="M66 194 H78" class="dg-stop-barre"/></g>' +
+        T(166, 198, 'j’attends', 'dg-lg-acc', 10) +
+        T(110, 112, 'ils passent', 'dg-lg', 9) +
+        T(110, 124, 'd’abord', 'dg-lg', 9),
         'Les véhicules déjà engagés dans l’anneau passent en premier');
     },
 
@@ -152,10 +153,10 @@ window.Diagrams = (function () {
         '<rect x="140" y="59" width="96" height="4" rx="2" class="dg-accent-f" opacity=".85"/>' +
         '<circle cx="86" cy="100" r="9" class="dg-veh"/>' +
         '<circle cx="200" cy="112" r="9" class="dg-veh"/>' +
-        T(34, 78, 'angle', 'dg-lg-ko', 9) + T(34, 89, 'mort', 'dg-lg-ko', 9) +
-        T(268, 78, 'angle', 'dg-lg-ko', 9) + T(268, 89, 'mort', 'dg-lg-ko', 9) +
-        T(150, 143, 'angle mort', 'dg-lg-ko', 9) +
-        T(150, 12, 'Si je ne vois pas ses rétroviseurs, il ne me voit pas', 'dg-titre', 11),
+        T(34, 78, 'angle', 'dg-lg-ko', 10) + T(34, 89, 'mort', 'dg-lg-ko', 10) +
+        T(268, 78, 'angle', 'dg-lg-ko', 10) + T(268, 89, 'mort', 'dg-lg-ko', 10) +
+        T(150, 143, 'angle mort', 'dg-lg-ko', 10) +
+        T(150, 12, 'Sans voir ses rétroviseurs, il ne me voit pas', 'dg-titre', 10.5),
         'Les zones où le chauffeur d’un poids lourd ne voit rien');
     },
 
@@ -195,7 +196,7 @@ window.Diagrams = (function () {
         voiture(100, 86, 46) +
         '<g class="dg-accent-f">' + Icons.raw('p_pieton', 26, 216, 128) + '</g>' +
         T(150, 14, 'Je sors par la droite et je passe la glissière', 'dg-titre', 11) +
-        T(15, 99, 'BAU', 'dg-lg', 9, 'start') +
+        T(15, 99, 'BAU', 'dg-lg', 10, 'start') +
         T(258, 134, 'à l’abri', 'dg-lg-acc', 10),
         'En panne sur autoroute, on se met à l’abri derrière la glissière');
     },
@@ -261,10 +262,14 @@ window.Diagrams = (function () {
 
     /* ---- Stationnement en pente ---- */
     'pente': function () {
+      /* Une vraie chaussée en pente (deux bords parallèles, pas un
+         simple trait) avec son trottoir surélevé le long du bord bas :
+         sans cette largeur, la scène ne montrait qu'une ligne et une
+         voiture posée dessus, sans dire où était la rue. */
       return svg('0 0 300 120',
-        '<path d="M10 90 L290 40" class="dg-sol"/>' +
+        '<path d="M10 80 L290 30 L290 50 L10 100 Z" class="dg-route"/>' +
+        '<path d="M10 100 L290 50" class="dg-trottoir"/>' +
         '<g transform="rotate(-10 110 60)">' + voiture(80, 48, 60) + '</g>' +
-        '<path d="M150 96 h60" class="dg-trottoir"/>' +
         /* Une flèche vers la roue avant plutôt qu'un pavé posé
            dessus : la voiture est assez détaillée maintenant pour
            que masquer la roue soit dommage, et une flèche fait le
@@ -288,7 +293,7 @@ window.Diagrams = (function () {
       });
       var y2 = 42 + 3 * 28 + 8;
       s += '<path d="M14 ' + (y2 - 4) + ' l8 8 16-16" class="dg-check"/>' +
-        T(48, y2 + 4, 'Seul le temps : 0,10 à 0,15 g/L par heure', 'dg-lg-acc', 11.5, 'start');
+        T(44, y2 + 4, 'Seul le temps : 0,10 à 0,15 g/L par heure', 'dg-lg-acc', 10.5, 'start');
       return svg('0 0 300 ' + (y2 + 24), s,
         'Rien n’accélère l’élimination de l’alcool dans le sang, seul le temps qui passe compte');
     },
@@ -299,8 +304,8 @@ window.Diagrams = (function () {
         T(150, 14, 'Le champ de vision se referme avec la vitesse', 'dg-titre', 11) +
         '<path d="M150 138 L34 40 L266 40 Z" class="dg-neutre" opacity=".55"/>' +
         '<path d="M150 138 L118 40 L182 40 Z" class="dg-accent-f" opacity=".85"/>' +
-        T(70, 58, '100°', 'dg-lg', 12) + T(70, 72, 'à l’arrêt', 'dg-lg', 9) +
-        T(150, 58, '30°', 'dg-sur-acc', 12) + T(150, 72, 'vitesse élevée', 'dg-lg-acc', 9) +
+        T(70, 58, '100°', 'dg-lg', 12) + T(70, 72, 'à l’arrêt', 'dg-lg', 10) +
+        T(150, 58, '30°', 'dg-sur-acc', 12) + T(150, 72, 'vitesse élevée', 'dg-lg-acc', 10) +
         '<circle cx="150" cy="138" r="7" class="dg-veh"/>',
         'Le champ de vision passe d’environ 100 degrés à l’arrêt à moins de 30 degrés à vitesse élevée');
     },
@@ -322,12 +327,24 @@ window.Diagrams = (function () {
 
     /* ---- Usure des pneus ---- */
     'usure-pneu': function () {
+      /* Des rainures dessinées (des entailles claires découpées dans
+         la gomme), pas seulement une barre plus ou moins remplie :
+         « rainure » se voit, sur le pneu neuf, profondes et
+         nombreuses ; sur le pneu à la limite, presque effacées. */
+      var rainures = function (x, y0, h, n) {
+        var s = '', i;
+        for (i = 0; i < n; i++) {
+          s += '<rect x="' + x + '" y="' + (y0 + i * (h / n) + 3) + '" width="46" height="4" class="dg-vitre"/>';
+        }
+        return s;
+      };
       return svg('0 0 300 150',
-        T(150, 14, 'Profondeur des rainures : neuf contre limite légale', 'dg-titre', 11) +
-        '<rect x="70" y="30" width="46" height="90" rx="4" class="dg-neutre"/>' +
+        T(150, 12, 'Rainures : pneu neuf contre pneu usé', 'dg-titre', 10.5) +
         '<rect x="70" y="30" width="46" height="90" rx="4" class="dg-accent-f"/>' +
+        rainures(70, 30, 90, 7) +
         '<rect x="184" y="30" width="46" height="90" rx="4" class="dg-neutre"/>' +
         '<rect x="184" y="102" width="46" height="18" rx="3" class="dg-accent-f"/>' +
+        rainures(184, 104, 14, 2) +
         T(93, 22, 'Pneu neuf', 'dg-lg', 10) +
         T(207, 22, 'Pneu à la limite', 'dg-lg-ko', 10) +
         T(93, 134, '≈ 8 mm', 'dg-sur', 11) +
@@ -344,8 +361,8 @@ window.Diagrams = (function () {
         T(150, 24, 'ISA + freinage d’urgence', 'dg-lg-acc', 9.5) +
         '<path d="M114 100 H36" class="dg-cote"/>' +
         T(36, 92, 'Maintien', 'dg-lg', 9.5, 'start') + T(36, 104, 'de voie', 'dg-lg', 9.5, 'start') +
-        '<path d="M186 100 H264" class="dg-cote"/>' +
-        T(264, 92, 'Alerte de', 'dg-lg', 9.5, 'start') + T(264, 104, 'somnolence', 'dg-lg', 9.5, 'start') +
+        '<path d="M186 100 H228" class="dg-cote"/>' +
+        T(228, 92, 'Alerte de', 'dg-lg', 9.5, 'start') + T(228, 104, 'somnolence', 'dg-lg', 9.5, 'start') +
         '<path d="M150 142 V172" class="dg-cote"/>' +
         T(150, 184, 'Aide au recul + eCall', 'dg-lg-acc', 9.5),
         'Un aperçu des aides à la conduite à l’avant, sur les côtés et à l’arrière');
@@ -411,15 +428,21 @@ window.Diagrams = (function () {
 
     /* ---- Un objet non attaché devient un projectile ---- */
     'objet-projectile': function () {
+      /* Un sac, pas un simple carré : une anse dessus dit « objet
+         qu'on pose sur la banquette » avant même de lire le poids.
+         Il vient percuter un dossier de siège, pas le vide. */
       return svg('0 0 300 140',
         T(150, 14, 'Un objet non attaché devient un projectile', 'dg-titre', 11) +
-        '<rect x="46" y="76" width="30" height="30" rx="4" class="dg-neutre"/>' +
+        '<rect x="46" y="80" width="30" height="26" rx="4" class="dg-neutre"/>' +
+        '<path d="M52 80 v-6 a5 5 0 0 1 10 0 v6" fill="none" class="dg-cote" stroke-width="2.4"/>' +
         T(61, 122, '5 kg', 'dg-sur', 11) +
         '<path d="M96 90 H150" class="dg-fleche-c"/>' +
         '<path d="M142 84 l10 6 -10 6 z" class="dg-fleche-p"/>' +
         T(123, 76, 'à 50 km/h', 'dg-lg-acc', 10) +
-        '<rect x="180" y="40" width="74" height="66" rx="6" class="dg-accent-f"/>' +
-        T(217, 122, '≈ 100 kg', 'dg-sur', 12),
+        '<rect x="188" y="34" width="66" height="72" rx="6" class="dg-accent-f"/>' +
+        '<path d="M188 50 l16 -16 M188 70 l30 -30 M188 90 l45 -45" ' +
+          'stroke="var(--bg)" stroke-width="2.4" fill="none" opacity=".35"/>' +
+        T(221, 122, '≈ 100 kg', 'dg-sur', 12),
         'À 50 km/h, un objet de 5 kilos non attaché frappe avec l’équivalent de 100 kilos');
     },
 
@@ -504,8 +527,8 @@ window.Diagrams = (function () {
         '<path d="M252 110 l8 6 -8 6 z" class="dg-fleche-p"/>' +
         T(65, 132, 'Tous s’arrêtent', 'dg-lg-acc', 10) +
         T(230, 132, 'Le passage est libre', 'dg-lg', 10) +
-        T(65, 146, 'bras levé, ou vu de face', 'dg-lg', 8.5) +
-        T(230, 146, 'agent vu de profil', 'dg-lg', 8.5),
+        T(85, 146, 'bras levé, ou vu de face', 'dg-lg', 9.5) +
+        T(230, 146, 'agent vu de profil', 'dg-lg', 9.5),
         'Bras levé ou agent vu de face : tout le monde s’arrête. Bras tendu horizontalement : ceux vers qui il pointe s’arrêtent. Agent vu de profil : le passage est autorisé');
     },
 
@@ -562,9 +585,9 @@ window.Diagrams = (function () {
         '<rect x="160" y="60" width="120" height="38" rx="2" class="dg-danger-z"/>' +
         voiture(6, 62, 46) +
         '<path d="M54 108 H160" class="dg-cote"/><path d="M54 104 V112 M160 104 V112" class="dg-cote"/>' +
-        T(107, 122, '30 m : mes feux de croisement', 'dg-lg-acc', 9) +
+        T(107, 122, '30 m : mes feux de croisement', 'dg-lg-acc', 9.5) +
         '<path d="M54 130 H280" class="dg-cote"/><path d="M54 126 V134 M280 126 V134" class="dg-cote"/>' +
-        T(167, 143, '81 m : distance d’arrêt à 90 km/h', 'dg-lg-ko', 9),
+        T(167, 143, '81 m : distance d’arrêt à 90 km/h', 'dg-lg-ko', 9.5),
         'La nuit, les feux de croisement éclairent à 30 mètres, mais il faut 81 mètres pour s’arrêter à 90 km/h : au-delà de 30 mètres, je roule sur ce que je ne vois pas');
     },
 
@@ -668,8 +691,8 @@ window.Diagrams = (function () {
         voiture(66, 66, 130) +
         '<rect x="118" y="75" width="34" height="16" rx="3" class="dg-accent-f"/>' +
         '<rect x="73" y="101" width="20" height="15" rx="2" class="dg-veh"/>' +
-        T(135, 54, 'coffre de toit :', 'dg-lg-acc', 9) +
-        T(135, 64, 'centre de gravité plus haut', 'dg-lg-acc', 9) +
+        T(135, 54, 'coffre de toit :', 'dg-lg-acc', 10) +
+        T(135, 64, 'centre de gravité plus haut', 'dg-lg-acc', 10) +
         T(150, 138, 'lourd, bas, à l’avant du coffre', 'dg-lg', 10),
         'Les objets lourds se placent bas et vers l’avant du coffre ; un coffre de toit remonte le centre de gravité et rend les virages moins stables');
     },
@@ -717,7 +740,7 @@ window.Diagrams = (function () {
         voiture(96, 68, 44, 'dg-veh-acc') +
         '<rect x="30" y="50" width="20" height="14" rx="2" class="dg-vitre"/>' +
         '<path d="M30 50 h20 v14 h-20 z" fill="none" class="dg-cote"/>' +
-        T(40, 44, 'rétro + épaule', 'dg-lg', 8.5) +
+        T(64, 44, 'rétro + épaule', 'dg-lg', 9.5) +
         T(150, 126, 'angle mort vérifié, clignotant, je dépasse', 'dg-lg', 9.5),
         'Avant de dépasser : rétroviseurs, angle mort par-dessus l’épaule, clignotant, puis seulement le déboîtement');
     },
@@ -832,9 +855,9 @@ window.Diagrams = (function () {
         '<path d="M110 26 V150 M190 26 V150" class="dg-bande"/>' +
         voitureDessus(230, 100, 40, -90, 'dg-veh-acc') +
         voitureDessus(150, 60, 38, -90) +
-        T(70, 40, 'gauche', 'dg-lg', 9) + T(70, 52, 'dépassement', 'dg-lg', 9) +
-        T(150, 40, 'milieu', 'dg-lg', 9) +
-        T(230, 40, 'droite', 'dg-lg-acc', 9) + T(230, 52, 'par défaut', 'dg-lg-acc', 9),
+        T(70, 40, 'gauche', 'dg-lg', 10) + T(70, 52, 'dépassement', 'dg-lg', 10) +
+        T(150, 40, 'milieu', 'dg-lg', 10) +
+        T(230, 40, 'droite', 'dg-lg-acc', 10) + T(230, 52, 'par défaut', 'dg-lg-acc', 10),
         'Sur autoroute, je circule sur la voie de droite par défaut ; les voies de gauche ne servent qu’au dépassement, avant de s’y rabattre');
     },
 
@@ -859,9 +882,9 @@ window.Diagrams = (function () {
         '<circle cx="75" cy="66" r="16" fill="#ff2d20"/>' +
         '<circle cx="150" cy="66" r="16" fill="#ffb100"/>' +
         '<circle cx="225" cy="66" r="16" fill="#22d36a"/>' +
-        T(75, 118, 'je m’arrête', 'dg-lg', 8.5) +
-        T(150, 118, 'à vérifier', 'dg-lg', 8.5) +
-        T(225, 118, 'tout va bien', 'dg-lg', 8.5),
+        T(75, 118, 'je m’arrête', 'dg-lg', 9.5) +
+        T(150, 118, 'à vérifier', 'dg-lg', 9.5) +
+        T(225, 118, 'tout va bien', 'dg-lg', 9.5),
         'Rouge : anomalie grave, je m’arrête dès que possible. Orange : à faire vérifier rapidement. Vert ou bleu : simple information');
     },
 

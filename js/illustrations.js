@@ -55,6 +55,19 @@ window.Illus = (function () {
     '</g>';
   }
 
+  /* Un membre : capsule pleine reliant deux points. Même technique que
+     dans js/diagrams.js, pour qu'une silhouette humaine se construise
+     par articulations pleines plutôt qu'en traits de bonhomme allumette
+     — c'est ce qui distinguait déjà les autres personnages du fichier
+     (conducteur, PLS) et qui manquait encore ici. */
+  function membre(x1, y1, x2, y2, w, cls) {
+    var dx = x2 - x1, dy = y2 - y1, len = Math.sqrt(dx * dx + dy * dy);
+    var ang = Math.atan2(dy, dx) * 180 / Math.PI;
+    return '<rect class="' + (cls || 'ill-fort') + '" x="0" y="' + (-w / 2).toFixed(1) +
+      '" width="' + len.toFixed(1) + '" height="' + w + '" rx="' + (w / 2).toFixed(1) +
+      '" transform="translate(' + x1.toFixed(1) + ',' + y1.toFixed(1) + ') rotate(' + ang.toFixed(2) + ')"/>';
+  }
+
   var I = {
 
     /* Les chiffres qu'on récite : trois vrais panneaux de limitation,
@@ -264,26 +277,40 @@ window.Illus = (function () {
 
     /* Piéton, cycliste, voiture : on partage la route. */
     usagers: function () {
+      /* Un vrai piéton articulé (tête, tronc, bras et jambes en
+         capsules pleines) plutôt qu'un bonhomme allumette au trait :
+         c'est la même technique que le conducteur et la PLS, qui eux
+         ont déjà un corps. Le cycliste est assis sur un cadre propre
+         (chasse, tube de selle, tube supérieur, fourche en capsules
+         distinctes) au lieu d'un tracé de traits qui se recoupaient. */
+        /* piéton, en pleine foulée */
       return svg(
-        /* Un piéton qui marche (jambes écartées, bras balancés), un
-           vélo avec quelqu'un dessus, une voiture : les trois posés sur
-           le même sol, à la même échelle. Avant, le cycliste n'avait
-           qu'une tête flottante au-dessus du cadre. */
-        '<circle class="ill-fort" cx="17" cy="20" r="6"/>' +
-        '<path d="M17 27 v14 M17 30 l-8 8 M17 30 l7 7 M17 41 l-7 22 M17 41 l8 22" ' +
-          'stroke="currentColor" stroke-width="3.4" fill="none" stroke-linecap="round" ' +
-          'stroke-linejoin="round" opacity=".45"/>' +
-        /* Le cadre doit rester ouvert : à cette taille, un triangle de
-           15 unités tracé à 2,6 d'épaisseur se referme et se lit comme
-           une forme pleine. Roues plus grandes, traits plus fins. */
-        '<circle class="ill-l" cx="44" cy="52" r="11" stroke-width="2.2"/>' +
-        '<circle class="ill-l" cx="82" cy="52" r="11" stroke-width="2.2"/>' +
-        '<path class="ill-la" d="M44 52 L62 52 L55 30 Z M55 30 L76 36 M62 52 L76 36 ' +
-          'M76 36 L82 52 M74 33 l7 1" stroke-width="2.2"/>' +
-        '<circle class="ill-fort" cx="52" cy="17" r="5.5"/>' +
-        '<path d="M52 23 L54 30 M53 26 L75 35 M54 30 L62 52" stroke="currentColor" ' +
-          'stroke-width="3" fill="none" stroke-linecap="round" opacity=".45"/>' +
-        auto(86, 54, 26, 'ill-mid') + SOL,
+        '<circle class="ill-fort" cx="15" cy="16" r="6"/>' +
+        membre(15, 22, 15, 44, 7) +
+        membre(15, 44, 7, 66, 5) +
+        membre(15, 44, 24, 64, 5) +
+        membre(15, 26, 6, 37, 4.5) +
+        membre(15, 26, 25, 35, 4.5) +
+        /* cycliste, dessiné avant son cadre : le tube de selle et le
+           tube diagonal passent ensuite par-dessus la jambe et la
+           recouvrent proprement, au lieu qu'un gris translucide se
+           mélange au vert du cadre et brouille les deux formes. */
+        membre(64, 37, 58, 19, 6) +
+        '<circle class="ill-fort" cx="56" cy="14" r="5.5"/>' +
+        membre(58, 19, 76, 31, 4) +
+        membre(64, 37, 73, 49, 4.5) +
+        '<circle class="ill-fort" cx="73" cy="49" r="3.6"/>' +
+        membre(73, 49, 63, 57, 4) +
+        /* cadre du vélo, par-dessus le cycliste */
+        membre(50, 58, 61, 58, 2.6, 'ill-la') +
+        membre(61, 58, 64, 37, 2.6, 'ill-la') +
+        membre(64, 37, 78, 40, 2.6, 'ill-la') +
+        membre(61, 58, 78, 40, 2.6, 'ill-la') +
+        membre(78, 40, 83, 58, 2.6, 'ill-la') +
+        membre(74, 40, 81, 38, 2.4, 'ill-la') +
+        '<circle class="ill-l" cx="50" cy="58" r="11" stroke-width="2.2" fill="none"/>' +
+        '<circle class="ill-l" cx="83" cy="58" r="11" stroke-width="2.2" fill="none"/>' +
+        auto(88, 54, 26, 'ill-mid') + SOL,
         'Piétons, cyclistes et voitures partagent la route');
     },
 
@@ -363,14 +390,22 @@ window.Illus = (function () {
 
     /* Protéger, alerter, secourir. */
     secours: function () {
+      /* Un triangle et une croix ne racontaient pas grand-chose : le
+         geste lui-même, quelqu'un qui s'agenouille et porte secours,
+         dit « secourir » d'un coup d'œil. La croix reste, en badge
+         plutôt qu'en sujet unique. */
       return svg(
-        '<path class="ill-mid" d="M34 20 L15 54 L53 54 Z"/>' +
-        '<path class="ill-vitre" d="M34 29 L23 49 L45 49 Z"/>' +
-        '<path class="ill-fort" d="M32.5 34 h3 l-.6 8.5 h-1.8 z"/>' +
-        '<circle class="ill-fort" cx="34" cy="46" r="1.5"/>' +
-        '<circle class="ill-acc" cx="82" cy="38" r="20"/>' +
-        '<rect x="78" y="28" width="8" height="20" rx="2" fill="var(--accent-ink)"/>' +
-        '<rect x="72" y="34" width="20" height="8" rx="2" fill="var(--accent-ink)"/>' + SOL,
+        '<circle class="ill-fort" cx="24" cy="52" r="6"/>' +
+        membre(30, 52, 54, 52, 9) +
+        membre(54, 52, 70, 49, 6.5) +
+        membre(88, 66, 76, 66, 6) +
+        membre(88, 66, 92, 48, 6.5) +
+        membre(92, 48, 82, 31, 8) +
+        '<circle class="ill-fort" cx="78" cy="25" r="6"/>' +
+        membre(82, 31, 58, 49, 4.5) +
+        '<circle class="ill-acc" cx="98" cy="20" r="13"/>' +
+        '<rect x="95" y="12.5" width="6" height="15" rx="1.5" fill="var(--accent-ink)"/>' +
+        '<rect x="90.5" y="17" width="15" height="6" rx="1.5" fill="var(--accent-ink)"/>' + SOL,
         'Protéger, alerter, secourir');
     },
 

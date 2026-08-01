@@ -166,7 +166,7 @@ window.Q_TECHNOLOGIE = [
  e:'La version numérique est reconnue lors des contrôles en France. À l’étranger, seul le document physique fait foi.',
  tip:'Numérique en France, papier dès la frontière.'},
 
-{id:'TE24', t:'technologie', d:3, scene:'usure-pneu',
+{id:'TE24', t:'technologie', d:3,
  q:'Un pneu à roulage à plat (runflat) ou un kit anti-crevaison :',
  o:['Permet de rejoindre un garage à vitesse réduite','Impose de respecter la vitesse et la distance indiquées par le constructeur','Répare définitivement le pneu'],
  a:[0,1],

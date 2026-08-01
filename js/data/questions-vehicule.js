@@ -12,7 +12,7 @@ window.Q_VEHICULE = [
  e:'En dessous de 1,6 mm, le pneu est lisse au sens de la loi : 135 € par pneu et immobilisation possible. Sous la pluie, l’évacuation de l’eau devient insuffisante bien avant ce seuil.',
  tip:'Le témoin d’usure dans la rainure : s’il affleure, il faut changer.'},
 
-{id:'VE02', t:'vehicule', d:2, scene:'usure-pneu',
+{id:'VE02', t:'vehicule', d:2,
  q:'Un pneu sous-gonflé :',
  o:['Augmente la consommation de carburant','S’use anormalement sur les bords','Augmente le risque d’éclatement','Améliore l’adhérence sur chaussée mouillée'],
  a:[0,1,2],
@@ -108,7 +108,7 @@ window.Q_VEHICULE = [
  a:[0],
  e:'Le PTAC figure sur la carte grise (rubrique F.2). Le dépasser est sanctionné et dégrade fortement le freinage et la tenue de route.'},
 
-{id:'VE16', t:'vehicule', d:2, scene:'tableau-bord-alerte',
+{id:'VE16', t:'vehicule', d:2,
  q:'Des plaquettes de frein usées se manifestent souvent par :',
  o:['Un bruit métallique au freinage','Un allongement de la distance de freinage','Une pédale plus longue ou spongieuse','L’allumage d’un témoin vert au tableau de bord'],
  a:[0,1,2],
