@@ -59,7 +59,7 @@ window.Q_USAGERS = [
  e:'La circulation inter-files est autorisée à titre expérimental dans certains départements et encadrée. Dans tous les cas, un contrôle des rétroviseurs et de l’angle mort s’impose avant tout changement de file.',
  tip:'Dans un bouchon, un deux-roues peut surgir : je contrôle deux fois.'},
 
-{id:'US09', t:'usagers', d:2, scene:'bus-scolaire-enfant',
+{id:'US09', t:'usagers', d:2,
  q:'À l’approche d’un arrêt de car scolaire :',
  o:['Je ralentis fortement et je reste prêt à m’arrêter','Je peux dépasser normalement','Les enfants sont toujours accompagnés'],
  a:[0],
@@ -98,7 +98,7 @@ window.Q_USAGERS = [
  e:'À plus de 50 mètres d’un passage, la traversée est autorisée à condition de le faire perpendiculairement et après s’être assuré de pouvoir traverser sans risque.',
  tip:'50 mètres : la distance qui autorise la traversée libre.'},
 
-{id:'US15', t:'usagers', d:3, scene:'sas-velo',
+{id:'US15', t:'usagers', d:3,
  q:'Le « sas vélo » situé devant la ligne d’arrêt aux feux :',
  o:['Est réservé aux cyclistes','Interdit aux voitures de s’y arrêter','Est un emplacement de stationnement deux-roues'],
  a:[0,1],

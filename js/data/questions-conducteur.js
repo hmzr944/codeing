@@ -82,14 +82,14 @@ window.Q_CONDUCTEUR = [
  e:'À zéro point, le permis est invalidé (lettre 48SI). Il faut attendre 6 mois (1 an en cas de récidive), passer une visite médicale, des tests de réflexes et d’attention et repasser les épreuves.',
  tip:'Zéro point = retour à la case départ, littéralement.'},
 
-{id:'CO12', t:'conducteur', d:2, scene:'telephone-volant',
+{id:'CO12', t:'conducteur', d:2,
  q:'Tenir son téléphone en main au volant coûte :',
  o:['3 points et 135 €','1 point et 68 €','Rien si l’on est à l’arrêt à un feu'],
  a:[0],
  e:'L’infraction est constituée même à l’arrêt à un feu rouge, moteur tournant. Depuis 2020, si elle s’accompagne d’une autre infraction, le permis peut être retenu sur place.',
  tip:'À l’arrêt au feu, le téléphone reste interdit.'},
 
-{id:'CO13', t:'conducteur', d:2, scene:'telephone-volant',
+{id:'CO13', t:'conducteur', d:2,
  q:'Le port d’écouteurs ou d’un casque audio au volant :',
  o:['Est interdit et sanctionné de 3 points et 135 €','Est autorisé à faible volume','Est autorisé sur une seule oreille'],
  a:[0],

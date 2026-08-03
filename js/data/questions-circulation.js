@@ -6,7 +6,7 @@ window.Q_CIRCULATION = [
 
 /* ---------------- PRIORITÉS & INTERSECTIONS ---------------- */
 
-{id:'PR01', t:'priorites', d:1, scene:'priorite-droite',
+{id:'PR01', t:'priorites', d:1,
  ctx:'J’arrive à une intersection sans aucun panneau ni marquage. Une voiture arrive sur ma droite.',
  q:'Je dois :',
  o:['Lui céder le passage','Passer, car je roule sur la voie la plus large','Klaxonner et passer'],
@@ -22,7 +22,7 @@ window.Q_CIRCULATION = [
  e:'En sortant d’un lieu non ouvert à la circulation publique (parking, garage, chemin privé, station-service), je dois céder le passage à tous, piétons compris.',
  tip:'Je sors de « chez moi » : je ne suis prioritaire sur personne.'},
 
-{id:'PR03', t:'priorites', d:2, scene:'corridor-securite',
+{id:'PR03', t:'priorites', d:2,
  ctx:'Un véhicule d’intervention urgente arrive derrière moi, gyrophare et sirène en marche.',
  q:'Je dois :',
  o:['Faciliter son passage en me rabattant ou en m’écartant','Freiner brusquement et m’arrêter au milieu de la voie','Accélérer pour ne pas le gêner'],
@@ -70,7 +70,7 @@ window.Q_CIRCULATION = [
  e:'Dans un giratoire, on indique sa sortie par le clignotant droit après avoir dépassé la sortie précédente. Le clignotant gauche s’utilise seulement si l’on contourne au-delà de la moitié de l’anneau.',
  tip:'Sortie annoncée = clignotant droit, au dernier moment utile.'},
 
-{id:'PR09', t:'priorites', d:3, scene:'giratoire',
+{id:'PR09', t:'priorites', d:3,
  ctx:'Un rond-point ancien, sans panneau « Cédez le passage » à l’entrée.',
  q:'Qui est prioritaire ?',
  o:['Les véhicules qui entrent, par la priorité à droite','Les véhicules déjà dans l’anneau','Personne, on passe à tour de rôle'],
@@ -93,7 +93,7 @@ window.Q_CIRCULATION = [
  e:'Seul l’agent peut m’autoriser à franchir un feu rouge. Un cycliste peut, lui, tourner à droite au feu rouge si un panneau triangulaire dédié le prévoit.',
  tip:'Le rouge ne se négocie pas.'},
 
-{id:'PR12', t:'priorites', d:2, scene:'pieton-traverse',
+{id:'PR12', t:'priorites', d:2,
  ctx:'Un piéton attend au bord d’un passage protégé et manifeste son intention de traverser.',
  q:'Je dois :',
  o:['M’arrêter pour le laisser traverser','Passer s’il n’est pas encore engagé','Klaxonner pour l’avertir'],
@@ -133,28 +133,28 @@ window.Q_CIRCULATION = [
 
 /* ---------------- VITESSES & DISTANCES ---------------- */
 
-{id:'VI01', t:'vitesse', d:1, scene:'vitesses',
+{id:'VI01', t:'vitesse', d:1,
  q:'Sur autoroute, par temps sec, la vitesse maximale autorisée est de :',
  o:['130 km/h','110 km/h','120 km/h'],
  a:[0],
  e:'130 km/h par temps sec. Par temps de pluie, elle passe à 110 km/h. Par visibilité inférieure à 50 mètres, elle tombe à 50 km/h sur toutes les routes.',
  tip:'130 → 110 sous la pluie → 50 dans le brouillard épais.'},
 
-{id:'VI02', t:'vitesse', d:1, scene:'vitesses',
+{id:'VI02', t:'vitesse', d:1,
  q:'Sur une route à chaussées séparées par un terre-plein central, hors agglomération et par temps sec :',
  o:['110 km/h','90 km/h','130 km/h'],
  a:[0],
  e:'110 km/h par temps sec, 100 km/h par temps de pluie. Cette route n’est pas une autoroute : les règles d’accès peuvent différer.',
  tip:'Séparateur central = 110.'},
 
-{id:'VI03', t:'vitesse', d:2, scene:'vitesses',
+{id:'VI03', t:'vitesse', d:2,
  q:'Hors agglomération, sur une route à double sens sans séparateur central :',
  o:['80 km/h, sauf relèvement à 90 km/h signalé par le département','90 km/h partout','70 km/h partout'],
  a:[0],
  e:'La règle nationale est 80 km/h. Certains départements ont relevé la limite à 90 km/h sur certains axes : dans ce cas, des panneaux l’indiquent explicitement.',
  tip:'Pas de panneau ? Je reste à 80.'},
 
-{id:'VI04', t:'vitesse', d:2, scene:'meteo-vitesse',
+{id:'VI04', t:'vitesse', d:2,
  q:'Par temps de pluie, les vitesses maximales deviennent :',
  o:['110 km/h sur autoroute','100 km/h sur route à chaussées séparées','70 km/h sur route limitée à 80 km/h','En agglomération, le 50 km/h devient 40 km/h'],
  a:[0,1,2],
@@ -168,28 +168,28 @@ window.Q_CIRCULATION = [
  e:'Brouillard épais, forte pluie, chute de neige : dès que la visibilité descend sous 50 mètres, la limite est de 50 km/h partout.',
  tip:'50 m de visibilité = 50 km/h. Facile à retenir.'},
 
-{id:'VI06', t:'vitesse', d:2, scene:'vitesses',
+{id:'VI06', t:'vitesse', d:2,
  q:'En période probatoire (jeune permis), les vitesses maximales sont :',
  o:['110 km/h sur autoroute','100 km/h sur route à chaussées séparées','80 km/h sur les autres routes hors agglomération','70 km/h en agglomération'],
  a:[0,1,2],
  e:'La période probatoire dure 3 ans, ou 2 ans après une conduite accompagnée. Pendant ce temps, les vitesses sont réduites et le disque « A » reste collé à l’arrière.',
  tip:'Jeune permis : 110 / 100 / 80. Et 0,2 g/L d’alcool maximum.'},
 
-{id:'VI07', t:'vitesse', d:2, scene:'deux-secondes',
+{id:'VI07', t:'vitesse', d:2,
  q:'La distance de sécurité minimale avec le véhicule qui me précède correspond à :',
  o:['Le temps de parcourir 2 secondes','Une longueur de véhicule','10 mètres quelle que soit la vitesse'],
  a:[0],
  e:'La règle des 2 secondes : je repère un point fixe, et je dois pouvoir compter deux secondes entre le passage du véhicule devant et le mien. Elle s’adapte automatiquement à la vitesse.',
  tip:'« Un… deux… » entre le panneau et moi. Sinon, je lève le pied.'},
 
-{id:'VI08', t:'vitesse', d:3, scene:'distance-arret',
+{id:'VI08', t:'vitesse', d:3,
  q:'À 90 km/h sur route sèche, la distance d’arrêt est d’environ :',
  o:['81 mètres','40 mètres','120 mètres'],
  a:[0],
  e:'Astuce : sur sol sec, la distance d’arrêt ≈ le chiffre des dizaines au carré. À 90 km/h : 9 × 9 = 81 m. À 50 km/h : 25 m. À 130 km/h : 169 m.',
  tip:'Dizaines au carré. 5→25, 9→81, 13→169.'},
 
-{id:'VI09', t:'vitesse', d:2, scene:'distance-arret',
+{id:'VI09', t:'vitesse', d:2,
  q:'La distance d’arrêt se compose :',
  o:['De la distance de réaction et de la distance de freinage','Uniquement de la distance de freinage','De la distance de freinage divisée par deux'],
  a:[0],
@@ -203,14 +203,14 @@ window.Q_CIRCULATION = [
  e:'L’eau réduit fortement l’adhérence : la distance de freinage double environ. L’ABS empêche le blocage des roues mais ne raccourcit pas magiquement la distance.',
  tip:'L’ABS permet de diriger, pas de s’arrêter plus court.'},
 
-{id:'VI11', t:'vitesse', d:2, scene:'bareme-points',
+{id:'VI11', t:'vitesse', d:2,
  q:'Un excès de vitesse inférieur à 20 km/h hors agglomération entraîne :',
  o:['Le retrait d’1 point','Le retrait de 2 points','Aucun retrait'],
  a:[0],
  e:'Moins de 20 km/h : 1 point et 68 € (135 € si la limite est inférieure à 50 km/h). Le barème monte ensuite : 2 points, 3, 4, puis 6 points au-delà de 50 km/h.',
  tip:'Barème : <20 → 1 pt, 20-29 → 2, 30-39 → 3, 40-49 → 4, ≥50 → 6.'},
 
-{id:'VI12', t:'vitesse', d:2, scene:'bareme-points',
+{id:'VI12', t:'vitesse', d:2,
  q:'Un excès de vitesse de 50 km/h ou plus :',
  o:['Coûte 6 points','Peut entraîner une suspension du permis','Est un délit dès la première infraction'],
  a:[0,1],
@@ -245,7 +245,7 @@ window.Q_CIRCULATION = [
  e:'Sur de nombreuses autoroutes, des chevrons ou des traits peints marquent la distance de sécurité : il faut voir au moins deux traits entre soi et le véhicule précédent.',
  tip:'Deux traits visibles = distance correcte.'},
 
-{id:'VI17', t:'vitesse', d:3, scene:'distance-arret',
+{id:'VI17', t:'vitesse', d:3,
  q:'Le temps de réaction moyen d’un conducteur attentif est d’environ :',
  o:['1 seconde','0,2 seconde','3 secondes'],
  a:[0],
@@ -261,7 +261,7 @@ window.Q_CIRCULATION = [
 
 /* ---------------- MANŒUVRES ---------------- */
 
-{id:'MA01', t:'manoeuvres', d:1, scene:'depassement-securise',
+{id:'MA01', t:'manoeuvres', d:1,
  q:'Avant toute manœuvre de dépassement, je dois :',
  o:['Contrôler mes rétroviseurs et l’angle mort','Signaler mon intention','Vérifier que la visibilité est suffisante','Klaxonner pour prévenir le véhicule que je dépasse'],
  a:[0,1,2],
@@ -373,7 +373,7 @@ window.Q_CIRCULATION = [
  e:'La BAU est réservée aux urgences et aux véhicules d’intervention. L’emprunter sans raison valable coûte 3 points et 135 €.',
  tip:'BAU = urgence, pas raccourci ni salon de téléphone.'},
 
-{id:'AU03', t:'autoroute', d:2, scene:'panne-autoroute',
+{id:'AU03', t:'autoroute', d:2,
  ctx:'Je tombe en panne sur l’autoroute.',
  q:'Que dois-je faire ?',
  o:['Me garer sur la BAU, allumer les feux de détresse','Enfiler le gilet avant de sortir du véhicule','Faire sortir les passagers côté droit et me réfugier derrière la glissière','Poser le triangle sur la voie de droite avant toute autre chose'],
@@ -429,7 +429,7 @@ window.Q_CIRCULATION = [
  e:'L’aquaplaning survient quand le pneu ne peut plus évacuer l’eau : il flotte. Si cela arrive, je lâche l’accélérateur, je ne freine pas brutalement et je tiens le volant droit.',
  tip:'Aquaplaning : ne rien faire de brusque, laisser le pneu retrouver la route.'},
 
-{id:'AU11', t:'autoroute', d:2, scene:'corridor-securite',
+{id:'AU11', t:'autoroute', d:2,
  q:'En cas d’embouteillage sur autoroute, le « corridor de sécurité » consiste à :',
  o:['Se déporter pour laisser un passage central aux secours','Se serrer tous à droite','Rouler sur la BAU pour dégager'],
  a:[0],

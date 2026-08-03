@@ -5,7 +5,7 @@ window.Q_VEHICULE = [
 
 /* ---------------- VÉHICULE & ÉQUIPEMENTS ---------------- */
 
-{id:'VE01', t:'vehicule', d:1, scene:'usure-pneu',
+{id:'VE01', t:'vehicule', d:1,
  q:'La profondeur minimale des sculptures d’un pneu est de :',
  o:['1,6 mm','3 mm','0,8 mm'],
  a:[0],
@@ -40,7 +40,7 @@ window.Q_VEHICULE = [
  e:'Les feux de route éclairent à environ 100 mètres mais éblouissent. On repasse en code dès qu’un autre usager peut être gêné, y compris un cycliste ou un piéton.',
  tip:'Éblouir quelqu’un, c’est le rendre aveugle 3 à 5 secondes.'},
 
-{id:'VE06', t:'vehicule', d:2, scene:'nuit-eclairage',
+{id:'VE06', t:'vehicule', d:2,
  q:'Les feux de croisement éclairent environ :',
  o:['30 mètres','100 mètres','10 mètres'],
  a:[0],

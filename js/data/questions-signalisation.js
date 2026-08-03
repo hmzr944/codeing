@@ -165,7 +165,7 @@ window.Q_SIGNALISATION = [
  e:'L’arrêt se fait avant la ligne d’effet (large bande blanche). S’il n’y en a pas, je m’arrête à hauteur du feu, sans empiéter sur le passage piéton.',
  tip:'Franchir un feu rouge : 4 points et 135 €.'},
 
-{id:'SG24', t:'signalisation', d:3, scene:'marquage-sol-types',
+{id:'SG24', t:'signalisation', d:3,
  q:'Une ligne continue au centre de la chaussée :',
  o:['Ne doit pas être franchie ni chevauchée','Peut être franchie pour dépasser un cycliste s’il n’y a aucun danger','Peut être franchie pour se garer'],
  a:[0,1],
@@ -179,7 +179,7 @@ window.Q_SIGNALISATION = [
  e:'Quand les traits s’allongent et que les espaces raccourcissent, c’est une ligne d’avertissement : une continue arrive. Il faut terminer ou renoncer à son dépassement.',
  tip:'Traits qui s’allongent = « range-toi, ça se ferme ».'},
 
-{id:'SG26', t:'signalisation', d:2, scene:'marquage-sol-types',
+{id:'SG26', t:'signalisation', d:2,
  q:'Un marquage en zébras (hachures) au sol :',
  o:['Ne doit pas être emprunté ni franchi s’il est bordé de lignes continues','Est un emplacement de stationnement','Sert de voie de dépassement'],
  a:[0],
@@ -329,7 +329,7 @@ window.Q_SIGNALISATION = [
  e:'Le vent latéral est le plus traître à la sortie d’un tunnel, d’un pont ou après un poids lourd dépassé. Je réduis et j’anticipe la déviation de trajectoire.',
  tip:'Après avoir doublé un camion : le vent revient d’un coup.'},
 
-{id:'SG48', t:'signalisation', d:3, scene:'marquage-sol-types',
+{id:'SG48', t:'signalisation', d:3,
  q:'Une ligne continue doublée d’une ligne discontinue, la discontinue étant de mon côté :',
  o:['Je peux dépasser si les conditions le permettent','Je ne peux jamais dépasser','Je dois obligatoirement dépasser'],
  a:[0],

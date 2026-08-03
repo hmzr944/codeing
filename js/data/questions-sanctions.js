@@ -18,14 +18,14 @@ window.Q_SANCTIONS = [
  e:'S’ajoutent le délit de fuite, la conduite sans permis, le refus de s’arrêter à un contrôle et la récidive de grand excès de vitesse. Tous exposent à une peine d’emprisonnement.',
  tip:'Alcool 0,8, stupéfiants, pas d’assurance, pas de permis : tribunal.'},
 
-{id:'SA03', t:'sanctions', d:2, scene:'bareme-points',
+{id:'SA03', t:'sanctions', d:2,
  q:'Depuis 2024, un excès de vitesse inférieur à 5 km/h :',
  o:['N’entraîne plus de retrait de point','Reste sanctionné par une amende','N’est plus du tout sanctionné'],
  a:[0,1],
  e:'La contravention et l’amende restent dues, seul le retrait de point a été supprimé pour ces très petits dépassements. Au-delà de 5 km/h, le barème habituel reprend.',
  tip:'Moins de 5 km/h : l’amende reste, le point est sauvé.'},
 
-{id:'SA04', t:'sanctions', d:2, scene:'bareme-points',
+{id:'SA04', t:'sanctions', d:2,
  q:'Le barème de retrait de points pour excès de vitesse est :',
  o:['1 point entre 5 et 19 km/h','2 points entre 20 et 29 km/h','6 points à partir de 50 km/h','8 points à partir de 60 km/h'],
  a:[0,1,2],
@@ -46,7 +46,7 @@ window.Q_SANCTIONS = [
  e:'Ces infractions coûtent également 135 € chacune. Le port d’écouteurs au volant relève du même barème.',
  tip:'Téléphone, ceinture, ligne continue, écouteurs : 3 points.'},
 
-{id:'SA07', t:'sanctions', d:2, scene:'bareme-points',
+{id:'SA07', t:'sanctions', d:2,
  q:'Un grand excès de vitesse de 50 km/h ou plus expose à :',
  o:['1 500 € d’amende et 6 points','Une suspension de permis pouvant aller jusqu’à 3 ans','La confiscation possible du véhicule en cas de récidive','Une peine de prison ferme systématique'],
  a:[0,1,2],

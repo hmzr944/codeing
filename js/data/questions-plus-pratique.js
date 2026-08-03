@@ -301,7 +301,7 @@ window.Q_PLUS_PRATIQUE = [
  e:'Certaines pathologies imposent un avis médical pour la conduite. Ignorer un malaise, c’est risquer une perte de connaissance à 90 km/h.',
  tip:'Un signe de malaise : on s’arrête, on ne négocie pas.'},
 
-{id:'CO27', t:'conducteur', d:2, scene:'champ-visuel',
+{id:'CO27', t:'conducteur', d:2,
  q:'Le champ visuel du conducteur :',
  o:['Se rétrécit à mesure que la vitesse augmente','Passe d’environ 100 degrés à l’arrêt à moins de 30 degrés à vitesse élevée','S’élargit avec la vitesse'],
  a:[0,1],
@@ -452,7 +452,7 @@ window.Q_PLUS_PRATIQUE = [
  e:'Un liquide chargé d’eau bout lors d’un freinage prolongé, ce qui rend la pédale molle et spongieuse et peut faire perdre le freinage en descente.',
  tip:'Vieux liquide de frein plus longue descente : pédale au plancher.'},
 
-{id:'VE28', t:'vehicule', d:2, scene:'ceinture-enfant',
+{id:'VE28', t:'vehicule', d:2,
  q:'La ceinture de sécurité doit :',
  o:['Passer sur l’épaule et sur les hanches, jamais sur le ventre','Être ajustée sans vrille','Être desserrée pour le confort'],
  a:[0,1],

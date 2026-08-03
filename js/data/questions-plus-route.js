@@ -14,7 +14,7 @@ window.Q_PLUS_ROUTE = [
  e:'Les lignes jaunes temporaires annulent les lignes blanches. En cas de contradiction, on suit toujours le jaune.',
  tip:'Jaune contre blanc : le jaune gagne.'},
 
-{id:'SG52', t:'signalisation', d:2, scene:'marquage-sol-types',
+{id:'SG52', t:'signalisation', d:2,
  q:'Une ligne blanche continue bordant le côté droit de la chaussée :',
  o:['Délimite la bande d’arrêt d’urgence ou l’accotement','Ne doit pas être franchie sauf urgence','Peut être franchie pour doubler'],
  a:[0,1],
@@ -70,7 +70,7 @@ window.Q_PLUS_ROUTE = [
  e:'Le bleu correspond aux autoroutes, le vert aux grands itinéraires, le blanc aux directions locales, le jaune aux déviations temporaires.',
  tip:'Bleu, vert, blanc, jaune : autoroute, grand axe, local, déviation.'},
 
-{id:'SG60', t:'signalisation', d:2, scene:'priorite-droite',
+{id:'SG60', t:'signalisation', d:2,
  q:'Des feux tricolores en panne, tous éteints :',
  o:['Imposent d’appliquer la signalisation en place','Et à défaut la priorité à droite','Donnent la priorité au véhicule le plus rapide'],
  a:[0,1],
@@ -84,7 +84,7 @@ window.Q_PLUS_ROUTE = [
  e:'Une limitation ponctuelle prend fin à l’intersection suivante, sauf si un panneau la reconduit. Une zone 30 fonctionne différemment : elle couvre tout un secteur.',
  tip:'Panneau isolé : jusqu’à la prochaine intersection. Zone : tout le secteur.'},
 
-{id:'SG62', t:'signalisation', d:3, scene:'marquage-sol-types',
+{id:'SG62', t:'signalisation', d:3,
  q:'Une ligne discontinue à traits courts et espaces longs :',
  o:['Est une ligne de délimitation ordinaire de voies','Peut être franchie pour changer de voie ou dépasser','Annonce une ligne continue'],
  a:[0,1],
@@ -124,7 +124,7 @@ window.Q_PLUS_ROUTE = [
  e:'Bras tendu horizontalement : les usagers vers qui pointe le bras doivent s’arrêter. Agent vu de face ou de dos : arrêt. Agent vu de profil : passage autorisé.',
  tip:'De face ou de dos, je m’arrête. De profil, je passe.'},
 
-{id:'PR21', t:'priorites', d:2, scene:'corridor-securite',
+{id:'PR21', t:'priorites', d:2,
  ctx:'Un véhicule de secours est bloqué derrière moi dans un embouteillage, sirène en marche.',
  q:'Je dois :',
  o:['Me déporter au maximum pour créer un passage','Rester attentif aux piétons pendant la manœuvre','Monter sur le trottoir dans tous les cas'],
@@ -184,7 +184,7 @@ window.Q_PLUS_ROUTE = [
  e:'Toute manœuvre impose de ne gêner ni surprendre personne. La responsabilité pèse entièrement sur celui qui manœuvre.',
  tip:'Celui qui manœuvre n’a jamais la priorité.'},
 
-{id:'PR29', t:'priorites', d:3, scene:'priorite-droite',
+{id:'PR29', t:'priorites', d:3,
  q:'À une intersection en T où je circule sur la barre du T :',
  o:['La priorité dépend uniquement de la signalisation en place','Sans signalisation, la priorité à droite s’applique','Je suis prioritaire car je ne tourne pas'],
  a:[0,1],
@@ -323,7 +323,7 @@ window.Q_PLUS_ROUTE = [
  e:'La marche arrière impose un contrôle constant : piétons, cyclistes, véhicules qui arrivent. La caméra ne montre qu’un secteur.',
  tip:'Pendant un créneau, le regard tourne en permanence.'},
 
-{id:'MA20', t:'manoeuvres', d:2, scene:'fermeture-eclair',
+{id:'MA20', t:'manoeuvres', d:2,
  ctx:'Je souhaite m’insérer dans une file dense en ville, à un rétrécissement.',
  q:'La règle du zip (fermeture éclair) consiste à :',
  o:['S’insérer alternativement, un véhicule sur deux','Ce qui fluidifie le trafic','Forcer le passage le plus tôt possible'],
