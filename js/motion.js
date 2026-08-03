@@ -30,10 +30,13 @@ window.Motion = (function () {
      nouvelle vue déjà posée dessous. rendre() fait le changement de
      DOM pendant que le rideau couvre tout : rien ne « saute » à
      l'œil.
-     Durées volontairement courtes (~0,36 s au total) : c'est une
-     application qu'on rouvre plusieurs fois par jour, pas un film —
-     le rideau doit se voir sans jamais donner l'impression de
-     ralentir la navigation. */
+     La révélation reste courte à dessein : les entrées propres à
+     chaque vue (.enter, .rise, animation-delay en cascade sur
+     l'accueil) démarrent dès que rendre() les pose dans le DOM, donc
+     dès le pic de couverture — un rideau qui met du temps à se
+     retirer les joue en grande partie derrière lui, invisibles. Plus
+     la révélation est brève, plus ce qu'elles ont à montrer le reste
+     vraiment. */
   function transition(rendre) {
     if (!window.gsap || reduit()) { rendre(); return; }
     var v = getVeil();
@@ -41,10 +44,10 @@ window.Motion = (function () {
     gsap.set(v, { display: 'block', scaleX: 0, transformOrigin: 'left center', backgroundPosition: '0% 50%' });
 
     var tl = gsap.timeline();
-    tl.to(v, { scaleX: 1, backgroundPosition: '100% 50%', duration: .16, ease: 'power2.in' })
+    tl.to(v, { scaleX: 1, backgroundPosition: '100% 50%', duration: .14, ease: 'power2.in' })
       .call(rendre)
       .set(v, { transformOrigin: 'right center' })
-      .to(v, { scaleX: 0, duration: .2, ease: 'power3.out' })
+      .to(v, { scaleX: 0, duration: .12, ease: 'power2.out' })
       .set(v, { display: 'none' });
   }
 
