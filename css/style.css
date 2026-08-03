@@ -1319,6 +1319,21 @@ body.no-tabbar .chat-fab{display:none}
   to{transform:translateY(108vh) rotate(680deg);opacity:.1}
 }
 
+/* ---------- transition de page (rideau) ----------
+   Calque à part entière posé sur <body>, jamais un ancêtre de #app :
+   il peut s'animer en transform sans jamais toucher au
+   position:sticky des en-têtes de vue (voir Motion.transition dans
+   js/motion.js et le commentaire au-dessus de .enter plus bas).
+   Les deux seules couleurs de la marque suffisent au mouvement :
+   pas de palette arc-en-ciel, juste l'accent et le signal qui
+   glissent l'un vers l'autre pendant le balayage. */
+.motion-veil{
+  display:none;position:fixed;inset:0;z-index:95;pointer-events:none;
+  background:linear-gradient(120deg,var(--accent) 0%,var(--signal) 50%,var(--accent) 100%);
+  background-size:220% 220%;
+  transform:scaleX(0);
+}
+
 /* ---------- états ---------- */
 .empty{padding:34px 18px;text-align:center;color:var(--txt-3);font-size:14px;line-height:1.55}
 .empty .e{display:flex;justify-content:center;margin-bottom:10px;opacity:.55}
@@ -1368,6 +1383,7 @@ hr.sep{height:1px;background:var(--line-soft);border:0;margin:0}
      exactement ce que le réglage cherche à faire taire. */
   .streak.serie-active > svg.ico,.pense i{animation:none !important}
   .confetti{display:none}
+  .motion-veil{display:none !important}
 }
 
 @media (min-width:560px){

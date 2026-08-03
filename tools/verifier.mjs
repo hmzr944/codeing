@@ -49,7 +49,10 @@ p.on('requestfailed', (r) => {
 
 const passerAccueil = async () => {
   await p.click('[data-next]'); await p.click('[data-next]'); await p.click('[data-done]');
-  await p.waitForTimeout(200);
+  /* « Terminer » quitte l'onboarding vers l'accueil via App.go(), donc
+     derrière le rideau de transition (voir js/motion.js) : le rendu
+     réel n'a lieu qu'après son passage. */
+  await p.waitForTimeout(500);
 };
 const jouer = async (max, choix = 0) => {
   for (let i = 0; i < max; i++) {
@@ -130,7 +133,9 @@ bloc('3. Navigation');
 for (const [tab, marqueur] of [['train', '.medal-box'], ['exam', '[data-start]'],
   ['lessons', '[data-lecon]'], ['stats', '.kpi'], ['home', '.hero']]) {
   await p.click(`.tab[data-go="${tab}"]`);
-  await p.waitForTimeout(250);
+  /* Chaque onglet passe par App.go(), donc par le rideau de
+     transition : le rendu de la nouvelle vue n'a lieu qu'à son terme. */
+  await p.waitForTimeout(500);
   test(`onglet ${tab}`, (await p.locator(marqueur).count()) > 0);
 }
 
@@ -182,7 +187,9 @@ bloc('5 bis. Entrée de session');
 test('la porte affiche le bon prénom',
   (await p.locator('[data-entrer]').textContent()).includes(nomAvant), nomAvant);
 await p.click('[data-entrer]');
-await p.waitForTimeout(600);
+/* La porte se referme puis App.go() ouvre l'accueil derrière le
+   rideau de transition : les deux s'enchaînent avant que .hero existe. */
+await p.waitForTimeout(900);
 test('taper son prénom mène à l’accueil', (await p.locator('.hero').count()) === 1);
 await p.goto(BASE, { waitUntil: 'networkidle' });
 test('la porte ne réapparaît pas dans la même session', (await p.locator('[data-entrer]').count()) === 0);
@@ -211,6 +218,7 @@ async function parcourirLecon(max) {
 }
 
 await p.click('.tab[data-go="lessons"]');
+await p.waitForTimeout(500);
 test('les 19 leçons sont listées', (await p.locator('[data-lecon]').count()) === 19);
 await p.click('[data-lecon="signalisation"]');
 await p.waitForTimeout(250);
@@ -228,7 +236,8 @@ test('leçon suivante accessible',
 /* Un schéma au moins doit se dessiner : sinon la leçon retombe en
    texte seul, ce qu'on cherchait précisément à éviter. */
 await p.click('[data-retour] >> nth=0');
-await p.waitForTimeout(200);
+/* [data-retour] appelle App.go('lessons') : même rideau de transition. */
+await p.waitForTimeout(500);
 await p.click('[data-lecon="priorites"]');
 await p.waitForTimeout(250);
 const luPriorites = await parcourirLecon();
@@ -264,7 +273,10 @@ bloc('7. Examen blanc');
 /* Le lecteur masque la barre d'onglets : on en sort d'abord, ce qui
    vérifie au passage que le bouton retour la fait revenir. */
 await p.click('[data-retour] >> nth=0');
-await p.waitForTimeout(200);
+/* [data-retour] appelle App.go('lessons') : le rideau doit avoir
+   entièrement fini (couverture + révélation) pour que la barre
+   d'onglets, cachée derrière lui, soit vraiment revenue. */
+await p.waitForTimeout(500);
 test('la barre d’onglets revient après la lecture',
   await p.locator('.tab[data-go="exam"]').isVisible());
 await p.click('.tab[data-go="exam"]');

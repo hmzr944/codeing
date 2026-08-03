@@ -18,18 +18,24 @@ window.App = (function () {
 
   function go(route) {
     if (!ROUTES[route]) route = 'home';
-    current = route;
-    document.body.classList.remove('no-tabbar');
-    var bar = document.getElementById('tabbar');
-    bar.hidden = false;
-    ROUTES[route]();
-    paintTabs();
-    bindBack();
-    try { history.replaceState({ r: route }, '', '#' + route); } catch (e) {}
-    /* Changer d'écran est le moment calme par excellence : si une
-       nouvelle version attendait la fin d'une série, elle s'applique
-       ici. */
-    appliquerMaj();
+    /* Le rideau couvre l'écran, le changement de vue a lieu dessous,
+       puis il révèle la nouvelle vue déjà en place : voir js/motion.js
+       pour la raison du choix d'un calque à part plutôt que d'animer
+       #app lui-même. */
+    (window.Motion ? Motion.transition : function (f) { f(); })(function () {
+      current = route;
+      document.body.classList.remove('no-tabbar');
+      var bar = document.getElementById('tabbar');
+      bar.hidden = false;
+      ROUTES[route]();
+      paintTabs();
+      bindBack();
+      try { history.replaceState({ r: route }, '', '#' + route); } catch (e) {}
+      /* Changer d'écran est le moment calme par excellence : si une
+         nouvelle version attendait la fin d'une série, elle s'applique
+         ici. */
+      appliquerMaj();
+    });
   }
 
   function paintTabs() {
