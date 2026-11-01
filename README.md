@@ -1,5 +1,7 @@
 # Feu Vert — révision du code de la route 2026
 
+> **Projet conçu et piloté par Hamza Mezouar** — idée, cahier des charges, choix produit, tests et mise en ligne. Le code a été écrit en grande partie avec l'assistance d'agents IA (Claude), sous ma direction : je définis les besoins, je relis, je teste et je décide.
+
 Une application web de révision du code de la route, pensée pour une seule
 chose : faire revenir quelqu'un tous les jours, cinq à dix minutes, jusqu'au
 jour de l'examen.
